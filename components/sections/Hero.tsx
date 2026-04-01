@@ -24,29 +24,6 @@ export default function Hero() {
           />
 
           <div className="relative z-10 max-w-[560px]">
-            {/* P-Mark + Wordmark */}
-            <motion.div 
-              className="flex items-center gap-4 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <svg viewBox="0 0 48 84" className="w-10 h-[70px]">
-                <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
-                <rect x="13" y="0" width="35" height="13" fill="#FAFAF8" />
-                <rect x="35" y="13" width="13" height="27" fill="#FAFAF8" />
-                <rect x="0" y="40" width="48" height="10" fill="#C41230" />
-              </svg>
-              <div className="flex flex-col">
-                <span className="font-display font-bold text-[28px] tracking-[8px] text-brand-white">
-                  PROT<span className="text-crimson">E</span>KON
-                </span>
-                <span className="font-display font-normal text-[9px] tracking-[4px] text-gold">
-                  COMPLIANCE, COMMANDED.
-                </span>
-              </div>
-            </motion.div>
-
             {/* Headline */}
             <motion.h1
               className="font-display font-black text-[clamp(36px,6vw,64px)] leading-[0.95] tracking-tight text-brand-white mb-6"
