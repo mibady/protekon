@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Eye, EyeSlash, ArrowRight, Check } from "@phosphor-icons/react"
+import { signUp } from "@/lib/actions/auth"
 
 const plans = [
   { id: "starter", name: "Starter", price: "$297", period: "/mo", employees: "1-25 employees" },
@@ -24,10 +24,10 @@ const industries = [
 ]
 
 export default function SignupPage() {
-  const router = useRouter()
   const [step, setStep] = useState(1)
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -39,16 +39,29 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (step === 1) {
       setStep(2)
       return
     }
 
     setIsLoading(true)
-    // Simulate signup
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    router.push("/dashboard")
+    setError(null)
+
+    const data = new FormData()
+    data.set("email", formData.email)
+    data.set("password", formData.password)
+    data.set("businessName", formData.businessName)
+    data.set("vertical", formData.industry)
+    data.set("plan", formData.plan)
+
+    const result = await signUp(data)
+
+    if (result?.error) {
+      setError(result.error)
+      setIsLoading(false)
+    }
+    // On success, signUp redirects to /dashboard
   }
 
   return (
@@ -168,6 +181,13 @@ export default function SignupPage() {
               )}
             </p>
           </div>
+
+          {/* Error */}
+          {error && (
+            <div className="mb-6 px-4 py-3 bg-crimson/10 border border-crimson/20 text-crimson font-sans text-[13px]">
+              {error}
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">

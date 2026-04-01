@@ -1,29 +1,36 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Eye, EyeSlash, ArrowRight } from "@phosphor-icons/react"
+import { signIn } from "@/lib/actions/auth"
 
 export default function LoginPage() {
-  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("error") === "auth_callback_failed") {
+      setError("Authentication failed. Please try again.")
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    
-    // Simulate login - in production this would call your auth API
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    // Redirect to dashboard
-    router.push("/dashboard")
+    setError(null)
+
+    const formData = new FormData(e.currentTarget as HTMLFormElement)
+    const result = await signIn(formData)
+
+    if (result?.error) {
+      setError(result.error)
+      setIsLoading(false)
+    }
+    // On success, signIn redirects to /dashboard
   }
 
   return (
@@ -128,6 +135,13 @@ export default function LoginPage() {
             </p>
           </div>
 
+          {/* Error */}
+          {error && (
+            <div className="mb-6 px-4 py-3 bg-crimson/10 border border-crimson/20 text-crimson font-sans text-[13px]">
+              {error}
+            </div>
+          )}
+
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             {/* Email */}
@@ -136,10 +150,9 @@ export default function LoginPage() {
                 Email Address
               </label>
               <input
+                name="email"
                 type="email"
                 required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-midnight/50 border border-brand-white/[0.1] px-4 py-3.5 font-sans text-[15px] text-parchment placeholder:text-steel/50 focus:outline-none focus:border-gold/50 transition-colors"
                 placeholder="you@company.com"
               />
@@ -160,10 +173,9 @@ export default function LoginPage() {
               </div>
               <div className="relative">
                 <input
+                  name="password"
                   type={showPassword ? "text" : "password"}
                   required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   className="w-full bg-midnight/50 border border-brand-white/[0.1] px-4 py-3.5 pr-12 font-sans text-[15px] text-parchment placeholder:text-steel/50 focus:outline-none focus:border-gold/50 transition-colors"
                   placeholder="Enter your password"
                 />

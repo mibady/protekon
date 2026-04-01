@@ -4,18 +4,30 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { EnvelopeSimple, ArrowLeft, PaperPlaneTilt } from "@phosphor-icons/react"
+import { forgotPassword } from "@/lib/actions/auth"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    setError(null)
+
+    const formData = new FormData()
+    formData.set("email", email)
+
+    const result = await forgotPassword(formData)
+
     setIsSubmitting(false)
-    setIsSubmitted(true)
+    if (result?.error) {
+      setError(result.error)
+    } else {
+      setIsSubmitted(true)
+    }
   }
 
   return (
@@ -75,6 +87,12 @@ export default function ForgotPasswordPage() {
               <p className="font-sans text-[14px] leading-[1.7] text-fog mb-8">
                 Enter your email address and we&apos;ll send you a link to reset your password.
               </p>
+
+              {error && (
+                <div className="mb-6 px-4 py-3 bg-crimson/10 border border-crimson/20 text-crimson font-sans text-[13px]">
+                  {error}
+                </div>
+              )}
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div className="flex flex-col gap-2">

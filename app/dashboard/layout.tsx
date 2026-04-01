@@ -4,12 +4,12 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
-  House, 
-  FileText, 
-  WarningCircle, 
-  Bell, 
-  Gear, 
+import {
+  House,
+  FileText,
+  WarningCircle,
+  Bell,
+  Gear,
   SignOut,
   List,
   X,
@@ -25,6 +25,7 @@ import {
   Question,
   ShieldCheck
 } from "@phosphor-icons/react"
+import { signOut } from "@/lib/actions/auth"
 
 // Navigation groups per blueprint spec
 const navGroups = [
@@ -222,15 +223,17 @@ export default function DashboardLayout({
 
         {/* Sign Out */}
         <div className="px-4 py-3 border-t border-brand-white/[0.06]">
-          <Link 
-            href="/login"
-            className="flex items-center gap-3 px-3 py-2.5 text-steel hover:text-crimson transition-colors"
-          >
-            <SignOut size={16} />
-            <span className="font-display font-medium text-[11px] tracking-[1px]">
-              Sign Out
-            </span>
-          </Link>
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="flex items-center gap-3 px-3 py-2.5 text-steel hover:text-crimson transition-colors w-full"
+            >
+              <SignOut size={16} />
+              <span className="font-display font-medium text-[11px] tracking-[1px]">
+                Sign Out
+              </span>
+            </button>
+          </form>
         </div>
       </aside>
 
@@ -395,13 +398,15 @@ export default function DashboardLayout({
                 >
                   Billing
                 </Link>
-                <Link
-                  href="/login"
-                  className="block px-4 py-3 font-display text-[11px] tracking-[2px] uppercase text-crimson hover:bg-crimson/[0.04] transition-colors border-t border-midnight/[0.06]"
-                  onClick={() => setUserMenuOpen(false)}
-                >
-                  Sign Out
-                </Link>
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="block w-full text-left px-4 py-3 font-display text-[11px] tracking-[2px] uppercase text-crimson hover:bg-crimson/[0.04] transition-colors border-t border-midnight/[0.06]"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    Sign Out
+                  </button>
+                </form>
               </motion.div>
             )}
           </AnimatePresence>
