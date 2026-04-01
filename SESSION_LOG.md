@@ -237,3 +237,73 @@ Must replicate the following from the previous project:
 - /build "specs/stripe-integration.md" — Stage 5: Stripe checkout, portal, webhooks
 - Then /plan "Resend email integration" — Stage 6: wire all email stubs in Inngest functions
 - Create Stripe products + prices in dashboard, add STRIPE_WEBHOOK_SECRET to env
+
+## Session 3 — 2026-04-01 — MILESTONE: Backend-First Workflow Complete
+
+### Completed
+- **Stage 5: Stripe Integration** — checkout, portal, webhook handler (5 event types), pricing page + settings billing wired
+- **Stage 6: Resend Email** — client with dev guard, 11 branded HTML templates, all 7 Inngest functions wired (zero stubs remaining)
+- **Stage 7: Document Generation** — pdf-lib builder (cover + summary + vertical content), Vercel Blob upload, authenticated download endpoint, dashboard download buttons wired
+- **Stage 8: Dashboard Wiring** — 9 pages wired to real Supabase data (6 report pages, regulations with persistent acknowledgments, alerts computed from 4 tables), acknowledged_by migration applied
+- **Stage 9: Vertical Features** — 5 dashboard pages (construction subcontractors, healthcare PHI + BAA, real estate properties, poster compliance), 4 server action files, sidebar vertical-conditional nav, dashboard overview summary cards
+- **Feature Gaps Closed** — file upload API, training records CRUD page, notification preferences persistence, regulatory scan RSS feed scanner
+- **Production Hardening** — 7 audit violations fixed (dashboard stubs, hardcoded emails/URLs, silent catch), consolidated getComplianceOfficerEmail() + getSiteUrl() helpers
+- **SEO** — enhanced root metadata (OG, Twitter, keywords), edge-generated OG image, sitemap (16 pages), robots.txt, per-page metadata layouts (6 pages)
+- **Testing** — Vitest setup, 5 test suites, 27 tests passing (PDF generation, email templates, resend helpers, Stripe config, RSS parsing)
+- **Build Fix** — guarded compliance-score chart SVG against empty monthlyScores during prerender
+
+### Audit Snapshot (Ground-Truth)
+| Metric | Count |
+|--------|-------|
+| Pages | 38 |
+| API Routes | 7 (compliance/score, inngest, stripe/checkout, stripe/portal, stripe/webhook, documents/download, upload) |
+| Auth Routes | 1 (auth/callback) |
+| Components | 69 |
+| Server Actions | 11 files, 43 exports |
+| Inngest Functions | 8 (4 event, 3 cron, 1 escalation) |
+| Email Templates | 11 |
+| Test Suites | 5 (27 tests) |
+| Total Tracked Files | 209 |
+
+### Commits (15)
+- `4e2884c` feat(dna): add Stripe checkout, portal, and webhook integration
+- `f44cfeb` feat(dna): replace email stubs with Resend transactional emails
+- `b7f1674` feat(dna): add PDF generation via pdf-lib + Vercel Blob upload
+- `469a1d0` feat(face): wire 9 dashboard pages to real Supabase data
+- `c92e594` feat(face): add vertical dashboard pages with CRUD for 4 verticals
+- `9c81f88` style: align vertical page focus states and colors with design system
+- `6a5d755` feat(dna): add file upload, training management, and notification prefs
+- `8b33c5c` feat(dna): replace regulatory-scan stub with real RSS feed scanner
+- `534d39a` fix: production hardening — remove stubs, hardcoded values, silent errors
+- `951b097` feat(seo): add sitemap, robots.txt, OG image, and per-page metadata
+- `697aaf2` feat(face): add vertical-specific summary cards to dashboard overview
+- `15aa0b5` test: add Vitest setup + 27 tests across 5 test suites
+- `6908800` fix: guard compliance-score chart against empty monthlyScores array
+- + 2 auto-generated commits (session docs, e2e tests)
+
+### Decisions Made
+- Stripe API version 2026-03-25.dahlia (matches stripe@21.0.1)
+- Resend dev guard: logs when RESEND_API_KEY missing, prevents local dev crashes
+- PDF generation: 4 vertical-specific content templates (construction, healthcare, real-estate, default)
+- Email templates: centralized in lib/email-templates.ts with layoutWrapper, env-driven URLs via getSiteUrl()
+- Compliance officer email: consolidated to getComplianceOfficerEmail() — throws in production if env var missing
+- Regulatory scan: RSS feed parsing with simple XML regex (no external XML parser dependency)
+- Dashboard pages all use "use client" + useEffect + server action pattern (preserves interactivity)
+- Vertical nav: conditional sidebar rendering based on client.vertical, poster compliance for ALL verticals
+- acknowledged_by jsonb array on regulatory_updates (simpler than junction table)
+- notification_preferences jsonb on clients table (instant toggle persistence)
+
+### Known Issues
+- STRIPE_WEBHOOK_SECRET needs to be added to env (create webhook in Stripe dashboard)
+- STRIPE_PRICE_STARTER/PROFESSIONAL/ENTERPRISE env vars need Stripe product creation
+- COMPLIANCE_OFFICER_EMAIL env var required in production
+- NEXT_PUBLIC_SITE_URL should be set per environment
+- 3 pre-existing tsc errors (tailwind.config.ts, Comparison.tsx, incident-analysis JSX namespace — none in new code)
+- Package name still "my-project" in package.json
+
+### Next Session Should
+- /prime to load context
+- Verify Vercel deployment passes (commit 6908800 pushed, should fix prerender crash)
+- Set up Stripe products + webhook in dashboard, add env vars
+- Integration/E2E testing session (auth flow, document request, incident logging, Stripe checkout)
+- Consider HEAD layer features (compliance Q&A chat, document analysis)
