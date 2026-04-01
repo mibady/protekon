@@ -5,10 +5,9 @@ import { motion, AnimatePresence } from "framer-motion"
 
 interface IntroAnimationProps {
   onComplete: () => void
-  skipable?: boolean
 }
 
-export default function IntroAnimation({ onComplete, skipable = true }: IntroAnimationProps) {
+export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
   const [phase, setPhase] = useState(0)
   const [showSkip, setShowSkip] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
@@ -31,7 +30,6 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
       { delay: 400, phase: 1 },
       { delay: 1600, phase: 2 },
       { delay: 2800, phase: 3 },
-      { delay: 4200, phase: 4 },
     ]
 
     const timeouts = timings.map(({ delay, phase: p }) =>
@@ -70,8 +68,7 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
     <AnimatePresence>
       {!isExiting && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex items-center justify-center"
-          style={{ backgroundColor: "#070F1E" }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-void"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
@@ -179,7 +176,7 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
           </div>
 
           {/* Skip button */}
-          {skipable && showSkip && (
+          {showSkip && (
             <motion.button
               onClick={handleSkip}
               className="absolute bottom-10 right-10 font-display font-medium text-[10px] tracking-[3px] uppercase text-steel/50 hover:text-steel transition-colors px-4 py-2 border border-steel/20 hover:border-steel/40"
