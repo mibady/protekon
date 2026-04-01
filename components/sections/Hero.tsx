@@ -1,6 +1,6 @@
 "use client"
 
-// PROTEKON Hero Section
+// PROTEKON Hero Section - Landing Page
 import { motion } from "framer-motion"
 import { CaretDown, ShieldCheck, FileText, Bell } from "@phosphor-icons/react"
 import Link from "next/link"
@@ -119,9 +119,9 @@ export default function Hero() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.6 }}
             >
-              PROTEKON turns California&apos;s most complex workplace safety regulations 
-              into a hands-off, recurring service — IIPP, SB 553, incident logging, 
-              and regulatory monitoring, all done for you.
+              Stop waiting for an inspection to find out you&apos;re out of compliance. 
+              PROTEKON writes your IIPP, builds your SB 553 plan, logs your incidents, 
+              and monitors every regulation change. You run your business. We handle the rest.
             </motion.p>
 
             {/* Feature Pills */}
@@ -184,7 +184,7 @@ export default function Hero() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.85 }}
             >
-              No software to learn · First document in 48 hours · Cancel anytime
+              Zero software. First document delivered in 48 hours. Cancel anytime.
             </motion.p>
           </div>
 
@@ -229,7 +229,7 @@ export default function Hero() {
                 {/* Card footer */}
                 <div className="mt-8 pt-6 border-t border-brand-white/[0.06]">
                   <p className="font-sans text-[12px] text-steel/60 leading-relaxed">
-                    Data from 73,960 Cal/OSHA citations analyzed by the Protekon Engine.
+                    73,960 Cal/OSHA citations. Scraped. Analyzed. Applied to your business.
                   </p>
                 </div>
               </div>

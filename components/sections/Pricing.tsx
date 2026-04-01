@@ -101,7 +101,7 @@ export default function Pricing() {
           
           <p className="font-sans font-light text-[16px] leading-[1.75] text-steel max-w-[600px] mx-auto">
             No hourly billing. No per-incident fees. No compliance surprises. 
-            A flat monthly rate that costs less than a single Cal/OSHA citation.
+            One flat monthly rate. Less than the cost of a single Cal/OSHA citation.
           </p>
         </div>
 
@@ -113,8 +113,8 @@ export default function Pricing() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <p className="font-display font-semibold text-[18px] text-gold">
-            $7,229 — AVERAGE SERIOUS VIOLATION FINE vs $297–$797/month for PROTEKON. 
-            The ROI calculates itself.
+            A serious Cal/OSHA violation costs $7,229. Per violation. That is not an estimate. 
+            PROTEKON costs $297–$797/month. The math speaks for itself.
           </p>
         </motion.div>
 

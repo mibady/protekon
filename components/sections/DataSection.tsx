@@ -31,8 +31,8 @@ export default function DataSection() {
             THE ENFORCEMENT DATA BEHIND PROTEKON
           </h2>
           <p className="font-sans font-light text-[16px] leading-[1.75] text-steel">
-            73,960 Cal/OSHA citations scraped, analyzed, and translated into 
-            the exact compliance architecture your business needs.
+            73,960 Cal/OSHA citations. Scraped. Analyzed. Translated into the exact 
+            compliance architecture that protects your business. These are not estimates. This is enforcement reality.
           </p>
         </div>
 

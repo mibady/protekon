@@ -30,7 +30,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          PROTEKON costs less per month than a single Cal/OSHA violation.
+          One Cal/OSHA citation costs more than an entire year of PROTEKON. Protect everything. Miss nothing.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -72,7 +72,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          $297/mo vs $7,229 avg fine — the math speaks for itself
+          $297/month. $7,229 average fine. Compliance, Commanded.
         </motion.p>
       </div>
     </section>

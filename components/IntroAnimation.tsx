@@ -351,9 +351,9 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 />
                 
-                {/* Tagline with typewriter */}
+                {/* Tagline with typewriter - primary brand tagline */}
                 <TypewriterText
-                  text="MANAGED COMPLIANCE. DELIVERED."
+                  text="COMPLIANCE, COMMANDED."
                   className="font-display font-light text-[14px] tracking-[6px] uppercase"
                   style={{ color: "#C9A84C" }}
                 />

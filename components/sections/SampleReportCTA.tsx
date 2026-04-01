@@ -61,7 +61,7 @@ export default function SampleReportCTA() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              GET A FREE SAMPLE REPORT FOR YOUR INDUSTRY
+              SEE EXACTLY WHAT PROTEKON DELIVERS
             </motion.h2>
 
             {/* Body */}
@@ -71,9 +71,9 @@ export default function SampleReportCTA() {
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Enter your industry and employee count. We&apos;ll generate a sample 
-              IIPP and compliance risk summary for your specific business type — 
-              delivered to your inbox in minutes.
+              Enter your industry. Enter your employee count. We generate a sample 
+              IIPP and compliance risk summary specific to your business. 
+              Delivered to your inbox in minutes. Not hours. Minutes.
             </motion.p>
           </div>
 

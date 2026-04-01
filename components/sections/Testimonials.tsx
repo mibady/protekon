@@ -6,7 +6,7 @@ import { useRef } from "react"
 const testimonials = [
   {
     quote:
-      "I got hit with a $14,200 Cal/OSHA fine before PROTEKON. This year, the inspector walked away with zero citations.",
+      "$14,200 Cal/OSHA fine. That was before PROTEKON. This year the inspector walked away with zero citations. Zero.",
     name: "R. Castillo",
     title: "Owner",
     company: "Castillo Brothers Construction",
@@ -16,7 +16,7 @@ const testimonials = [
   },
   {
     quote:
-      "Logging incidents used to mean a sticky note on my desk. Now every entry is classified, documented, and legally protected. It runs itself.",
+      "Incident logging used to mean a sticky note on my desk. Now every entry is classified, documented, and legally protected. OSHA 300 compliant. Day one.",
     name: "D. Nguyen",
     title: "Operations Mgr",
     company: "Pacific Rim Manufacturing",
@@ -26,7 +26,7 @@ const testimonials = [
   },
   {
     quote:
-      "When SB 553 hit, I had 6 days to comply. PROTEKON had my plan written, reviewed, and posted in 48 hours.",
+      "SB 553 dropped. Six days to comply. PROTEKON had my Workplace Violence Prevention Plan written, reviewed, and posted in 48 hours. Not a week. 48 hours.",
     name: "A. Vasquez",
     title: "HR Director",
     company: "Valle Verde Hospitality Group",
