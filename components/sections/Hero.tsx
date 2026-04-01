@@ -1,148 +1,170 @@
 "use client"
+// Hero Component - Last updated: 2026-03-31T12:00:00Z
 
-// PROTEKON Hero Section - Landing Page
 import { motion } from "framer-motion"
 import Link from "next/link"
 
-// Main hero component with 55/45 split layout
 export default function Hero() {
   return (
     <section className="relative min-h-screen bg-void">
+      {/* 55/45 Grid Split */}
       <div className="grid lg:grid-cols-[55%_45%] min-h-screen">
-        
-        {/* LEFT PANEL */}
-        <div className="relative bg-void flex flex-col justify-between p-12 lg:p-20 border-r border-brand-white/[0.06]">
-          <div className="flex flex-col gap-8">
-            <motion.div
-              className="flex items-center gap-4"
+        {/* LEFT PANEL - Content */}
+        <div className="relative flex flex-col justify-center px-8 lg:px-16 py-20 lg:py-0 bg-void">
+          {/* Background texture */}
+          <div 
+            className="absolute inset-0 opacity-[0.02]"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(201,168,76,1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201,168,76,1) 1px, transparent 1px)
+              `,
+              backgroundSize: "40px 40px",
+            }}
+          />
+
+          <div className="relative z-10 max-w-[560px]">
+            {/* P-Mark + Wordmark */}
+            <motion.div 
+              className="flex items-center gap-4 mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6 }}
             >
-              <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-gold">
-                California Compliance Intelligence
-              </span>
+              <svg viewBox="0 0 48 84" className="w-10 h-[70px]">
+                <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
+                <rect x="13" y="0" width="35" height="13" fill="#FAFAF8" />
+                <rect x="35" y="13" width="13" height="27" fill="#FAFAF8" />
+                <rect x="0" y="40" width="48" height="10" fill="#C41230" />
+              </svg>
+              <div className="flex flex-col">
+                <span className="font-display font-bold text-[28px] tracking-[8px] text-brand-white">
+                  PROT<span className="text-crimson">E</span>KON
+                </span>
+                <span className="font-display font-normal text-[9px] tracking-[4px] text-gold">
+                  COMPLIANCE, COMMANDED.
+                </span>
+              </div>
             </motion.div>
 
-            <motion.div 
-              className="w-8 h-[1px] bg-gold"
-              initial={{ width: 0 }}
-              animate={{ width: 32 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            />
-
+            {/* Headline */}
             <motion.h1
-              className="font-display font-black text-[clamp(64px,10vw,100px)] leading-[0.88] tracking-[2px] uppercase text-parchment"
-              initial={{ opacity: 0, y: 40 }}
+              className="font-display font-black text-[clamp(36px,6vw,64px)] leading-[0.95] tracking-tight text-brand-white mb-6"
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 0.15 }}
             >
-              PROT<span className="text-crimson">E</span>KON
+              CALIFORNIA WORKPLACE COMPLIANCE.{" "}
+              <span className="text-gold">DONE FOR YOU.</span>
             </motion.h1>
-          </div>
 
-          <div className="flex flex-col gap-7 my-12 lg:my-0">
+            {/* Subheadline */}
             <motion.p
-              className="font-display font-light text-[clamp(22px,3vw,26px)] tracking-[3px] uppercase text-gold"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              Compliance, Commanded.
-            </motion.p>
-
-            <motion.p
-              className="font-sans text-[13px] font-light text-steel leading-[1.75] max-w-[320px]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-            >
-              The compliance command platform for California businesses. 
-              IIPP documents. SB 553 plans. Incident logging. Regulatory monitoring. 
-              All managed. All delivered.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 mt-4"
+              className="font-sans text-[17px] leading-[1.7] text-fog mb-10 max-w-[480px]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.2 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              Stop waiting for an inspection to find out you are out of compliance. 
+              PROTEKON writes your IIPP, builds your SB 553 plan, logs your incidents, 
+              and monitors every regulation change. You run your business. We handle the rest.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.45 }}
             >
               <Link
                 href="/signup"
-                className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment bg-crimson px-6 py-4 hover:brightness-110 transition-all"
+                className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-brand-white bg-crimson px-8 py-4 border-l-[3px] border-brand-white/30 hover:brightness-110 transition-all"
               >
-                Start Compliance Plan
+                Start Your Compliance Plan
               </Link>
-              
               <Link
                 href="#sample"
-                className="inline-flex items-center font-display font-medium text-[10px] tracking-[3px] uppercase text-gold border-b border-gold/40 pb-1 hover:border-gold transition-colors"
+                className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-brand-white/70 px-8 py-4 border border-brand-white/15 hover:border-gold hover:text-gold transition-colors"
               >
                 Download Sample Report
               </Link>
             </motion.div>
-          </div>
 
-          <motion.div
-            className="flex items-center gap-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.4 }}
-          >
-            <div className="w-5 h-[1px] bg-brand-white/15" />
-            <span className="font-display text-[9px] tracking-[3px] uppercase text-brand-white/15">
-              Managed Compliance · California · 2025
-            </span>
-          </motion.div>
+            {/* Microcopy */}
+            <motion.p
+              className="font-sans text-[12px] text-steel"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              Zero software. First document delivered in 48 hours. Cancel anytime.
+            </motion.p>
+          </div>
         </div>
 
-        {/* RIGHT PANEL */}
+        {/* RIGHT PANEL - Visual */}
         <div className="relative bg-midnight flex flex-col overflow-hidden min-h-[50vh] lg:min-h-0">
+          {/* Grid lines */}
+          <div className="absolute inset-0">
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={`h-${i}`}
+                className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/10 to-transparent"
+                style={{ top: `${(i + 1) * 14}%` }}
+                initial={{ opacity: 0, scaleX: 0 }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{ duration: 1, delay: 0.8 + i * 0.1 }}
+              />
+            ))}
+            {[...Array(4)].map((_, i) => (
+              <motion.div
+                key={`v-${i}`}
+                className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-crimson/10 to-transparent"
+                style={{ left: `${(i + 1) * 20}%` }}
+                initial={{ opacity: 0, scaleY: 0 }}
+                animate={{ opacity: 1, scaleY: 1 }}
+                transition={{ duration: 1, delay: 1 + i * 0.1 }}
+              />
+            ))}
+          </div>
+
+          {/* Radial glow */}
           <div 
-            className="absolute inset-0 opacity-[0.03]"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              backgroundImage: `linear-gradient(rgba(201,168,76,1) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,1) 1px, transparent 1px)`,
-              backgroundSize: "60px 60px",
+              background: `radial-gradient(ellipse 70% 60% at 50% 40%, rgba(196,18,48,0.06) 0%, transparent 60%)`
             }}
           />
 
+          {/* Central P-Mark */}
           <div className="flex-1 flex items-center justify-center relative">
-            <div className="absolute opacity-[0.02] pointer-events-none">
-              <svg viewBox="0 0 48 84" className="w-[400px] h-[700px]">
-                <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
-                <rect x="13" y="0" width="35" height="13" fill="#FAFAF8" />
-                <rect x="35" y="13" width="13" height="27" fill="#FAFAF8" />
-                <rect x="0" y="40" width="48" height="10" fill="#FAFAF8" />
-              </svg>
-            </div>
-
             <motion.div
-              className="relative z-10 flex flex-col items-center gap-8"
-              initial={{ opacity: 0, scale: 0.9 }}
+              className="relative"
+              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1, delay: 0.5 }}
             >
-              <div className="absolute -inset-20">
-                <motion.div 
-                  className="absolute inset-0 border border-crimson/10 rounded-full"
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.div 
-                  className="absolute -inset-8 border border-gold/5 rounded-full"
-                  animate={{ scale: [1, 1.08, 1], opacity: [0.2, 0.05, 0.2] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                />
-              </div>
+              {/* Pulsing rings */}
+              <motion.div 
+                className="absolute -inset-10 border border-crimson/20 rounded-full"
+                animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+              <motion.div 
+                className="absolute -inset-16 border border-gold/10 rounded-full"
+                animate={{ scale: [1, 1.08, 1], opacity: [0.2, 0.05, 0.2] }}
+                transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
+              />
 
-              <svg viewBox="0 0 48 84" className="w-[100px] h-[175px] relative z-10">
+              {/* P-mark */}
+              <svg viewBox="0 0 48 84" className="w-[80px] h-[140px]">
                 <motion.rect 
                   x="0" y="0" width="13" height="84" 
                   fill="#FAFAF8"
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
-                  transition={{ duration: 0.6, delay: 0.8 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
                   style={{ transformOrigin: "top" }}
                 />
                 <motion.rect 
@@ -150,7 +172,7 @@ export default function Hero() {
                   fill="#FAFAF8"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.4, delay: 1 }}
+                  transition={{ duration: 0.4, delay: 0.9 }}
                   style={{ transformOrigin: "left" }}
                 />
                 <motion.rect 
@@ -158,7 +180,7 @@ export default function Hero() {
                   fill="#FAFAF8"
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
-                  transition={{ duration: 0.4, delay: 1.2 }}
+                  transition={{ duration: 0.3, delay: 1.1 }}
                   style={{ transformOrigin: "top" }}
                 />
                 <motion.rect 
@@ -166,85 +188,66 @@ export default function Hero() {
                   fill="#C41230"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.5, delay: 1.4 }}
+                  transition={{ duration: 0.4, delay: 1.3 }}
                   style={{ transformOrigin: "left" }}
                 />
               </svg>
-
-              <motion.span
-                className="font-display font-semibold text-[16px] tracking-[8px] uppercase text-brand-white/30"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.6 }}
-              >
-                PROT<span className="text-crimson/60">E</span>KON
-              </motion.span>
             </motion.div>
           </div>
 
+          {/* Stats Grid - Bottom */}
           <motion.div 
-            className="relative z-10 grid grid-cols-2 lg:grid-cols-4 border-t border-brand-white/[0.06]"
-            initial={{ opacity: 0, y: 30 }}
+            className="relative z-10 border-t border-brand-white/[0.06]"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.8 }}
+            transition={{ duration: 0.5, delay: 1.5 }}
           >
-            {[
-              { value: "$109.6M", label: "CA SMB Penalties" },
-              { value: "44,742", label: "Target Violations" },
-              { value: "48hrs", label: "First Delivery" },
-              { value: "$7,229", label: "Avg Serious Fine" },
-            ].map((stat, i) => (
-              <motion.div 
-                key={stat.label}
-                className={`p-5 lg:p-6 ${i < 3 ? "border-r border-brand-white/[0.06]" : ""} ${i < 2 ? "border-b lg:border-b-0 border-brand-white/[0.06]" : ""}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 2 + i * 0.1 }}
-              >
-                <span className="font-display font-black text-[22px] lg:text-[28px] text-gold block leading-none">
-                  {stat.value}
-                </span>
-                <span className="font-display text-[8px] tracking-[2px] uppercase text-steel mt-2 block">
-                  {stat.label}
-                </span>
-              </motion.div>
-            ))}
+            <div className="grid grid-cols-2 lg:grid-cols-4">
+              {[
+                { value: '$109.6M', label: 'CA SMB Penalties' },
+                { value: '44,742', label: 'Target Violations' },
+                { value: '48hrs', label: 'First Delivery' },
+                { value: '$7,229', label: 'Avg Serious Fine' },
+              ].map((stat, i) => (
+                <div 
+                  key={stat.label}
+                  className={`p-5 lg:p-6 ${i < 3 ? 'border-r border-brand-white/[0.06]' : ''} ${i < 2 ? 'border-b lg:border-b-0 border-brand-white/[0.06]' : ''}`}
+                >
+                  <span className="font-display font-black text-[22px] lg:text-[26px] text-gold block leading-none">
+                    {stat.value}
+                  </span>
+                  <span className="font-display text-[8px] tracking-[2px] uppercase text-steel mt-2 block">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
-          <div className="absolute top-6 left-6 w-8 h-8 border-t border-l border-gold/15" />
-          <div className="absolute top-6 right-6 w-8 h-8 border-t border-r border-gold/15" />
+          {/* Corner accents */}
+          <div className="absolute top-5 left-5 w-8 h-8 border-t border-l border-gold/20" />
+          <div className="absolute top-5 right-5 w-8 h-8 border-t border-r border-gold/20" />
         </div>
       </div>
 
+      {/* Bottom Bar */}
       <motion.div 
-        className="absolute bottom-0 left-0 right-0 z-20 bg-void border-t border-brand-white/[0.04]"
+        className="absolute bottom-0 left-0 right-0 bg-void border-t border-brand-white/[0.06] py-4 px-8 lg:px-16"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
+        transition={{ delay: 1.8 }}
       >
-        <div className="flex items-center justify-between px-12 lg:px-20 py-4">
-          <div className="flex items-center gap-6">
-            <span className="font-display text-[9px] tracking-[3px] uppercase text-steel/50">
-              Trusted by 500+ California businesses
-            </span>
-            <div className="hidden md:flex items-center gap-3">
-              {["SOC 2", "Cal/OSHA", "SB 553"].map((badge) => (
-                <span key={badge} className="font-display text-[8px] tracking-[2px] uppercase text-gold/40 px-2 py-1 border border-gold/15">
-                  {badge}
-                </span>
-              ))}
-            </div>
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+          <span className="font-display text-[9px] tracking-[3px] uppercase text-steel">
+            Trusted by 500+ California businesses
+          </span>
+          <div className="flex items-center gap-3">
+            {['SOC 2', 'OSHA', 'Cal/OSHA', 'CSLB'].map((badge) => (
+              <span key={badge} className="font-display text-[8px] tracking-[2px] uppercase text-gold/60 px-3 py-1 border border-gold/20">
+                {badge}
+              </span>
+            ))}
           </div>
-          
-          <button
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
-            className="font-display text-[9px] tracking-[2px] uppercase text-steel/40 hover:text-gold transition-colors flex items-center gap-2"
-          >
-            Scroll
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-current">
-              <path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
         </div>
       </motion.div>
     </section>

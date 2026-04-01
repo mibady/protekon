@@ -162,7 +162,7 @@ export default function DashboardLayout({
         </div>
 
         {/* Navigation Groups */}
-        <nav className="flex-1 overflow-y-auto px-4 py-4">
+        <nav className="flex-1 overflow-y-auto px-4 py-4 scrollbar-dark">
           {navGroups.map((group) => (
             <div key={group.label} className="mb-5">
               <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">
