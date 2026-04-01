@@ -17,26 +17,54 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://protekon.com"
+
 export const metadata: Metadata = {
-  title: 'PROTEKON — Managed Compliance. Delivered.',
-  description: 'California workplace compliance as a managed service. IIPP, SB 553, incident logging, and regulatory monitoring — all done for you.',
-  generator: 'v0.app',
+  title: {
+    default: "PROTEKON — Managed Compliance. Delivered.",
+    template: "%s | PROTEKON",
+  },
+  description: "California workplace compliance as a managed service. IIPP, SB 553, incident logging, and regulatory monitoring — all done for you.",
+  metadataBase: new URL(siteUrl),
+  keywords: [
+    "California compliance",
+    "IIPP",
+    "SB 553",
+    "workplace safety",
+    "Cal/OSHA",
+    "compliance as a service",
+    "managed compliance",
+    "incident logging",
+    "regulatory monitoring",
+  ],
+  authors: [{ name: "Protekon" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "PROTEKON",
+    title: "PROTEKON — Managed Compliance. Delivered.",
+    description: "California workplace compliance as a managed service. IIPP, SB 553, incident logging, and regulatory monitoring — all done for you.",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PROTEKON — Managed Compliance" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PROTEKON — Managed Compliance. Delivered.",
+    description: "California workplace compliance as a managed service.",
+    images: ["/opengraph-image"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
+  },
   icons: {
     icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
+      { url: "/icon-light-32x32.png", media: "(prefers-color-scheme: light)" },
+      { url: "/icon-dark-32x32.png", media: "(prefers-color-scheme: dark)" },
+      { url: "/icon.svg", type: "image/svg+xml" },
     ],
-    apple: '/apple-icon.png',
+    apple: "/apple-icon.png",
   },
 }
 
