@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Database, Plus, Check, X as XIcon } from "@phosphor-icons/react"
+import { Database, Plus, Check, X as XIcon, Lock, LockOpen } from "@phosphor-icons/react"
 import { useState, useEffect } from "react"
 import { getPhiAssets, addPhiAsset } from "@/lib/actions/healthcare"
 
@@ -66,7 +66,7 @@ export default function PhiInventoryPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
@@ -214,7 +214,9 @@ export default function PhiInventoryPage() {
               </button>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <>
+            {/* Desktop Table */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -284,6 +286,53 @@ export default function PhiInventoryPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Cards */}
+            <div className="lg:hidden space-y-3 p-4">
+              {assets.map((asset) => (
+                <div
+                  key={asset.id}
+                  className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-1">
+                    <span className="font-sans font-medium text-[14px] text-midnight">{asset.system_name}</span>
+                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase whitespace-nowrap ${riskStyles[asset.risk_level] || "bg-steel/10 text-steel"}`}>
+                      {asset.risk_level}
+                    </span>
+                  </div>
+                  <span className="px-2 py-0.5 font-display font-medium text-[9px] tracking-[1px] uppercase bg-steel/10 text-steel">
+                    {asset.system_type}
+                  </span>
+                  <div className="flex items-center gap-3 mt-3 mb-3">
+                    <div className="flex items-center gap-1">
+                      {asset.encrypted_at_rest ? (
+                        <Lock size={14} className="text-[#2A7D4F]" />
+                      ) : (
+                        <LockOpen size={14} className="text-crimson" />
+                      )}
+                      <span className="font-display text-[8px] tracking-[1px] uppercase text-steel">Rest</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {asset.encrypted_in_transit ? (
+                        <Lock size={14} className="text-[#2A7D4F]" />
+                      ) : (
+                        <LockOpen size={14} className="text-crimson" />
+                      )}
+                      <span className="font-display text-[8px] tracking-[1px] uppercase text-steel">Transit</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-display text-[9px] tracking-[1px] uppercase text-steel">Last Assessed</span>
+                    <span className="font-sans text-[13px] text-midnight">
+                      {asset.last_assessed_at
+                        ? new Date(asset.last_assessed_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                        : "--"}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            </>
           )}
         </motion.div>
       )}

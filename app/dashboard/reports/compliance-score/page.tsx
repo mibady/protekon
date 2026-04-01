@@ -41,7 +41,7 @@ export default function ComplianceScoreReportPage() {
   const scoreColor = score >= 75 ? "#2A7D4F" : score >= 50 ? "#C9A84C" : "#C41230"
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Back Link */}
       <Link 
         href="/dashboard/reports"
@@ -74,10 +74,10 @@ export default function ComplianceScoreReportPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Large Gauge */}
           <div className="flex items-center justify-center">
-            <div className="relative w-[200px] h-[200px]">
+            <div className="relative w-[160px] h-[160px] lg:w-[200px] lg:h-[200px]">
               <svg viewBox="0 0 200 200" className="w-full h-full -rotate-90">
                 <circle
                   cx="100"
@@ -205,7 +205,8 @@ export default function ComplianceScoreReportPage() {
             Documentation Readiness
           </h3>
         </div>
-        <div className="overflow-x-auto">
+        {/* Desktop Table */}
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -242,6 +243,32 @@ export default function ComplianceScoreReportPage() {
               </tr>
             </tbody>
           </table>
+        </div>
+        {/* Mobile Cards */}
+        <div className="lg:hidden space-y-3 p-4">
+          {documents.map((doc) => (
+            <div key={doc.name} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
+              <div className="flex items-start justify-between mb-2">
+                <span className="font-sans text-[13px] text-midnight font-medium">{doc.name}</span>
+                <span className="font-mono text-[12px] text-midnight">{doc.points}</span>
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                  doc.status === 'current' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' : 'bg-gold/10 text-gold'
+                }`}>
+                  {doc.status}
+                </span>
+                <span className="px-2 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[8px] tracking-[1px] text-gold">
+                  {doc.regulation}
+                </span>
+              </div>
+              <span className="font-sans text-[12px] text-steel">{doc.updated}</span>
+            </div>
+          ))}
+          <div className="bg-parchment p-4 rounded-lg flex items-center justify-between">
+            <span className="font-display font-bold text-[12px] text-midnight">Total</span>
+            <span className="font-mono font-bold text-[14px] text-midnight">28/30</span>
+          </div>
         </div>
       </motion.div>
 

@@ -17,7 +17,7 @@ export default function DeliveryLogReportPage() {
   const deliveries = data?.deliveries ?? []
   const deliverySchedule = (data?.deliverySchedule ?? []) as { type: string; frequency: string; next: string }[]
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Back Link */}
       <Link 
         href="/dashboard/reports"
@@ -80,7 +80,8 @@ export default function DeliveryLogReportPage() {
               Export CSV
             </button>
           </div>
-          <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
+          {/* Desktop Table */}
+          <div className="hidden lg:block overflow-x-auto max-h-[500px] overflow-y-auto">
             <table className="w-full">
               <thead className="sticky top-0 bg-parchment/90 backdrop-blur-sm">
                 <tr className="border-b border-midnight/[0.06]">
@@ -125,6 +126,39 @@ export default function DeliveryLogReportPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+          {/* Mobile Cards */}
+          <div className="lg:hidden space-y-3 p-4">
+            {deliveries.map((d, i) => (
+              <div key={i} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
+                <div className="flex items-start justify-between mb-2">
+                  <span className="font-sans text-[12px] text-midnight">{d.date}</span>
+                  <div className="flex items-center gap-1">
+                    {d.status === 'Opened' ? (
+                      <>
+                        <Eye size={12} className="text-[#2A7D4F]" />
+                        <span className="font-display font-medium text-[10px] tracking-[1px] uppercase text-[#2A7D4F]">Opened</span>
+                      </>
+                    ) : (
+                      <>
+                        <EnvelopeSimple size={12} className="text-steel" />
+                        <span className="font-display font-medium text-[10px] tracking-[1px] uppercase text-steel">Sent</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                    d.type === 'Document' ? 'bg-midnight text-white' :
+                    d.type === 'Report' ? 'bg-gold/10 text-gold' :
+                    'bg-crimson/10 text-crimson'
+                  }`}>
+                    {d.type}
+                  </span>
+                  <span className="font-sans text-[13px] text-midnight">{d.name}</span>
+                </div>
+              </div>
+            ))}
           </div>
           <div className="p-4 bg-parchment/50 border-t border-midnight/[0.06]">
             <p className="font-sans text-[12px] text-steel italic">

@@ -77,7 +77,7 @@ export default function SubcontractorsPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
@@ -225,7 +225,74 @@ export default function SubcontractorsPage() {
               </button>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <>
+            {/* Mobile Cards */}
+            <div className="lg:hidden space-y-3 p-3">
+              {subs.map((sub) => {
+                const effLicense = getEffectiveStatus(sub.license_status, sub.license_expiry)
+                const effInsurance = getEffectiveStatus(sub.insurance_status, sub.insurance_expiry)
+
+                return (
+                  <div key={sub.id} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
+                    <div className="flex items-start justify-between mb-3">
+                      <span className="font-sans font-medium text-[14px] text-midnight">{sub.company_name}</span>
+                      {sub.verified_at && <ShieldCheck size={18} className="text-[#2A7D4F] shrink-0 ml-2" />}
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-display text-[9px] tracking-[2px] uppercase text-steel">License</span>
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${statusStyles[effLicense] || "bg-steel/10 text-steel"}`}>
+                            {effLicense}
+                          </span>
+                          <span className="font-sans text-[12px] text-midnight">
+                            {new Date(sub.license_expiry).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="font-display text-[9px] tracking-[2px] uppercase text-steel">Insurance</span>
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${statusStyles[effInsurance] || "bg-steel/10 text-steel"}`}>
+                            {effInsurance}
+                          </span>
+                          <span className="font-sans text-[12px] text-midnight">
+                            {new Date(sub.insurance_expiry).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          </span>
+                        </div>
+                      </div>
+                      {sub.verified_at && (
+                        <div className="flex items-center justify-between">
+                          <span className="font-display text-[9px] tracking-[2px] uppercase text-steel">Verified</span>
+                          <span className="font-sans text-[12px] text-midnight">
+                            {new Date(sub.verified_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-midnight/[0.06]">
+                      {!sub.verified_at && (
+                        <button
+                          onClick={() => handleVerify(sub.id)}
+                          className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[8px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
+                        >
+                          Verify
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDelete(sub.id)}
+                        className="p-2 hover:bg-crimson/[0.04] transition-colors ml-auto"
+                      >
+                        <Trash size={16} className="text-steel hover:text-crimson" />
+                      </button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Desktop Table */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -306,6 +373,7 @@ export default function SubcontractorsPage() {
                 </tbody>
               </table>
             </div>
+            </>
           )}
         </motion.div>
       )}

@@ -70,7 +70,7 @@ export default function BaaTrackerPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
@@ -234,7 +234,9 @@ export default function BaaTrackerPage() {
               </button>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <>
+            {/* Desktop Table */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -295,6 +297,45 @@ export default function BaaTrackerPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Cards */}
+            <div className="lg:hidden space-y-3 p-4">
+              {agreements.map((baa) => {
+                const daysUntil = (new Date(baa.expiration_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+                const isExpiringSoon = daysUntil >= 0 && daysUntil < 30 && baa.baa_status !== "expired"
+
+                return (
+                  <div
+                    key={baa.id}
+                    className={`bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg ${isExpiringSoon ? "ring-1 ring-gold/30" : ""}`}
+                  >
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <span className="font-sans font-medium text-[14px] text-midnight">{baa.vendor_name}</span>
+                      <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase whitespace-nowrap ${statusStyles[baa.baa_status] || "bg-steel/10 text-steel"}`}>
+                        {baa.baa_status}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      {baa.phi_types.map((type) => (
+                        <span
+                          key={type}
+                          className="px-2 py-0.5 bg-midnight/[0.06] font-display text-[8px] tracking-[1px] uppercase text-midnight"
+                        >
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-display text-[9px] tracking-[1px] uppercase text-steel">Expires</span>
+                      <span className={`font-sans text-[13px] ${isExpiringSoon ? "text-gold font-medium" : "text-midnight"}`}>
+                        {new Date(baa.expiration_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            </>
           )}
         </motion.div>
       )}

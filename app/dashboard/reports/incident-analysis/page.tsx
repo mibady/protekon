@@ -20,7 +20,7 @@ export default function IncidentAnalysisReportPage() {
   const total = incidentsByType.reduce((sum, i) => sum + i.count, 0)
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Back Link */}
       <Link 
         href="/dashboard/reports"
@@ -61,7 +61,7 @@ export default function IncidentAnalysisReportPage() {
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
           {kpis.map((kpi) => (
             <div key={kpi.label}>
-              <span className="font-mono font-extrabold text-[32px] text-gold leading-none">
+              <span className="font-mono font-extrabold text-[24px] lg:text-[32px] text-gold leading-none">
                 {kpi.value}
               </span>
               <p className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-1">
@@ -93,7 +93,7 @@ export default function IncidentAnalysisReportPage() {
           </h3>
           <div className="flex items-center gap-8">
             {/* Donut */}
-            <div className="relative w-[160px] h-[160px]">
+            <div className="relative w-[120px] h-[120px] lg:w-[160px] lg:h-[160px]">
               <svg viewBox="0 0 160 160" className="w-full h-full -rotate-90">
                 {incidentsByType.reduce((acc, item, i) => {
                   const prevOffset = acc.offset
@@ -144,7 +144,7 @@ export default function IncidentAnalysisReportPage() {
             Incidents by Severity
           </h3>
           <div className="flex items-center gap-8">
-            <div className="relative w-[160px] h-[160px]">
+            <div className="relative w-[120px] h-[120px] lg:w-[160px] lg:h-[160px]">
               <svg viewBox="0 0 160 160" className="w-full h-full -rotate-90">
                 {(data?.incidentsBySeverity ?? []).reduce((acc, item, _i) => {
                   const prevOffset = acc.offset
@@ -197,7 +197,8 @@ export default function IncidentAnalysisReportPage() {
             Corrective Actions Tracker
           </h3>
         </div>
-        <div className="overflow-x-auto">
+        {/* Desktop Table */}
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -229,6 +230,29 @@ export default function IncidentAnalysisReportPage() {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* Mobile Cards */}
+        <div className="lg:hidden space-y-3 p-4">
+          {correctiveActions.map((ca) => (
+            <div key={ca.incident} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
+              <div className="flex items-start justify-between mb-2">
+                <span className="font-mono text-[12px] text-midnight">{ca.incident}</span>
+                <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                  ca.status === 'Completed' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' :
+                  ca.status === 'In Progress' ? 'bg-gold/10 text-gold' :
+                  ca.status === 'Overdue' ? 'bg-crimson/10 text-crimson' :
+                  'bg-steel/10 text-steel'
+                }`}>
+                  {ca.status}
+                </span>
+              </div>
+              <p className="font-sans text-[13px] text-midnight mb-2">{ca.action}</p>
+              <div className="flex items-center justify-between">
+                <span className="font-sans text-[12px] text-steel">{ca.assigned}</span>
+                <span className="font-sans text-[12px] text-steel">Due: {ca.due}</span>
+              </div>
+            </div>
+          ))}
         </div>
         <div className="p-4 bg-parchment/50 border-t border-midnight/[0.06]">
           <div className="flex items-center gap-4">

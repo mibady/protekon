@@ -308,7 +308,7 @@ export default function DashboardLayout({
               onClick={() => setSidebarOpen(false)}
             />
             <motion.aside
-              className="fixed inset-y-0 left-0 w-[280px] bg-void z-50 lg:hidden overflow-y-auto"
+              className="fixed inset-y-0 left-0 w-[260px] bg-void z-50 lg:hidden overflow-y-auto"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -398,7 +398,7 @@ export default function DashboardLayout({
           </div>
 
           {/* Right: 4 Elements */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             {/* Global Search */}
             <div className="hidden md:flex items-center gap-2 bg-midnight/[0.04] px-4 py-2 w-[240px]">
               <MagnifyingGlass size={16} className="text-steel" />

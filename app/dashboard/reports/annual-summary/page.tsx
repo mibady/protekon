@@ -64,7 +64,7 @@ export default function AnnualSummaryReportPage() {
           </svg>
         </div>
 
-        <div className="relative z-10 px-8 lg:px-20 py-16">
+        <div className="relative z-10 px-4 sm:px-8 lg:px-20 py-16">
           {/* Back Link */}
           <Link 
             href="/dashboard/reports"
@@ -92,7 +92,7 @@ export default function AnnualSummaryReportPage() {
       </motion.div>
 
       {/* Executive Summary */}
-      <div className="bg-parchment p-8 lg:p-12">
+      <div className="bg-parchment p-4 sm:p-8 lg:p-12">
         {/* Stats Banner */}
         <motion.div 
           className="bg-midnight p-6 mb-8"
@@ -142,7 +142,8 @@ export default function AnnualSummaryReportPage() {
           <span className="font-display font-bold text-[10px] tracking-[3px] uppercase text-gold block mb-4">
             OSHA 300 Annual Log
           </span>
-          <div className="overflow-x-auto">
+          {/* Desktop Table */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-brand-white/10">
@@ -172,6 +173,19 @@ export default function AnnualSummaryReportPage() {
               </tbody>
             </table>
           </div>
+          {/* Mobile Cards */}
+          <div className="lg:hidden space-y-3">
+            {oshaLog.map((log) => (
+              <div key={log.case} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-mono text-[11px] text-brand-white">{log.case}</span>
+                  <span className="font-sans text-[12px] text-brand-white">{log.date}</span>
+                </div>
+                <p className="font-sans text-[12px] text-brand-white mb-2">{log.description}</p>
+                <span className="font-sans text-[12px] text-steel">{log.classification}</span>
+              </div>
+            ))}
+          </div>
           <div className="mt-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <p className="font-sans text-[12px] text-steel italic">
               This log must be posted February 1–April 30 per OSHA requirements.
@@ -195,7 +209,8 @@ export default function AnnualSummaryReportPage() {
               AI-Generated RACI Matrix
             </span>
           </div>
-          <div className="overflow-x-auto">
+          {/* Desktop Table */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -218,6 +233,32 @@ export default function AnnualSummaryReportPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+          {/* Mobile Cards */}
+          <div className="lg:hidden space-y-3 p-4">
+            {raciMatrix.map((row) => (
+              <div key={row.task} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
+                <span className="font-sans text-[13px] text-midnight font-medium block mb-3">{row.task}</span>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex items-center gap-2">
+                    <RaciBadge value={row.owner} />
+                    <span className="font-sans text-[11px] text-steel">Owner/Mgmt</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <RaciBadge value={row.safety} />
+                    <span className="font-sans text-[11px] text-steel">Safety</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <RaciBadge value={row.supervisors} />
+                    <span className="font-sans text-[11px] text-steel">Supervisors</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <RaciBadge value={row.employees} />
+                    <span className="font-sans text-[11px] text-steel">Employees</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
           <div className="p-4 bg-parchment/50 border-t border-midnight/[0.06] flex flex-wrap gap-4">
             <div className="flex items-center gap-2">

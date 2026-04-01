@@ -113,7 +113,7 @@ export default function DashboardPage() {
   const scoreColor = complianceScore >= 75 ? "#2A7D4F" : complianceScore >= 50 ? "#C9A84C" : "#C41230"
 
   return (
-    <div className="p-6 lg:p-8 space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       {/* BENTO ROW 1 - Three Equal Columns */}
       <div className="grid md:grid-cols-3 gap-6">
         {/* Card A: Compliance Score */}
@@ -153,7 +153,7 @@ export default function DashboardPage() {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="font-display font-black text-[56px] leading-none" style={{ color: scoreColor }}>
+                <span className="font-display font-black text-[40px] lg:text-[56px] leading-none" style={{ color: scoreColor }}>
                   {complianceScore}
                 </span>
                 <span className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
@@ -245,9 +245,9 @@ export default function DashboardPage() {
           </h3>
           
           {/* Metrics */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div className="text-center">
-              <span className="font-display font-black text-[48px] leading-none text-crimson">
+              <span className="font-display font-black text-[32px] lg:text-[48px] leading-none text-crimson">
                 {incidentCount}
               </span>
               <p className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-1">
@@ -255,7 +255,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <div className="text-center">
-              <span className="font-display font-black text-[48px] leading-none text-midnight">
+              <span className="font-display font-black text-[32px] lg:text-[48px] leading-none text-midnight">
                 {documentCount}
               </span>
               <p className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-1">
@@ -263,7 +263,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <div className="text-center">
-              <span className="font-display font-black text-[48px] leading-none text-gold">
+              <span className="font-display font-black text-[32px] lg:text-[48px] leading-none text-gold">
                 {auditCount}
               </span>
               <p className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-1">
@@ -434,7 +434,7 @@ export default function DashboardPage() {
         
         {/* Horizontal Timeline */}
         <div className="relative overflow-x-auto pb-4">
-          <div className="flex items-center min-w-[800px]">
+          <div className="flex items-center min-w-[600px] sm:min-w-[800px]">
             {/* Timeline Line */}
             <div className="absolute top-6 left-0 right-0 h-[1px] bg-midnight/20" />
             

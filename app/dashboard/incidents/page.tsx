@@ -35,7 +35,7 @@ export default function IncidentsPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
@@ -99,7 +99,9 @@ export default function IncidentsPage() {
               <p className="font-sans text-[14px] text-steel">No incidents logged yet.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <>
+            {/* Desktop Table */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -161,6 +163,44 @@ export default function IncidentsPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Card View */}
+            <div className="lg:hidden space-y-3 p-4">
+              {incidents.map((incident) => {
+                const displayDate = incident.incident_date
+                  ? new Date(incident.incident_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                  : "—"
+
+                return (
+                  <div
+                    key={incident.id}
+                    className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg cursor-pointer"
+                    onClick={() => setSelectedIncident(incident)}
+                  >
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <div>
+                        <span className="font-mono text-[12px] text-midnight font-semibold">{incident.incident_id}</span>
+                        <span className="font-sans text-[12px] text-steel ml-2">{displayDate}</span>
+                      </div>
+                      <span className={`px-2 py-0.5 font-display font-medium text-[9px] tracking-[1px] uppercase shrink-0 ${severityStyles[incident.severity] || "bg-steel/10 text-steel"}`}>
+                        {incident.severity.replace("-", " ")}
+                      </span>
+                    </div>
+                    {incident.description && (
+                      <p className="font-sans text-[13px] text-midnight/80 leading-relaxed">
+                        {incident.description.length > 80
+                          ? `${incident.description.slice(0, 80)}...`
+                          : incident.description}
+                      </p>
+                    )}
+                    {incident.location && (
+                      <p className="font-sans text-[11px] text-steel mt-2">{incident.location}</p>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+            </>
           )}
         </motion.div>
       )}

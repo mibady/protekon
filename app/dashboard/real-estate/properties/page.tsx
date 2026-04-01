@@ -81,7 +81,7 @@ export default function PropertiesPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
@@ -259,7 +259,34 @@ export default function PropertiesPage() {
               </button>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <>
+            {/* Mobile Cards */}
+            <div className="lg:hidden space-y-3 p-3">
+              {properties.map((prop) => (
+                <div key={prop.id} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
+                  <div className="flex items-start justify-between mb-2">
+                    <span className="font-sans font-medium text-[14px] text-midnight">{prop.property_name}</span>
+                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase shrink-0 ml-2 ${statusStyles[prop.compliance_status] || "bg-steel/10 text-steel"}`}>
+                      {statusLabels[prop.compliance_status] || prop.compliance_status}
+                    </span>
+                  </div>
+                  <p className="font-sans text-[12px] text-steel mb-3">{prop.address}, {prop.city}, {prop.state}</p>
+                  <div className="flex items-center gap-4">
+                    <div>
+                      <span className="font-display text-[9px] tracking-[2px] uppercase text-steel">Units</span>
+                      <p className="font-mono text-[13px] text-midnight">{prop.units}</p>
+                    </div>
+                    <div>
+                      <span className="font-display text-[9px] tracking-[2px] uppercase text-steel">Type</span>
+                      <p className="font-sans text-[13px] text-midnight capitalize">{prop.property_type}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -304,6 +331,7 @@ export default function PropertiesPage() {
                 </tbody>
               </table>
             </div>
+            </>
           )}
         </motion.div>
       )}

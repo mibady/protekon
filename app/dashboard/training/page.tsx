@@ -70,7 +70,7 @@ export default function TrainingPage() {
   const completedCount = records.filter((r) => r.status === "completed").length
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
@@ -192,7 +192,8 @@ export default function TrainingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="overflow-x-auto">
+          {/* Desktop Table */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-midnight/[0.06] bg-parchment/50">
@@ -247,6 +248,61 @@ export default function TrainingPage() {
                 })}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="lg:hidden space-y-3 p-4">
+            {records.map((record) => {
+              const effectiveStatus = getEffectiveStatus(record)
+              return (
+                <div
+                  key={record.id}
+                  className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <span className="font-sans font-semibold text-[14px] text-midnight">{record.employee_name}</span>
+                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase shrink-0 ${statusStyles[effectiveStatus] || statusStyles.pending}`}>
+                      {effectiveStatus}
+                    </span>
+                  </div>
+                  <p className="font-sans text-[12px] text-steel mb-1">{record.training_type}</p>
+                  <p className="font-sans text-[11px] text-steel">
+                    Due: {new Date(record.due_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  </p>
+                  {record.status !== "completed" && (
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        onClick={() => handleComplete(record.id)}
+                        className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[8px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
+                      >
+                        Complete
+                      </button>
+                      <button
+                        onClick={() => handleDelete(record.id)}
+                        className="p-1.5 text-steel hover:text-crimson transition-colors"
+                      >
+                        <Trash size={14} />
+                      </button>
+                    </div>
+                  )}
+                  {record.status === "completed" && (
+                    <div className="flex items-center justify-between mt-3">
+                      <span className="font-sans text-[11px] text-steel">
+                        Completed: {record.completed_at
+                          ? new Date(record.completed_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                          : "—"}
+                      </span>
+                      <button
+                        onClick={() => handleDelete(record.id)}
+                        className="p-1.5 text-steel hover:text-crimson transition-colors"
+                      >
+                        <Trash size={14} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </motion.div>
       )}
