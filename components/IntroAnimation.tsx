@@ -28,10 +28,10 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
     if (hasPlayed !== false) return
 
     const timings = [
-      { delay: 400, phase: 1 },    // P-mark starts assembling
-      { delay: 1600, phase: 2 },   // Wordmark reveals
-      { delay: 2800, phase: 3 },   // Tagline appears
-      { delay: 4200, phase: 4 },   // Hold then exit
+      { delay: 400, phase: 1 },
+      { delay: 1600, phase: 2 },
+      { delay: 2800, phase: 3 },
+      { delay: 4200, phase: 4 },
     ]
 
     const timeouts = timings.map(({ delay, phase: p }) =>
@@ -84,11 +84,11 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                 linear-gradient(rgba(250,250,248,1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(250,250,248,1) 1px, transparent 1px)
               `,
-              backgroundSize: '80px 80px',
+              backgroundSize: "80px 80px",
             }}
           />
 
-          {/* Main content container */}
+          {/* Main content */}
           <div className="relative flex flex-col items-center justify-center gap-12">
             
             {/* P-Mark Assembly */}
@@ -98,7 +98,6 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
               transition={{ duration: 0.5 }}
             >
               <svg viewBox="0 0 48 84" className="w-24 h-[168px]">
-                {/* Vertical stem - draws down */}
                 <motion.rect
                   x="0" y="0" width="13" height="84"
                   fill="#FAFAF8"
@@ -107,8 +106,6 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   style={{ transformOrigin: "top" }}
                 />
-                
-                {/* Top horizontal - draws right */}
                 <motion.rect
                   x="13" y="0" width="35" height="13"
                   fill="#FAFAF8"
@@ -117,8 +114,6 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                   transition={{ duration: 0.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   style={{ transformOrigin: "left" }}
                 />
-                
-                {/* Right vertical - draws down */}
                 <motion.rect
                   x="35" y="13" width="13" height="27"
                   fill="#FAFAF8"
@@ -127,18 +122,12 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                   transition={{ duration: 0.3, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   style={{ transformOrigin: "top" }}
                 />
-                
-                {/* Crimson command bar - signature slam effect */}
                 <motion.rect
                   x="0" y="40" width="48" height="10"
                   fill="#C41230"
                   initial={{ scaleX: 0, opacity: 0 }}
                   animate={phase >= 1 ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
-                  transition={{ 
-                    duration: 0.4, 
-                    delay: 0.7, 
-                    ease: [0.16, 1, 0.3, 1] 
-                  }}
+                  transition={{ duration: 0.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
                   style={{ transformOrigin: "left" }}
                 />
               </svg>
@@ -158,11 +147,7 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                   style={{ color: letter === "E" ? "#C41230" : "#FAFAF8" }}
                   initial={{ opacity: 0, y: 30 }}
                   animate={phase >= 2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                  transition={{ 
-                    duration: 0.4, 
-                    delay: i * 0.05,
-                    ease: [0.16, 1, 0.3, 1]
-                  }}
+                  transition={{ duration: 0.4, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
                 >
                   {letter}
                 </motion.span>
@@ -176,15 +161,12 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
               animate={{ opacity: phase >= 3 ? 1 : 0 }}
               transition={{ duration: 0.5 }}
             >
-              {/* Gold line */}
               <motion.div
                 className="h-[1px] bg-gold"
                 initial={{ width: 0 }}
                 animate={phase >= 3 ? { width: 48 } : { width: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
               />
-              
-              {/* Tagline text */}
               <motion.span
                 className="font-display font-light text-[12px] lg:text-[14px] tracking-[6px] uppercase text-gold"
                 initial={{ opacity: 0, y: 10 }}
@@ -218,10 +200,10 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
           />
 
           {/* Corner accents */}
-          <div className="absolute top-8 left-8 w-8 h-8 border-t border-l border-brand-white/10" />
-          <div className="absolute top-8 right-8 w-8 h-8 border-t border-r border-brand-white/10" />
-          <div className="absolute bottom-8 left-8 w-8 h-8 border-b border-l border-brand-white/10" />
-          <div className="absolute bottom-8 right-8 w-8 h-8 border-b border-r border-brand-white/10" />
+          <div className="absolute top-8 left-8 w-8 h-8 border-t border-l border-white/10" />
+          <div className="absolute top-8 right-8 w-8 h-8 border-t border-r border-white/10" />
+          <div className="absolute bottom-8 left-8 w-8 h-8 border-b border-l border-white/10" />
+          <div className="absolute bottom-8 right-8 w-8 h-8 border-b border-r border-white/10" />
         </motion.div>
       )}
     </AnimatePresence>
