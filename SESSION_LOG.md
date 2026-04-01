@@ -72,3 +72,41 @@ Must replicate the following from the previous project:
 - /prime to load context
 - /plan to design Stage 1: Supabase schema + auth wiring
 - Backend-first workflow: database → auth → server actions → API routes → Inngest → Stripe
+
+## Session 1 — 2026-04-01
+
+### Completed
+- Project onboarded with /onboard
+- Codebase archaeology: analyzed 127 files, 32 pages, 69 components
+- Reference project (Shield CaaS) fully analyzed — architecture, schema, Inngest workflows, API routes mapped
+- Generated CLAUDE.md with project conventions + architecture target
+- Created SESSION_LOG.md with retroactive Session 0
+- Linked Vercel project (prj_Fvg5Jz4J1Lkn2lB53rHeKzKtPx8R, team ngenius)
+- Pulled 31 env vars from Vercel (.env.local) — Supabase, Inngest, Stripe, Resend, Sanity, Postgres all provisioned
+- Git hooks installed (pre-commit + commit-msg)
+
+### Audit Snapshot
+| Metric | Count |
+|--------|-------|
+| Pages | 32 |
+| API Routes | 0 |
+| Components | 69 |
+| Server Actions | 0 |
+| Supabase Migrations | 0 |
+| Inngest Functions | 0 |
+
+### Decisions Made
+- Workflow: Backend-first (database → auth → actions → API → Inngest → Stripe)
+- Architecture: Replicate Shield CaaS patterns (RLS-first, event-driven via Inngest, vertical multiplexing)
+- All backend services pre-provisioned on Vercel (env vars confirmed)
+
+### Known Issues
+- Hero component had repeated hydration issues (5+ fix commits in history)
+- Package name is generic "my-project" in package.json
+- Vercel project domains still show "shield-caas" naming
+
+### Next Session Should
+- /prime to load context
+- /plan "supabase schema + auth wiring" — Stage 1 of backend-first workflow
+- Reference Shield CaaS migrations at `/home/info/business/ngeniuspro/shield_caas/supabase/migrations/`
+- Install backend deps: @supabase/ssr, @supabase/supabase-js, inngest, stripe, resend, @vercel/blob, pdf-lib
