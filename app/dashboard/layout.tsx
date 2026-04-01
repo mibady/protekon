@@ -64,7 +64,7 @@ const navGroups = [
     label: "BUSINESS TOOLS",
     items: [
       { name: "Poster Compliance", href: "/dashboard/poster-compliance", icon: Scroll },
-      { name: "Marketplace", href: "/marketplace", icon: Storefront },
+      { name: "Marketplace", href: "/dashboard/marketplace", icon: Storefront },
     ]
   },
   {
