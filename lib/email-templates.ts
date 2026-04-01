@@ -1,3 +1,5 @@
+import { getSiteUrl } from "@/lib/resend"
+
 function layoutWrapper(content: string): string {
   return `<!DOCTYPE html>
 <html>
@@ -24,7 +26,7 @@ export function welcomeEmail(email: string) {
     html: layoutWrapper(`
       <h2 style="color:#1a1a2e;margin:0 0 16px;">Welcome to Protekon</h2>
       <p style="color:#555;line-height:1.6;">Your account (${email}) is set up. Log in to your dashboard to complete your compliance intake questionnaire and get started.</p>
-      <a href="https://protekon.com/dashboard" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">GO TO DASHBOARD</a>
+      <a href="${getSiteUrl()}/dashboard" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">GO TO DASHBOARD</a>
     `),
   }
 }
@@ -54,7 +56,7 @@ export function documentReadyEmail(documentType: string, businessName: string) {
       <div style="background:#f5f3ef;padding:16px;margin:16px 0;border-left:3px solid #b91c1c;">
         <strong style="color:#1a1a2e;">${documentType}</strong>
       </div>
-      <a href="https://protekon.com/dashboard/documents" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">VIEW DOCUMENTS</a>
+      <a href="${getSiteUrl()}/dashboard/documents" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">VIEW DOCUMENTS</a>
     `),
   }
 }
@@ -70,7 +72,7 @@ export function incidentAlertEmail(incidentId: string, businessName: string, sev
         <strong style="color:#1a1a2e;">ID:</strong> ${incidentId}<br>
         <strong style="color:#1a1a2e;">Severity:</strong> <span style="color:${color};font-weight:600;">${severity.toUpperCase()}</span>
       </div>
-      <a href="https://protekon.com/dashboard/incidents" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">VIEW INCIDENT</a>
+      <a href="${getSiteUrl()}/dashboard/incidents" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">VIEW INCIDENT</a>
     `),
   }
 }
@@ -82,7 +84,7 @@ export function paymentWarning1Email(amount: number, invoiceId: string) {
       <h2 style="color:#1a1a2e;margin:0 0 16px;">Payment Failed</h2>
       <p style="color:#555;line-height:1.6;">We were unable to process your payment of <strong>$${amount.toFixed(2)}</strong> (invoice ${invoiceId}).</p>
       <p style="color:#555;line-height:1.6;">Please update your payment method to avoid service interruption.</p>
-      <a href="https://protekon.com/dashboard/settings" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">UPDATE PAYMENT</a>
+      <a href="${getSiteUrl()}/dashboard/settings" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">UPDATE PAYMENT</a>
     `),
   }
 }
@@ -93,7 +95,7 @@ export function paymentWarning2Email(businessName: string) {
     html: layoutWrapper(`
       <h2 style="color:#dc2626;margin:0 0 16px;">Account at Risk</h2>
       <p style="color:#555;line-height:1.6;">This is a second notice for <strong>${businessName}</strong>. Your payment is still outstanding and your account will be suspended in 7 days if not resolved.</p>
-      <a href="https://protekon.com/dashboard/settings" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#dc2626;color:#fff;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">UPDATE PAYMENT NOW</a>
+      <a href="${getSiteUrl()}/dashboard/settings" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#dc2626;color:#fff;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">UPDATE PAYMENT NOW</a>
     `),
   }
 }
@@ -105,7 +107,7 @@ export function suspensionNoticeEmail(businessName: string, invoiceId: string) {
       <h2 style="color:#dc2626;margin:0 0 16px;">Account Suspended</h2>
       <p style="color:#555;line-height:1.6;">The account for <strong>${businessName}</strong> has been suspended due to non-payment (invoice ${invoiceId}).</p>
       <p style="color:#555;line-height:1.6;">Compliance monitoring and document delivery have been paused. Contact us to restore your account.</p>
-      <a href="https://protekon.com/contact" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">CONTACT SUPPORT</a>
+      <a href="${getSiteUrl()}/contact" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">CONTACT SUPPORT</a>
     `),
   }
 }
@@ -122,7 +124,7 @@ export function auditAlertEmail(businessName: string, score: number, status: str
         <br><span style="font-size:14px;color:${color};text-transform:uppercase;letter-spacing:2px;">${status}</span>
       </div>
       <p style="color:#555;line-height:1.6;">Log in to review findings and take corrective action.</p>
-      <a href="https://protekon.com/dashboard/reports" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">VIEW REPORT</a>
+      <a href="${getSiteUrl()}/dashboard/reports" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">VIEW REPORT</a>
     `),
   }
 }
@@ -137,7 +139,7 @@ export function trainingOverdueEmail(employeeName: string, trainingType: string,
         <strong style="color:#1a1a2e;">${trainingType}</strong><br>
         <span style="color:#888;">Due: ${dueDate}</span>
       </div>
-      <a href="https://protekon.com/dashboard" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">VIEW TRAINING</a>
+      <a href="${getSiteUrl()}/dashboard" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">VIEW TRAINING</a>
     `),
   }
 }
@@ -162,7 +164,7 @@ export function trainingEscalationEmail(count: number) {
     html: layoutWrapper(`
       <h2 style="color:#dc2626;margin:0 0 16px;">Training Escalation</h2>
       <p style="color:#555;line-height:1.6;"><strong>${count}</strong> training record${count === 1 ? "" : "s"} are more than 2 weeks overdue and require immediate attention.</p>
-      <a href="https://protekon.com/dashboard" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#dc2626;color:#fff;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">REVIEW NOW</a>
+      <a href="${getSiteUrl()}/dashboard" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#dc2626;color:#fff;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">REVIEW NOW</a>
     `),
   }
 }

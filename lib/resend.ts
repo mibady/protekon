@@ -33,3 +33,19 @@ export async function sendEmail({
 
   return data
 }
+
+export function getSiteUrl(): string {
+  return process.env.NEXT_PUBLIC_SITE_URL || "https://protekon.com"
+}
+
+export function getComplianceOfficerEmail(): string {
+  const email = process.env.COMPLIANCE_OFFICER_EMAIL
+  if (!email) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("COMPLIANCE_OFFICER_EMAIL env var is required in production")
+    }
+    console.warn("[email-dev] COMPLIANCE_OFFICER_EMAIL not set, using fallback")
+    return "compliance-dev@example.com"
+  }
+  return email
+}

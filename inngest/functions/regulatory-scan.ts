@@ -1,6 +1,6 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
-import { sendEmail } from "@/lib/resend"
+import { sendEmail, getComplianceOfficerEmail, getSiteUrl } from "@/lib/resend"
 
 // Cal/OSHA regulatory feed categories to scan
 const SCAN_SOURCES = [
@@ -70,8 +70,8 @@ async function parseFeed(feedUrl: string): Promise<FeedItem[]> {
     }
 
     return items
-  } catch {
-    // Feed unavailable — not an error, just no new data
+  } catch (err) {
+    console.error(`[regulatory-scan] Failed to parse feed ${feedUrl}:`, err instanceof Error ? err.message : err)
     return []
   }
 }
@@ -120,11 +120,11 @@ export const regulatoryScan = inngest.createFunction(
     // Step 2: Notify compliance officer if high-severity items found
     if (totalNew > 0) {
       await step.run("notify-new-updates", async () => {
-        const officerEmail = process.env.COMPLIANCE_OFFICER_EMAIL || "compliance@protekon.com"
+        const officerEmail = getComplianceOfficerEmail()
         await sendEmail({
           to: officerEmail,
           subject: `Regulatory Scan: ${totalNew} new update${totalNew === 1 ? "" : "s"} found`,
-          html: `<p>${totalNew} new regulatory update${totalNew === 1 ? " has" : "s have"} been added to Protekon. <a href="https://protekon.com/dashboard/regulations">Review now</a>.</p>`,
+          html: `<p>${totalNew} new regulatory update${totalNew === 1 ? " has" : "s have"} been added to Protekon. <a href="${getSiteUrl()}/dashboard/regulations">Review now</a>.</p>`,
         })
       })
     }

@@ -1,6 +1,6 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
-import { sendEmail } from "@/lib/resend"
+import { sendEmail, getComplianceOfficerEmail } from "@/lib/resend"
 import { trainingOverdueEmail, trainingUpcomingEmail, trainingEscalationEmail } from "@/lib/email-templates"
 
 export const trainingReminders = inngest.createFunction(
@@ -67,7 +67,7 @@ export const trainingReminders = inngest.createFunction(
       )
 
       if (severelyOverdue.length > 0) {
-        const officerEmail = process.env.COMPLIANCE_OFFICER_EMAIL || "compliance@protekon.com"
+        const officerEmail = getComplianceOfficerEmail()
         await sendEmail({ to: officerEmail, ...trainingEscalationEmail(severelyOverdue.length) })
       }
     })

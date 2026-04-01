@@ -12,6 +12,7 @@ import {
 } from "@phosphor-icons/react"
 import { useEffect, useState, useRef } from "react"
 import { getDashboardData } from "@/lib/actions/dashboard"
+import { getRegulations, getDeliveryLog } from "@/lib/actions/reports"
 import type { DashboardData } from "@/lib/types"
 
 // Animated counter hook
@@ -34,28 +35,29 @@ function useCountUp(end: number, duration: number = 800) {
   return count
 }
 
-const regulatoryUpdates = [
-  { severity: "high", code: "SB 553", title: "Emergency egress amendment requires updated signage", date: "Jan 10, 2026", unread: true },
-  { severity: "high", code: "8 CCR 3203", title: "Inspection frequency increase effective Feb 1", date: "Jan 8, 2026", unread: true },
-  { severity: "medium", code: "Cal/OSHA", title: "Recordkeeping supplemental guidance released", date: "Jan 5, 2026", unread: true },
-  { severity: "low", code: "SB 553", title: "FAQ document published by DIR", date: "Dec 28, 2025", unread: false },
-]
-
-const deliveryTimeline = [
-  { date: "JAN 15", label: "Monthly Summary", status: "sent" },
-  { date: "FEB 1", label: "IIPP Review", status: "sent" },
-  { date: "FEB 15", label: "Incident Export", status: "sent" },
-  { date: "MAR 1", label: "Quarterly Report", status: "current" },
-  { date: "MAR 15", label: "Doc Update", status: "upcoming" },
-  { date: "APR 1", label: "Monthly Summary", status: "upcoming" },
-  { date: "JAN 2027", label: "Annual Package", status: "upcoming" },
-]
-
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null)
+  const [regulatoryUpdates, setRegulatoryUpdates] = useState<{ severity: string; code: string; title: string; publishedDate: string; unread: boolean }[]>([])
+  const [deliveryTimeline, setDeliveryTimeline] = useState<{ date: string; label: string; status: string }[]>([])
 
   useEffect(() => {
     getDashboardData().then(setData)
+    getRegulations().then((regs) => {
+      setRegulatoryUpdates(regs.slice(0, 4).map(r => ({
+        severity: r.severity,
+        code: r.code,
+        title: r.title,
+        publishedDate: r.publishedDate,
+        unread: r.unread,
+      })))
+    })
+    getDeliveryLog().then((dl) => {
+      setDeliveryTimeline(dl.deliveries.slice(0, 7).map((d, i) => ({
+        date: d.date.toUpperCase().replace(/,?\s*\d{4}$/, ""),
+        label: d.name,
+        status: i < 3 ? "sent" : i === 3 ? "current" : "upcoming",
+      })))
+    })
   }, [])
 
   const score = data?.complianceScore ?? 0
@@ -351,7 +353,7 @@ export default function DashboardPage() {
                       <span className="px-1.5 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[8px] tracking-[1px] text-gold">
                         {update.code}
                       </span>
-                      <span className="font-sans text-[10px] text-steel">{update.date}</span>
+                      <span className="font-sans text-[10px] text-steel">{update.publishedDate}</span>
                     </div>
                     <p className="font-sans text-[12px] text-midnight line-clamp-2">{update.title}</p>
                   </div>

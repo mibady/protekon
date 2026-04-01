@@ -1,6 +1,6 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
-import { sendEmail } from "@/lib/resend"
+import { sendEmail, getComplianceOfficerEmail } from "@/lib/resend"
 import { incidentAlertEmail } from "@/lib/email-templates"
 
 // PII stripping regex patterns per CA Labor Code §6401.9
@@ -60,7 +60,7 @@ export const incidentReport = inngest.createFunction(
 
     // Step 3: Notify compliance officer
     await step.run("notify-compliance-officer", async () => {
-      const officerEmail = process.env.COMPLIANCE_OFFICER_EMAIL || "compliance@protekon.com"
+      const officerEmail = getComplianceOfficerEmail()
       await sendEmail({ to: officerEmail, ...incidentAlertEmail(incident.incident_id, businessName, sanitized.severity) })
     })
 
