@@ -3,11 +3,9 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion"
 import Link from "next/link"
-import { X, List, FileText, ClipboardText, Bell, EnvelopeSimple, LinkedinLogo, XLogo, ShieldCheck } from "@phosphor-icons/react"
+import { X, List, FileText, ClipboardText, Bell, EnvelopeSimple, ShieldCheck } from "@phosphor-icons/react"
 
-/* ============================================
-   INTRO ANIMATION
-   ============================================ */
+// ========== INTRO ANIMATION ==========
 function IntroAnimation({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState(0)
   const [showSkip, setShowSkip] = useState(false)
@@ -59,7 +57,6 @@ function IntroAnimation({ onComplete }: { onComplete: () => void }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Grid pattern */}
           <div 
             className="absolute inset-0 opacity-[0.02]"
             style={{
@@ -68,20 +65,13 @@ function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             }}
           />
 
-          {/* Corner accents */}
           <div className="absolute top-8 left-8 w-8 h-8 border-t border-l border-white/10" />
           <div className="absolute top-8 right-8 w-8 h-8 border-t border-r border-white/10" />
           <div className="absolute bottom-8 left-8 w-8 h-8 border-b border-l border-white/10" />
           <div className="absolute bottom-8 right-8 w-8 h-8 border-b border-r border-white/10" />
 
-          {/* Main content */}
           <div className="relative flex flex-col items-center gap-12">
-            {/* P-Mark */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: phase >= 1 ? 1 : 0 }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: phase >= 1 ? 1 : 0 }} transition={{ duration: 0.5 }}>
               <svg viewBox="0 0 48 84" className="w-24 h-[168px]">
                 <motion.rect x="0" y="0" width="13" height="84" fill="#FAFAF8"
                   initial={{ scaleY: 0 }} animate={phase >= 1 ? { scaleY: 1 } : {}}
@@ -102,7 +92,6 @@ function IntroAnimation({ onComplete }: { onComplete: () => void }) {
               </svg>
             </motion.div>
 
-            {/* Wordmark */}
             <motion.div className="flex items-center" initial={{ opacity: 0 }} animate={{ opacity: phase >= 2 ? 1 : 0 }} transition={{ duration: 0.5 }}>
               {["P", "R", "O", "T", "E", "K", "O", "N"].map((letter, i) => (
                 <motion.span
@@ -118,7 +107,6 @@ function IntroAnimation({ onComplete }: { onComplete: () => void }) {
               ))}
             </motion.div>
 
-            {/* Tagline */}
             <motion.div className="flex flex-col items-center gap-4" initial={{ opacity: 0 }} animate={{ opacity: phase >= 3 ? 1 : 0 }} transition={{ duration: 0.5 }}>
               <motion.div className="h-[1px] bg-gold" initial={{ width: 0 }} animate={phase >= 3 ? { width: 48 } : {}} transition={{ duration: 0.6 }} />
               <motion.span
@@ -132,7 +120,6 @@ function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             </motion.div>
           </div>
 
-          {/* Skip button */}
           {showSkip && (
             <motion.button onClick={handleSkip}
               className="absolute bottom-10 right-10 font-display font-medium text-[10px] tracking-[3px] uppercase text-steel/50 hover:text-steel transition-colors px-4 py-2 border border-steel/20 hover:border-steel/40"
@@ -142,7 +129,6 @@ function IntroAnimation({ onComplete }: { onComplete: () => void }) {
             </motion.button>
           )}
 
-          {/* Progress bar */}
           <motion.div className="absolute bottom-0 left-0 h-[2px] bg-crimson" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 4.6, ease: "linear" }} />
         </motion.div>
       )}
@@ -150,9 +136,7 @@ function IntroAnimation({ onComplete }: { onComplete: () => void }) {
   )
 }
 
-/* ============================================
-   NAVIGATION
-   ============================================ */
+// ========== NAVIGATION ==========
 const navLinks = [
   { name: "Solutions", href: "#solutions", hasMega: true },
   { name: "Industries", href: "#industries" },
@@ -279,9 +263,7 @@ function Nav() {
   )
 }
 
-/* ============================================
-   HERO SECTION
-   ============================================ */
+// ========== HERO SECTION ==========
 function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] })
@@ -290,7 +272,6 @@ function Hero() {
   return (
     <section ref={containerRef} className="relative min-h-screen">
       <div className="grid lg:grid-cols-[55%_45%] min-h-screen">
-        {/* LEFT PANEL */}
         <div className="relative bg-void flex flex-col justify-between p-12 lg:p-20 border-r border-brand-white/[0.06]">
           <div className="flex flex-col gap-8">
             <motion.div className="flex items-center gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
@@ -319,7 +300,6 @@ function Hero() {
           </motion.div>
         </div>
 
-        {/* RIGHT PANEL */}
         <div className="relative bg-midnight flex items-center justify-center overflow-hidden min-h-[50vh] lg:min-h-0">
           <motion.div className="absolute opacity-[0.03] pointer-events-none" style={{ y: pmarkY }}>
             <svg viewBox="0 0 48 84" className="w-[480px] h-[840px]">
@@ -370,9 +350,7 @@ function Hero() {
   )
 }
 
-/* ============================================
-   SOCIAL PROOF
-   ============================================ */
+// ========== SOCIAL PROOF ==========
 const industries = ["CONSTRUCTION", "MANUFACTURING", "AGRICULTURE", "HOSPITALITY", "RETAIL", "HEALTHCARE", "WHOLESALE", "TRANSPORTATION"]
 
 function SocialProof() {
@@ -397,9 +375,7 @@ function SocialProof() {
   )
 }
 
-/* ============================================
-   PRODUCT OVERVIEW
-   ============================================ */
+// ========== PRODUCT OVERVIEW ==========
 const features = [
   { icon: FileText, iconColor: "#C9A84C", borderColor: "#C41230", title: "IIPP + SB 553 DOCUMENTS", description: "8 CCR 3203 requires every California employer to have a written IIPP. SB 553 demands a Workplace Violence Prevention Plan. We write both.", tags: ["IIPP", "SB 553", "WVPP"] },
   { icon: ClipboardText, iconColor: "#C41230", borderColor: "#C9A84C", title: "INCIDENT LOG MANAGEMENT", description: "Text or voice. That is all it takes to log an incident. AI classifies severity, strips all PII, and creates OSHA 300-compliant entries.", tags: ["OSHA 300", "PII PROTECTED"] },
@@ -434,9 +410,7 @@ function ProductOverview() {
   )
 }
 
-/* ============================================
-   FOOTER
-   ============================================ */
+// ========== FOOTER ==========
 function Footer() {
   return (
     <footer className="bg-void border-t border-brand-white/[0.05] relative">
@@ -483,9 +457,7 @@ function Footer() {
   )
 }
 
-/* ============================================
-   MAIN PAGE
-   ============================================ */
+// ========== MAIN PAGE ==========
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false)
 
