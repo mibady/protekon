@@ -18,7 +18,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'PROTEKON | Shield CaaS — Managed Compliance. Delivered.',
+  title: 'PROTEKON — Managed Compliance. Delivered.',
   description: 'California workplace compliance as a managed service. IIPP, SB 553, incident logging, and regulatory monitoring — all done for you.',
   generator: 'v0.app',
   icons: {

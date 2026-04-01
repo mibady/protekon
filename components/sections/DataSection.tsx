@@ -28,7 +28,7 @@ export default function DataSection() {
         {/* Header */}
         <div className="text-center mb-16 max-w-[700px] mx-auto">
           <h2 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-midnight mb-6">
-            THE ENFORCEMENT DATA BEHIND SHIELD CaaS
+            THE ENFORCEMENT DATA BEHIND PROTEKON
           </h2>
           <p className="font-sans font-light text-[16px] leading-[1.75] text-steel">
             73,960 Cal/OSHA citations scraped, analyzed, and translated into 

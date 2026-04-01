@@ -15,7 +15,6 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
   const [hasPlayed, setHasPlayed] = useState<boolean | null>(null)
 
   useEffect(() => {
-    // Check localStorage on mount
     const played = localStorage.getItem("protekon_intro_played")
     if (played === "true") {
       setHasPlayed(true)
@@ -28,28 +27,26 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
   useEffect(() => {
     if (hasPlayed !== false) return
 
-    // Phase timing
+    // Phase timing for cinematic reveal
     const timings = [
-      { delay: 0, phase: 1 },      // Phase 1: Line draw (0-0.4s)
-      { delay: 400, phase: 2 },    // Phase 2: P-mark fade in (0.4-1.2s)
-      { delay: 1200, phase: 3 },   // Phase 3: Wordmark (1.2-2.2s)
-      { delay: 2200, phase: 4 },   // Phase 4: Tagline (2.2-2.8s)
-      { delay: 2800, phase: 5 },   // Phase 5: Hold (2.8-3.4s)
-      { delay: 3400, phase: 6 },   // Phase 6: Exit (3.4-3.8s)
+      { delay: 300, phase: 1 },     // Phase 1: Lines draw
+      { delay: 800, phase: 2 },     // Phase 2: P-mark assembles
+      { delay: 1800, phase: 3 },    // Phase 3: P-mark moves left, wordmark reveals
+      { delay: 3200, phase: 4 },    // Phase 4: Tagline types
+      { delay: 4500, phase: 5 },    // Phase 5: Hold
+      { delay: 5200, phase: 6 },    // Phase 6: Exit
     ]
 
     const timeouts = timings.map(({ delay, phase: p }) =>
       setTimeout(() => setPhase(p), delay)
     )
 
-    // Show skip button after 1s
-    const skipTimeout = setTimeout(() => setShowSkip(true), 1000)
+    const skipTimeout = setTimeout(() => setShowSkip(true), 1200)
 
-    // Complete and set localStorage
     const completeTimeout = setTimeout(() => {
       localStorage.setItem("protekon_intro_played", "true")
       onComplete()
-    }, 3800)
+    }, 5800)
 
     return () => {
       timeouts.forEach(clearTimeout)
@@ -63,12 +60,10 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
     setTimeout(() => {
       localStorage.setItem("protekon_intro_played", "true")
       onComplete()
-    }, 300)
+    }, 400)
   }
 
-  // Don't render anything until we've checked localStorage
   if (hasPlayed === null) return null
-  // Skip if already played
   if (hasPlayed === true) return null
 
   return (
@@ -78,156 +73,315 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
           className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
           style={{ backgroundColor: "#070F1E" }}
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.05 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          {/* Phase 1: Horizontal crimson line */}
+          {/* Ambient particles */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 rounded-full"
+                style={{
+                  backgroundColor: i % 3 === 0 ? "#C41230" : "#C9A84C",
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{
+                  opacity: [0, 0.4, 0],
+                  scale: [0, 1.5, 0],
+                  y: [0, -100],
+                }}
+                transition={{
+                  duration: 4 + Math.random() * 2,
+                  delay: Math.random() * 2,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Phase 1: Crossing lines */}
           <motion.div
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: phase >= 1 ? 1 : 0 }}
           >
-            <svg width="100%" height="3" className="max-w-[600px]">
+            {/* Horizontal line */}
+            <svg className="absolute w-full h-1" style={{ top: "50%" }}>
+              <motion.line
+                x1="0%"
+                y1="50%"
+                x2="100%"
+                y2="50%"
+                stroke="#C41230"
+                strokeWidth="1"
+                initial={{ pathLength: 0 }}
+                animate={phase >= 1 ? { pathLength: 1 } : { pathLength: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              />
+            </svg>
+            
+            {/* Vertical line */}
+            <svg className="absolute h-full w-1" style={{ left: "50%" }}>
               <motion.line
                 x1="50%"
-                y1="1.5"
+                y1="0%"
                 x2="50%"
-                y2="1.5"
-                stroke="#C41230"
-                strokeWidth="3"
-                initial={{ x1: "50%", x2: "50%" }}
-                animate={phase >= 1 ? { x1: "0%", x2: "100%" } : {}}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                y2="100%"
+                stroke="#C9A84C"
+                strokeWidth="1"
+                initial={{ pathLength: 0 }}
+                animate={phase >= 1 ? { pathLength: 1 } : { pathLength: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut", delay: 0.1 }}
               />
             </svg>
           </motion.div>
 
-          {/* Phase 2: Radial gradient bloom */}
-          <motion.div
-            className="absolute pointer-events-none"
-            style={{
-              background: "radial-gradient(circle, #0B1D3A 0%, transparent 70%)",
-              width: "80vw",
-              height: "80vw",
-              maxWidth: "800px",
-              maxHeight: "800px",
-            }}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={
-              phase >= 2
-                ? { opacity: 0.6, scale: 1 }
-                : { opacity: 0, scale: 0 }
-            }
-            transition={{
-              type: "spring",
-              stiffness: 120,
-              damping: 18,
-            }}
-          />
-
-          {/* Phase 2: P-Mark Logo */}
+          {/* Phase 2: P-Mark Assembly (center) */}
           <motion.div
             className="absolute flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.3 }}
-            animate={
-              phase >= 2
-                ? { opacity: 1, scale: 1 }
-                : { opacity: 0, scale: 0.3 }
-            }
-            transition={{
-              type: "spring",
-              stiffness: 120,
-              damping: 18,
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: phase >= 2 ? 1 : 0,
+              x: phase >= 3 ? -200 : 0,
+              scale: phase >= 3 ? 0.6 : 1,
+            }}
+            transition={{ 
+              opacity: { duration: 0.4 },
+              x: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+              scale: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
             }}
           >
-            <svg
-              viewBox="0 0 48 84"
-              width="120"
-              height="210"
-              className={phase >= 3 ? "opacity-0 transition-opacity duration-300" : ""}
-            >
-              <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
-              <rect x="13" y="0" width="35" height="13" fill="#FAFAF8" />
-              <rect x="35" y="13" width="13" height="27" fill="#FAFAF8" />
-              <rect x="0" y="40" width="48" height="10" fill="#C41230" />
+            <svg viewBox="0 0 48 84" className="w-32 h-56">
+              {/* Vertical stem */}
+              <motion.rect
+                x="0"
+                y="0"
+                width="13"
+                height="84"
+                fill="#FAFAF8"
+                initial={{ scaleY: 0 }}
+                animate={phase >= 2 ? { scaleY: 1 } : { scaleY: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                style={{ transformOrigin: "top" }}
+              />
+              
+              {/* Top horizontal */}
+              <motion.rect
+                x="13"
+                y="0"
+                width="35"
+                height="13"
+                fill="#FAFAF8"
+                initial={{ scaleX: 0 }}
+                animate={phase >= 2 ? { scaleX: 1 } : { scaleX: 0 }}
+                transition={{ duration: 0.3, delay: 0.2, ease: "easeOut" }}
+                style={{ transformOrigin: "left" }}
+              />
+              
+              {/* Right vertical */}
+              <motion.rect
+                x="35"
+                y="13"
+                width="13"
+                height="27"
+                fill="#FAFAF8"
+                initial={{ scaleY: 0 }}
+                animate={phase >= 2 ? { scaleY: 1 } : { scaleY: 0 }}
+                transition={{ duration: 0.3, delay: 0.35, ease: "easeOut" }}
+                style={{ transformOrigin: "top" }}
+              />
+              
+              {/* Crimson bar - signature element */}
+              <motion.rect
+                x="0"
+                y="40"
+                width="48"
+                height="10"
+                fill="#C41230"
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={phase >= 2 ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
+                transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
+                style={{ transformOrigin: "left" }}
+              />
             </svg>
           </motion.div>
 
-          {/* Phase 3-4: Wordmark and Tagline */}
-          {phase >= 3 && (
-            <div className="flex flex-col items-center gap-6">
-              {/* Wordmark */}
-              <div className="flex items-baseline">
-                {/* PROT */}
-                <motion.span
-                  className="font-display font-black text-[88px] leading-none tracking-tight"
-                  style={{ color: "#FAFAF8" }}
-                  initial={{ opacity: 0, letterSpacing: "2em" }}
-                  animate={{ opacity: 1, letterSpacing: "7px" }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
+          {/* Phase 3: Wordmark reveal */}
+          <AnimatePresence>
+            {phase >= 3 && (
+              <motion.div
+                className="absolute flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                {/* Small P-mark positioned to left */}
+                <motion.div
+                  className="absolute"
+                  style={{ left: "calc(50% - 280px)" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  PROT
-                </motion.span>
+                  <svg viewBox="0 0 48 84" className="w-12 h-20">
+                    <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
+                    <rect x="13" y="0" width="35" height="13" fill="#FAFAF8" />
+                    <rect x="35" y="13" width="13" height="27" fill="#FAFAF8" />
+                    <rect x="0" y="40" width="48" height="10" fill="#C41230" />
+                  </svg>
+                </motion.div>
 
-                {/* E - crimson */}
-                <motion.span
-                  className="font-display font-black text-[88px] leading-none"
-                  style={{ color: "#C41230" }}
-                  initial={{ opacity: 0, scale: 1.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.15, duration: 0.3, ease: "easeOut" }}
-                >
-                  E
-                </motion.span>
-
-                {/* KON */}
-                <motion.span
-                  className="font-display font-black text-[88px] leading-none tracking-tight"
-                  style={{ color: "#FAFAF8" }}
-                  initial={{ opacity: 0, letterSpacing: "2em" }}
-                  animate={{ opacity: 1, letterSpacing: "7px" }}
-                  transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
-                >
-                  KON
-                </motion.span>
-              </div>
-
-              {/* Phase 4: Gold line and tagline */}
-              {phase >= 4 && (
-                <div className="flex flex-col items-center gap-4">
-                  {/* Gold divider line */}
-                  <motion.div
-                    className="h-[1px] w-10"
-                    style={{ backgroundColor: "#C9A84C" }}
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: 40, opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-
-                  {/* Tagline with typewriter effect */}
-                  <TypewriterText
-                    text="MANAGED COMPLIANCE. DELIVERED."
-                    className="font-display font-light text-[16px] tracking-[5px] uppercase"
-                    style={{ color: "#C9A84C" }}
-                  />
+                {/* Wordmark */}
+                <div className="flex items-center ml-8">
+                  {/* P */}
+                  <motion.span
+                    className="font-display font-black text-[72px] leading-none tracking-[8px]"
+                    style={{ color: "#FAFAF8" }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+                  >
+                    P
+                  </motion.span>
+                  
+                  {/* R */}
+                  <motion.span
+                    className="font-display font-black text-[72px] leading-none tracking-[8px]"
+                    style={{ color: "#FAFAF8" }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
+                  >
+                    R
+                  </motion.span>
+                  
+                  {/* O */}
+                  <motion.span
+                    className="font-display font-black text-[72px] leading-none tracking-[8px]"
+                    style={{ color: "#FAFAF8" }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
+                  >
+                    O
+                  </motion.span>
+                  
+                  {/* T */}
+                  <motion.span
+                    className="font-display font-black text-[72px] leading-none tracking-[8px]"
+                    style={{ color: "#FAFAF8" }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.25, ease: "easeOut" }}
+                  >
+                    T
+                  </motion.span>
+                  
+                  {/* E - Crimson accent */}
+                  <motion.span
+                    className="font-display font-black text-[72px] leading-none tracking-[8px]"
+                    style={{ color: "#C41230" }}
+                    initial={{ opacity: 0, scale: 1.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ 
+                      duration: 0.3, 
+                      delay: 0.35, 
+                      ease: [0.16, 1, 0.3, 1] 
+                    }}
+                  >
+                    E
+                  </motion.span>
+                  
+                  {/* K */}
+                  <motion.span
+                    className="font-display font-black text-[72px] leading-none tracking-[8px]"
+                    style={{ color: "#FAFAF8" }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.4, ease: "easeOut" }}
+                  >
+                    K
+                  </motion.span>
+                  
+                  {/* O */}
+                  <motion.span
+                    className="font-display font-black text-[72px] leading-none tracking-[8px]"
+                    style={{ color: "#FAFAF8" }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.45, ease: "easeOut" }}
+                  >
+                    O
+                  </motion.span>
+                  
+                  {/* N */}
+                  <motion.span
+                    className="font-display font-black text-[72px] leading-none tracking-[8px]"
+                    style={{ color: "#FAFAF8" }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
+                  >
+                    N
+                  </motion.span>
                 </div>
-              )}
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Phase 4: Tagline */}
+          <AnimatePresence>
+            {phase >= 4 && (
+              <motion.div
+                className="absolute flex flex-col items-center gap-4"
+                style={{ top: "60%" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                {/* Gold divider */}
+                <motion.div
+                  className="h-[1px] bg-gold"
+                  initial={{ width: 0 }}
+                  animate={{ width: 60 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                />
+                
+                {/* Tagline with typewriter */}
+                <TypewriterText
+                  text="MANAGED COMPLIANCE. DELIVERED."
+                  className="font-display font-light text-[14px] tracking-[6px] uppercase"
+                  style={{ color: "#C9A84C" }}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Skip button */}
           {skipable && showSkip && (
             <motion.button
               onClick={handleSkip}
-              className="absolute bottom-8 right-8 font-display font-medium text-[9px] tracking-[2px] uppercase hover:opacity-80 transition-opacity"
+              className="absolute bottom-8 right-8 font-display font-medium text-[10px] tracking-[3px] uppercase hover:opacity-80 transition-opacity px-4 py-2 border border-steel/20"
               style={{ color: "#7A8FA5" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              SKIP
+              SKIP INTRO
             </motion.button>
           )}
+
+          {/* Bottom accent line */}
+          <motion.div
+            className="absolute bottom-0 left-0 h-[3px] bg-crimson"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 5.5, ease: "linear" }}
+          />
         </motion.div>
       )}
     </AnimatePresence>
@@ -255,7 +409,7 @@ function TypewriterText({
       } else {
         clearInterval(interval)
       }
-    }, 35)
+    }, 40)
 
     return () => clearInterval(interval)
   }, [text])
@@ -263,7 +417,13 @@ function TypewriterText({
   return (
     <span className={className} style={style}>
       {displayedText}
-      <span className="animate-pulse">|</span>
+      <motion.span 
+        className="inline-block ml-1"
+        animate={{ opacity: [1, 0] }}
+        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+      >
+        |
+      </motion.span>
     </span>
   )
 }

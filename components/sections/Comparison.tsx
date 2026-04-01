@@ -75,7 +75,7 @@ export default function Comparison() {
                   Local Consultant
                 </th>
                 <th className="p-4 font-display font-bold text-[11px] tracking-[3px] uppercase bg-crimson text-brand-white text-center border-l-[3px] border-crimson">
-                  SHIELD CaaS
+                  PROTEKON
                 </th>
               </tr>
             </thead>

@@ -184,7 +184,7 @@ export default function DashboardLayout({
               <List size={24} className="text-midnight" />
             </button>
             <h1 className="font-display font-bold text-[14px] tracking-[2px] uppercase text-midnight">
-              Shield CaaS Dashboard
+              PROTEKON Dashboard
             </h1>
           </div>
 

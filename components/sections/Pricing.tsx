@@ -11,7 +11,7 @@ const tiers = [
     price: "$297",
     borderColor: "#7A8FA5",
     nameColor: "#7A8FA5",
-    vertical: "Shield CaaS — SB 553 + Cal/OSHA",
+    vertical: "Compliance Suite — SB 553 + Cal/OSHA",
     features: [
       { text: "1 Business location", included: true },
       { text: "Complete IIPP (generated + updated)", included: true },
@@ -33,7 +33,7 @@ const tiers = [
     price: "$497",
     borderColor: "#C41230",
     nameColor: "#C41230",
-    vertical: "Shield CaaS — Full Compliance Stack",
+    vertical: "PROTEKON — Full Compliance Stack",
     badge: "MOST POPULAR",
     features: [
       { text: "Up to 3 locations", included: true },
@@ -56,7 +56,7 @@ const tiers = [
     price: "$797",
     borderColor: "#C9A84C",
     nameColor: "#C9A84C",
-    vertical: "Shield CaaS — Full Enterprise Stack",
+    vertical: "PROTEKON — Full Enterprise Stack",
     features: [
       { text: "Unlimited locations", included: true },
       { text: "Full vertical stack (OSHA + CSLB + Real Estate + Healthcare)", included: true },
@@ -113,7 +113,7 @@ export default function Pricing() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <p className="font-display font-semibold text-[18px] text-gold">
-            $7,229 — AVERAGE SERIOUS VIOLATION FINE vs $297–$797/month for Shield CaaS. 
+            $7,229 — AVERAGE SERIOUS VIOLATION FINE vs $297–$797/month for PROTEKON. 
             The ROI calculates itself.
           </p>
         </motion.div>

@@ -6,7 +6,7 @@ import { useRef } from "react"
 const testimonials = [
   {
     quote:
-      "I got hit with a $14,200 Cal/OSHA fine before Shield CaaS. This year, the inspector walked away with zero citations.",
+      "I got hit with a $14,200 Cal/OSHA fine before PROTEKON. This year, the inspector walked away with zero citations.",
     name: "R. Castillo",
     title: "Owner",
     company: "Castillo Brothers Construction",
@@ -26,7 +26,7 @@ const testimonials = [
   },
   {
     quote:
-      "When SB 553 hit, I had 6 days to comply. Shield CaaS had my plan written, reviewed, and posted in 48 hours.",
+      "When SB 553 hit, I had 6 days to comply. PROTEKON had my plan written, reviewed, and posted in 48 hours.",
     name: "A. Vasquez",
     title: "HR Director",
     company: "Valle Verde Hospitality Group",

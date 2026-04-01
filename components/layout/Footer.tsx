@@ -7,7 +7,7 @@ const footerLinks = {
   solutions: {
     title: "SOLUTIONS",
     links: [
-      { name: "Shield CaaS", href: "#shield-caas" },
+      { name: "Compliance Suite", href: "#compliance-suite" },
       { name: "Construction Shield", href: "#construction" },
       { name: "Healthcare Shield", href: "#healthcare" },
       { name: "Real Estate Shield", href: "#real-estate" },
@@ -67,7 +67,7 @@ export default function Footer() {
 
             {/* Description */}
             <p className="font-sans font-light text-[12px] leading-[1.75] text-steel max-w-[240px] mb-6">
-              Shield CaaS by PROTEKON delivers California workplace 
+              PROTEKON delivers California workplace 
               compliance as a recurring managed service.
             </p>
 

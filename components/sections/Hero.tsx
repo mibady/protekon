@@ -1,7 +1,7 @@
 "use client"
 
+// PROTEKON Hero Section
 import { motion } from "framer-motion"
-// Hero section component
 import { CaretDown, ShieldCheck, FileText, Bell } from "@phosphor-icons/react"
 import Link from "next/link"
 
@@ -119,7 +119,7 @@ export default function Hero() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.6 }}
             >
-              Shield CaaS turns California&apos;s most complex workplace safety regulations 
+              PROTEKON turns California&apos;s most complex workplace safety regulations 
               into a hands-off, recurring service — IIPP, SB 553, incident logging, 
               and regulatory monitoring, all done for you.
             </motion.p>

@@ -30,7 +30,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Shield CaaS costs less per month than a single Cal/OSHA violation.
+          PROTEKON costs less per month than a single Cal/OSHA violation.
         </motion.p>
 
         {/* CTA Buttons */}

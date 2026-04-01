@@ -68,7 +68,7 @@ export default function SignupPage() {
               PROT<span className="text-crimson">E</span>KON
             </span>
             <span className="font-display font-normal text-[9px] tracking-[2px] text-gold">
-              SHIELD CaaS
+              MANAGED COMPLIANCE
             </span>
           </div>
         </Link>

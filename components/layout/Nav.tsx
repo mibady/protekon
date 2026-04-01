@@ -18,7 +18,7 @@ const solutionsMegaMenu = {
   left: {
     label: "COMPLIANCE VERTICALS",
     items: [
-      { name: "Shield CaaS — SB 553 + Cal/OSHA", href: "#shield-caas" },
+      { name: "Compliance Suite — SB 553 + Cal/OSHA", href: "#compliance-suite" },
       { name: "Construction Shield — CSLB + Site Safety", href: "#construction" },
       { name: "Healthcare Shield — Cal/OSHA Healthcare", href: "#healthcare" },
       { name: "Real Estate Shield — Hab Compliance", href: "#real-estate" },
@@ -101,7 +101,7 @@ export default function Nav() {
                   PROT<span className="text-crimson">E</span>KON
                 </span>
                 <span className="font-display font-normal text-[9px] tracking-[2.5px] text-gold">
-                  SHIELD CaaS
+                  MANAGED COMPLIANCE
                 </span>
               </div>
             </Link>
