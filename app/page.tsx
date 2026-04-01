@@ -1,6 +1,5 @@
 "use client"
 
-// PROTEKON Landing Page
 import { useState } from "react"
 import IntroAnimation from "@/components/IntroAnimation"
 import Nav from "@/components/layout/Nav"
