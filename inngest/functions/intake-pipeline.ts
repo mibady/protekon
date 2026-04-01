@@ -1,5 +1,7 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { sendEmail } from "@/lib/resend"
+import { intakeWelcomeEmail } from "@/lib/email-templates"
 
 export const intakePipeline = inngest.createFunction(
   { id: "intake-pipeline", triggers: [{ event: "compliance/intake.submitted" }] },
@@ -63,9 +65,7 @@ export const intakePipeline = inngest.createFunction(
 
     // Step 4: Send welcome email
     await step.run("send-welcome-email", async () => {
-      console.log(
-        `[intake-pipeline] Welcome email to ${email} — score: ${scoring.complianceScore}%, risk: ${scoring.riskLevel}`
-      )
+      await sendEmail({ to: email, ...intakeWelcomeEmail(email, scoring.complianceScore, scoring.riskLevel) })
     })
 
     // Step 5: Wait for onboarding period

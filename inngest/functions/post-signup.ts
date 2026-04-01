@@ -1,5 +1,7 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { sendEmail } from "@/lib/resend"
+import { welcomeEmail } from "@/lib/email-templates"
 
 export const postSignup = inngest.createFunction(
   { id: "post-signup-workflow", triggers: [{ event: "auth/user.signed-up" }] },
@@ -24,8 +26,7 @@ export const postSignup = inngest.createFunction(
 
     // Step 2: Send welcome email
     await step.run("send-welcome-notification", async () => {
-      // Resend integration — stub for now
-      console.log(`[post-signup] Welcome email to ${email}`)
+      await sendEmail({ to: email, ...welcomeEmail(email) })
     })
 
     return { success: true, userId, email, status: "onboarded" }

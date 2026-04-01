@@ -1,5 +1,7 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { sendEmail } from "@/lib/resend"
+import { trainingOverdueEmail, trainingUpcomingEmail, trainingEscalationEmail } from "@/lib/email-templates"
 
 export const trainingReminders = inngest.createFunction(
   { id: "training-reminders", triggers: [{ cron: "0 8 * * 1" }] },
@@ -37,18 +39,20 @@ export const trainingReminders = inngest.createFunction(
     // Step 2: Send overdue reminders
     await step.run("send-overdue-reminders", async () => {
       for (const record of deadlines.overdue) {
-        console.log(
-          `[training-reminders] Overdue: ${record.employee_name} — ${record.training_type} (due: ${record.due_date})`
-        )
+        const clientEmail = (record.clients as { email: string; business_name: string })?.email
+        if (clientEmail) {
+          await sendEmail({ to: clientEmail, ...trainingOverdueEmail(record.employee_name, record.training_type, record.due_date) })
+        }
       }
     })
 
     // Step 3: Send upcoming notices
     await step.run("send-upcoming-notices", async () => {
       for (const record of deadlines.upcoming) {
-        console.log(
-          `[training-reminders] Upcoming: ${record.employee_name} — ${record.training_type} (due: ${record.due_date})`
-        )
+        const clientEmail = (record.clients as { email: string; business_name: string })?.email
+        if (clientEmail) {
+          await sendEmail({ to: clientEmail, ...trainingUpcomingEmail(record.employee_name, record.training_type, record.due_date) })
+        }
       }
     })
 
@@ -63,9 +67,8 @@ export const trainingReminders = inngest.createFunction(
       )
 
       if (severelyOverdue.length > 0) {
-        console.log(
-          `[training-reminders] Escalation: ${severelyOverdue.length} records 2+ weeks overdue`
-        )
+        const officerEmail = process.env.COMPLIANCE_OFFICER_EMAIL || "compliance@protekon.com"
+        await sendEmail({ to: officerEmail, ...trainingEscalationEmail(severelyOverdue.length) })
       }
     })
 

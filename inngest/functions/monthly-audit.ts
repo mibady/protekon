@@ -1,5 +1,7 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { sendEmail } from "@/lib/resend"
+import { auditAlertEmail } from "@/lib/email-templates"
 
 export const monthlyAudit = inngest.createFunction(
   { id: "monthly-audit", triggers: [{ cron: "0 9 1 * *" }] },
@@ -10,7 +12,7 @@ export const monthlyAudit = inngest.createFunction(
     const clients = await step.run("pull-client-roster", async () => {
       const { data, error } = await supabase
         .from("clients")
-        .select("id, business_name, vertical, plan")
+        .select("id, business_name, vertical, plan, email")
         .eq("status", "active")
 
       if (error) throw new Error(`Failed to pull clients: ${error.message}`)
@@ -99,8 +101,11 @@ export const monthlyAudit = inngest.createFunction(
       const atRiskClients = auditResults.filter(
         (r) => r.status === "at-risk" || r.status === "non-compliant"
       )
-      for (const client of atRiskClients) {
-        console.log(`[monthly-audit] Alert email to client ${client.clientId} — status: ${client.status}`)
+      for (const result of atRiskClients) {
+        const match = clients.find((c) => c.id === result.clientId)
+        if (match?.email) {
+          await sendEmail({ to: match.email, ...auditAlertEmail(match.business_name, result.score, result.status) })
+        }
       }
     })
 

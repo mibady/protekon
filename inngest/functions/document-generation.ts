@@ -1,5 +1,7 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { sendEmail } from "@/lib/resend"
+import { documentReadyEmail } from "@/lib/email-templates"
 
 export const documentGeneration = inngest.createFunction(
   { id: "document-generation", triggers: [{ event: "compliance/document.requested" }] },
@@ -73,9 +75,7 @@ export const documentGeneration = inngest.createFunction(
 
     // Step 4: Notify client
     await step.run("notify-client", async () => {
-      console.log(
-        `[document-generation] Notification to ${email}: ${documentType} is ready`
-      )
+      await sendEmail({ to: email, ...documentReadyEmail(documentType, businessName) })
     })
 
     return { success: true, documentType, pages: docResult.pages }

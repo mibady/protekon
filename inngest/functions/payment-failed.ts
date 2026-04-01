@@ -1,5 +1,7 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { sendEmail } from "@/lib/resend"
+import { paymentWarning1Email, paymentWarning2Email, suspensionNoticeEmail } from "@/lib/email-templates"
 
 export const paymentFailed = inngest.createFunction(
   { id: "payment-failed", triggers: [{ event: "billing/payment.failed" }] },
@@ -11,9 +13,7 @@ export const paymentFailed = inngest.createFunction(
 
     // Step 1: Send first warning (immediate)
     await step.run("send-first-warning", async () => {
-      console.log(
-        `[payment-failed] First warning to ${email}: $${amount} payment failed for invoice ${invoiceId}`
-      )
+      await sendEmail({ to: email, ...paymentWarning1Email(amount, invoiceId) })
     })
 
     // Step 2: Wait 3 days for payment
@@ -29,9 +29,7 @@ export const paymentFailed = inngest.createFunction(
 
     // Step 3: Send second (urgent) warning
     await step.run("send-second-warning", async () => {
-      console.log(
-        `[payment-failed] URGENT: Second warning to ${email} — account at risk of suspension`
-      )
+      await sendEmail({ to: email, ...paymentWarning2Email(businessName) })
     })
 
     // Step 4: Wait 7 more days
@@ -62,9 +60,7 @@ export const paymentFailed = inngest.createFunction(
 
     // Step 6: Send suspension notice
     await step.run("send-suspension-notice", async () => {
-      console.log(
-        `[payment-failed] Account suspended: ${businessName} (${email}) — invoice ${invoiceId}`
-      )
+      await sendEmail({ to: email, ...suspensionNoticeEmail(businessName, invoiceId) })
     })
 
     return { success: false, suspended: true, invoiceId }
