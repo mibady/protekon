@@ -1,0 +1,210 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* PROTEKON Brand Colors - Exact hex values as CSS variables */
+:root {
+  /* Primary Brand Colors */
+  --void: #070F1E;
+  --midnight: #0B1D3A;
+  --crimson: #C41230;
+  --gold: #C9A84C;
+  
+  /* Neutral Colors */
+  --parchment: #F4EFE6;
+  --ash: #E8E2D8;
+  --steel: #7A8FA5;
+  --fog: #B8C5D1;
+  --white: #FAFAF8;
+  
+  /* Semantic Mappings */
+  --background: var(--parchment);
+  --foreground: var(--midnight);
+  --card: var(--white);
+  --card-foreground: var(--midnight);
+  --popover: var(--midnight);
+  --popover-foreground: var(--white);
+  --primary: var(--crimson);
+  --primary-foreground: var(--white);
+  --secondary: var(--midnight);
+  --secondary-foreground: var(--white);
+  --muted: var(--ash);
+  --muted-foreground: var(--steel);
+  --accent: var(--gold);
+  --accent-foreground: var(--midnight);
+  --destructive: var(--crimson);
+  --destructive-foreground: var(--white);
+  --border: rgba(11, 29, 58, 0.08);
+  --input: rgba(11, 29, 58, 0.08);
+  --ring: var(--gold);
+  
+  /* Chart colors */
+  --chart-1: var(--crimson);
+  --chart-2: var(--gold);
+  --chart-3: var(--midnight);
+  --chart-4: var(--steel);
+  --chart-5: var(--fog);
+  
+  /* Border radius - Sharp edges for brand aesthetic */
+  --radius: 0px;
+  
+  /* Sidebar */
+  --sidebar: var(--midnight);
+  --sidebar-foreground: var(--white);
+  --sidebar-primary: var(--crimson);
+  --sidebar-primary-foreground: var(--white);
+  --sidebar-accent: rgba(196, 18, 48, 0.08);
+  --sidebar-accent-foreground: var(--white);
+  --sidebar-border: rgba(255, 255, 255, 0.05);
+  --sidebar-ring: var(--gold);
+}
+
+.dark {
+  --background: var(--void);
+  --foreground: var(--white);
+  --card: var(--midnight);
+  --card-foreground: var(--white);
+  --popover: var(--midnight);
+  --popover-foreground: var(--white);
+  --primary: var(--crimson);
+  --primary-foreground: var(--white);
+  --secondary: var(--parchment);
+  --secondary-foreground: var(--midnight);
+  --muted: rgba(255, 255, 255, 0.06);
+  --muted-foreground: var(--steel);
+  --accent: var(--gold);
+  --accent-foreground: var(--midnight);
+  --destructive: var(--crimson);
+  --destructive-foreground: var(--white);
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: var(--gold);
+}
+
+@theme inline {
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* PROTEKON Brand Colors for direct use */
+  --color-void: var(--void);
+  --color-midnight: var(--midnight);
+  --color-crimson: var(--crimson);
+  --color-gold: var(--gold);
+  --color-parchment: var(--parchment);
+  --color-ash: var(--ash);
+  --color-steel: var(--steel);
+  --color-fog: var(--fog);
+  --color-brand-white: var(--white);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* PROTEKON Typography Utilities */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Eyebrow text style */
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+
+.eyebrow-gold {
+  color: var(--gold);
+}
+
+/* CTA Button text style */
+.cta-text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* Wordmark K highlight */
+.wordmark-k {
+  color: var(--crimson);
+}
+
+/* Card top border accent */
+.card-accent-top {
+  border-top: 3px solid var(--crimson);
+}
+
+.card-accent-top-gold {
+  border-top: 3px solid var(--gold);
+}
+
+/* Outline text effect */
+.text-outline {
+  -webkit-text-stroke: 2px var(--crimson);
+  color: transparent;
+}
+
+/* Custom scrollbar for dark backgrounds */
+.scrollbar-dark::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
