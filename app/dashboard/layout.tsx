@@ -23,7 +23,12 @@ import {
   Users,
   MagnifyingGlass,
   Question,
-  ShieldCheck
+  ShieldCheck,
+  HardHat,
+  FirstAidKit,
+  Handshake,
+  MapPin,
+  Scroll
 } from "@phosphor-icons/react"
 import { signOut } from "@/lib/actions/auth"
 import { getClientProfile } from "@/lib/actions/settings"
@@ -56,7 +61,7 @@ const navGroups = [
   {
     label: "BUSINESS TOOLS",
     items: [
-      { name: "Subcontractors", href: "/dashboard/subcontractors", icon: Buildings },
+      { name: "Poster Compliance", href: "/dashboard/poster-compliance", icon: Scroll },
       { name: "Marketplace", href: "/marketplace", icon: Storefront },
     ]
   },
@@ -170,6 +175,52 @@ export default function DashboardLayout({
 
         {/* Navigation Groups */}
         <nav className="flex-1 overflow-y-auto px-4 py-4 scrollbar-dark">
+          {/* Vertical-specific nav */}
+          {client?.vertical === "construction" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">CONSTRUCTION</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/construction/subcontractors" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/construction") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <HardHat size={16} className={pathname.startsWith("/dashboard/construction") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/construction") ? "text-brand-white" : "text-brand-white/45"}`}>Subcontractors</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "healthcare" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">HEALTHCARE</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/healthcare/phi-inventory" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname === "/dashboard/healthcare/phi-inventory" ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <FirstAidKit size={16} className={pathname === "/dashboard/healthcare/phi-inventory" ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname === "/dashboard/healthcare/phi-inventory" ? "text-brand-white" : "text-brand-white/45"}`}>PHI Inventory</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/dashboard/healthcare/baa-tracker" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname === "/dashboard/healthcare/baa-tracker" ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <Handshake size={16} className={pathname === "/dashboard/healthcare/baa-tracker" ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname === "/dashboard/healthcare/baa-tracker" ? "text-brand-white" : "text-brand-white/45"}`}>BAA Tracker</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "real-estate" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">REAL ESTATE</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/real-estate/properties" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/real-estate") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <MapPin size={16} className={pathname.startsWith("/dashboard/real-estate") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/real-estate") ? "text-brand-white" : "text-brand-white/45"}`}>Properties</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
           {navGroups.map((group) => (
             <div key={group.label} className="mb-5">
               <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">
