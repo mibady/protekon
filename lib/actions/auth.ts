@@ -31,7 +31,7 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
   const vertical = formData.get("vertical") as string
   const plan = formData.get("plan") as string
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -45,6 +45,22 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
 
   if (error) {
     return { error: error.message }
+  }
+
+  // Create client record so dashboard has data immediately
+  if (data.user) {
+    const { createAdminClient } = await import("@/lib/supabase/admin")
+    const admin = createAdminClient()
+    await admin.from("clients").upsert({
+      id: data.user.id,
+      email,
+      business_name: businessName,
+      vertical: vertical || "other",
+      plan: plan || "starter",
+      compliance_score: 0,
+      risk_level: "high",
+      status: "active",
+    }, { onConflict: "id" })
   }
 
   redirect("/dashboard")
