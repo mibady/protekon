@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { inngest } from "@/inngest/client"
 import type { ActionResult, Document } from "@/lib/types"
 
 export async function requestDocument(formData: FormData): Promise<ActionResult> {
@@ -63,6 +64,18 @@ export async function requestDocument(formData: FormData): Promise<ActionResult>
     event_type: "document.requested",
     description: `Requested ${typeLabels[type] || type} document (${documentId})`,
     metadata: { document_id: documentId, type, priority },
+  })
+
+  // Fire Inngest event to trigger document generation pipeline
+  await inngest.send({
+    name: "compliance/document.requested",
+    data: {
+      clientId: user.id,
+      email: user.email!,
+      businessName: user.user_metadata?.business_name || "",
+      documentType: type,
+      vertical: user.user_metadata?.vertical || "other",
+    },
   })
 
   return { success: true }
