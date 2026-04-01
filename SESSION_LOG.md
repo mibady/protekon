@@ -180,3 +180,60 @@ Must replicate the following from the previous project:
 - /plan "Inngest workflows" — Stage 4: intake-pipeline, document-generation, incident-report, monthly-audit
 - Install inngest package
 - Reference Shield CaaS Inngest functions at `/home/info/business/ngeniuspro/shield_caas/src/inngest/functions/`
+
+## Session 2b — 2026-04-01 (continued)
+
+### Completed
+- **Stage 3: Settings + Dashboard + Compliance API**
+  - Settings server actions (updateProfile, updateCompany, changePassword)
+  - Dashboard data aggregator with parallel Supabase queries
+  - GET /api/compliance/score endpoint
+  - Wired settings page (profile, company, security tabs)
+  - Wired dashboard overview (real compliance score, docs, incidents, counts)
+  - Wired sidebar (real client name, compliance score, avatar initials)
+- **Stage 4: Inngest Durable Workflows**
+  - Inngest v4 client with typed event data
+  - 4 event-driven functions: post-signup, intake-pipeline, document-generation, incident-report
+  - 3 cron jobs: monthly-audit (1st of month), training-reminders (Mondays), regulatory-scan (daily)
+  - 1 escalation: payment-failed with waitForEvent recovery (3-day + 7-day)
+  - /api/inngest route serving all 8 functions
+  - PII stripping on incident reports (regex for emails, phones, SSNs, names)
+  - Wired document + incident server actions to fire Inngest events
+- **Stage 5: Stripe Integration (planned)**
+  - Spec written at specs/stripe-integration.md — ready to build
+
+### Audit Snapshot
+| Metric | Count |
+|--------|-------|
+| Pages | 32 |
+| API Routes | 3 (/api/compliance/score, /api/inngest, /api/stripe — planned) |
+| Auth Routes | 1 (/auth/callback) |
+| Components | 69 |
+| Server Actions | 5 files, 13 exports |
+| Inngest Functions | 8 (4 event, 3 cron, 1 escalation) |
+| Supabase Migrations | 2 (local) + 2 (applied via MCP) |
+
+### Commits (4)
+- `1d46606` feat(dna): add settings actions, dashboard queries, compliance API
+- `c51ad0b` feat(face): wire dashboard overview + sidebar to real Supabase data
+- `042c999` feat(dna): add 8 Inngest durable workflows + API handler
+- `b2d490c` feat(dna): wire document + incident actions to fire Inngest events
+
+### Decisions Made
+- Inngest v4 API uses `triggers: [{ event: "..." }]` (plural, array) — not v3 `{ event: "..." }` second arg
+- Event data typed via `as` casts rather than generic schemas (simpler, works with v4)
+- Resend email calls stubbed as console.log — will wire in Stage 6
+- PDF generation stubbed — will wire with pdf-lib in Stage 7
+- Monthly audit recalculates compliance_score and updates clients table directly
+
+### Known Issues
+- STRIPE_WEBHOOK_SECRET not yet in .env.local (needs Stripe dashboard webhook creation)
+- Stripe price IDs need configuration after creating products in Stripe
+- Regulatory feed + delivery timeline on dashboard still use static data
+- Notifications settings tab not yet wired to preferences storage
+
+### Next Session Should
+- /prime to load context
+- /build "specs/stripe-integration.md" — Stage 5: Stripe checkout, portal, webhooks
+- Then /plan "Resend email integration" — Stage 6: wire all email stubs in Inngest functions
+- Create Stripe products + prices in dashboard, add STRIPE_WEBHOOK_SECRET to env
