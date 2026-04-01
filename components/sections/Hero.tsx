@@ -1,12 +1,11 @@
 "use client"
 
-// PROTEKON Hero - Redesigned Right Panel with Stats Grid
 import { motion } from "framer-motion"
 import Link from "next/link"
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen">
+    <section className="relative min-h-screen bg-void">
       {/* Split layout - 55% / 45% per brand kit */}
       <div className="grid lg:grid-cols-[55%_45%] min-h-screen">
         
@@ -108,7 +107,7 @@ export default function Hero() {
 
         {/* RIGHT PANEL - Dynamic Visual */}
         <div className="relative bg-midnight flex flex-col overflow-hidden min-h-[50vh] lg:min-h-0">
-          {/* Animated grid background */}
+          {/* Static grid background */}
           <div 
             className="absolute inset-0 opacity-[0.03]"
             style={{
@@ -120,37 +119,9 @@ export default function Hero() {
             }}
           />
 
-          {/* Animated diagonal accent lines */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div 
-              className="absolute h-[1px] bg-gradient-to-r from-transparent via-crimson/30 to-transparent"
-              style={{ 
-                width: '150%', 
-                top: '25%', 
-                left: '-25%',
-                transform: 'rotate(-15deg)'
-              }}
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.5, delay: 1.2 }}
-            />
-            <motion.div 
-              className="absolute h-[1px] bg-gradient-to-r from-transparent via-gold/20 to-transparent"
-              style={{ 
-                width: '150%', 
-                top: '60%', 
-                left: '-25%',
-                transform: 'rotate(-15deg)'
-              }}
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.5, delay: 1.4 }}
-            />
-          </div>
-
           {/* Main content area */}
           <div className="flex-1 flex items-center justify-center relative">
-            {/* Giant faded P-mark background */}
+            {/* Giant faded P-mark background - static */}
             <div className="absolute opacity-[0.02] pointer-events-none">
               <svg viewBox="0 0 48 84" className="w-[400px] h-[700px]">
                 <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
@@ -172,12 +143,12 @@ export default function Hero() {
                 <motion.div 
                   className="absolute inset-0 border border-crimson/10 rounded-full"
                   animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <motion.div 
                   className="absolute -inset-8 border border-gold/5 rounded-full"
                   animate={{ scale: [1, 1.08, 1], opacity: [0.2, 0.05, 0.2] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 />
               </div>
 
@@ -237,14 +208,14 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 1.8 }}
           >
             {[
-              { value: '$109.6M', label: 'CA SMB Penalties' },
-              { value: '44,742', label: 'Target Violations' },
-              { value: '48hrs', label: 'First Delivery' },
-              { value: '$7,229', label: 'Avg Serious Fine' },
+              { value: "$109.6M", label: "CA SMB Penalties" },
+              { value: "44,742", label: "Target Violations" },
+              { value: "48hrs", label: "First Delivery" },
+              { value: "$7,229", label: "Avg Serious Fine" },
             ].map((stat, i) => (
               <motion.div 
                 key={stat.label}
-                className={`p-5 lg:p-6 ${i < 3 ? 'border-r border-brand-white/[0.06]' : ''} ${i < 2 ? 'border-b lg:border-b-0 border-brand-white/[0.06]' : ''}`}
+                className={`p-5 lg:p-6 ${i < 3 ? "border-r border-brand-white/[0.06]" : ""} ${i < 2 ? "border-b lg:border-b-0 border-brand-white/[0.06]" : ""}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 2 + i * 0.1 }}
@@ -278,7 +249,7 @@ export default function Hero() {
               Trusted by 500+ California businesses
             </span>
             <div className="hidden md:flex items-center gap-3">
-              {['SOC 2', 'Cal/OSHA', 'SB 553'].map((badge) => (
+              {["SOC 2", "Cal/OSHA", "SB 553"].map((badge) => (
                 <span key={badge} className="font-display text-[8px] tracking-[2px] uppercase text-gold/40 px-2 py-1 border border-gold/15">
                   {badge}
                 </span>
@@ -286,17 +257,15 @@ export default function Hero() {
             </div>
           </div>
           
-          <motion.button
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+          <button
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
             className="font-display text-[9px] tracking-[2px] uppercase text-steel/40 hover:text-gold transition-colors flex items-center gap-2"
-            animate={{ y: [0, 3, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
           >
             Scroll
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-current">
               <path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </motion.button>
+          </button>
         </div>
       </motion.div>
     </section>
