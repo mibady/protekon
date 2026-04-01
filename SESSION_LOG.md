@@ -110,3 +110,73 @@ Must replicate the following from the previous project:
 - /plan "supabase schema + auth wiring" — Stage 1 of backend-first workflow
 - Reference Shield CaaS migrations at `/home/info/business/ngeniuspro/shield_caas/supabase/migrations/`
 - Install backend deps: @supabase/ssr, @supabase/supabase-js, inngest, stripe, resend, @vercel/blob, pdf-lib
+
+## Session 2 — 2026-04-01
+
+### Completed
+- **Stage 1: Supabase Schema + Auth Wiring**
+  - 16-table schema with full RLS (migrated from Shield CaaS) — all tables already existed in Supabase with seed data
+  - Added missing `clients_insert_own` and `documents_insert_own` RLS policies
+  - 4 Supabase client helpers (server, browser, admin, middleware)
+  - proxy.ts middleware protecting /dashboard/* routes (Next.js 16 convention — renamed from middleware.ts)
+  - Auth server actions (signIn, signUp, forgotPassword, signOut)
+  - Wired login, signup, forgot-password pages to real Supabase Auth
+  - Auth callback route for password reset flow
+- **Stage 2: Server Actions (Documents + Incidents)**
+  - Schema additions: metadata jsonb on incidents, status/notes/priority on documents
+  - Server actions: requestDocument, getDocuments, createIncident, getIncidents
+  - Wired document request + incident forms to real Supabase inserts
+  - Replaced static data on documents + incidents list pages with real queries
+  - Audit logging on all mutations
+- **Stage 3: Settings + Dashboard + Compliance API**
+  - Settings server actions: updateProfile, updateCompany, changePassword
+  - Dashboard data aggregator with parallel Supabase queries
+  - GET /api/compliance/score endpoint
+  - Wired settings page tabs (profile, company, security) to real actions
+  - Wired dashboard overview (compliance score, recent docs/incidents, counts)
+  - Wired sidebar (real client name, compliance score, avatar initials)
+
+### Audit Snapshot
+| Metric | Count |
+|--------|-------|
+| Pages | 32 |
+| API Routes | 1 (/api/compliance/score) |
+| Components | 69 |
+| Server Actions | 10 (signIn, signUp, forgotPassword, signOut, requestDocument, getDocuments, createIncident, getIncidents, updateProfile, updateCompany, changePassword, getClientProfile, getDashboardData) |
+| Supabase Migrations | 2 (local) + 1 (applied via MCP) |
+| Inngest Functions | 0 |
+
+### Commits (6)
+- `eddf8a8` feat(dna): add Supabase schema, auth wiring, and route protection
+- `549fc24` feat(dna): add server actions for documents and incidents
+- `1d46606` feat(dna): add settings actions, dashboard queries, compliance API
+- `c51ad0b` feat(face): wire dashboard overview + sidebar to real Supabase data
+
+### Files Created (14)
+- lib/supabase/server.ts, client.ts, admin.ts, middleware.ts
+- lib/actions/auth.ts, documents.ts, incidents.ts, settings.ts, dashboard.ts
+- lib/types.ts
+- proxy.ts
+- app/auth/callback/route.ts
+- app/api/compliance/score/route.ts
+- supabase/migrations/001_core_schema.sql, 002_expansion_schema.sql
+
+### Decisions Made
+- Used proxy.ts (not middleware.ts) per Next.js 16 rename convention
+- Used window.location.search instead of useSearchParams on login to avoid Suspense boundary
+- metadata jsonb on incidents for extra form fields (type, time, witnesses, etc.)
+- Document requests insert with status "requested" — future Inngest workflow will generate and update to "current"
+- Audit logging on all mutations for compliance trail
+- Dashboard/list pages use useEffect + server action calls (kept as client components to preserve interactivity)
+
+### Known Issues
+- Hero component had repeated hydration issues (historical, resolved)
+- Package name is generic "my-project" in package.json
+- Regulatory feed + delivery timeline on dashboard still use static data (different tables, future stage)
+- Notifications + Billing settings tabs not yet wired (future Stripe stage)
+
+### Next Session Should
+- /prime to load context
+- /plan "Inngest workflows" — Stage 4: intake-pipeline, document-generation, incident-report, monthly-audit
+- Install inngest package
+- Reference Shield CaaS Inngest functions at `/home/info/business/ngeniuspro/shield_caas/src/inngest/functions/`
