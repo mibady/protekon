@@ -28,7 +28,8 @@ import {
   FirstAidKit,
   Handshake,
   MapPin,
-  Scroll
+  Scroll,
+  GraduationCap
 } from "@phosphor-icons/react"
 import { signOut } from "@/lib/actions/auth"
 import { getClientProfile } from "@/lib/actions/settings"
@@ -56,6 +57,7 @@ const navGroups = [
       { name: "Incident Log", href: "/dashboard/incidents", icon: WarningCircle, badge: 2 },
       { name: "Regulatory Updates", href: "/dashboard/regulations", icon: Bell, badge: 3 },
       { name: "Reports", href: "/dashboard/reports", icon: Clipboard },
+      { name: "Training", href: "/dashboard/training", icon: GraduationCap },
     ]
   },
   {

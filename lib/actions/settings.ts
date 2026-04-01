@@ -143,3 +143,37 @@ export async function changePassword(formData: FormData): Promise<ActionResult> 
 
   return { success: true }
 }
+
+export async function getNotificationPreferences(): Promise<Record<string, boolean>> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return {}
+
+  const { data } = await supabase
+    .from("clients")
+    .select("notification_preferences")
+    .eq("id", user.id)
+    .single()
+
+  return (data?.notification_preferences as Record<string, boolean>) ?? {
+    regulatory_updates: true,
+    document_reminders: true,
+    weekly_summaries: true,
+    incident_alerts: true,
+    marketing_emails: false,
+  }
+}
+
+export async function updateNotificationPreferences(prefs: Record<string, boolean>): Promise<ActionResult> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: "Unauthorized" }
+
+  const { error } = await supabase
+    .from("clients")
+    .update({ notification_preferences: prefs })
+    .eq("id", user.id)
+
+  if (error) return { error: error.message }
+  return { success: true }
+}

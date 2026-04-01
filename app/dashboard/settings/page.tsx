@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { User, Building, Bell, Shield, CreditCard, EnvelopeSimple } from "@phosphor-icons/react"
-import { getClientProfile, updateProfile, updateCompany, changePassword } from "@/lib/actions/settings"
+import { getClientProfile, updateProfile, updateCompany, changePassword, getNotificationPreferences, updateNotificationPreferences } from "@/lib/actions/settings"
 import type { ClientProfile } from "@/lib/types"
 
 export default function SettingsPage() {
@@ -12,6 +12,13 @@ export default function SettingsPage() {
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [billingLoading, setBillingLoading] = useState(false)
+  const [notifPrefs, setNotifPrefs] = useState<Record<string, boolean>>({
+    regulatory_updates: true,
+    document_reminders: true,
+    weekly_summaries: true,
+    incident_alerts: true,
+    marketing_emails: false,
+  })
   const [client, setClient] = useState<ClientProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const formRef = useRef<HTMLFormElement>(null)
@@ -21,6 +28,7 @@ export default function SettingsPage() {
       setClient(data)
       setLoading(false)
     })
+    getNotificationPreferences().then(setNotifPrefs)
   }, [])
 
   const handleSave = async () => {
@@ -183,19 +191,28 @@ export default function SettingsPage() {
               <h2 className="font-display font-bold text-[18px] text-midnight mb-6">Notification Preferences</h2>
               <div className="flex flex-col gap-6">
                 {[
-                  { label: "Regulatory Updates", description: "Get notified when Cal/OSHA regulations change" },
-                  { label: "Document Reminders", description: "Receive reminders for document reviews and renewals" },
-                  { label: "Weekly Summaries", description: "Get a weekly compliance status summary" },
-                  { label: "Incident Alerts", description: "Receive alerts when new incidents are logged" },
-                  { label: "Marketing Emails", description: "Receive product updates and tips" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-between py-4 border-b border-ash last:border-0">
+                  { key: "regulatory_updates", label: "Regulatory Updates", description: "Get notified when Cal/OSHA regulations change" },
+                  { key: "document_reminders", label: "Document Reminders", description: "Receive reminders for document reviews and renewals" },
+                  { key: "weekly_summaries", label: "Weekly Summaries", description: "Get a weekly compliance status summary" },
+                  { key: "incident_alerts", label: "Incident Alerts", description: "Receive alerts when new incidents are logged" },
+                  { key: "marketing_emails", label: "Marketing Emails", description: "Receive product updates and tips" },
+                ].map((item) => (
+                  <div key={item.key} className="flex items-center justify-between py-4 border-b border-ash last:border-0">
                     <div>
                       <span className="font-sans text-[14px] font-medium text-midnight block">{item.label}</span>
                       <span className="font-sans text-[13px] text-steel">{item.description}</span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" defaultChecked={i < 4} className="sr-only peer" />
+                      <input
+                        type="checkbox"
+                        checked={notifPrefs[item.key] ?? false}
+                        onChange={async (e) => {
+                          const updated = { ...notifPrefs, [item.key]: e.target.checked }
+                          setNotifPrefs(updated)
+                          await updateNotificationPreferences(updated)
+                        }}
+                        className="sr-only peer"
+                      />
                       <div className="w-11 h-6 bg-ash peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-ash after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-crimson"></div>
                     </label>
                   </div>
