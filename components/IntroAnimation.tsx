@@ -1,5 +1,6 @@
 "use client"
 
+// PROTEKON Animated Intro Component
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
