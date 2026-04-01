@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -26,6 +26,8 @@ import {
   ShieldCheck
 } from "@phosphor-icons/react"
 import { signOut } from "@/lib/actions/auth"
+import { getClientProfile } from "@/lib/actions/settings"
+import type { ClientProfile } from "@/lib/types"
 
 // Navigation groups per blueprint spec
 const navGroups = [
@@ -77,9 +79,13 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const [client, setClient] = useState<ClientProfile | null>(null)
 
-  // Demo compliance score
-  const complianceScore = 87
+  useEffect(() => {
+    getClientProfile().then(setClient)
+  }, [])
+
+  const complianceScore = client?.compliance_score ?? 0
   const scoreColor = complianceScore >= 75 ? "#2A7D4F" : complianceScore >= 50 ? "#C9A84C" : "#C41230"
 
   // Get current page name for breadcrumb
@@ -144,10 +150,10 @@ export default function DashboardLayout({
             </div>
             <div className="flex flex-col">
               <span className="font-sans font-normal text-[13px] text-brand-white">
-                Demo Construction Co
+                {client?.business_name || "Loading..."}
               </span>
-              <span className="font-sans font-light text-[11px] text-steel">
-                Los Angeles, CA · Construction
+              <span className="font-sans font-light text-[11px] text-steel capitalize">
+                {client?.vertical || "—"}
               </span>
               <div className="flex items-center gap-2 mt-1">
                 <span className="w-2 h-2 rounded-full bg-[#2A7D4F]" />
@@ -365,7 +371,9 @@ export default function DashboardLayout({
               className="flex items-center gap-2"
             >
               <div className="w-9 h-9 bg-midnight flex items-center justify-center">
-                <span className="font-display font-bold text-[12px] text-parchment">DU</span>
+                <span className="font-display font-bold text-[12px] text-parchment">
+                  {client?.business_name?.slice(0, 2).toUpperCase() || "—"}
+                </span>
               </div>
             </button>
 

@@ -2,21 +2,25 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { 
-  ArrowRight, 
-  Check, 
-  Clock, 
+import {
+  ArrowRight,
+  Check,
+  Clock,
   FileText,
   WarningCircle,
   Storefront
 } from "@phosphor-icons/react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+import { getDashboardData } from "@/lib/actions/dashboard"
+import type { DashboardData } from "@/lib/types"
 
 // Animated counter hook
 function useCountUp(end: number, duration: number = 800) {
   const [count, setCount] = useState(0)
-  
+  const prevEnd = useRef(end)
+
   useEffect(() => {
+    prevEnd.current = end
     let startTime: number
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime
@@ -26,17 +30,9 @@ function useCountUp(end: number, duration: number = 800) {
     }
     requestAnimationFrame(animate)
   }, [end, duration])
-  
+
   return count
 }
-
-// Demo data
-const documents = [
-  { name: "Injury & Illness Prevention Program (IIPP)", status: "current", date: "Updated Jan 8, 2026" },
-  { name: "SB 553 Workplace Violence Prevention Plan", status: "current", date: "Updated Dec 15, 2025" },
-  { name: "Emergency Action Plan", status: "review", date: "Review due Jan 20, 2026" },
-  { name: "Hazcom Program", status: "current", date: "Updated Nov 3, 2025" },
-]
 
 const regulatoryUpdates = [
   { severity: "high", code: "SB 553", title: "Emergency egress amendment requires updated signage", date: "Jan 10, 2026", unread: true },
@@ -56,10 +52,17 @@ const deliveryTimeline = [
 ]
 
 export default function DashboardPage() {
-  const complianceScore = useCountUp(87)
-  const openIncidents = useCountUp(2)
-  const closedIncidents = useCountUp(45)
-  const recordableIncidents = useCountUp(1)
+  const [data, setData] = useState<DashboardData | null>(null)
+
+  useEffect(() => {
+    getDashboardData().then(setData)
+  }, [])
+
+  const score = data?.complianceScore ?? 0
+  const complianceScore = useCountUp(score)
+  const incidentCount = useCountUp(data?.incidentCount ?? 0)
+  const documentCount = useCountUp(data?.documentCount ?? 0)
+  const auditCount = useCountUp(data?.auditCount ?? 0)
 
   const scoreColor = complianceScore >= 75 ? "#2A7D4F" : complianceScore >= 50 ? "#C9A84C" : "#C41230"
 
@@ -149,24 +152,30 @@ export default function DashboardPage() {
           </h3>
           
           <ul className="space-y-4">
-            {documents.map((doc, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
-                  doc.status === 'current' ? 'bg-[#2A7D4F]' : 
-                  doc.status === 'review' ? 'bg-gold' : 'bg-crimson'
-                }`} />
-                <div className="flex-1 min-w-0">
-                  <p className="font-sans text-[13px] text-midnight truncate">{doc.name}</p>
-                  <p className="font-sans text-[11px] text-steel">{doc.date}</p>
-                </div>
-                <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase flex-shrink-0 ${
-                  doc.status === 'current' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' : 
-                  doc.status === 'review' ? 'bg-gold/10 text-gold' : 'bg-crimson/10 text-crimson'
-                }`}>
-                  {doc.status === 'current' ? 'Current' : doc.status === 'review' ? 'Review Due' : 'Expired'}
-                </span>
-              </li>
-            ))}
+            {(data?.recentDocuments ?? []).length === 0 ? (
+              <li className="font-sans text-[13px] text-steel py-4 text-center">No documents yet</li>
+            ) : (
+              data?.recentDocuments.map((doc) => (
+                <li key={doc.id} className="flex items-start gap-3">
+                  <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
+                    doc.status === 'current' ? 'bg-[#2A7D4F]' :
+                    doc.status === 'requested' ? 'bg-gold' : 'bg-crimson'
+                  }`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-sans text-[13px] text-midnight truncate">{doc.filename.replace(".pdf", "")}</p>
+                    <p className="font-sans text-[11px] text-steel">
+                      {new Date(doc.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </p>
+                  </div>
+                  <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase flex-shrink-0 ${
+                    doc.status === 'current' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' :
+                    doc.status === 'requested' ? 'bg-gold/10 text-gold' : 'bg-crimson/10 text-crimson'
+                  }`}>
+                    {doc.status === 'current' ? 'Current' : doc.status === 'requested' ? 'Requested' : doc.status}
+                  </span>
+                </li>
+              ))
+            )}
           </ul>
 
           <Link 
@@ -193,26 +202,26 @@ export default function DashboardPage() {
           <div className="grid grid-cols-3 gap-4 mb-6">
             <div className="text-center">
               <span className="font-display font-black text-[48px] leading-none text-crimson">
-                {openIncidents}
+                {incidentCount}
               </span>
               <p className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-1">
-                Open
+                Incidents
               </p>
             </div>
             <div className="text-center">
               <span className="font-display font-black text-[48px] leading-none text-midnight">
-                {closedIncidents}
+                {documentCount}
               </span>
               <p className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-1">
-                Closed
+                Documents
               </p>
             </div>
             <div className="text-center">
               <span className="font-display font-black text-[48px] leading-none text-gold">
-                {recordableIncidents}
+                {auditCount}
               </span>
               <p className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-1">
-                Recordable
+                Audits
               </p>
             </div>
           </div>
