@@ -13,6 +13,10 @@ import {
 import { useEffect, useState, useRef } from "react"
 import { getDashboardData } from "@/lib/actions/dashboard"
 import { getRegulations, getDeliveryLog } from "@/lib/actions/reports"
+import { getSubcontractors } from "@/lib/actions/construction"
+import { getPhiAssets, getBaaAgreements } from "@/lib/actions/healthcare"
+import { getProperties } from "@/lib/actions/real-estate"
+import { getPosterLocations } from "@/lib/actions/poster-compliance"
 import type { DashboardData } from "@/lib/types"
 
 // Animated counter hook
@@ -39,6 +43,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [regulatoryUpdates, setRegulatoryUpdates] = useState<{ severity: string; code: string; title: string; publishedDate: string; unread: boolean }[]>([])
   const [deliveryTimeline, setDeliveryTimeline] = useState<{ date: string; label: string; status: string }[]>([])
+  const [verticalCards, setVerticalCards] = useState<{ label: string; value: number; alert: string; href: string; color: string }[]>([])
 
   useEffect(() => {
     getDashboardData().then(setData)
@@ -57,6 +62,45 @@ export default function DashboardPage() {
         label: d.name,
         status: i < 3 ? "sent" : i === 3 ? "current" : "upcoming",
       })))
+    })
+
+    // Vertical-specific summary cards
+    getDashboardData().then(async (d) => {
+      const vertical = d?.client?.vertical
+      const cards: typeof verticalCards = []
+
+      if (vertical === "construction") {
+        const subs = await getSubcontractors()
+        const expiring = (subs as { license_expiry: string }[]).filter(s => {
+          const days = (new Date(s.license_expiry).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+          return days >= 0 && days < 30
+        }).length
+        cards.push({ label: "Subcontractors", value: subs.length, alert: `${expiring} license${expiring !== 1 ? "s" : ""} expiring`, href: "/dashboard/construction/subcontractors", color: "midnight" })
+      }
+
+      if (vertical === "healthcare") {
+        const [phi, baas] = await Promise.all([getPhiAssets(), getBaaAgreements()])
+        const baaExpiring = (baas as { expiration_date: string; baa_status: string }[]).filter(b => {
+          if (b.baa_status === "expired") return false
+          const days = (new Date(b.expiration_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+          return days >= 0 && days < 30
+        }).length
+        cards.push({ label: "PHI Assets", value: phi.length, alert: `${(phi as { risk_level: string }[]).filter(p => p.risk_level === "high" || p.risk_level === "critical").length} high risk`, href: "/dashboard/healthcare/phi-inventory", color: "crimson" })
+        cards.push({ label: "BAA Agreements", value: baas.length, alert: `${baaExpiring} expiring`, href: "/dashboard/healthcare/baa-tracker", color: "gold" })
+      }
+
+      if (vertical === "real-estate") {
+        const props = await getProperties()
+        const atRisk = (props as { compliance_status: string }[]).filter(p => p.compliance_status === "at-risk" || p.compliance_status === "non-compliant").length
+        cards.push({ label: "Properties", value: props.length, alert: `${atRisk} at-risk`, href: "/dashboard/real-estate/properties", color: "midnight" })
+      }
+
+      // All verticals get poster compliance
+      const posters = await getPosterLocations()
+      const overdue = (posters as { status: string }[]).filter(p => p.status === "overdue" || p.status === "due-for-update").length
+      cards.push({ label: "Poster Locations", value: posters.length, alert: `${overdue} overdue`, href: "/dashboard/poster-compliance", color: "gold" })
+
+      setVerticalCards(cards)
     })
   }, [])
 
@@ -439,7 +483,36 @@ export default function DashboardPage() {
         </div>
       </motion.div>
 
-      {/* BENTO ROW 4 - Quick Actions */}
+      {/* BENTO ROW 4 - Vertical Summary Cards */}
+      {verticalCards.length > 0 && (
+        <div className={`grid gap-6 ${verticalCards.length === 1 ? "md:grid-cols-1 max-w-md" : verticalCards.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+          {verticalCards.map((card, i) => (
+            <Link href={card.href} key={card.label}>
+              <motion.div
+                className="bg-brand-white border border-midnight/[0.08] p-6 group hover:shadow-lg hover:-translate-y-0.5 transition-all"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.55 + i * 0.1 }}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel">
+                    {card.label}
+                  </h3>
+                  <ArrowRight size={14} className="text-steel group-hover:text-crimson transition-colors" />
+                </div>
+                <span className={`font-display font-black text-[36px] leading-none ${
+                  card.color === "crimson" ? "text-crimson" : card.color === "gold" ? "text-gold" : "text-midnight"
+                }`}>
+                  {card.value}
+                </span>
+                <p className="font-sans text-[12px] text-steel mt-2">{card.alert}</p>
+              </motion.div>
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {/* BENTO ROW 5 - Quick Actions */}
       <div className="grid md:grid-cols-3 gap-6">
         {[
           {
