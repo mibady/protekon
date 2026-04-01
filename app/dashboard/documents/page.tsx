@@ -143,14 +143,22 @@ export default function DocumentsPage() {
                 <div className="flex border-t border-midnight/[0.06]">
                   {doc.storage_url ? (
                     <>
-                      <button className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors border-r border-midnight/[0.06]">
+                      <a
+                        href={`/api/documents/download?id=${doc.document_id}`}
+                        className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors border-r border-midnight/[0.06]"
+                      >
                         <Download size={14} />
                         Download PDF
-                      </button>
-                      <button className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors border-r border-midnight/[0.06]">
+                      </a>
+                      <a
+                        href={`/api/documents/download?id=${doc.document_id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors border-r border-midnight/[0.06]"
+                      >
                         <Eye size={14} />
                         View Online
-                      </button>
+                      </a>
                     </>
                   ) : (
                     <div className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-steel border-r border-midnight/[0.06]">

@@ -1,0 +1,183 @@
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
+
+const PAGE_WIDTH = 612
+const PAGE_HEIGHT = 792
+const MARGIN = 50
+const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2
+
+const BRAND = {
+  midnight: rgb(0.1, 0.1, 0.18),
+  crimson: rgb(0.725, 0.11, 0.11),
+  gold: rgb(0.835, 0.686, 0.322),
+  steel: rgb(0.5, 0.5, 0.55),
+  parchment: rgb(0.96, 0.953, 0.937),
+}
+
+const verticalSections: Record<string, { title: string; items: string[] }[]> = {
+  construction: [
+    { title: "OSHA Compliance", items: ["Cal/OSHA Title 8 adherence", "Injury & Illness Prevention Program (IIPP)", "Heat Illness Prevention compliance", "Fall protection protocols"] },
+    { title: "Jobsite Safety Protocols", items: ["Daily safety briefings", "PPE requirements by task", "Hazard communication program", "Emergency evacuation procedures"] },
+    { title: "Subcontractor Requirements", items: ["Insurance verification", "Safety record review", "Pre-qualification assessments", "Joint safety responsibilities"] },
+  ],
+  healthcare: [
+    { title: "HIPAA Compliance", items: ["Privacy Rule adherence", "Security Rule implementation", "Breach notification procedures", "Minimum necessary standard"] },
+    { title: "PHI Handling", items: ["Access controls and audit trails", "Encryption requirements", "Disposal procedures", "Training and awareness"] },
+    { title: "BAA Requirements", items: ["Business Associate Agreements", "Vendor risk assessment", "Subcontractor chain compliance", "Termination provisions"] },
+  ],
+  "real-estate": [
+    { title: "Property Portfolio Compliance", items: ["Building code adherence", "Fire safety inspections", "ADA accessibility requirements", "Environmental compliance"] },
+    { title: "Municipal Ordinances", items: ["Local permit requirements", "Zoning compliance", "Noise and nuisance regulations", "Tenant protection laws"] },
+    { title: "Liability Management", items: ["Insurance coverage review", "Incident documentation", "Vendor liability agreements", "Risk assessment protocols"] },
+  ],
+}
+
+const defaultSections = [
+  { title: "Workplace Safety", items: ["Injury & Illness Prevention Program (IIPP)", "SB 553 Workplace Violence Prevention Plan", "Emergency Action Plan", "Hazard Communication Program"] },
+  { title: "Regulatory Compliance", items: ["Cal/OSHA standards adherence", "Regulatory change monitoring", "Document version control", "Annual compliance review"] },
+  { title: "Training & Documentation", items: ["Employee training records", "Safety meeting documentation", "Incident reporting procedures", "Record retention policies"] },
+]
+
+function wrapText(text: string, font: Awaited<ReturnType<PDFDocument["embedFont"]>>, fontSize: number, maxWidth: number): string[] {
+  const words = text.split(" ")
+  const lines: string[] = []
+  let currentLine = ""
+
+  for (const word of words) {
+    const testLine = currentLine ? `${currentLine} ${word}` : word
+    const width = font.widthOfTextAtSize(testLine, fontSize)
+    if (width > maxWidth && currentLine) {
+      lines.push(currentLine)
+      currentLine = word
+    } else {
+      currentLine = testLine
+    }
+  }
+  if (currentLine) lines.push(currentLine)
+  return lines
+}
+
+function addFooter(page: ReturnType<PDFDocument["addPage"]>, font: Awaited<ReturnType<PDFDocument["embedFont"]>>, pageNum: number, totalPages: number) {
+  const text = `Protekon Compliance Report  |  Page ${pageNum} of ${totalPages}`
+  const width = font.widthOfTextAtSize(text, 8)
+  page.drawText(text, {
+    x: (PAGE_WIDTH - width) / 2,
+    y: 25,
+    size: 8,
+    font,
+    color: BRAND.steel,
+  })
+}
+
+export async function generateCompliancePDF(options: {
+  businessName: string
+  documentType: string
+  vertical: string
+  documentId: string
+  complianceScore: number
+  riskLevel: string
+  auditCount: number
+  incidentCount: number
+}): Promise<{ buffer: Uint8Array; pages: number }> {
+  const doc = await PDFDocument.create()
+  const font = await doc.embedFont(StandardFonts.Helvetica)
+  const fontBold = await doc.embedFont(StandardFonts.HelveticaBold)
+  const generatedDate = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+
+  // --- Cover Page ---
+  const cover = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+
+  // Header band
+  cover.drawRectangle({ x: 0, y: PAGE_HEIGHT - 120, width: PAGE_WIDTH, height: 120, color: BRAND.midnight })
+  cover.drawText("PROTEKON", { x: MARGIN, y: PAGE_HEIGHT - 55, size: 28, font: fontBold, color: BRAND.parchment })
+  cover.drawText("Compliance Report", { x: MARGIN, y: PAGE_HEIGHT - 80, size: 14, font, color: BRAND.gold })
+
+  // Accent line
+  cover.drawRectangle({ x: MARGIN, y: PAGE_HEIGHT - 180, width: 60, height: 3, color: BRAND.crimson })
+
+  // Document info
+  let y = PAGE_HEIGHT - 210
+  cover.drawText(options.businessName, { x: MARGIN, y, size: 24, font: fontBold, color: BRAND.midnight })
+  y -= 35
+  const typeLines = wrapText(options.documentType.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()), font, 16, CONTENT_WIDTH)
+  for (const line of typeLines) {
+    cover.drawText(line, { x: MARGIN, y, size: 16, font, color: BRAND.steel })
+    y -= 22
+  }
+  y -= 20
+  cover.drawText(`Document ID: ${options.documentId}`, { x: MARGIN, y, size: 10, font, color: BRAND.steel })
+  y -= 16
+  cover.drawText(`Generated: ${generatedDate}`, { x: MARGIN, y, size: 10, font, color: BRAND.steel })
+
+  // --- Compliance Summary Page ---
+  const summary = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+  y = PAGE_HEIGHT - MARGIN - 30
+
+  summary.drawText("Compliance Summary", { x: MARGIN, y, size: 20, font: fontBold, color: BRAND.midnight })
+  y -= 40
+
+  // Score box
+  const scoreColor = options.riskLevel === "low" ? rgb(0.16, 0.64, 0.29) : options.riskLevel === "medium" ? rgb(0.79, 0.54, 0.02) : BRAND.crimson
+  summary.drawRectangle({ x: MARGIN, y: y - 60, width: CONTENT_WIDTH, height: 70, color: BRAND.parchment })
+  summary.drawText(`${options.complianceScore}%`, { x: MARGIN + 20, y: y - 15, size: 36, font: fontBold, color: scoreColor })
+  summary.drawText(`Risk Level: ${options.riskLevel.toUpperCase()}`, { x: MARGIN + 140, y: y - 10, size: 12, font: fontBold, color: scoreColor })
+  summary.drawText(`Compliance Score`, { x: MARGIN + 140, y: y - 30, size: 10, font, color: BRAND.steel })
+  y -= 90
+
+  // Stats
+  const stats = [
+    { label: "Completed Audits", value: String(options.auditCount) },
+    { label: "Recorded Incidents", value: String(options.incidentCount) },
+    { label: "Industry Vertical", value: options.vertical.charAt(0).toUpperCase() + options.vertical.slice(1) },
+  ]
+  for (const stat of stats) {
+    summary.drawText(stat.label, { x: MARGIN, y, size: 10, font, color: BRAND.steel })
+    summary.drawText(stat.value, { x: MARGIN + 200, y, size: 10, font: fontBold, color: BRAND.midnight })
+    y -= 20
+  }
+  y -= 20
+
+  // Recommendations
+  summary.drawText("Recommendations", { x: MARGIN, y, size: 14, font: fontBold, color: BRAND.midnight })
+  y -= 25
+  const recs = options.riskLevel === "high"
+    ? ["Immediate compliance gap assessment required", "Schedule Cal/OSHA consultation within 30 days", "Implement missing safety documentation", "Conduct all-hands safety training"]
+    : options.riskLevel === "medium"
+      ? ["Review and update existing compliance documents", "Address identified gaps within 60 days", "Schedule quarterly compliance reviews", "Enhance employee training program"]
+      : ["Maintain current compliance posture", "Continue regular document updates", "Annual comprehensive audit recommended", "Monitor regulatory changes"]
+  for (const rec of recs) {
+    summary.drawText(`\u2022  ${rec}`, { x: MARGIN + 10, y, size: 10, font, color: BRAND.midnight })
+    y -= 18
+  }
+
+  // --- Vertical Content Page ---
+  const content = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+  y = PAGE_HEIGHT - MARGIN - 30
+
+  const sections = verticalSections[options.vertical] ?? defaultSections
+  content.drawText("Compliance Requirements", { x: MARGIN, y, size: 20, font: fontBold, color: BRAND.midnight })
+  y -= 10
+
+  for (const section of sections) {
+    y -= 30
+    content.drawRectangle({ x: MARGIN, y: y - 2, width: 40, height: 2, color: BRAND.crimson })
+    content.drawText(section.title, { x: MARGIN + 50, y, size: 13, font: fontBold, color: BRAND.midnight })
+    y -= 25
+    for (const item of section.items) {
+      const itemLines = wrapText(`\u2022  ${item}`, font, 10, CONTENT_WIDTH - 20)
+      for (const line of itemLines) {
+        content.drawText(line, { x: MARGIN + 15, y, size: 10, font, color: BRAND.midnight })
+        y -= 16
+      }
+    }
+  }
+
+  // Add footers
+  const totalPages = doc.getPageCount()
+  const pages = doc.getPages()
+  for (let i = 0; i < totalPages; i++) {
+    addFooter(pages[i], font, i + 1, totalPages)
+  }
+
+  const buffer = await doc.save()
+  return { buffer, pages: totalPages }
+}

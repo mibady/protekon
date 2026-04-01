@@ -36,21 +36,29 @@ export const documentGeneration = inngest.createFunction(
       }
     })
 
-    // Step 2: Generate document (pdf-lib stub)
+    // Step 2: Generate PDF and upload to Vercel Blob
     const docResult = await step.run("generate-document", async () => {
-      // In the future, this will use pdf-lib to create a real PDF:
-      // - Cover page with company name, doc type, date
-      // - Compliance summary page
-      // - Vertical-specific content
-      // For now, we mark it as generated with placeholder URL
-      console.log(
-        `[document-generation] Generating ${documentType} for ${businessName} — score: ${clientData.compliance_score}`
+      const { generateCompliancePDF } = await import("@/lib/pdf")
+      const { put } = await import("@vercel/blob")
+
+      const { buffer, pages } = await generateCompliancePDF({
+        businessName,
+        documentType,
+        vertical,
+        documentId: `${documentType}-${Date.now()}`,
+        complianceScore: clientData.compliance_score ?? 0,
+        riskLevel: clientData.risk_level ?? "unknown",
+        auditCount: clientData.auditCount,
+        incidentCount: clientData.incidentCount,
+      })
+
+      const blob = await put(
+        `docs/${clientId}/${documentType}-${Date.now()}.pdf`,
+        new Blob([buffer], { type: "application/pdf" }),
+        { access: "public", contentType: "application/pdf" }
       )
 
-      return {
-        pages: 12,
-        storageUrl: null, // Will be Vercel Blob URL when pdf-lib is wired
-      }
+      return { pages, storageUrl: blob.url }
     })
 
     // Step 3: Update document record
