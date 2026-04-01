@@ -6,31 +6,31 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { X, List } from "@phosphor-icons/react"
 
 const navLinks = [
-  { name: "Solutions", href: "#solutions", hasMega: true },
-  { name: "Industries", href: "#industries" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Resources", href: "#resources" },
-  { name: "Marketplace", href: "#marketplace" },
-  { name: "About", href: "#about" },
+  { name: "Solutions", href: "/solutions", hasMega: true },
+  { name: "Industries", href: "/industries" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "Resources", href: "/resources" },
+  { name: "Marketplace", href: "/marketplace" },
+  { name: "About", href: "/about" },
 ]
 
 const solutionsMegaMenu = {
   left: {
     label: "COMPLIANCE VERTICALS",
     items: [
-      { name: "Compliance Suite — SB 553 + Cal/OSHA", href: "#compliance-suite" },
-      { name: "Construction Shield — CSLB + Site Safety", href: "#construction" },
-      { name: "Healthcare Shield — Cal/OSHA Healthcare", href: "#healthcare" },
-      { name: "Real Estate Shield — Hab Compliance", href: "#real-estate" },
+      { name: "Compliance Suite — SB 553 + Cal/OSHA", href: "/solutions/compliance-suite" },
+      { name: "Construction Shield — CSLB + Site Safety", href: "/solutions/construction" },
+      { name: "Healthcare Shield — Cal/OSHA Healthcare", href: "/solutions/healthcare" },
+      { name: "Real Estate Shield — Hab Compliance", href: "/solutions/real-estate" },
     ],
   },
   right: {
     label: "HOW IT WORKS",
     items: [
-      { name: "The Protekon Engine", href: "#engine" },
-      { name: "Delivery Model", href: "#delivery" },
-      { name: "Security & Data", href: "#security" },
-      { name: "API & Integrations", href: "#api" },
+      { name: "The Protekon Engine", href: "/about#engine" },
+      { name: "Delivery Model", href: "/about#delivery" },
+      { name: "Security & Data", href: "/about#security" },
+      { name: "API & Integrations", href: "/marketplace" },
     ],
   },
 }

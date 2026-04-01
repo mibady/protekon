@@ -6,14 +6,11 @@ import Link from "next/link"
 export default function Hero() {
   return (
     <section className="relative min-h-screen bg-void">
-      {/* Split layout - 55% / 45% per brand kit */}
       <div className="grid lg:grid-cols-[55%_45%] min-h-screen">
         
-        {/* LEFT PANEL - Content */}
+        {/* LEFT PANEL */}
         <div className="relative bg-void flex flex-col justify-between p-12 lg:p-20 border-r border-brand-white/[0.06]">
-          {/* Top Section */}
           <div className="flex flex-col gap-8">
-            {/* Eyebrow */}
             <motion.div
               className="flex items-center gap-4"
               initial={{ opacity: 0, y: 20 }}
@@ -25,7 +22,6 @@ export default function Hero() {
               </span>
             </motion.div>
 
-            {/* Divider */}
             <motion.div 
               className="w-8 h-[1px] bg-gold"
               initial={{ width: 0 }}
@@ -33,7 +29,6 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.4 }}
             />
 
-            {/* Main Headline - Brand Name */}
             <motion.h1
               className="font-display font-black text-[clamp(64px,10vw,100px)] leading-[0.88] tracking-[2px] uppercase text-parchment"
               initial={{ opacity: 0, y: 40 }}
@@ -44,9 +39,7 @@ export default function Hero() {
             </motion.h1>
           </div>
 
-          {/* Middle - Tagline and Description */}
           <div className="flex flex-col gap-7 my-12 lg:my-0">
-            {/* Primary Tagline */}
             <motion.p
               className="font-display font-light text-[clamp(22px,3vw,26px)] tracking-[3px] uppercase text-gold"
               initial={{ opacity: 0 }}
@@ -56,7 +49,6 @@ export default function Hero() {
               Compliance, Commanded.
             </motion.p>
 
-            {/* Description */}
             <motion.p
               className="font-sans text-[13px] font-light text-steel leading-[1.75] max-w-[320px]"
               initial={{ opacity: 0 }}
@@ -65,10 +57,9 @@ export default function Hero() {
             >
               The compliance command platform for California businesses. 
               IIPP documents. SB 553 plans. Incident logging. Regulatory monitoring. 
-              All managed. All delivered. Nothing reaches you without going through PROTEKON first.
+              All managed. All delivered.
             </motion.p>
 
-            {/* CTAs */}
             <motion.div
               className="flex flex-col sm:flex-row gap-4 mt-4"
               initial={{ opacity: 0, y: 20 }}
@@ -77,7 +68,7 @@ export default function Hero() {
             >
               <Link
                 href="/signup"
-                className="group inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment bg-crimson px-6 py-4 hover:brightness-110 transition-all"
+                className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment bg-crimson px-6 py-4 hover:brightness-110 transition-all"
               >
                 Start Compliance Plan
               </Link>
@@ -91,7 +82,6 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Bottom - Stamp */}
           <motion.div
             className="flex items-center gap-3"
             initial={{ opacity: 0 }}
@@ -105,23 +95,17 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* RIGHT PANEL - Dynamic Visual */}
+        {/* RIGHT PANEL */}
         <div className="relative bg-midnight flex flex-col overflow-hidden min-h-[50vh] lg:min-h-0">
-          {/* Static grid background */}
           <div 
             className="absolute inset-0 opacity-[0.03]"
             style={{
-              backgroundImage: `
-                linear-gradient(rgba(201,168,76,1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(201,168,76,1) 1px, transparent 1px)
-              `,
+              backgroundImage: `linear-gradient(rgba(201,168,76,1) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,1) 1px, transparent 1px)`,
               backgroundSize: "60px 60px",
             }}
           />
 
-          {/* Main content area */}
           <div className="flex-1 flex items-center justify-center relative">
-            {/* Giant faded P-mark background - static */}
             <div className="absolute opacity-[0.02] pointer-events-none">
               <svg viewBox="0 0 48 84" className="w-[400px] h-[700px]">
                 <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
@@ -131,14 +115,12 @@ export default function Hero() {
               </svg>
             </div>
 
-            {/* Centered P-Mark with glow */}
             <motion.div
               className="relative z-10 flex flex-col items-center gap-8"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Pulsing glow rings */}
               <div className="absolute -inset-20">
                 <motion.div 
                   className="absolute inset-0 border border-crimson/10 rounded-full"
@@ -152,7 +134,6 @@ export default function Hero() {
                 />
               </div>
 
-              {/* Main P-mark */}
               <svg viewBox="0 0 48 84" className="w-[100px] h-[175px] relative z-10">
                 <motion.rect 
                   x="0" y="0" width="13" height="84" 
@@ -188,7 +169,6 @@ export default function Hero() {
                 />
               </svg>
 
-              {/* Wordmark under the mark */}
               <motion.span
                 className="font-display font-semibold text-[16px] tracking-[8px] uppercase text-brand-white/30"
                 initial={{ opacity: 0, y: 20 }}
@@ -200,7 +180,6 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Stats Grid at Bottom */}
           <motion.div 
             className="relative z-10 grid grid-cols-2 lg:grid-cols-4 border-t border-brand-white/[0.06]"
             initial={{ opacity: 0, y: 30 }}
@@ -230,13 +209,11 @@ export default function Hero() {
             ))}
           </motion.div>
 
-          {/* Corner accents */}
           <div className="absolute top-6 left-6 w-8 h-8 border-t border-l border-gold/15" />
           <div className="absolute top-6 right-6 w-8 h-8 border-t border-r border-gold/15" />
         </div>
       </div>
 
-      {/* Bottom bar */}
       <motion.div 
         className="absolute bottom-0 left-0 right-0 z-20 bg-void border-t border-brand-white/[0.04]"
         initial={{ opacity: 0 }}
