@@ -1,8 +1,10 @@
 "use client"
 
+// PROTEKON Hero Section - Landing Page
 import { motion } from "framer-motion"
 import Link from "next/link"
 
+// Main hero component with 55/45 split layout
 export default function Hero() {
   return (
     <section className="relative min-h-screen bg-void">

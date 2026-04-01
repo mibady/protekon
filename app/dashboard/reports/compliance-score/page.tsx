@@ -1,0 +1,298 @@
+"use client"
+
+import { motion } from "framer-motion"
+import { ArrowLeft, Download, ArrowRight } from "@phosphor-icons/react"
+import Link from "next/link"
+import { useState, useEffect } from "react"
+
+// Animated counter
+function useCountUp(end: number, duration: number = 1400) {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    let startTime: number
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime
+      const progress = Math.min((currentTime - startTime) / duration, 1)
+      setCount(Math.floor(progress * end))
+      if (progress < 1) requestAnimationFrame(animate)
+    }
+    requestAnimationFrame(animate)
+  }, [end, duration])
+  return count
+}
+
+const categories = [
+  { name: "Documentation", score: 28, max: 30, weight: "30%" },
+  { name: "Incidents", score: 20, max: 25, weight: "25%" },
+  { name: "Regulatory", score: 16, max: 20, weight: "20%" },
+  { name: "Onboarding", score: 15, max: 15, weight: "15%" },
+  { name: "Account", score: 8, max: 10, weight: "10%" },
+]
+
+const monthlyScores = [
+  { month: "Aug", score: 72 },
+  { month: "Sep", score: 75 },
+  { month: "Oct", score: 78 },
+  { month: "Nov", score: 81 },
+  { month: "Dec", score: 84 },
+  { month: "Jan", score: 87 },
+]
+
+const documents = [
+  { name: "IIPP", status: "current", updated: "Jan 8, 2026", regulation: "8 CCR 3203", points: "5/5" },
+  { name: "SB 553 Plan", status: "current", updated: "Dec 15, 2025", regulation: "SB 553", points: "5/5" },
+  { name: "Emergency Action Plan", status: "review", updated: "Nov 20, 2025", regulation: "8 CCR 3220", points: "4/5" },
+  { name: "Hazcom Program", status: "current", updated: "Nov 3, 2025", regulation: "8 CCR 5194", points: "5/5" },
+  { name: "Heat Illness Prevention", status: "current", updated: "Oct 15, 2025", regulation: "8 CCR 3395", points: "5/5" },
+  { name: "Forklift Safety Program", status: "current", updated: "Sep 20, 2025", regulation: "8 CCR 3668", points: "4/5" },
+]
+
+const recommendations = [
+  { priority: 1, action: "Acknowledge 2 unread regulatory updates", gain: 4, cta: "Review Now", href: "/dashboard/regulations" },
+  { priority: 2, action: "Update Emergency Action Plan (review due)", gain: 1, cta: "Request Update", href: "/dashboard/documents/request" },
+  { priority: 3, action: "Complete account verification", gain: 2, cta: "Verify Now", href: "/dashboard/settings" },
+]
+
+export default function ComplianceScoreReportPage() {
+  const score = useCountUp(87)
+  const scoreColor = score >= 75 ? "#2A7D4F" : score >= 50 ? "#C9A84C" : "#C41230"
+
+  return (
+    <div className="p-6 lg:p-8">
+      {/* Back Link */}
+      <Link 
+        href="/dashboard/reports"
+        className="inline-flex items-center gap-2 font-display font-medium text-[11px] tracking-[2px] uppercase text-steel hover:text-midnight transition-colors mb-6"
+      >
+        <ArrowLeft size={14} />
+        Back to Reports
+      </Link>
+
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+        <div>
+          <span className="font-display font-medium text-[10px] tracking-[3px] uppercase text-crimson block mb-1">
+            Monthly Report
+          </span>
+          <h1 className="font-display font-bold text-[28px] text-midnight">Compliance Score Report</h1>
+          <p className="font-sans text-[14px] text-steel mt-1">
+            Generated January 15, 2026
+          </p>
+        </div>
+        <button className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-6 py-3 hover:brightness-110 transition-all">
+          <Download size={16} weight="bold" />
+          Export PDF
+        </button>
+      </div>
+
+      {/* Section 1: Score Hero */}
+      <motion.div 
+        className="bg-midnight p-8 mb-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Large Gauge */}
+          <div className="flex items-center justify-center">
+            <div className="relative w-[200px] h-[200px]">
+              <svg viewBox="0 0 200 200" className="w-full h-full -rotate-90">
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="90"
+                  fill="none"
+                  stroke="rgba(250,250,248,0.1)"
+                  strokeWidth="14"
+                />
+                <motion.circle
+                  cx="100"
+                  cy="100"
+                  r="90"
+                  fill="none"
+                  stroke={scoreColor}
+                  strokeWidth="14"
+                  strokeLinecap="round"
+                  initial={{ strokeDasharray: "0 565" }}
+                  animate={{ strokeDasharray: `${score * 5.65} 565` }}
+                  transition={{ duration: 1.4, ease: "easeOut" }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="font-display font-black text-[72px] leading-none text-gold">
+                  {score}
+                </span>
+                <span className="font-display font-medium text-[12px] tracking-[2px] uppercase text-steel">
+                  / 100
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Category Breakdown */}
+          <div className="flex flex-col justify-center">
+            <h3 className="font-display font-bold text-[10px] tracking-[3px] uppercase text-steel mb-4">
+              Category Breakdown
+            </h3>
+            <div className="space-y-3">
+              {categories.map((cat) => (
+                <div key={cat.name} className="flex items-center gap-3">
+                  <span className="font-sans text-[12px] text-brand-white w-28">{cat.name}</span>
+                  <div className="flex-1 h-2 bg-brand-white/10">
+                    <div 
+                      className="h-full bg-gold" 
+                      style={{ width: `${(cat.score / cat.max) * 100}%` }}
+                    />
+                  </div>
+                  <span className="font-mono text-[11px] text-brand-white w-12 text-right">
+                    {cat.score}/{cat.max}
+                  </span>
+                  <span className="font-mono text-[10px] text-steel w-8 text-right">
+                    {cat.weight}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mini Trend */}
+          <div className="flex flex-col justify-center">
+            <h3 className="font-display font-bold text-[10px] tracking-[3px] uppercase text-steel mb-4">
+              6-Month Trend
+            </h3>
+            <div className="relative h-[120px]">
+              <svg className="w-full h-full" viewBox="0 0 300 120">
+                <motion.path
+                  d={`M0,${120 - monthlyScores[0].score} ${monthlyScores.map((s, i) => `L${i * 60},${120 - s.score}`).join(' ')}`}
+                  fill="none"
+                  stroke="#C9A84C"
+                  strokeWidth="2"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.5 }}
+                />
+                {monthlyScores.map((s, i) => (
+                  <circle
+                    key={i}
+                    cx={i * 60}
+                    cy={120 - s.score}
+                    r="4"
+                    fill="#C9A84C"
+                  />
+                ))}
+              </svg>
+              <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2">
+                {monthlyScores.map((s) => (
+                  <span key={s.month} className="font-sans text-[10px] text-steel">{s.month}</span>
+                ))}
+              </div>
+            </div>
+            <p className="font-sans text-[11px] text-gold mt-2 text-center">
+              +15 pts in 6 months
+            </p>
+          </div>
+        </div>
+
+        {/* Tier Band */}
+        <div className="mt-8 pt-6 border-t border-brand-white/10">
+          <div className="relative h-3 bg-gradient-to-r from-crimson via-gold to-[#2A7D4F]">
+            <div 
+              className="absolute top-0 w-1 h-6 bg-brand-white -translate-y-1.5"
+              style={{ left: `${score}%` }}
+            />
+          </div>
+          <div className="flex justify-between mt-2">
+            <span className="font-display text-[9px] tracking-[2px] uppercase text-crimson">Critical 0-49</span>
+            <span className="font-display text-[9px] tracking-[2px] uppercase text-gold">Warning 50-74</span>
+            <span className="font-display text-[9px] tracking-[2px] uppercase text-[#2A7D4F]">Compliant 75-100</span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Section 3: Documentation Drill-Down */}
+      <motion.div 
+        className="bg-brand-white border border-midnight/[0.08] mb-6 overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
+        <div className="p-4 border-b border-midnight/[0.06]">
+          <h3 className="font-display font-bold text-[12px] tracking-[3px] uppercase text-midnight">
+            Documentation Readiness
+          </h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-midnight/[0.06] bg-parchment/50">
+                <th className="text-left px-4 py-3 font-display text-[9px] tracking-[2px] uppercase text-steel">Document</th>
+                <th className="text-left px-4 py-3 font-display text-[9px] tracking-[2px] uppercase text-steel">Status</th>
+                <th className="text-left px-4 py-3 font-display text-[9px] tracking-[2px] uppercase text-steel">Last Updated</th>
+                <th className="text-left px-4 py-3 font-display text-[9px] tracking-[2px] uppercase text-steel">Regulation</th>
+                <th className="text-right px-4 py-3 font-display text-[9px] tracking-[2px] uppercase text-steel">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              {documents.map((doc) => (
+                <tr key={doc.name} className="border-b border-midnight/[0.06] last:border-0">
+                  <td className="px-4 py-3 font-sans text-[13px] text-midnight">{doc.name}</td>
+                  <td className="px-4 py-3">
+                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                      doc.status === 'current' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' : 'bg-gold/10 text-gold'
+                    }`}>
+                      {doc.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 font-sans text-[12px] text-steel">{doc.updated}</td>
+                  <td className="px-4 py-3">
+                    <span className="px-2 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[8px] tracking-[1px] text-gold">
+                      {doc.regulation}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 font-mono text-[12px] text-midnight text-right">{doc.points}</td>
+                </tr>
+              ))}
+              <tr className="bg-parchment">
+                <td colSpan={4} className="px-4 py-3 font-display font-bold text-[12px] text-midnight">Total</td>
+                <td className="px-4 py-3 font-mono font-bold text-[14px] text-midnight text-right">28/30</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </motion.div>
+
+      {/* Section 5: Recommendations */}
+      <motion.div 
+        className="bg-void p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        <h3 className="font-display font-black text-[28px] text-brand-white mb-6">
+          How to Reach 90+
+        </h3>
+        <div className="space-y-4">
+          {recommendations.map((rec) => (
+            <div key={rec.priority} className="flex items-center gap-4 bg-midnight p-4">
+              <span className="w-8 h-8 bg-crimson flex items-center justify-center font-display font-bold text-[14px] text-white flex-shrink-0">
+                {rec.priority}
+              </span>
+              <div className="flex-1">
+                <p className="font-sans text-[14px] text-brand-white">{rec.action}</p>
+              </div>
+              <span className="font-display font-bold text-[14px] text-gold">
+                +{rec.gain} pts
+              </span>
+              <Link
+                href={rec.href}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-crimson text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase hover:brightness-110 transition-all"
+              >
+                {rec.cta}
+                <ArrowRight size={12} weight="bold" />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  )
+}
