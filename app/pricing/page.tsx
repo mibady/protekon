@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { Check, X, ArrowRight } from "@phosphor-icons/react"
@@ -9,6 +10,7 @@ import Footer from "@/components/layout/Footer"
 const plans = [
   {
     name: "Starter",
+    slug: "starter",
     price: "$297",
     period: "/month",
     description: "Perfect for small businesses with basic compliance needs.",
@@ -26,6 +28,7 @@ const plans = [
   },
   {
     name: "Professional",
+    slug: "professional",
     price: "$497",
     period: "/month",
     description: "Complete compliance coverage for growing businesses.",
@@ -44,6 +47,7 @@ const plans = [
   },
   {
     name: "Enterprise",
+    slug: "enterprise",
     price: "$797",
     period: "/month",
     description: "Full-service compliance for larger organizations.",
@@ -85,6 +89,30 @@ const faqs = [
 ]
 
 export default function PricingPage() {
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
+
+  async function handleCheckout(slug: string) {
+    setLoadingPlan(slug)
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planId: slug }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        // Not logged in or error — redirect to signup
+        window.location.href = "/signup"
+      }
+    } catch {
+      window.location.href = "/signup"
+    } finally {
+      setLoadingPlan(null)
+    }
+  }
+
   return (
     <main className="bg-void min-h-screen">
       <Nav />
@@ -196,17 +224,18 @@ export default function PricingPage() {
                   </div>
 
                   {/* CTA */}
-                  <Link
-                    href="/signup"
-                    className={`w-full py-4 font-display font-semibold text-[11px] tracking-[3px] uppercase flex items-center justify-center gap-2 transition-colors ${
+                  <button
+                    onClick={() => handleCheckout(plan.slug)}
+                    disabled={loadingPlan === plan.slug}
+                    className={`w-full py-4 font-display font-semibold text-[11px] tracking-[3px] uppercase flex items-center justify-center gap-2 transition-colors disabled:opacity-50 ${
                       plan.popular
                         ? 'bg-crimson text-parchment hover:bg-crimson/90'
                         : 'border border-brand-white/[0.1] text-parchment hover:border-gold/50 hover:text-gold'
                     }`}
                   >
-                    Get Started
-                    <ArrowRight size={14} weight="bold" />
-                  </Link>
+                    {loadingPlan === plan.slug ? "Redirecting..." : "Get Started"}
+                    {loadingPlan !== plan.slug && <ArrowRight size={14} weight="bold" />}
+                  </button>
                 </div>
               </motion.div>
             ))}

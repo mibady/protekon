@@ -11,6 +11,7 @@ export default function SettingsPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [billingLoading, setBillingLoading] = useState(false)
   const [client, setClient] = useState<ClientProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const formRef = useRef<HTMLFormElement>(null)
@@ -246,50 +247,39 @@ export default function SettingsPage() {
                     <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
                       Current Plan
                     </span>
-                    <span className="font-display font-bold text-[20px] text-midnight">Professional</span>
+                    <span className="font-display font-bold text-[20px] text-midnight">
+                      {client?.plan ? client.plan.charAt(0).toUpperCase() + client.plan.slice(1) : "—"}
+                    </span>
                   </div>
-                  <span className="font-display font-bold text-[24px] text-gold">$497/mo</span>
+                  <span className="font-display font-bold text-[24px] text-gold">
+                    {client?.plan === "starter" ? "$297/mo" : client?.plan === "professional" ? "$497/mo" : client?.plan === "enterprise" ? "$797/mo" : "—"}
+                  </span>
                 </div>
                 <p className="font-sans text-[13px] text-steel mb-4">
-                  Full compliance stack with IIPP, SB 553, incident logging, and regulatory monitoring.
+                  Manage your subscription, update payment methods, and view invoices through the Stripe billing portal.
                 </p>
-                <button className="font-display text-[11px] tracking-[2px] uppercase text-crimson hover:text-crimson/80 transition-colors">
-                  Upgrade to Enterprise
+                <button
+                  onClick={async () => {
+                    setBillingLoading(true)
+                    try {
+                      const res = await fetch("/api/stripe/portal", { method: "POST" })
+                      const data = await res.json()
+                      if (data.url) {
+                        window.location.href = data.url
+                      } else {
+                        setError(data.error || "Unable to open billing portal")
+                      }
+                    } catch {
+                      setError("Unable to open billing portal")
+                    } finally {
+                      setBillingLoading(false)
+                    }
+                  }}
+                  disabled={billingLoading}
+                  className="bg-midnight text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-6 py-3 hover:bg-midnight/90 transition-colors disabled:opacity-50"
+                >
+                  {billingLoading ? "Opening..." : "Manage Subscription"}
                 </button>
-              </div>
-              <div className="mb-8">
-                <h3 className="font-display text-[14px] font-bold text-midnight mb-4">Payment Method</h3>
-                <div className="flex items-center gap-4 p-4 border border-ash">
-                  <CreditCard size={24} className="text-steel" />
-                  <div>
-                    <span className="font-sans text-[14px] text-midnight block">Visa ending in 4242</span>
-                    <span className="font-sans text-[12px] text-steel">Expires 12/2026</span>
-                  </div>
-                  <button className="ml-auto font-display text-[11px] tracking-[2px] uppercase text-steel hover:text-midnight transition-colors">
-                    Update
-                  </button>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-display text-[14px] font-bold text-midnight mb-4">Billing History</h3>
-                <div className="border border-ash divide-y divide-ash">
-                  {[
-                    { date: "Jan 1, 2025", amount: "$497.00", status: "Paid" },
-                    { date: "Dec 1, 2024", amount: "$497.00", status: "Paid" },
-                    { date: "Nov 1, 2024", amount: "$497.00", status: "Paid" },
-                  ].map((invoice, i) => (
-                    <div key={i} className="flex items-center justify-between p-4">
-                      <span className="font-sans text-[14px] text-midnight">{invoice.date}</span>
-                      <span className="font-sans text-[14px] text-midnight">{invoice.amount}</span>
-                      <span className="font-display text-[10px] tracking-[2px] uppercase text-green-600 bg-green-50 px-2 py-1">
-                        {invoice.status}
-                      </span>
-                      <button className="font-display text-[11px] tracking-[2px] uppercase text-steel hover:text-midnight transition-colors">
-                        Download
-                      </button>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           )}
