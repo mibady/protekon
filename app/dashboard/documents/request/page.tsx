@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { FileText, ArrowLeft, Lightning, Check } from "@phosphor-icons/react"
 import Link from "next/link"
 import { useState } from "react"
+import { requestDocument } from "@/lib/actions/documents"
 
 const documentTypes = [
   { id: "iipp", name: "IIPP Update", description: "Injury & Illness Prevention Program", regulation: "8 CCR 3203" },
@@ -17,10 +18,34 @@ const documentTypes = [
 export default function DocumentRequestPage() {
   const [selectedType, setSelectedType] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    if (!selectedType) return
+
+    setIsSubmitting(true)
+    setError(null)
+
+    const formData = new FormData()
+    formData.set("type", selectedType)
+
+    const form = e.currentTarget as HTMLFormElement
+    const notes = (form.querySelector('textarea[name="notes"]') as HTMLTextAreaElement)?.value
+    if (notes) formData.set("notes", notes)
+
+    const priority = (form.querySelector('input[name="priority"]:checked') as HTMLInputElement)?.value
+    if (priority) formData.set("priority", priority)
+
+    const result = await requestDocument(formData)
+
+    if (result?.error) {
+      setError(result.error)
+      setIsSubmitting(false)
+    } else {
+      setSubmitted(true)
+    }
   }
 
   if (submitted) {
@@ -137,6 +162,7 @@ export default function DocumentRequestPage() {
             Additional Notes (Optional)
           </label>
           <textarea
+            name="notes"
             rows={4}
             placeholder="Describe any specific requirements or changes needed..."
             className="w-full bg-brand-white border border-midnight/[0.08] px-4 py-3 font-sans text-[14px] text-midnight placeholder:text-steel focus:border-midnight focus:outline-none resize-none"
@@ -166,14 +192,21 @@ export default function DocumentRequestPage() {
           </div>
         </div>
 
+        {/* Error */}
+        {error && (
+          <div className="mb-8 px-4 py-3 bg-crimson/10 border border-crimson/20 text-crimson font-sans text-[13px]">
+            {error}
+          </div>
+        )}
+
         {/* Submit */}
         <div className="flex items-center gap-4">
           <button
             type="submit"
-            disabled={!selectedType}
+            disabled={!selectedType || isSubmitting}
             className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-8 py-4 hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Submit Request
+            {isSubmitting ? "Submitting..." : "Submit Request"}
           </button>
           <Link
             href="/dashboard/documents"

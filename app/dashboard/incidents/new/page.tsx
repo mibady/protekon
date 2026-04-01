@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Warning, Calendar, MapPin, User, FileText, PaperPlaneTilt } from "@phosphor-icons/react"
 import Link from "next/link"
+import { createIncident } from "@/lib/actions/incidents"
 
 export default function NewIncidentPage() {
   const [formState, setFormState] = useState({
@@ -20,13 +21,33 @@ export default function NewIncidentPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    setError(null)
+
+    const formData = new FormData()
+    formData.set("date", formState.date)
+    formData.set("time", formState.time)
+    formData.set("location", formState.location)
+    formData.set("type", formState.type)
+    formData.set("severity", formState.severity)
+    formData.set("description", formState.description)
+    formData.set("witnesses", formState.witnesses)
+    formData.set("actionsTaken", formState.actionsTaken)
+    formData.set("injuryOccurred", formState.injuryOccurred)
+    formData.set("medicalTreatment", formState.medicalTreatment)
+
+    const result = await createIncident(formData)
+
     setIsSubmitting(false)
-    setIsSubmitted(true)
+    if (result?.error) {
+      setError(result.error)
+    } else {
+      setIsSubmitted(true)
+    }
   }
 
   if (isSubmitted) {
@@ -294,6 +315,13 @@ export default function NewIncidentPage() {
             className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight placeholder:text-steel/50 focus:border-midnight focus:outline-none transition-colors resize-none"
           />
         </div>
+
+        {/* Error */}
+        {error && (
+          <div className="mb-8 px-4 py-3 bg-crimson/10 border border-crimson/20 text-crimson font-sans text-[13px]">
+            {error}
+          </div>
+        )}
 
         {/* Notice */}
         <div className="bg-fog/50 p-4 mb-8">
