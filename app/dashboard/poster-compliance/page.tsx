@@ -138,7 +138,7 @@ export default function PosterCompliancePage() {
                 type="text"
                 value={formData.location_name}
                 onChange={(e) => setFormData({ ...formData, location_name: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -150,7 +150,7 @@ export default function PosterCompliancePage() {
                 value={formData.poster_type}
                 onChange={(e) => setFormData({ ...formData, poster_type: e.target.value })}
                 placeholder="Federal, State, OSHA"
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -161,7 +161,7 @@ export default function PosterCompliancePage() {
                 type="text"
                 value={formData.jurisdiction}
                 onChange={(e) => setFormData({ ...formData, jurisdiction: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -172,7 +172,7 @@ export default function PosterCompliancePage() {
                 type="date"
                 value={formData.next_update_due}
                 onChange={(e) => setFormData({ ...formData, next_update_due: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
           </div>

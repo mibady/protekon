@@ -137,7 +137,7 @@ export default function PropertiesPage() {
                 type="text"
                 value={formData.property_name}
                 onChange={(e) => setFormData({ ...formData, property_name: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -148,7 +148,7 @@ export default function PropertiesPage() {
                 type="text"
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -159,7 +159,7 @@ export default function PropertiesPage() {
                 type="text"
                 value={formData.city}
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -170,7 +170,7 @@ export default function PropertiesPage() {
                 type="text"
                 value={formData.state}
                 onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -182,7 +182,7 @@ export default function PropertiesPage() {
                 min={1}
                 value={formData.units}
                 onChange={(e) => setFormData({ ...formData, units: parseInt(e.target.value) || 1 })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -192,7 +192,7 @@ export default function PropertiesPage() {
               <select
                 value={formData.property_type}
                 onChange={(e) => setFormData({ ...formData, property_type: e.target.value as Property["property_type"] })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:border-midnight focus:outline-none transition-colors"
               >
                 <option value="residential">Residential</option>
                 <option value="commercial">Commercial</option>
@@ -207,7 +207,7 @@ export default function PropertiesPage() {
               <select
                 value={formData.compliance_status}
                 onChange={(e) => setFormData({ ...formData, compliance_status: e.target.value as Property["compliance_status"] })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:border-midnight focus:outline-none transition-colors"
               >
                 <option value="compliant">Compliant</option>
                 <option value="at-risk">At Risk</option>

@@ -127,7 +127,7 @@ export default function BaaTrackerPage() {
                 type="text"
                 value={formData.vendor_name}
                 onChange={(e) => setFormData({ ...formData, vendor_name: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -138,7 +138,7 @@ export default function BaaTrackerPage() {
                 type="text"
                 value={formData.service_type}
                 onChange={(e) => setFormData({ ...formData, service_type: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -150,7 +150,7 @@ export default function BaaTrackerPage() {
                 value={formData.phi_types}
                 onChange={(e) => setFormData({ ...formData, phi_types: e.target.value })}
                 placeholder="Names, Addresses, Medical Records"
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -160,7 +160,7 @@ export default function BaaTrackerPage() {
               <select
                 value={formData.baa_status}
                 onChange={(e) => setFormData({ ...formData, baa_status: e.target.value as BaaAgreement["baa_status"] })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:border-midnight focus:outline-none transition-colors"
               >
                 <option value="active">Active</option>
                 <option value="pending">Pending</option>
@@ -175,7 +175,7 @@ export default function BaaTrackerPage() {
                 type="date"
                 value={formData.signed_date}
                 onChange={(e) => setFormData({ ...formData, signed_date: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -186,7 +186,7 @@ export default function BaaTrackerPage() {
                 type="date"
                 value={formData.expiration_date}
                 onChange={(e) => setFormData({ ...formData, expiration_date: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
           </div>

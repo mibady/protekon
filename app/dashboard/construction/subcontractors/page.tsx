@@ -114,7 +114,7 @@ export default function SubcontractorsPage() {
                 type="text"
                 value={formData.company_name}
                 onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -125,7 +125,7 @@ export default function SubcontractorsPage() {
                 type="text"
                 value={formData.license_number}
                 onChange={(e) => setFormData({ ...formData, license_number: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -135,7 +135,7 @@ export default function SubcontractorsPage() {
               <select
                 value={formData.license_status}
                 onChange={(e) => setFormData({ ...formData, license_status: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:border-midnight focus:outline-none transition-colors"
               >
                 <option value="valid">Valid</option>
                 <option value="expiring">Expiring</option>
@@ -151,7 +151,7 @@ export default function SubcontractorsPage() {
                 type="date"
                 value={formData.license_expiry}
                 onChange={(e) => setFormData({ ...formData, license_expiry: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -161,7 +161,7 @@ export default function SubcontractorsPage() {
               <select
                 value={formData.insurance_status}
                 onChange={(e) => setFormData({ ...formData, insurance_status: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:border-midnight focus:outline-none transition-colors"
               >
                 <option value="valid">Valid</option>
                 <option value="expiring">Expiring</option>
@@ -177,7 +177,7 @@ export default function SubcontractorsPage() {
                 type="date"
                 value={formData.insurance_expiry}
                 onChange={(e) => setFormData({ ...formData, insurance_expiry: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
           </div>

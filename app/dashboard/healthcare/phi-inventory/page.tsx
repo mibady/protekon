@@ -19,7 +19,7 @@ interface PhiAsset {
 const riskStyles: Record<string, string> = {
   low: "bg-[#2A7D4F]/10 text-[#2A7D4F]",
   medium: "bg-gold/10 text-gold",
-  high: "bg-[#E8712A]/10 text-[#E8712A]",
+  high: "bg-gold/10 text-gold",
   critical: "bg-crimson/10 text-crimson",
 }
 
@@ -103,7 +103,7 @@ export default function PhiInventoryPage() {
                 type="text"
                 value={formData.system_name}
                 onChange={(e) => setFormData({ ...formData, system_name: e.target.value })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -113,7 +113,7 @@ export default function PhiInventoryPage() {
               <select
                 value={formData.system_type}
                 onChange={(e) => setFormData({ ...formData, system_type: e.target.value as PhiAsset["system_type"] })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:border-midnight focus:outline-none transition-colors"
               >
                 <option value="EHR">EHR</option>
                 <option value="Lab">Lab</option>
@@ -131,7 +131,7 @@ export default function PhiInventoryPage() {
                 value={formData.phi_content_types}
                 onChange={(e) => setFormData({ ...formData, phi_content_types: e.target.value })}
                 placeholder="Names, SSN, Diagnoses"
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
               />
             </div>
             <div className="flex items-center gap-6">
@@ -161,7 +161,7 @@ export default function PhiInventoryPage() {
               <select
                 value={formData.risk_level}
                 onChange={(e) => setFormData({ ...formData, risk_level: e.target.value as PhiAsset["risk_level"] })}
-                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:outline-none focus:border-midnight/30"
+                className="w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight bg-white focus:border-midnight focus:outline-none transition-colors"
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
