@@ -1,32 +1,22 @@
 "use client"
 
+import React from "react"
 import { motion } from "framer-motion"
 import { ArrowLeft, Download, ArrowDown } from "@phosphor-icons/react"
 import Link from "next/link"
-
-const kpis = [
-  { label: "This Month", value: 3, delta: -2, positive: true },
-  { label: "YTD", value: 47, delta: -15, positive: true },
-  { label: "Open", value: 2, delta: null, positive: null },
-  { label: "OSHA Recordable", value: 1, delta: 0, positive: true },
-  { label: "Recordable Rate", value: "2.1%", delta: -0.3, positive: true },
-]
-
-const incidentsByType = [
-  { type: "Injury", count: 28, color: "#C41230" },
-  { type: "Near Miss", count: 12, color: "#C9A84C" },
-  { type: "Property", count: 5, color: "#7A8FA5" },
-  { type: "Illness", count: 2, color: "#B8C4CE" },
-]
-
-const correctiveActions = [
-  { incident: "INC-2026-001", action: "Install additional signage in loading area", assigned: "Safety Officer", due: "Jan 25, 2026", status: "In Progress" },
-  { incident: "INC-2025-047", action: "Implement two-person lift policy for >50lbs", assigned: "Supervisor", due: "Jan 20, 2026", status: "Completed" },
-  { incident: "INC-2025-046", action: "Schedule plumbing inspection", assigned: "Facilities", due: "Jan 15, 2026", status: "Completed" },
-  { incident: "INC-2025-045", action: "Update winter weather protocol", assigned: "Safety Officer", due: "Jan 10, 2026", status: "Completed" },
-]
+import { useState, useEffect } from "react"
+import { getIncidentAnalysis } from "@/lib/actions/reports"
 
 export default function IncidentAnalysisReportPage() {
+  const [data, setData] = useState<Awaited<ReturnType<typeof getIncidentAnalysis>> | null>(null)
+
+  useEffect(() => {
+    getIncidentAnalysis().then(setData)
+  }, [])
+
+  const kpis = (data?.kpis ?? []) as { label: string; value: number | string; delta: number | null; positive: boolean | null }[]
+  const incidentsByType = data?.incidentsByType ?? []
+  const correctiveActions = data?.correctiveActions ?? []
   const total = incidentsByType.reduce((sum, i) => sum + i.count, 0)
 
   return (
@@ -124,7 +114,7 @@ export default function IncidentAnalysisReportPage() {
                   )
                   acc.offset += percentage
                   return acc
-                }, { elements: [] as JSX.Element[], offset: 0 }).elements}
+                }, { elements: [] as React.ReactNode[], offset: 0 }).elements}
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="font-display font-black text-[36px] text-midnight">{total}</span>
@@ -156,10 +146,26 @@ export default function IncidentAnalysisReportPage() {
           <div className="flex items-center gap-8">
             <div className="relative w-[160px] h-[160px]">
               <svg viewBox="0 0 160 160" className="w-full h-full -rotate-90">
-                <circle cx="80" cy="80" r="70" fill="none" stroke="#C41230" strokeWidth="20" strokeDasharray="44 396" strokeDashoffset="0" />
-                <circle cx="80" cy="80" r="70" fill="none" stroke="#C9A84C" strokeWidth="20" strokeDasharray="88 352" strokeDashoffset="-44" />
-                <circle cx="80" cy="80" r="70" fill="none" stroke="#7A8FA5" strokeWidth="20" strokeDasharray="132 308" strokeDashoffset="-132" />
-                <circle cx="80" cy="80" r="70" fill="none" stroke="#B8C4CE" strokeWidth="20" strokeDasharray="176 264" strokeDashoffset="-264" />
+                {(data?.incidentsBySeverity ?? []).reduce((acc, item, _i) => {
+                  const prevOffset = acc.offset
+                  const percentage = total > 0 ? (item.count / total) * 100 : 0
+                  const dashArray = `${percentage * 4.4} ${440 - percentage * 4.4}`
+                  acc.elements.push(
+                    <circle
+                      key={item.type}
+                      cx="80"
+                      cy="80"
+                      r="70"
+                      fill="none"
+                      stroke={item.color}
+                      strokeWidth="20"
+                      strokeDasharray={dashArray}
+                      strokeDashoffset={-prevOffset * 4.4}
+                    />
+                  )
+                  acc.offset += percentage
+                  return acc
+                }, { elements: [] as React.ReactNode[], offset: 0 }).elements}
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="font-display font-black text-[36px] text-midnight">{total}</span>
@@ -167,12 +173,7 @@ export default function IncidentAnalysisReportPage() {
               </div>
             </div>
             <div className="space-y-2">
-              {[
-                { type: "Critical", count: 2, color: "#C41230" },
-                { type: "Serious", count: 8, color: "#C9A84C" },
-                { type: "Moderate", count: 15, color: "#7A8FA5" },
-                { type: "Minor", count: 22, color: "#B8C4CE" },
-              ].map((item) => (
+              {(data?.incidentsBySeverity ?? []).map((item) => (
                 <div key={item.type} className="flex items-center gap-3">
                   <span className="w-3 h-3" style={{ backgroundColor: item.color }} />
                   <span className="font-sans text-[13px] text-midnight">{item.type}</span>

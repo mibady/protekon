@@ -3,35 +3,19 @@
 import { motion } from "framer-motion"
 import { ArrowLeft, Download, EnvelopeSimple, Check, Eye } from "@phosphor-icons/react"
 import Link from "next/link"
-
-const stats = [
-  { label: "Total Deliveries", value: 47 },
-  { label: "Open Rate", value: "94%" },
-  { label: "Avg. Open Time", value: "2.3 hrs" },
-  { label: "This Month", value: 4 },
-]
-
-const deliveries = [
-  { date: "Jan 15, 2026", type: "Report", name: "Monthly Compliance Summary", recipient: "admin@demo.com", status: "Opened", openTime: "1 hr" },
-  { date: "Jan 8, 2026", type: "Document", name: "IIPP v2.3", recipient: "admin@demo.com", status: "Opened", openTime: "2 hrs" },
-  { date: "Jan 5, 2026", type: "Report", name: "Quarterly Incident Analysis", recipient: "admin@demo.com", status: "Opened", openTime: "30 min" },
-  { date: "Jan 3, 2026", type: "Alert", name: "Regulatory Update - SB 553", recipient: "admin@demo.com", status: "Opened", openTime: "15 min" },
-  { date: "Dec 31, 2025", type: "Report", name: "Annual Compliance Summary", recipient: "admin@demo.com", status: "Opened", openTime: "4 hrs" },
-  { date: "Dec 15, 2025", type: "Document", name: "SB 553 Plan v1.4", recipient: "admin@demo.com", status: "Opened", openTime: "1 hr" },
-  { date: "Dec 1, 2025", type: "Report", name: "Monthly Compliance Summary", recipient: "admin@demo.com", status: "Opened", openTime: "3 hrs" },
-  { date: "Nov 20, 2025", type: "Document", name: "Emergency Action Plan v1.2", recipient: "admin@demo.com", status: "Sent", openTime: "-" },
-  { date: "Nov 15, 2025", type: "Report", name: "Monthly Compliance Summary", recipient: "admin@demo.com", status: "Opened", openTime: "2 hrs" },
-  { date: "Nov 3, 2025", type: "Document", name: "Hazcom Program v2.1", recipient: "admin@demo.com", status: "Opened", openTime: "45 min" },
-]
-
-const deliverySchedule = [
-  { type: "Monthly Summary", frequency: "1st of each month", next: "Feb 1, 2026" },
-  { type: "IIPP Review Reminder", frequency: "Quarterly", next: "Apr 1, 2026" },
-  { type: "Incident Export", frequency: "15th of each month", next: "Feb 15, 2026" },
-  { type: "Annual Package", frequency: "Annually", next: "Jan 2027" },
-]
+import { useState, useEffect } from "react"
+import { getDeliveryLog } from "@/lib/actions/reports"
 
 export default function DeliveryLogReportPage() {
+  const [data, setData] = useState<Awaited<ReturnType<typeof getDeliveryLog>> | null>(null)
+
+  useEffect(() => {
+    getDeliveryLog().then(setData)
+  }, [])
+
+  const stats = (data?.stats ?? []) as { label: string; value: number | string }[]
+  const deliveries = data?.deliveries ?? []
+  const deliverySchedule = (data?.deliverySchedule ?? []) as { type: string; frequency: string; next: string }[]
   return (
     <div className="p-6 lg:p-8">
       {/* Back Link */}

@@ -3,17 +3,8 @@
 import { motion } from "framer-motion"
 import { ArrowLeft, Download, ShieldCheck } from "@phosphor-icons/react"
 import Link from "next/link"
-
-const stats = [
-  { label: "Year-End Score", value: "87/100" },
-  { label: "Documents Current", value: "6/6" },
-  { label: "Incidents Closed", value: "45/47" },
-  { label: "Regulations Monitored", value: "14" },
-]
-
-const oshaLog = [
-  { case: "001", jobTitle: "Warehouse Associate", date: "Dec 15, 2025", location: "Production Floor", description: "Back strain from lifting", classification: "Injury", daysAway: 3, daysRestricted: 14 },
-]
+import { useState, useEffect } from "react"
+import { getAnnualSummary } from "@/lib/actions/reports"
 
 const raciMatrix = [
   { task: "IIPP Maintenance", owner: "A", safety: "R", supervisors: "C", employees: "I" },
@@ -43,6 +34,16 @@ const RaciBadge = ({ value }: { value: string }) => {
 }
 
 export default function AnnualSummaryReportPage() {
+  const [data, setData] = useState<Awaited<ReturnType<typeof getAnnualSummary>> | null>(null)
+
+  useEffect(() => {
+    getAnnualSummary().then(setData)
+  }, [])
+
+  const stats = data?.stats ?? []
+  const oshaLog = data?.oshaLog ?? []
+  const businessName = data?.businessName ?? "—"
+
   return (
     <div>
       {/* Cover Section */}
@@ -77,7 +78,7 @@ export default function AnnualSummaryReportPage() {
             Annual Compliance Summary
           </span>
           <h1 className="font-display font-black text-[48px] lg:text-[64px] text-brand-white leading-tight mb-4">
-            Demo Construction Co
+            {businessName}
           </h1>
           <p className="font-display font-light text-[18px] tracking-[3px] text-gold">
             Calendar Year 2025 · Prepared by Shield CaaS by PROTEKON

@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { ArrowLeft, Download, ArrowRight } from "@phosphor-icons/react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { getComplianceScoreReport } from "@/lib/actions/reports"
 
 // Animated counter
 function useCountUp(end: number, duration: number = 1400) {
@@ -21,40 +22,22 @@ function useCountUp(end: number, duration: number = 1400) {
   return count
 }
 
-const categories = [
-  { name: "Documentation", score: 28, max: 30, weight: "30%" },
-  { name: "Incidents", score: 20, max: 25, weight: "25%" },
-  { name: "Regulatory", score: 16, max: 20, weight: "20%" },
-  { name: "Onboarding", score: 15, max: 15, weight: "15%" },
-  { name: "Account", score: 8, max: 10, weight: "10%" },
-]
-
-const monthlyScores = [
-  { month: "Aug", score: 72 },
-  { month: "Sep", score: 75 },
-  { month: "Oct", score: 78 },
-  { month: "Nov", score: 81 },
-  { month: "Dec", score: 84 },
-  { month: "Jan", score: 87 },
-]
-
-const documents = [
-  { name: "IIPP", status: "current", updated: "Jan 8, 2026", regulation: "8 CCR 3203", points: "5/5" },
-  { name: "SB 553 Plan", status: "current", updated: "Dec 15, 2025", regulation: "SB 553", points: "5/5" },
-  { name: "Emergency Action Plan", status: "review", updated: "Nov 20, 2025", regulation: "8 CCR 3220", points: "4/5" },
-  { name: "Hazcom Program", status: "current", updated: "Nov 3, 2025", regulation: "8 CCR 5194", points: "5/5" },
-  { name: "Heat Illness Prevention", status: "current", updated: "Oct 15, 2025", regulation: "8 CCR 3395", points: "5/5" },
-  { name: "Forklift Safety Program", status: "current", updated: "Sep 20, 2025", regulation: "8 CCR 3668", points: "4/5" },
-]
-
-const recommendations = [
-  { priority: 1, action: "Acknowledge 2 unread regulatory updates", gain: 4, cta: "Review Now", href: "/dashboard/regulations" },
-  { priority: 2, action: "Update Emergency Action Plan (review due)", gain: 1, cta: "Request Update", href: "/dashboard/documents/request" },
-  { priority: 3, action: "Complete account verification", gain: 2, cta: "Verify Now", href: "/dashboard/settings" },
-]
-
 export default function ComplianceScoreReportPage() {
-  const score = useCountUp(87)
+  const [data, setData] = useState<{ score: number; monthlyScores: { month: string; score: number }[]; documents: { name: string; status: string; updated: string; regulation: string; points: string }[]; categories: { name: string; score: number; max: number; weight: string }[] } | null>(null)
+
+  useEffect(() => {
+    getComplianceScoreReport().then(setData)
+  }, [])
+
+  const categories = data?.categories ?? []
+  const monthlyScores = data?.monthlyScores ?? []
+  const documents = data?.documents ?? []
+  const recommendations = [
+    { priority: 1, action: "Review regulatory updates", gain: 4, cta: "Review Now", href: "/dashboard/regulations" },
+    { priority: 2, action: "Update any documents in review status", gain: 1, cta: "Request Update", href: "/dashboard/documents/request" },
+    { priority: 3, action: "Complete account settings", gain: 2, cta: "Verify Now", href: "/dashboard/settings" },
+  ]
+  const score = useCountUp(data?.score ?? 0)
   const scoreColor = score >= 75 ? "#2A7D4F" : score >= 50 ? "#C9A84C" : "#C41230"
 
   return (

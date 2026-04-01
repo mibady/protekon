@@ -3,46 +3,8 @@
 import { motion } from "framer-motion"
 import { ArrowLeft, Download, Check, ArrowRight } from "@phosphor-icons/react"
 import Link from "next/link"
-
-const stats = [
-  { label: "Total Updates", value: 18 },
-  { label: "Amendments", value: 6 },
-  { label: "Guidance", value: 12 },
-  { label: "Response Rate", value: "100%" },
-]
-
-const quarters = [
-  {
-    quarter: "Q1 2025",
-    updates: [
-      { code: "SB 553", type: "Amendment", impact: "High", status: "Responded", response: "SB 553 Plan v1.2 generated" },
-      { code: "8 CCR 3395", type: "Guidance", impact: "Low", status: "Acknowledged", response: "No action required" },
-    ]
-  },
-  {
-    quarter: "Q2 2025",
-    updates: [
-      { code: "8 CCR 3203", type: "Amendment", impact: "Medium", status: "Responded", response: "IIPP v2.1 updated" },
-      { code: "8 CCR 5194", type: "Guidance", impact: "Low", status: "Acknowledged", response: "No action required" },
-      { code: "Cal/OSHA", type: "Guidance", impact: "Low", status: "Acknowledged", response: "No action required" },
-    ]
-  },
-  {
-    quarter: "Q3 2025",
-    updates: [
-      { code: "SB 553", type: "Guidance", impact: "Low", status: "Acknowledged", response: "FAQ reviewed" },
-      { code: "8 CCR 3220", type: "Amendment", impact: "Medium", status: "Responded", response: "EAP v1.1 updated" },
-    ]
-  },
-  {
-    quarter: "Q4 2025",
-    updates: [
-      { code: "SB 553", type: "Amendment", impact: "High", status: "Responded", response: "SB 553 Plan v1.4 generated" },
-      { code: "8 CCR 3203", type: "Amendment", impact: "High", status: "Responded", response: "IIPP v2.2 updated" },
-      { code: "Cal/OSHA", type: "Guidance", impact: "Low", status: "Acknowledged", response: "Recordkeeping guidance reviewed" },
-    ]
-  },
-]
+import { useState, useEffect } from "react"
+import { getRegulatoryImpact } from "@/lib/actions/reports"
 
 const avoidedPenalties = [
   { regulation: "8 CCR 3203", violation: "Outdated IIPP", minPenalty: "$1,500", maxPenalty: "$25,000" },
@@ -51,6 +13,14 @@ const avoidedPenalties = [
 ]
 
 export default function RegulatoryImpactReportPage() {
+  const [data, setData] = useState<Awaited<ReturnType<typeof getRegulatoryImpact>> | null>(null)
+
+  useEffect(() => {
+    getRegulatoryImpact().then(setData)
+  }, [])
+
+  const stats = (data?.stats ?? []) as { label: string; value: number | string }[]
+  const quarters = data?.quarters ?? []
   return (
     <div className="p-6 lg:p-8">
       {/* Back Link */}

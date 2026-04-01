@@ -3,91 +3,29 @@
 import { motion } from "framer-motion"
 import { ArrowRight, Check, Eye, ArrowSquareOut } from "@phosphor-icons/react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getRegulations, acknowledgeRegulation } from "@/lib/actions/reports"
 
-const regulatoryUpdates = [
-  {
-    id: 1,
-    severity: "high",
-    code: "SB 553",
-    issuingBody: "California DIR",
-    publishedDate: "Jan 10, 2026",
-    title: "Emergency Egress Amendment — Updated Signage Requirements",
-    type: "amendment",
-    summary: "Cal/OSHA has amended the emergency egress requirements under SB 553 to mandate updated exit signage in all workplace areas. The amendment requires photoluminescent signage to be installed within 90 days of the effective date.",
-    effectiveDate: "Feb 15, 2026",
-    complianceDeadline: "May 15, 2026",
-    actionRequired: true,
-    unread: true,
-    impactText: "Your SB 553 Workplace Violence Prevention Plan requires an update to reflect new signage requirements."
-  },
-  {
-    id: 2,
-    severity: "high",
-    code: "8 CCR 3203",
-    issuingBody: "Cal/OSHA",
-    publishedDate: "Jan 8, 2026",
-    title: "Inspection Frequency Increase — Quarterly Self-Inspections Required",
-    type: "amendment",
-    summary: "The inspection frequency under 8 CCR 3203 has been increased from semi-annual to quarterly for all workplaces with more than 10 employees. This affects IIPP documentation and recordkeeping requirements.",
-    effectiveDate: "Feb 1, 2026",
-    complianceDeadline: "Feb 1, 2026",
-    actionRequired: true,
-    unread: true,
-    impactText: "Your IIPP inspection schedule must be updated to quarterly frequency."
-  },
-  {
-    id: 3,
-    severity: "medium",
-    code: "Cal/OSHA",
-    issuingBody: "Cal/OSHA",
-    publishedDate: "Jan 5, 2026",
-    title: "Recordkeeping Supplemental Guidance Released",
-    type: "guidance",
-    summary: "Cal/OSHA has released supplemental guidance clarifying recordkeeping requirements for workplace incidents. The guidance provides examples of proper log entries and retention periods.",
-    effectiveDate: "Immediate",
-    complianceDeadline: null,
-    actionRequired: false,
-    unread: true,
-    impactText: null
-  },
-  {
-    id: 4,
-    severity: "medium",
-    code: "8 CCR 5194",
-    issuingBody: "Cal/OSHA",
-    publishedDate: "Dec 20, 2025",
-    title: "Hazcom Label Format Clarification",
-    type: "guidance",
-    summary: "Updated guidance on GHS-compliant hazard communication labels, clarifying placement requirements and minimum text size for workplace chemicals.",
-    effectiveDate: "Immediate",
-    complianceDeadline: null,
-    actionRequired: false,
-    unread: false,
-    impactText: null
-  },
-  {
-    id: 5,
-    severity: "low",
-    code: "SB 553",
-    issuingBody: "California DIR",
-    publishedDate: "Dec 15, 2025",
-    title: "SB 553 FAQ Document Published",
-    type: "guidance",
-    summary: "DIR has published a comprehensive FAQ document addressing common questions about SB 553 implementation, including training requirements and plan content.",
-    effectiveDate: "Immediate",
-    complianceDeadline: null,
-    actionRequired: false,
-    unread: false,
-    impactText: null
-  },
-]
+type Regulation = {
+  id: string; severity: string; code: string; issuingBody: string; publishedDate: string;
+  title: string; type: string; summary: string; effectiveDate: string;
+  complianceDeadline: string | null; actionRequired: boolean; unread: boolean; impactText: string | null;
+}
 
 export default function RegulationsPage() {
-  const [updates, setUpdates] = useState(regulatoryUpdates)
+  const [updates, setUpdates] = useState<Regulation[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const handleAcknowledge = (id: number) => {
+  useEffect(() => {
+    getRegulations().then((data) => {
+      setUpdates(data as Regulation[])
+      setLoading(false)
+    })
+  }, [])
+
+  const handleAcknowledge = async (id: string) => {
     setUpdates(updates.map(u => u.id === id ? { ...u, unread: false } : u))
+    await acknowledgeRegulation(id)
   }
 
   const unreadCount = updates.filter(u => u.unread).length
@@ -207,7 +145,7 @@ export default function RegulationsPage() {
             {/* Action Row */}
             <div className="flex border-t border-midnight/[0.06]">
               <button 
-                onClick={() => handleAcknowledge(update.id)}
+                onClick={() => handleAcknowledge(String(update.id))}
                 className={`flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase transition-colors border-r border-midnight/[0.06] ${
                   update.unread 
                     ? 'text-midnight hover:bg-midnight/[0.04]' 

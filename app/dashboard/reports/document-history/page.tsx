@@ -3,48 +3,20 @@
 import { motion } from "framer-motion"
 import { ArrowLeft, Download, EnvelopeSimple, CaretDown, CaretUp, Check } from "@phosphor-icons/react"
 import Link from "next/link"
-import { useState } from "react"
-
-const stats = [
-  { label: "Active Docs", value: 6 },
-  { label: "Versions Generated", value: 23 },
-  { label: "Total Deliveries", value: 47 },
-]
-
-const documents = [
-  {
-    name: "Injury and Illness Prevention Program",
-    versions: [
-      { version: "v2.3", date: "Jan 8, 2026", reason: "Quarterly inspection update", regulation: "8 CCR 3203", delivered: true, opened: true, current: true },
-      { version: "v2.2", date: "Oct 15, 2025", reason: "Annual review", regulation: "8 CCR 3203", delivered: true, opened: true, current: false },
-      { version: "v2.1", date: "Jul 1, 2025", reason: "SB 553 integration", regulation: "SB 553", delivered: true, opened: true, current: false },
-    ]
-  },
-  {
-    name: "Workplace Violence Prevention Plan",
-    versions: [
-      { version: "v1.4", date: "Dec 15, 2025", reason: "Egress amendment", regulation: "SB 553", delivered: true, opened: true, current: true },
-      { version: "v1.3", date: "Sep 1, 2025", reason: "Training section update", regulation: "SB 553", delivered: true, opened: true, current: false },
-    ]
-  },
-  {
-    name: "Emergency Action Plan",
-    versions: [
-      { version: "v1.2", date: "Nov 20, 2025", reason: "Annual review", regulation: "8 CCR 3220", delivered: true, opened: false, current: true },
-      { version: "v1.1", date: "May 15, 2025", reason: "Initial creation", regulation: "8 CCR 3220", delivered: true, opened: true, current: false },
-    ]
-  },
-]
-
-const deliveryLog = [
-  { date: "Jan 8, 2026", document: "IIPP", version: "v2.3", recipient: "admin@demo.com", status: "Opened", openTime: "2 hrs" },
-  { date: "Dec 15, 2025", document: "SB 553 Plan", version: "v1.4", recipient: "admin@demo.com", status: "Opened", openTime: "4 hrs" },
-  { date: "Nov 20, 2025", document: "EAP", version: "v1.2", recipient: "admin@demo.com", status: "Sent", openTime: "-" },
-  { date: "Oct 15, 2025", document: "IIPP", version: "v2.2", recipient: "admin@demo.com", status: "Opened", openTime: "1 hr" },
-]
+import { useState, useEffect } from "react"
+import { getDocumentHistory } from "@/lib/actions/reports"
 
 export default function DocumentHistoryReportPage() {
-  const [expandedDoc, setExpandedDoc] = useState<string | null>(documents[0].name)
+  const [data, setData] = useState<Awaited<ReturnType<typeof getDocumentHistory>> | null>(null)
+
+  useEffect(() => {
+    getDocumentHistory().then(setData)
+  }, [])
+
+  const stats = data?.stats ?? []
+  const documents = data?.documents ?? []
+  const deliveryLog = data?.deliveryLog ?? []
+  const [expandedDoc, setExpandedDoc] = useState<string | null>(null)
 
   return (
     <div className="p-6 lg:p-8">

@@ -1,50 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Bell, Warning, Info, CheckCircle, Clock, CaretRight } from "@phosphor-icons/react"
-
-const alerts = [
-  {
-    id: 1,
-    type: "urgent",
-    title: "SB 553 Annual Review Due",
-    description: "Your Workplace Violence Prevention Plan requires annual review by February 1, 2025.",
-    date: "2 days ago",
-    action: "Review Plan",
-  },
-  {
-    id: 2,
-    type: "warning",
-    title: "New Cal/OSHA Regulation Update",
-    description: "Changes to Heat Illness Prevention standards effective March 1, 2025. Your IIPP may need updates.",
-    date: "1 week ago",
-    action: "View Changes",
-  },
-  {
-    id: 3,
-    type: "info",
-    title: "Q4 Compliance Report Ready",
-    description: "Your quarterly compliance summary report has been generated and is ready for download.",
-    date: "2 weeks ago",
-    action: "Download Report",
-  },
-  {
-    id: 4,
-    type: "success",
-    title: "IIPP Document Updated",
-    description: "Your Injury and Illness Prevention Program has been automatically updated to reflect new safety protocols.",
-    date: "3 weeks ago",
-    action: "View Document",
-  },
-  {
-    id: 5,
-    type: "info",
-    title: "Incident Log Reminder",
-    description: "No incidents logged this month. Remember to document any workplace incidents within 24 hours.",
-    date: "1 month ago",
-    action: "Log Incident",
-  },
-]
+import { Warning, Info, CheckCircle, Clock, CaretRight } from "@phosphor-icons/react"
+import { useState, useEffect } from "react"
+import { getAlerts } from "@/lib/actions/reports"
 
 const getAlertIcon = (type: string) => {
   switch (type) {
@@ -73,6 +32,20 @@ const getAlertBorder = (type: string) => {
 }
 
 export default function AlertsPage() {
+  const [alerts, setAlerts] = useState<{ id: string; type: string; title: string; description: string; date: string; action: string }[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getAlerts().then((data) => {
+      setAlerts(data)
+      setLoading(false)
+    })
+  }, [])
+
+  const urgentCount = alerts.filter(a => a.type === "urgent").length
+  const warningCount = alerts.filter(a => a.type === "warning").length
+  const infoCount = alerts.filter(a => a.type === "info").length
+
   return (
     <div>
       {/* Header */}
@@ -91,10 +64,10 @@ export default function AlertsPage() {
       {/* Alert Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
-          { label: "Urgent", count: 1, color: "text-crimson bg-crimson/5" },
-          { label: "Warnings", count: 1, color: "text-gold bg-gold/5" },
-          { label: "Info", count: 2, color: "text-blue-500 bg-blue-50" },
-          { label: "Resolved", count: 1, color: "text-green-600 bg-green-50" },
+          { label: "Urgent", count: urgentCount, color: "text-crimson bg-crimson/5" },
+          { label: "Warnings", count: warningCount, color: "text-gold bg-gold/5" },
+          { label: "Info", count: infoCount, color: "text-blue-500 bg-blue-50" },
+          { label: "Total", count: alerts.length, color: "text-green-600 bg-green-50" },
         ].map((stat) => (
           <div key={stat.label} className="bg-white border border-ash p-4">
             <span className={`font-display font-bold text-[24px] ${stat.color.split(" ")[0]}`}>
