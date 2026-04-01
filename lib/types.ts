@@ -47,6 +47,7 @@ export type ClientProfile = {
   status: string
   created_at: string
   updated_at: string
+  notification_preferences?: Record<string, boolean>
 }
 
 export type DashboardData = {

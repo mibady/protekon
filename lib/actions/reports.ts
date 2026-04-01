@@ -233,8 +233,8 @@ export async function getDeliveryLog() {
   return {
     stats: [
       { label: "Total Deliveries", value: all.length },
-      { label: "Documents", value: all.filter((d: Record<string, unknown>) => d.type === "document").length },
-      { label: "Reports", value: all.filter((d: Record<string, unknown>) => d.type === "report").length },
+      { label: "Documents", value: all.filter((d: Record<string, unknown>) => (d.delivery_type as string)?.includes("document")).length },
+      { label: "Reports", value: all.filter((d: Record<string, unknown>) => (d.delivery_type as string)?.includes("report")).length },
       { label: "This Month", value: all.filter((d: Record<string, unknown>) => {
         const date = new Date(d.created_at as string)
         const now = new Date()
@@ -243,9 +243,9 @@ export async function getDeliveryLog() {
     ],
     deliveries: all.map((d: Record<string, unknown>) => ({
       date: new Date(d.created_at as string).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
-      type: ((d.type as string) ?? "document").charAt(0).toUpperCase() + ((d.type as string) ?? "document").slice(1),
-      name: (d.name as string) ?? (d.filename as string) ?? "Delivery",
-      recipient: (d.recipient as string) ?? "—",
+      type: ((d.delivery_type as string) ?? "document").charAt(0).toUpperCase() + ((d.delivery_type as string) ?? "document").slice(1),
+      name: (d.delivery_type as string) ?? "Delivery",
+      recipient: "—",
       status: (d.status as string) ?? "Delivered",
       openTime: "—",
     })),
