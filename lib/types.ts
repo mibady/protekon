@@ -34,3 +34,27 @@ export type Incident = {
   }
   created_at: string
 }
+
+export type ClientProfile = {
+  id: string
+  email: string
+  business_name: string
+  phone: string | null
+  vertical: string
+  plan: string
+  compliance_score: number
+  risk_level: string
+  status: string
+  created_at: string
+  updated_at: string
+}
+
+export type DashboardData = {
+  client: ClientProfile | null
+  recentDocuments: Document[]
+  recentIncidents: Incident[]
+  complianceScore: number
+  documentCount: number
+  incidentCount: number
+  auditCount: number
+}

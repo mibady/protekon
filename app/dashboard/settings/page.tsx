@@ -1,20 +1,55 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { User, Building, Bell, Shield, CreditCard, EnvelopeSimple } from "@phosphor-icons/react"
+import { getClientProfile, updateProfile, updateCompany, changePassword } from "@/lib/actions/settings"
+import type { ClientProfile } from "@/lib/types"
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("profile")
   const [isSaving, setIsSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [client, setClient] = useState<ClientProfile | null>(null)
+  const [loading, setLoading] = useState(true)
+  const formRef = useRef<HTMLFormElement>(null)
+
+  useEffect(() => {
+    getClientProfile().then((data) => {
+      setClient(data)
+      setLoading(false)
+    })
+  }, [])
 
   const handleSave = async () => {
     setIsSaving(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    setError(null)
+
+    let result
+
+    if (activeTab === "profile" && formRef.current) {
+      const formData = new FormData(formRef.current)
+      result = await updateProfile(formData)
+    } else if (activeTab === "company" && formRef.current) {
+      const formData = new FormData(formRef.current)
+      result = await updateCompany(formData)
+    } else if (activeTab === "security" && formRef.current) {
+      const formData = new FormData(formRef.current)
+      result = await changePassword(formData)
+    }
+
     setIsSaving(false)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
+
+    if (result?.error) {
+      setError(result.error)
+    } else if (result?.success) {
+      setSaved(true)
+      setTimeout(() => setSaved(false), 3000)
+      // Refresh client data
+      const updated = await getClientProfile()
+      setClient(updated)
+    }
   }
 
   const tabs = [
@@ -63,37 +98,27 @@ export default function SettingsPage() {
           transition={{ duration: 0.3 }}
         >
           {activeTab === "profile" && (
-            <div>
+            <form ref={formRef} onSubmit={(e) => e.preventDefault()}>
               <h2 className="font-display font-bold text-[18px] text-midnight mb-6">Profile Information</h2>
-              <div className="grid sm:grid-cols-2 gap-6 mb-8">
-                <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    defaultValue="John"
-                    className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    defaultValue="Smith"
-                    className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
-                  />
-                </div>
+              <div className="flex flex-col gap-2 mb-8">
+                <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  Business Name
+                </label>
+                <input
+                  name="businessName"
+                  type="text"
+                  defaultValue={client?.business_name || ""}
+                  className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
+                />
               </div>
               <div className="flex flex-col gap-2 mb-8">
                 <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
                   Email Address
                 </label>
                 <input
+                  name="email"
                   type="email"
-                  defaultValue="john@company.com"
+                  defaultValue={client?.email || ""}
                   className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
                 />
               </div>
@@ -102,74 +127,54 @@ export default function SettingsPage() {
                   Phone Number
                 </label>
                 <input
+                  name="phone"
                   type="tel"
-                  defaultValue="(555) 123-4567"
+                  defaultValue={client?.phone || ""}
                   className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
                 />
               </div>
-              <div className="flex flex-col gap-2 mb-8">
-                <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
-                  Role / Title
-                </label>
-                <input
-                  type="text"
-                  defaultValue="Safety Manager"
-                  className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
-                />
-              </div>
-            </div>
+            </form>
           )}
 
           {activeTab === "company" && (
-            <div>
+            <form ref={formRef} onSubmit={(e) => e.preventDefault()}>
               <h2 className="font-display font-bold text-[18px] text-midnight mb-6">Company Information</h2>
-              <div className="flex flex-col gap-2 mb-8">
-                <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
-                  Company Name
-                </label>
-                <input
-                  type="text"
-                  defaultValue="Acme Construction Inc."
-                  className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
-                />
-              </div>
               <div className="grid sm:grid-cols-2 gap-6 mb-8">
                 <div className="flex flex-col gap-2">
                   <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
                     Industry
                   </label>
-                  <select className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors">
-                    <option>Construction</option>
-                    <option>Manufacturing</option>
-                    <option>Healthcare</option>
-                    <option>Hospitality</option>
-                    <option>Retail</option>
+                  <select
+                    name="industry"
+                    defaultValue={client?.vertical || ""}
+                    className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
+                  >
+                    <option value="construction">Construction</option>
+                    <option value="manufacturing">Manufacturing</option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="hospitality">Hospitality</option>
+                    <option value="retail">Retail</option>
+                    <option value="agriculture">Agriculture</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
-                    Employee Count
+                    Plan
                   </label>
-                  <select className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors">
-                    <option>1-10</option>
-                    <option>11-50</option>
-                    <option>51-200</option>
-                    <option>201-500</option>
-                    <option>500+</option>
+                  <select
+                    name="plan"
+                    defaultValue={client?.plan || "starter"}
+                    className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
+                  >
+                    <option value="starter">Starter</option>
+                    <option value="professional">Professional</option>
+                    <option value="enterprise">Enterprise</option>
                   </select>
                 </div>
               </div>
-              <div className="flex flex-col gap-2 mb-8">
-                <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
-                  Business Address
-                </label>
-                <input
-                  type="text"
-                  defaultValue="123 Main Street, Los Angeles, CA 90001"
-                  className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
-                />
-              </div>
-            </div>
+            </form>
           )}
 
           {activeTab === "notifications" && (
@@ -199,24 +204,23 @@ export default function SettingsPage() {
           )}
 
           {activeTab === "security" && (
-            <div>
+            <form ref={formRef} onSubmit={(e) => e.preventDefault()}>
               <h2 className="font-display font-bold text-[18px] text-midnight mb-6">Security Settings</h2>
               <div className="mb-8">
                 <h3 className="font-display text-[14px] font-bold text-midnight mb-4">Change Password</h3>
                 <div className="flex flex-col gap-4">
                   <input
-                    type="password"
-                    placeholder="Current Password"
-                    className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight placeholder:text-steel focus:border-midnight focus:outline-none transition-colors"
-                  />
-                  <input
+                    name="newPassword"
                     type="password"
                     placeholder="New Password"
+                    minLength={8}
                     className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight placeholder:text-steel focus:border-midnight focus:outline-none transition-colors"
                   />
                   <input
+                    name="confirmPassword"
                     type="password"
                     placeholder="Confirm New Password"
+                    minLength={8}
                     className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight placeholder:text-steel focus:border-midnight focus:outline-none transition-colors"
                   />
                 </div>
@@ -226,11 +230,11 @@ export default function SettingsPage() {
                 <p className="font-sans text-[14px] text-steel mb-4">
                   Add an extra layer of security to your account by enabling two-factor authentication.
                 </p>
-                <button className="font-display text-[11px] tracking-[2px] uppercase text-crimson border border-crimson px-6 py-3 hover:bg-crimson hover:text-parchment transition-colors">
+                <button type="button" className="font-display text-[11px] tracking-[2px] uppercase text-crimson border border-crimson px-6 py-3 hover:bg-crimson hover:text-parchment transition-colors">
                   Enable 2FA
                 </button>
               </div>
-            </div>
+            </form>
           )}
 
           {activeTab === "billing" && (
@@ -292,9 +296,14 @@ export default function SettingsPage() {
 
           {/* Save Button */}
           <div className="flex items-center justify-between mt-8 pt-8 border-t border-ash">
-            <span className={`font-sans text-[13px] text-green-600 transition-opacity ${saved ? "opacity-100" : "opacity-0"}`}>
-              Settings saved successfully
-            </span>
+            <div>
+              {error && (
+                <span className="font-sans text-[13px] text-crimson">{error}</span>
+              )}
+              <span className={`font-sans text-[13px] text-green-600 transition-opacity ${saved ? "opacity-100" : "opacity-0"}`}>
+                Settings saved successfully
+              </span>
+            </div>
             <button
               onClick={handleSave}
               disabled={isSaving}
