@@ -144,7 +144,7 @@ export default function ComplianceScoreReportPage() {
             </h3>
             <div className="relative h-[120px]">
               <svg className="w-full h-full" viewBox="0 0 300 120">
-                <motion.path
+                {monthlyScores.length > 0 && <motion.path
                   d={`M0,${120 - monthlyScores[0].score} ${monthlyScores.map((s, i) => `L${i * 60},${120 - s.score}`).join(' ')}`}
                   fill="none"
                   stroke="#C9A84C"
@@ -152,7 +152,7 @@ export default function ComplianceScoreReportPage() {
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 1.5 }}
-                />
+                />}
                 {monthlyScores.map((s, i) => (
                   <circle
                     key={i}
@@ -169,9 +169,11 @@ export default function ComplianceScoreReportPage() {
                 ))}
               </div>
             </div>
-            <p className="font-sans text-[11px] text-gold mt-2 text-center">
-              +15 pts in 6 months
-            </p>
+            {monthlyScores.length >= 2 && (
+              <p className="font-sans text-[11px] text-gold mt-2 text-center">
+                {monthlyScores[monthlyScores.length - 1].score - monthlyScores[0].score >= 0 ? "+" : ""}{monthlyScores[monthlyScores.length - 1].score - monthlyScores[0].score} pts in {monthlyScores.length} months
+              </p>
+            )}
           </div>
         </div>
 
