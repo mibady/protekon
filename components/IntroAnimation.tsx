@@ -158,7 +158,7 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
             <div className="flex flex-col items-center gap-6">
               {/* Wordmark */}
               <div className="flex items-baseline">
-                {/* PROTE */}
+                {/* PROT */}
                 <motion.span
                   className="font-display font-black text-[88px] leading-none tracking-tight"
                   style={{ color: "#FAFAF8" }}
@@ -166,10 +166,10 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                   animate={{ opacity: 1, letterSpacing: "7px" }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 >
-                  PROTE
+                  PROT
                 </motion.span>
 
-                {/* K */}
+                {/* E - crimson */}
                 <motion.span
                   className="font-display font-black text-[88px] leading-none"
                   style={{ color: "#C41230" }}
@@ -177,10 +177,10 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.15, duration: 0.3, ease: "easeOut" }}
                 >
-                  K
+                  E
                 </motion.span>
 
-                {/* ON */}
+                {/* KON */}
                 <motion.span
                   className="font-display font-black text-[88px] leading-none tracking-tight"
                   style={{ color: "#FAFAF8" }}
@@ -188,7 +188,7 @@ export default function IntroAnimation({ onComplete, skipable = true }: IntroAni
                   animate={{ opacity: 1, letterSpacing: "7px" }}
                   transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
                 >
-                  ON
+                  KON
                 </motion.span>
               </div>
 

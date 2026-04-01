@@ -56,7 +56,7 @@ export default function Footer() {
                 <rect x="0" y="40" width="48" height="10" fill="#C41230" />
               </svg>
               <span className="font-display font-bold text-[24px] tracking-[7px] text-brand-white">
-                PROTE<span className="text-crimson">K</span>ON
+                PROT<span className="text-crimson">E</span>KON
               </span>
             </Link>
 

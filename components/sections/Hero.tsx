@@ -1,8 +1,8 @@
 "use client"
 
-// PROTEKON Hero Section
 import { motion } from "framer-motion"
-import { CaretDown } from "@phosphor-icons/react"
+// Hero section component
+import { CaretDown, ShieldCheck, FileText, Bell } from "@phosphor-icons/react"
 import Link from "next/link"
 
 const stats = [
@@ -11,190 +11,269 @@ const stats = [
   { value: "$7,229", label: "AVG SERIOUS VIOLATION FINE" },
 ]
 
+const features = [
+  { icon: FileText, text: "IIPP + SB 553 Documents" },
+  { icon: ShieldCheck, text: "Incident Log Management" },
+  { icon: Bell, text: "Regulatory Monitoring" },
+]
+
 export default function Hero() {
   return (
     <section className="relative min-h-[100dvh] bg-void overflow-hidden">
-      {/* Video Background */}
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover grayscale"
-          poster="/images/hero-poster.jpg"
-        >
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
-        </video>
-        
-        {/* Gradient overlay - bleeds video in from right */}
-        <div 
-          className="absolute inset-0 z-[1]"
-          style={{
-            background: `linear-gradient(to right, 
-              rgba(7,15,30,0.96) 0%, 
-              rgba(7,15,30,0.85) 50%, 
-              rgba(7,15,30,0.5) 75%,
-              rgba(7,15,30,0.2) 100%)`
-          }}
-        />
-      </div>
+      {/* Subtle grid pattern */}
+      <div 
+        className="absolute inset-0 z-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(250,250,248,1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(250,250,248,1) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Gradient overlay creating depth */}
+      <div 
+        className="absolute inset-0 z-[1]"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 50% at 80% 50%, rgba(11,29,58,0.4) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 20% 100%, rgba(196,18,48,0.08) 0%, transparent 40%)
+          `
+        }}
+      />
 
       {/* Giant P-Mark Watermark */}
       <motion.div
-        className="absolute z-[2] pointer-events-none"
+        className="absolute z-[2] pointer-events-none hidden lg:block"
         style={{ 
-          right: -80, 
+          right: -100, 
           top: '50%', 
           transform: 'translateY(-50%)',
-          width: 640,
-          height: 640,
         }}
-        animate={{ scale: [1, 1.02, 1] }}
-        transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+        animate={{ scale: [1, 1.015, 1] }}
+        transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
       >
-        <svg viewBox="0 0 48 48" className="w-full h-full opacity-[0.04]">
-          <rect x="0" y="0" width="13" height="48" fill="#FAFAF8" />
+        <svg viewBox="0 0 48 84" className="w-[500px] h-[875px] opacity-[0.03]">
+          <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
           <rect x="13" y="0" width="35" height="13" fill="#FAFAF8" />
-          <rect x="35" y="13" width="13" height="14" fill="#FAFAF8" />
-          <rect x="13" y="27" width="35" height="8" fill="#FAFAF8" />
+          <rect x="35" y="13" width="13" height="27" fill="#FAFAF8" />
+          <rect x="0" y="40" width="48" height="10" fill="#C41230" />
         </svg>
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-8 min-h-[100dvh] flex flex-col justify-center pt-24 pb-16">
-        <div className="grid lg:grid-cols-[55%_45%] gap-8 lg:gap-12 items-center">
-          {/* Left Content - 55% */}
-          <div className="flex flex-col gap-6 lg:gap-8">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-8 min-h-[100dvh] flex flex-col justify-center pt-28 pb-20">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+          {/* Left Content - Main */}
+          <div className="lg:col-span-7 flex flex-col gap-8">
             {/* Eyebrow */}
             <motion.div
-              className="flex items-center gap-3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              className="flex items-center gap-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <div className="w-4 h-[1px] bg-gold" />
-              <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-crimson">
-                CALIFORNIA COMPLIANCE INTELLIGENCE
+              <div className="w-8 h-[2px] bg-gold" />
+              <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-crimson">
+                California Compliance Intelligence
               </span>
             </motion.div>
 
-            {/* Headline - 3 lines staggered */}
-            <div className="flex flex-col">
+            {/* Headline */}
+            <div className="flex flex-col gap-1">
               <motion.h1
-                className="font-display font-black text-[clamp(48px,7vw,96px)] leading-[0.88] tracking-[-1px] text-parchment"
-                initial={{ opacity: 0, y: 40 }}
+                className="font-display font-black text-[clamp(52px,8vw,88px)] leading-[0.9] tracking-[-2px] text-parchment"
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.1 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
               >
-                COMPLIANCE
+                Compliance
               </motion.h1>
               <motion.h1
-                className="font-display font-black text-[clamp(48px,7vw,96px)] leading-[0.88] tracking-[-1px]"
+                className="font-display font-black text-[clamp(52px,8vw,88px)] leading-[0.9] tracking-[-2px]"
                 style={{
-                  WebkitTextStroke: '2px #C41230',
+                  WebkitTextStroke: '1.5px #C41230',
                   WebkitTextFillColor: 'transparent',
                 }}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.25 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.2 }}
               >
-                MANAGED.
+                Managed.
               </motion.h1>
               <motion.h1
-                className="font-display font-black text-[clamp(48px,7vw,96px)] leading-[0.88] tracking-[-1px] text-gold"
-                initial={{ opacity: 0, y: 40 }}
+                className="font-display font-black text-[clamp(52px,8vw,88px)] leading-[0.9] tracking-[-2px] text-gold"
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.4 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.3 }}
               >
-                DELIVERED.
+                Delivered.
               </motion.h1>
             </div>
 
             {/* Subheadline */}
             <motion.p
-              className="font-sans font-light text-[17px] leading-[1.75] text-fog max-w-[480px]"
+              className="font-sans text-[18px] leading-[1.8] text-fog max-w-[520px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
             >
               Shield CaaS turns California&apos;s most complex workplace safety regulations 
               into a hands-off, recurring service — IIPP, SB 553, incident logging, 
               and regulatory monitoring, all done for you.
             </motion.p>
 
-            {/* Stats Row */}
+            {/* Feature Pills */}
             <motion.div
-              className="grid grid-cols-3 border border-brand-white/[0.06]"
-              initial={{ opacity: 0, y: 20 }}
+              className="flex flex-wrap gap-3"
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
             >
-              {stats.map((stat, i) => (
-                <div
-                  key={stat.label}
-                  className={`py-5 px-4 lg:px-6 ${i < 2 ? "border-r border-brand-white/[0.06]" : ""}`}
+              {features.map((feature, i) => (
+                <div 
+                  key={feature.text}
+                  className="flex items-center gap-2 px-4 py-2 border border-steel/20 bg-midnight/30"
                 >
-                  <div className="font-display font-extrabold text-[clamp(24px,3vw,32px)] text-gold leading-none">
-                    {stat.value}
-                  </div>
-                  <div className="font-display font-light text-[8px] lg:text-[9px] tracking-[2px] text-steel uppercase mt-2">
-                    {stat.label}
-                  </div>
+                  <feature.icon size={14} weight="bold" className="text-gold" />
+                  <span className="font-display font-medium text-[10px] tracking-[2px] uppercase text-parchment/80">
+                    {feature.text}
+                  </span>
                 </div>
               ))}
             </motion.div>
 
             {/* CTA Row */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 mt-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0, duration: 0.5 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
             >
               <motion.div
-                whileHover={{ y: -2, filter: "brightness(1.08)" }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
               >
                 <Link
                   href="/signup"
-                  className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment bg-crimson px-6 lg:px-8 py-4 border-l-[3px] border-brand-white/30"
+                  className="group relative inline-flex items-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-parchment bg-crimson px-8 py-4 overflow-hidden"
                 >
-                  START YOUR COMPLIANCE PLAN
+                  <span className="relative z-10">Start Your Compliance Plan</span>
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-r from-crimson to-[#a01028]"
+                    initial={{ x: "100%" }}
+                    whileHover={{ x: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
                 </Link>
               </motion.div>
               
               <Link
                 href="#sample"
-                className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-brand-white/70 px-6 lg:px-8 py-4 border border-brand-white/[0.15] hover:border-gold hover:text-gold transition-colors duration-300"
+                className="inline-flex items-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-steel hover:text-gold px-8 py-4 border border-steel/20 hover:border-gold/50 transition-all duration-300"
               >
-                DOWNLOAD SAMPLE REPORT
+                Download Sample Report
               </Link>
             </motion.div>
 
             {/* Small print */}
             <motion.p
-              className="font-sans font-light text-[12px] text-brand-white/30"
+              className="font-sans text-[13px] text-steel/60"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.1 }}
+              transition={{ delay: 0.85 }}
             >
-              No software to learn. First document delivered in 48 hours. Cancel anytime.
+              No software to learn · First document in 48 hours · Cancel anytime
             </motion.p>
           </div>
 
-          {/* Right side is the video bleeding through - no content needed */}
-          <div className="hidden lg:block" />
+          {/* Right Content - Stats Card */}
+          <motion.div 
+            className="lg:col-span-5"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            <div className="relative">
+              {/* Stats Card */}
+              <div className="bg-midnight/60 backdrop-blur-sm border border-brand-white/[0.06] p-8 lg:p-10">
+                {/* Card header */}
+                <div className="flex items-center gap-3 mb-8 pb-6 border-b border-brand-white/[0.06]">
+                  <div className="w-2 h-2 bg-crimson" />
+                  <span className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-steel">
+                    California Enforcement Data
+                  </span>
+                </div>
+
+                {/* Stats */}
+                <div className="flex flex-col gap-8">
+                  {stats.map((stat, i) => (
+                    <motion.div
+                      key={stat.label}
+                      className="flex flex-col"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 + i * 0.1 }}
+                    >
+                      <span className="font-display font-black text-[42px] lg:text-[52px] text-gold leading-none">
+                        {stat.value}
+                      </span>
+                      <span className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-2">
+                        {stat.label}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Card footer */}
+                <div className="mt-8 pt-6 border-t border-brand-white/[0.06]">
+                  <p className="font-sans text-[12px] text-steel/60 leading-relaxed">
+                    Data from 73,960 Cal/OSHA citations analyzed by the Protekon Engine.
+                  </p>
+                </div>
+              </div>
+
+              {/* Decorative accent */}
+              <div className="absolute -top-2 -right-2 w-16 h-16 border-t-2 border-r-2 border-crimson/30" />
+              <div className="absolute -bottom-2 -left-2 w-16 h-16 border-b-2 border-l-2 border-gold/20" />
+            </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      {/* Bottom trust bar */}
+      <motion.div 
+        className="absolute bottom-0 left-0 right-0 z-10 border-t border-brand-white/[0.04] bg-void/80 backdrop-blur-sm"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1 }}
       >
-        <CaretDown size={24} weight="bold" className="text-gold/50" />
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-6">
+            <span className="font-display text-[10px] tracking-[3px] uppercase text-steel/60">
+              Trusted by 500+ California businesses
+            </span>
+            <div className="hidden md:flex items-center gap-3">
+              {['SOC 2', 'Cal/OSHA', 'SB 553'].map((badge) => (
+                <span key={badge} className="font-display text-[9px] tracking-[2px] uppercase text-gold/50 px-3 py-1.5 border border-gold/15">
+                  {badge}
+                </span>
+              ))}
+            </div>
+          </div>
+          
+          {/* Scroll Indicator */}
+          <motion.button
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            className="flex items-center gap-2 text-steel/50 hover:text-gold transition-colors cursor-pointer"
+            animate={{ y: [0, 4, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <span className="font-display text-[10px] tracking-[2px] uppercase">Explore</span>
+            <CaretDown size={14} weight="bold" />
+          </motion.button>
+        </div>
       </motion.div>
     </section>
   )

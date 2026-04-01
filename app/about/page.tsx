@@ -1,0 +1,296 @@
+"use client"
+
+import { motion } from "framer-motion"
+import Link from "next/link"
+import { ArrowRight } from "@phosphor-icons/react"
+import Nav from "@/components/layout/Nav"
+import Footer from "@/components/layout/Footer"
+
+const stats = [
+  { value: "73,960", label: "Cal/OSHA Citations Analyzed" },
+  { value: "$164M", label: "Total Penalties Tracked" },
+  { value: "14,443", label: "Serious Violations" },
+  { value: "68.7%", label: "Construction + Manufacturing" },
+]
+
+const values = [
+  {
+    number: "01",
+    title: "Intelligence First",
+    description: "Every service decision is backed by regulatory data, enforcement trends, and penalty analysis."
+  },
+  {
+    number: "02",
+    title: "Done For You",
+    description: "We don't sell tools. We do the work. Your compliance posture improves without any effort from your team."
+  },
+  {
+    number: "03",
+    title: "Precision Delivery",
+    description: "Every document, every report, every update — delivered with surgical precision on a defined schedule."
+  },
+  {
+    number: "04",
+    title: "Institutional Trust",
+    description: "We treat your business data with the same rigor we apply to compliance documentation."
+  },
+]
+
+const team = [
+  { initials: "JM", name: "James Mitchell", role: "CEO & Founder" },
+  { initials: "SR", name: "Sarah Rodriguez", role: "Chief Compliance Officer" },
+  { initials: "DK", name: "David Kim", role: "Head of Engineering" },
+  { initials: "LP", name: "Lisa Patel", role: "Director of Operations" },
+]
+
+export default function AboutPage() {
+  return (
+    <main className="bg-void min-h-screen">
+      <Nav />
+      
+      {/* Hero */}
+      <section className="pt-32 pb-24 px-6 lg:px-8 relative overflow-hidden">
+        {/* P-mark background */}
+        <motion.div
+          className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none hidden lg:block"
+          animate={{ rotate: [0, 3, 0] }}
+          transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
+        >
+          <svg viewBox="0 0 48 84" className="w-[320px] h-[560px] opacity-[0.03]">
+            <rect x="0" y="0" width="13" height="84" fill="#FAFAF8" />
+            <rect x="13" y="0" width="35" height="13" fill="#FAFAF8" />
+            <rect x="35" y="13" width="13" height="27" fill="#FAFAF8" />
+            <rect x="0" y="40" width="48" height="10" fill="#C41230" />
+          </svg>
+        </motion.div>
+
+        <div className="max-w-[1200px] mx-auto">
+          <div className="grid lg:grid-cols-[55%_45%] gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-[2px] bg-gold" />
+                <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-crimson">
+                  About Protekon
+                </span>
+              </div>
+              
+              <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.95] text-parchment mb-8">
+                We Built the Machine That Manages Compliance.
+              </h1>
+              
+              <p className="font-sans text-[17px] leading-[1.8] text-fog max-w-[520px]">
+                PROTEKON is a compliance intelligence company. We scrape, monitor, 
+                classify, and deliver regulatory compliance as a recurring managed service — 
+                beginning with California&apos;s most enforcement-active industries.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission */}
+      <section className="py-24 px-6 lg:px-8 bg-parchment">
+        <div className="max-w-[1200px] mx-auto">
+          <motion.div
+            className="mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-crimson">
+              Our Mission
+            </span>
+            <h2 className="font-display font-black text-[clamp(36px,5vw,52px)] text-midnight mt-4 max-w-[700px]">
+              The Intelligence Gap We Closed
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-12 mb-16">
+            <motion.p
+              className="font-sans text-[16px] leading-[1.8] text-steel"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              Cal/OSHA issued 73,960 citations to California businesses. Most weren&apos;t 
+              willfully non-compliant — they simply didn&apos;t have the infrastructure to 
+              track regulations, write plans, or respond to changes.
+            </motion.p>
+            <motion.p
+              className="font-sans text-[16px] leading-[1.8] text-steel"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              Protekon was built to close that gap. Not with software that requires 
+              another full-time employee to operate — but with a service that watches, 
+              writes, and delivers compliance on your behalf.
+            </motion.p>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="text-center p-6 bg-brand-white"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 * i }}
+              >
+                <span className="font-display font-black text-[36px] text-crimson">
+                  {stat.value}
+                </span>
+                <p className="font-display font-medium text-[9px] tracking-[2px] uppercase text-steel mt-2">
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-24 px-6 lg:px-8 bg-midnight">
+        <div className="max-w-[1200px] mx-auto">
+          <motion.div
+            className="mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-gold">
+              Our Values
+            </span>
+            <h2 className="font-display font-black text-[42px] text-parchment mt-4">
+              How We Operate
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, i) => (
+              <motion.div
+                key={value.number}
+                className="relative"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 * i }}
+              >
+                {/* Large faded number */}
+                <span className="font-display font-black text-[88px] text-crimson/[0.06] leading-none">
+                  {value.number}
+                </span>
+                <h3 className="font-display font-extrabold text-[22px] tracking-[1px] uppercase text-parchment -mt-6 mb-4">
+                  {value.title}
+                </h3>
+                <p className="font-sans text-[14px] leading-[1.7] text-steel">
+                  {value.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="py-24 px-6 lg:px-8 bg-parchment">
+        <div className="max-w-[1200px] mx-auto">
+          <motion.div
+            className="mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-crimson">
+              Leadership
+            </span>
+            <h2 className="font-display font-black text-[42px] text-midnight mt-4">
+              The Protekon Team
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {team.map((member, i) => (
+              <motion.div
+                key={member.name}
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 * i }}
+              >
+                {/* Avatar placeholder */}
+                <div className="w-20 h-20 mx-auto mb-4 bg-midnight flex items-center justify-center">
+                  <span className="font-display font-bold text-[24px] text-parchment">
+                    {member.initials}
+                  </span>
+                </div>
+                <h3 className="font-display font-bold text-[16px] text-midnight">
+                  {member.name}
+                </h3>
+                <p className="font-display font-normal text-[10px] tracking-[3px] uppercase text-steel mt-1">
+                  {member.role}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 px-6 lg:px-8 bg-void">
+        <div className="max-w-[900px] mx-auto text-center">
+          <motion.h2
+            className="font-display font-black text-[clamp(36px,5vw,52px)] leading-[0.95] text-parchment mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            Ready to Protect Your Business?
+          </motion.h2>
+          <motion.p
+            className="font-sans text-[18px] text-fog mb-10 max-w-[500px] mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            Join 500+ California businesses who trust Protekon for their 
+            workplace compliance.
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <Link
+              href="/signup"
+              className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-crimson/90 transition-colors"
+            >
+              Start Your Compliance Plan
+              <ArrowRight size={16} weight="bold" />
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 border border-brand-white/20 text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:border-gold/50 hover:text-gold transition-colors"
+            >
+              Contact Us
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  )
+}

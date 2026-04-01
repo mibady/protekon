@@ -98,7 +98,7 @@ export default function Nav() {
               {/* Wordmark */}
               <div className="flex flex-col">
                 <span className="font-display font-bold text-[22px] tracking-[6px] text-brand-white">
-                  PROTE<span className="text-crimson">K</span>ON
+                  PROT<span className="text-crimson">E</span>KON
                 </span>
                 <span className="font-display font-normal text-[9px] tracking-[2.5px] text-gold">
                   SHIELD CaaS
