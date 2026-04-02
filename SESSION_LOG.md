@@ -357,3 +357,87 @@ Must replicate the following from the previous project:
 - Consider Inngest function implementations (intake pipeline, monthly audit, doc gen)
 - Fix Nav/Footer dead links (remove or redirect)
 - Consider HEAD layer (compliance Q&A chat, document analysis)
+
+## Session 5 — 2026-04-02 — MILESTONE: HEAD Layer + Pricing Restructure
+
+### Completed
+- **Business Plan Review**: Full gap analysis comparing business plan vs Shield CaaS vs Protekon — identified what to port, build new, and what's done
+- **Phase 1 — Ported from Shield CaaS**:
+  - Intake questionnaire page (/dashboard/intake) — 6 yes/no compliance Qs, real-time SVG score ring, gap detection, fine exposure warning
+  - Sample reports gated page (/samples) — email capture form + rate-limited API, 3 sample PDFs, templates-vs-managed comparison
+  - Signup redirects to /dashboard/intake for onboarding flow
+- **Phase 2 — HEAD Layer (AI via Vercel AI SDK v6 + Claude)**:
+  - AI document generator (lib/ai/document-generator.ts) — generateText() for site-specific IIPP/SB 553 content per vertical
+  - AI incident classifier (lib/ai/incident-classifier.ts) — Output.object() for severity, OSHA codes, PII detection, recordability
+  - AI regulatory analyzer (lib/ai/regulatory-analyzer.ts) — Output.object() for impact assessment on regulatory changes
+  - Compliance chat (/dashboard/chat + /api/chat) — streamText() + useChat() with client RAG context
+  - All 3 Inngest workflows (doc gen, incidents, reg scan) wired to HEAD with graceful fallback
+- **Phase 3 — Scheduled Delivery Pipeline**:
+  - scheduled-delivery.ts — daily 7 AM cron, bundles docs/incidents/training/regulatory data, sends branded email per cadence
+  - Intake pipeline auto-creates 4 delivery schedules for new clients
+  - Compliance risk calculator (/calculator) — interactive tool using 73,960 OSHA records
+- **Phase 4 — Polish**:
+  - 8 industry SEO pages (/industries/[slug]) with real OSHA violation data per vertical
+  - Dead link cleanup (removed blog, press, careers, investors, api-docs from Nav/Footer)
+  - Package renamed from "my-project" to "protekon"
+- **Pricing Restructure — Kill Commodity Positioning**:
+  - Reanchored from $297/$497/$797 to $597/$897/$1,297
+  - Renamed tiers: Starter→Core, Professional stays, Enterprise→Multi-Site
+  - Location-based pricing: Core 1 loc, Professional up to 2 (+$197), Multi-Site up to 3 (+$147)
+  - All tiers include full managed service — no incomplete Starter tier
+  - Setup fees: $297 Core / $497 Professional / $797 Multi-Site (white-glove)
+  - Updated 15 files across pricing cards, signup, calculator, industry pages, settings, Stripe config
+- **Tier-Differentiated Onboarding**:
+  - Signup form: location count picker + setup fee display per tier
+  - Intake pipeline: tier-aware document generation (Core 3 docs, Pro +EAP, Multi-Site +consolidated)
+  - Delivery schedules: Core monthly-only, Professional +weekly+quarterly, Multi-Site +annual
+  - Welcome email: tier-specific feature list, Multi-Site gets analyst outreach notice
+  - Dashboard sidebar: feature-gated nav (Quarterly Reviews = Pro+, Annual Audit = Multi-Site only)
+  - Settings billing: plan features checklist + upgrade CTA
+
+### Audit Snapshot (Ground-Truth)
+| Metric | Count |
+|--------|-------|
+| Pages | 43 |
+| API Routes | 10 (9 api/ + 1 auth/callback) |
+| Components | 70 |
+| Server Actions | 14 files |
+| Inngest Functions | 10 (5 event, 4 cron, 1 escalation) |
+| HEAD Layer (AI) | 3 modules + chat API |
+| Email Templates | 11 |
+| Test Suites | 5 (27 tests) |
+| Total Tracked Files | 230 |
+| Build | pass |
+
+### Commits (5)
+- `abe6e91` feat(head+dna): add AI layer, intake questionnaire, sample reports, and chat
+- `a72510d` feat(dna): add scheduled delivery pipeline and compliance risk calculator
+- `a813a60` feat(face): add 8 industry SEO pages, fix dead links, rename package
+- `d258d89` feat(face+dna): restructure pricing — kill commodity positioning
+- `9b54c9b` feat(face+dna): tier-differentiated onboarding and feature gating
+
+### Decisions Made
+- AI integration uses Vercel AI SDK v6 (generateText + Output.object + streamText), not raw Claude API
+- All AI calls have graceful fallback — if Claude unavailable, workflows use static templates
+- Employee count is NOT a pricing axis — locations are (AI cost delta between 15 vs 500 employees is ~$4/year)
+- Pricing reanchored to $597/$897/$1,297 to kill commodity positioning — all tiers include full managed service
+- Setup fees scale with work: $297 Core / $497 Professional / $797 Multi-Site white-glove
+- Location-based tiers with add-on pricing (no "unlimited" — each location needs site-specific docs)
+- Tier-differentiated delivery cadences: Core=monthly, Professional=weekly+monthly+quarterly, Multi-Site=all 4
+
+### Known Issues
+- STRIPE_PRICE_CORE, STRIPE_PRICE_PROFESSIONAL, STRIPE_PRICE_MULTI_SITE env vars need Stripe product creation
+- COMPLIANCE_OFFICER_EMAIL env var required in production
+- ANTHROPIC_API_KEY env var needed for HEAD layer AI features
+- Setup fee collection not yet wired to Stripe (currently display-only)
+- Location-specific intake questions (per-location hazard assessment) not yet implemented
+- Intake page doesn't yet branch per location count (same 6 Qs regardless)
+
+### Next Session Should
+- /prime to load context
+- Set up Stripe products ($597/$897/$1,297 recurring + $297/$497/$797 one-time setup fees)
+- Add ANTHROPIC_API_KEY to Vercel env vars for HEAD layer
+- Wire setup fee to Stripe checkout (charge setup fee as one-time + subscription as recurring)
+- Add location-specific intake branching (per-location name, address, hazards)
+- Integration/E2E testing: signup → intake → document generation → delivery pipeline
+- Consider regulatory knowledge base (RAG corpus of actual regulation text for HEAD layer)
