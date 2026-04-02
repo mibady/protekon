@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import { stripe, PRICE_IDS } from "@/lib/stripe"
+import { stripe, PRICE_IDS, SETUP_FEE_IDS } from "@/lib/stripe"
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
@@ -30,7 +30,11 @@ export async function POST(request: NextRequest) {
 
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
-    line_items: [{ price: priceId, quantity: 1 }],
+    line_items: [
+      { price: priceId, quantity: 1 },
+      // Add one-time setup fee if configured
+      ...(SETUP_FEE_IDS[planId] ? [{ price: SETUP_FEE_IDS[planId], quantity: 1 }] : []),
+    ],
     success_url: `${origin}/dashboard?checkout=success`,
     cancel_url: `${origin}/pricing?checkout=cancelled`,
     customer: client?.stripe_customer_id || undefined,

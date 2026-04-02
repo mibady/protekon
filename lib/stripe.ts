@@ -12,3 +12,9 @@ export const PRICE_IDS: Record<string, string> = {
   professional: process.env.STRIPE_PRICE_PROFESSIONAL || "",
   "multi-site": process.env.STRIPE_PRICE_MULTI_SITE || "",
 }
+
+export const SETUP_FEE_IDS: Record<string, string> = {
+  core: process.env.STRIPE_SETUP_CORE || "",
+  professional: process.env.STRIPE_SETUP_PROFESSIONAL || "",
+  "multi-site": process.env.STRIPE_SETUP_MULTI_SITE || "",
+}
