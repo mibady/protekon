@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { Check, X, Minus } from "@phosphor-icons/react"
 
-const capabilities = [
+const capabilities: { name: string; training: boolean | "partial"; diy: boolean | "partial"; enterprise: boolean | "partial"; consultant: boolean | "partial"; shield: boolean | "partial" }[] = [
   { name: "Writes plan for you", training: false, diy: false, enterprise: true, consultant: true, shield: true },
   { name: "Manages incident log", training: false, diy: false, enterprise: true, consultant: "partial", shield: true },
   { name: "Monitors reg changes", training: false, diy: false, enterprise: true, consultant: false, shield: true },
@@ -19,7 +19,7 @@ const pricing = {
   diy: "$1,300 one-time",
   enterprise: "$800–$2,000+/mo",
   consultant: "$150–$300/hr",
-  shield: "$297–$797/mo",
+  shield: "$597–$1,297/mo",
 }
 
 function StatusIcon({ status }: { status: boolean | "partial" }) {

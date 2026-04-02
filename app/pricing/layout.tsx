@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description: "Simple, transparent pricing for California workplace compliance. Plans from $297/month with IIPP, SB 553, and regulatory monitoring included.",
+  description: "Simple, transparent pricing for California workplace compliance. Full managed plans from $597/month with IIPP, SB 553, incident logging, and regulatory monitoring included.",
 }
 
 export default function PricingLayout({ children }: { children: React.ReactNode }) {

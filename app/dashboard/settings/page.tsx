@@ -174,12 +174,12 @@ export default function SettingsPage() {
                   </label>
                   <select
                     name="plan"
-                    defaultValue={client?.plan || "starter"}
+                    defaultValue={client?.plan || "core"}
                     className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
                   >
-                    <option value="starter">Starter</option>
+                    <option value="core">Core</option>
                     <option value="professional">Professional</option>
-                    <option value="enterprise">Enterprise</option>
+                    <option value="multi-site">Multi-Site</option>
                   </select>
                 </div>
               </div>
@@ -269,7 +269,7 @@ export default function SettingsPage() {
                     </span>
                   </div>
                   <span className="font-display font-bold text-[24px] text-gold">
-                    {client?.plan === "starter" ? "$297/mo" : client?.plan === "professional" ? "$497/mo" : client?.plan === "enterprise" ? "$797/mo" : "—"}
+                    {client?.plan === "core" ? "$597/mo" : client?.plan === "professional" ? "$897/mo" : client?.plan === "multi-site" ? "$1,297/mo" : "—"}
                   </span>
                 </div>
                 <p className="font-sans text-[13px] text-steel mb-4">

@@ -111,7 +111,7 @@ export default function CalculatorPage() {
     const estimatedViolations = Math.round(avgViolationsPerEmployer * sizeData.factor)
     const estimatedExposure = Math.round(estimatedViolations * sizeData.avgPenalty)
     const seriousExposure = Math.round(data.seriousAvg * Math.max(1, Math.round(estimatedViolations * 0.22)))
-    const protekonAnnualCost = size === "10-25" ? 297 * 12 : size === "26-50" || size === "51-100" ? 497 * 12 : 797 * 12
+    const protekonAnnualCost = size === "10-25" || size === "26-50" ? 597 * 12 : size === "51-100" ? 897 * 12 : 1297 * 12
     const roi = Math.round(seriousExposure / protekonAnnualCost)
 
     return {

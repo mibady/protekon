@@ -72,7 +72,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          $297/month. $7,229 average fine. Compliance, Commanded.
+          $597/month. $7,229 average fine. One citation pays for a year.
         </motion.p>
       </div>
     </section>

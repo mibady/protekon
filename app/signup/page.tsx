@@ -7,9 +7,9 @@ import { Eye, EyeSlash, ArrowRight, Check } from "@phosphor-icons/react"
 import { signUp } from "@/lib/actions/auth"
 
 const plans = [
-  { id: "starter", name: "Starter", price: "$297", period: "/mo", employees: "1-25 employees" },
-  { id: "professional", name: "Professional", price: "$497", period: "/mo", employees: "26-100 employees", popular: true },
-  { id: "enterprise", name: "Enterprise", price: "$797", period: "/mo", employees: "100+ employees" },
+  { id: "core", name: "Core", price: "$597", period: "/mo", employees: "1 location · up to 50 emp" },
+  { id: "professional", name: "Professional", price: "$897", period: "/mo", employees: "Up to 2 locations · 150 emp", popular: true },
+  { id: "multi-site", name: "Multi-Site", price: "$1,297", period: "/mo", employees: "Up to 3 locations · 150+ emp" },
 ]
 
 const industries = [

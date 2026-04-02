@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
           .from("clients")
           .update({
             stripe_customer_id: session.customer as string,
-            plan: planId ?? "starter",
+            plan: planId ?? "core",
             status: "active",
           })
           .eq("id", clientId)

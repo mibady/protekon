@@ -8,7 +8,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 // Map plan slugs to Stripe price IDs.
 // Configure these in env vars after creating products in the Stripe dashboard.
 export const PRICE_IDS: Record<string, string> = {
-  starter: process.env.STRIPE_PRICE_STARTER || "",
+  core: process.env.STRIPE_PRICE_CORE || "",
   professional: process.env.STRIPE_PRICE_PROFESSIONAL || "",
-  enterprise: process.env.STRIPE_PRICE_ENTERPRISE || "",
+  "multi-site": process.env.STRIPE_PRICE_MULTI_SITE || "",
 }

@@ -7,21 +7,21 @@ import Link from "next/link"
 
 const tiers = [
   {
-    name: "STARTER",
-    price: "$297",
+    name: "CORE",
+    price: "$597",
     borderColor: "#7A8FA5",
     nameColor: "#7A8FA5",
-    vertical: "Compliance Suite — SB 553 + Cal/OSHA",
+    vertical: "Full Managed Compliance — 1 Location",
     features: [
-      { text: "1 Business location", included: true },
-      { text: "Complete IIPP (generated + updated)", included: true },
+      { text: "1 business location", included: true },
+      { text: "Complete IIPP (AI-generated + updated)", included: true },
       { text: "SB 553 Workplace Violence Prevention Plan", included: true },
-      { text: "Monthly regulatory monitoring", included: true },
-      { text: "Incident log (up to 12/year)", included: true },
-      { text: "Monthly email report", included: true },
+      { text: "Incident logging with PII stripping", included: true },
+      { text: "Weekly regulatory monitoring", included: true },
+      { text: "Monthly compliance report to inbox", included: true },
       { text: "2-day document delivery", included: true },
+      { text: "AI compliance chat assistant", included: true },
       { text: "Quarterly audit package", included: false },
-      { text: "Subcontractor tracking", included: false },
       { text: "Priority support", included: false },
     ],
     cta: "GET STARTED",
@@ -30,44 +30,44 @@ const tiers = [
   },
   {
     name: "PROFESSIONAL",
-    price: "$497",
+    price: "$897",
     borderColor: "#C41230",
     nameColor: "#C41230",
-    vertical: "PROTEKON — Full Compliance Stack",
+    vertical: "PROTEKON — Full Stack, Up to 2 Locations",
     badge: "MOST POPULAR",
     features: [
-      { text: "Up to 3 locations", included: true },
+      { text: "Up to 2 locations (+$197/location)", included: true },
       { text: "Complete IIPP + SB 553 + Emergency Action Plan", included: true },
-      { text: "Weekly regulatory monitoring", included: true },
-      { text: "Unlimited incident logging", included: true },
-      { text: "Weekly + Monthly reports", included: true },
-      { text: "Quarterly audit package", included: true },
+      { text: "Unlimited incident logging + AI classification", included: true },
+      { text: "Daily regulatory monitoring + AI impact analysis", included: true },
+      { text: "Weekly + Monthly reports delivered to inbox", included: true },
+      { text: "Quarterly compliance reviews", included: true },
       { text: "24-hour document delivery", included: true },
       { text: "Subcontractor compliance tracking (construction)", included: true },
-      { text: "Priority email support", included: true },
-      { text: "Dedicated compliance analyst", included: false },
+      { text: "Priority support + dedicated analyst", included: true },
+      { text: "Compliance risk calculator access", included: true },
     ],
     cta: "START PROFESSIONAL",
     ctaStyle: "filled",
     featured: true,
   },
   {
-    name: "ENTERPRISE",
-    price: "$797",
+    name: "MULTI-SITE",
+    price: "$1,297",
     borderColor: "#C9A84C",
     nameColor: "#C9A84C",
-    vertical: "PROTEKON — Full Enterprise Stack",
+    vertical: "PROTEKON — Multi-Location Compliance",
     features: [
-      { text: "Unlimited locations", included: true },
+      { text: "Up to 3 locations (+$147/location)", included: true },
       { text: "Full vertical stack (OSHA + CSLB + Real Estate + Healthcare)", included: true },
       { text: "Dedicated compliance analyst (human review)", included: true },
       { text: "Same-day document delivery", included: true },
+      { text: "Consolidated multi-site reporting", included: true },
       { text: "Custom delivery schedule", included: true },
-      { text: "Compliance API access (Phase 2)", included: true },
-      { text: "Slack / Teams integration (Phase 2)", included: true },
-      { text: "White-glove onboarding", included: true },
+      { text: "White-glove onboarding ($0 setup fee)", included: true },
+      { text: "Annual audit package", included: true },
     ],
-    cta: "CONTACT FOR ENTERPRISE",
+    cta: "START MULTI-SITE",
     ctaStyle: "gold",
     featured: false,
   },
@@ -113,8 +113,8 @@ export default function Pricing() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <p className="font-display font-semibold text-[18px] text-gold">
-            A serious Cal/OSHA violation costs $7,229. Per violation. That is not an estimate. 
-            PROTEKON costs $297–$797/month. The math speaks for itself.
+            A serious Cal/OSHA violation costs $7,229. Per violation. That is not an estimate.
+            PROTEKON costs $597–$1,297/month. One citation pays for a full year of service.
           </p>
         </motion.div>
 

@@ -10,7 +10,7 @@ create table if not exists clients (
   business_name text not null,
   phone text,
   vertical text not null,
-  plan text default 'starter',
+  plan text default 'core',
   compliance_score int default 0,
   risk_level text default 'high',
   status text default 'active',

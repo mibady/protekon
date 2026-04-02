@@ -41,7 +41,7 @@ const industries: Record<string, {
     documents: ["IIPP (8 CCR 3203)", "SB 553 WVPP", "Fall Protection Plan", "Heat Illness Prevention Plan", "Subcontractor Verification Report"],
     painPoints: ["CSLB license tracking for subs", "Jobsite fall protection documentation", "SB 553 compliance for field crews", "Heat illness prevention for outdoor work"],
     tierRecommendation: "Professional",
-    tierPrice: "$497",
+    tierPrice: "$897",
   },
   manufacturing: {
     label: "Manufacturing",
@@ -62,8 +62,8 @@ const industries: Record<string, {
     ],
     documents: ["IIPP (8 CCR 3203)", "SB 553 WVPP", "LOTO Procedures", "Machine Guarding Assessment", "Hazard Communication Program"],
     painPoints: ["Machine guarding violations averaging $10,592", "Pressure vessel permits", "LOTO procedure documentation", "Employee training records"],
-    tierRecommendation: "Enterprise",
-    tierPrice: "$797",
+    tierRecommendation: "Multi-Site",
+    tierPrice: "$1,297",
   },
   agriculture: {
     label: "Agriculture",
@@ -84,8 +84,8 @@ const industries: Record<string, {
     ],
     documents: ["IIPP (8 CCR 3203)", "SB 553 WVPP", "Heat Illness Prevention Plan", "Shade & Water Compliance Log", "Pesticide Safety Training Records"],
     painPoints: ["Full heat illness suite (807 citations, 15% of all ag violations)", "Shade and water provision documentation", "Seasonal worker training records", "Bilingual compliance documents"],
-    tierRecommendation: "Starter",
-    tierPrice: "$297",
+    tierRecommendation: "Core",
+    tierPrice: "$597",
   },
   hospitality: {
     label: "Hospitality",
@@ -106,8 +106,8 @@ const industries: Record<string, {
     ],
     documents: ["IIPP (8 CCR 3203)", "SB 553 WVPP", "HazCom Program", "BBP Exposure Control Plan", "PPE Assessment"],
     painPoints: ["IIPP is #1 citation by huge margin (686 citations)", "Hazard communication for cleaning chemicals", "Bloodborne pathogen exposure plans", "Multi-location compliance management"],
-    tierRecommendation: "Starter",
-    tierPrice: "$297",
+    tierRecommendation: "Core",
+    tierPrice: "$597",
   },
   retail: {
     label: "Retail",
@@ -128,8 +128,8 @@ const industries: Record<string, {
     ],
     documents: ["IIPP (8 CCR 3203)", "SB 553 WVPP", "Fire Safety Plan", "Heat Illness Prevention (warehouse)", "Incident Investigation Procedures"],
     painPoints: ["Full IIPP suite (480 combined citations)", "Fire safety for retail locations", "Heat illness for outdoor/warehouse retail", "SB 553 workplace violence for customer-facing staff"],
-    tierRecommendation: "Starter",
-    tierPrice: "$297",
+    tierRecommendation: "Core",
+    tierPrice: "$597",
   },
   healthcare: {
     label: "Healthcare",
@@ -151,7 +151,7 @@ const industries: Record<string, {
     documents: ["IIPP (8 CCR 3203)", "SB 553 WVPP", "ATD Exposure Control Plan", "BBP Exposure Control Plan", "PHI Handling Procedures"],
     painPoints: ["ATD violations average $5,619 — unique to healthcare", "Bloodborne pathogen exposure plans", "Injury reporting for patient handling", "HIPAA-adjacent compliance monitoring"],
     tierRecommendation: "Professional",
-    tierPrice: "$497",
+    tierPrice: "$897",
   },
   wholesale: {
     label: "Wholesale",
@@ -173,7 +173,7 @@ const industries: Record<string, {
     documents: ["IIPP (8 CCR 3203)", "SB 553 WVPP", "Forklift Training Program", "LOTO Procedures", "Warehouse Safety Plan"],
     painPoints: ["Machine guarding/LOTO fines averaging $8,498", "Forklift/PIT safety training documentation", "Heat illness for warehouse workers", "Loading dock safety protocols"],
     tierRecommendation: "Professional",
-    tierPrice: "$497",
+    tierPrice: "$897",
   },
   transportation: {
     label: "Transportation",
@@ -195,7 +195,7 @@ const industries: Record<string, {
     documents: ["IIPP (8 CCR 3203)", "SB 553 WVPP", "Fleet Safety Program", "Heat Illness Prevention Plan", "Driver Training Records"],
     painPoints: ["Full IIPP suite = 286 citations (18% of all transportation violations)", "Highest IIPP avg penalties of any industry", "Heat illness for drivers and dock workers", "Incident investigation documentation"],
     tierRecommendation: "Professional",
-    tierPrice: "$497",
+    tierPrice: "$897",
   },
 }
 

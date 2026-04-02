@@ -9,19 +9,20 @@ import Footer from "@/components/layout/Footer"
 
 const plans = [
   {
-    name: "Starter",
-    slug: "starter",
-    price: "$297",
+    name: "Core",
+    slug: "core",
+    price: "$597",
     period: "/month",
-    description: "Perfect for small businesses with basic compliance needs.",
-    employees: "1-25 employees",
+    description: "Full managed compliance for single-location businesses.",
+    employees: "1 location · up to 50 employees",
     features: [
-      { name: "IIPP Document", included: true },
+      { name: "AI-Generated IIPP Document", included: true },
       { name: "SB 553 WVPP", included: true },
-      { name: "Annual Updates", included: true },
-      { name: "Email Delivery", included: true },
-      { name: "Incident Logging", included: false },
-      { name: "Regulatory Monitoring", included: false },
+      { name: "Incident Logging + PII Stripping", included: true },
+      { name: "Weekly Regulatory Monitoring", included: true },
+      { name: "Monthly Report to Inbox", included: true },
+      { name: "AI Compliance Chat", included: true },
+      { name: "2-Day Document Delivery", included: true },
       { name: "Quarterly Reviews", included: false },
       { name: "Priority Support", included: false },
     ],
@@ -29,38 +30,40 @@ const plans = [
   {
     name: "Professional",
     slug: "professional",
-    price: "$497",
+    price: "$897",
     period: "/month",
-    description: "Complete compliance coverage for growing businesses.",
-    employees: "26-100 employees",
+    description: "Complete compliance stack with quarterly reviews and priority support.",
+    employees: "Up to 2 locations · up to 150 employees",
     popular: true,
     features: [
-      { name: "IIPP Document", included: true },
-      { name: "SB 553 WVPP", included: true },
-      { name: "Annual Updates", included: true },
-      { name: "Email Delivery", included: true },
-      { name: "Incident Logging", included: true },
-      { name: "Regulatory Monitoring", included: true },
-      { name: "Quarterly Reviews", included: true },
-      { name: "Priority Support", included: false },
+      { name: "Everything in Core", included: true },
+      { name: "Up to 2 Locations (+$197/location)", included: true },
+      { name: "Unlimited Incident Logging + AI Classification", included: true },
+      { name: "Daily Regulatory Monitoring + AI Analysis", included: true },
+      { name: "Weekly + Monthly Reports", included: true },
+      { name: "Quarterly Compliance Reviews", included: true },
+      { name: "24-Hour Document Delivery", included: true },
+      { name: "Priority Support + Dedicated Analyst", included: true },
+      { name: "Subcontractor Tracking (Construction)", included: true },
     ],
   },
   {
-    name: "Enterprise",
-    slug: "enterprise",
-    price: "$797",
+    name: "Multi-Site",
+    slug: "multi-site",
+    price: "$1,297",
     period: "/month",
-    description: "Full-service compliance for larger organizations.",
-    employees: "100+ employees",
+    description: "Multi-location compliance with consolidated reporting and white-glove service.",
+    employees: "Up to 3 locations · 150+ employees",
     features: [
-      { name: "IIPP Document", included: true },
-      { name: "SB 553 WVPP", included: true },
-      { name: "Annual Updates", included: true },
-      { name: "Email Delivery", included: true },
-      { name: "Incident Logging", included: true },
-      { name: "Regulatory Monitoring", included: true },
-      { name: "Quarterly Reviews", included: true },
-      { name: "Priority Support", included: true },
+      { name: "Everything in Professional", included: true },
+      { name: "Up to 3 Locations (+$147/location)", included: true },
+      { name: "Full Vertical Stack (OSHA + CSLB + Healthcare + RE)", included: true },
+      { name: "Consolidated Multi-Site Reporting", included: true },
+      { name: "Same-Day Document Delivery", included: true },
+      { name: "Dedicated Compliance Analyst (Human Review)", included: true },
+      { name: "White-Glove Onboarding ($0 Setup Fee)", included: true },
+      { name: "Annual Audit Package", included: true },
+      { name: "Custom Delivery Schedule", included: true },
     ],
   },
 ]
@@ -72,7 +75,7 @@ const faqs = [
   },
   {
     question: "Can I cancel anytime?",
-    answer: "Yes. Shield CaaS is a monthly subscription with no long-term contracts. You can cancel at any time, and you'll retain access through the end of your billing period."
+    answer: "Yes. Protekon is a monthly subscription with no long-term contracts. You can cancel at any time, and you'll retain access through the end of your billing period."
   },
   {
     question: "What happens when regulations change?",
@@ -84,7 +87,7 @@ const faqs = [
   },
   {
     question: "Do I need to install any software?",
-    answer: "No. Shield CaaS is a fully managed service. Everything is delivered to your inbox. There's no software to learn, no dashboards to check, no training required."
+    answer: "No. Protekon is a fully managed service. Your compliance documents are delivered straight to your inbox. You also get a dashboard for real-time compliance monitoring, but it requires zero setup on your end."
   },
 ]
 
@@ -257,12 +260,12 @@ export default function PricingPage() {
       <section className="py-16 px-6 lg:px-8 bg-crimson/5 border-y border-crimson/10">
         <div className="max-w-[900px] mx-auto text-center">
           <h2 className="font-display font-bold text-[28px] text-gold mb-4">
-            Shield CaaS costs less than a single Cal/OSHA violation
+            Protekon costs less than a single Cal/OSHA violation
           </h2>
           <p className="font-sans text-[16px] text-fog">
-            The average serious violation fine is <span className="text-parchment font-semibold">$7,229</span>. 
-            A year of Shield CaaS Professional costs <span className="text-parchment font-semibold">$5,964</span>. 
-            The math speaks for itself.
+            The average serious violation fine is <span className="text-parchment font-semibold">$7,229</span>.
+            A year of Protekon Core costs <span className="text-parchment font-semibold">$7,164</span>.
+            One prevented citation pays for itself.
           </p>
         </div>
       </section>

@@ -56,7 +56,7 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
       email,
       business_name: businessName,
       vertical: vertical || "other",
-      plan: plan || "starter",
+      plan: plan || "core",
       compliance_score: 0,
       risk_level: "high",
       status: "active",

@@ -346,7 +346,7 @@ export default function SamplesPage() {
                 <ArrowRight size={16} weight="bold" />
               </Link>
               <p className="font-sans text-[12px] text-steel mt-3">
-                From $297/mo. First delivery in 48 hours. Cancel anytime.
+                From $597/mo. First delivery in 48 hours. Cancel anytime.
               </p>
             </div>
           </div>
