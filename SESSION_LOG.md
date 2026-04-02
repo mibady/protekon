@@ -307,3 +307,53 @@ Must replicate the following from the previous project:
 - Set up Stripe products + webhook in dashboard, add env vars
 - Integration/E2E testing session (auth flow, document request, incident logging, Stripe checkout)
 - Consider HEAD layer features (compliance Q&A chat, document analysis)
+
+---
+
+## Session 4 — 2026-04-01
+
+### Completed
+- **DNA Layer Bootstrap**: Schema alignment migration (003) adding missing columns (documents.status/notes/priority, incidents.metadata, clients.notification_preferences, regulatory_updates expansion) + 10 RLS write policies
+- **Demo Seed**: Full seed script (`scripts/seed-demo.ts`) for hosted Supabase — creates auth user via admin API + populates all 15 tables (1 client, 5 incidents, 8 documents, 3 audits, 10 training records, 5 BAA agreements, 4 PHI assets, 6 poster locations, 5 subcontractors, 4 properties, 6 regulatory updates, 3 municipal ordinances, 3 scheduled deliveries, 8 audit log entries)
+- **Auth Wiring**: proxy.ts already existed (Next.js 16), removed conflicting middleware.ts, verified PKCE callback flow
+- **Auth Fix**: signUp() now creates client record via admin client (was missing — dashboard showed empty for new users)
+- **Env Var**: Added NEXT_PUBLIC_SITE_URL to Vercel production for password reset redirects
+- **Hero Logo**: Removed duplicate P-Mark + wordmark from hero section (redundant with header)
+- **Mobile Responsiveness**: 13 dashboard pages updated — table-to-card pattern (hidden lg:block / lg:hidden) for incidents, training, BAA tracker, PHI inventory, subcontractors, properties, poster compliance, compliance score, incident analysis, delivery log, annual summary. Layout sidebar narrowed, responsive padding, font scaling, chart sizing
+- **Marketplace Fix**: Moved from /marketplace (public page) to /dashboard/marketplace (dashboard tab), themed to match light dashboard (bg-brand-white + border-midnight/[0.08])
+- **Reports Fix**: Fixed getDeliveryLog() column name mismatches (delivery_type vs type)
+- **Types Fix**: Added notification_preferences to ClientProfile type
+
+### Audit Snapshot
+- Pages: 39 total (22 dashboard + 17 public/auth)
+- API routes: 8 (7 api/ + 1 auth/callback)
+- Dashboard pages: 22
+- Actions: 11 files
+- Components: 69
+- Migrations: 3
+- Seed: scripts/seed-demo.ts (hosted Supabase)
+- Build: pass
+
+### Decisions Made
+- Used admin client for signup client record creation (simpler than Inngest dependency on critical path)
+- Next.js 16 uses proxy.ts not middleware.ts — removed middleware.ts
+- Mobile pattern: hidden lg:block for desktop tables, lg:hidden for mobile cards (no new components)
+- Seed script uses admin API for auth user (works with hosted Supabase, not just local)
+- Dashboard uses light theme (bg-parchment + bg-brand-white cards), sidebar uses dark theme (bg-void)
+
+### Known Issues
+- STRIPE_WEBHOOK_SECRET, STRIPE_PRICE_* env vars still need Stripe product creation
+- COMPLIANCE_OFFICER_EMAIL env var required in production
+- 3 pre-existing tsc errors (tailwind.config.ts, Comparison.tsx — none in new code)
+- Package name still "my-project" in package.json
+- Nav/Footer link to non-existent pages (blog, press, careers, calculator, api-docs, investors, industry sub-pages) — prefetch 404s in console
+- Inngest functions exist as stubs but body logic not implemented yet
+
+### Next Session Should
+- /prime to load context
+- Test full auth flow: signup → client record created → dashboard shows data
+- Test password reset flow with NEXT_PUBLIC_SITE_URL
+- Set up Stripe products + webhook, add env vars
+- Consider Inngest function implementations (intake pipeline, monthly audit, doc gen)
+- Fix Nav/Footer dead links (remove or redirect)
+- Consider HEAD layer (compliance Q&A chat, document analysis)
