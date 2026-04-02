@@ -15,11 +15,15 @@
 
 import { Sandbox } from "e2b"
 import { readFileSync, readdirSync, statSync } from "fs"
-import { join, relative } from "path"
+import { join, dirname } from "path"
+import { fileURLToPath } from "url"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const TEMPLATE = process.env.SANDBOX_TEMPLATE || "base"
 const TIMEOUT = parseInt(process.env.SANDBOX_TIMEOUT || "300000")
-const PROJECT_ROOT = join(import.meta.dirname, "..")
+const PROJECT_ROOT = join(__dirname, "..")
 
 // ── File Collection ──
 
@@ -57,7 +61,6 @@ const EXCLUDE = new Set([
   "journey-results",
   "scripts",
   ".env.local",
-  "package-lock.json",
 ])
 
 function collectFiles(dir: string, base: string = ""): { path: string; content: string }[] {
@@ -126,27 +129,29 @@ async function runGate(sandbox: Sandbox, gate: string, command: string): Promise
   console.log(`\n── ${gate} ──`)
 
   try {
-    const result = await sandbox.commands.run(command, {
+    const proc = await sandbox.commands.run(command, {
       cwd: "/home/user/project",
       timeoutMs: TIMEOUT,
     })
 
-    const output = (result.stdout || "") + (result.stderr || "")
-    const success = result.exitCode === 0
+    const output = (proc.stdout || "") + (proc.stderr || "")
+    const success = proc.exitCode === 0
     const duration = Date.now() - start
 
+    // Print output
+    if (output.trim()) console.log(output.trim())
+
     if (success) {
-      console.log(`✓ ${gate}: PASS (${(duration / 1000).toFixed(1)}s)`)
+      console.log(`\n✓ ${gate}: PASS (${(duration / 1000).toFixed(1)}s)`)
     } else {
-      console.log(`✗ ${gate}: FAIL (${(duration / 1000).toFixed(1)}s)`)
-      console.log(output.slice(-2000)) // Last 2K of output
+      console.log(`\n✗ ${gate}: FAIL (exit ${proc.exitCode}) (${(duration / 1000).toFixed(1)}s)`)
     }
 
     return { gate, success, duration, output }
   } catch (err) {
     const duration = Date.now() - start
     const msg = err instanceof Error ? err.message : String(err)
-    console.log(`✗ ${gate}: ERROR (${(duration / 1000).toFixed(1)}s) — ${msg}`)
+    console.log(`\n✗ ${gate}: ERROR (${(duration / 1000).toFixed(1)}s) — ${msg}`)
     return { gate, success: false, duration, output: msg }
   }
 }
@@ -190,35 +195,55 @@ async function main() {
     }
     console.log("  Upload complete")
 
-    // Install dependencies
-    console.log("\nInstalling dependencies...")
-    const installResult = await sandbox.commands.run("npm install --prefer-offline 2>&1 | tail -5", {
-      cwd: "/home/user/project",
-      timeoutMs: TIMEOUT,
-    })
-    if (installResult.exitCode !== 0) {
-      console.error("npm install failed:", installResult.stderr)
-      process.exit(1)
+    // Upgrade Node.js (Vitest 4+ / Vite 8 requires >=20.19.0 or >=22.12.0)
+    console.log("\nUpgrading Node.js...")
+    const nodeCheck = await sandbox.commands.run("node --version", { cwd: "/home/user/project" })
+    console.log(`  Current: ${(nodeCheck.stdout || "").trim()}`)
+
+    // Install Node 22 to user home (no root needed)
+    await sandbox.commands.run(
+      "curl -fsSL https://nodejs.org/dist/v22.16.0/node-v22.16.0-linux-x64.tar.xz | tar -xJ --no-same-owner -C /home/user --strip-components=1 && export PATH=/home/user/bin:$PATH && echo 'export PATH=/home/user/bin:$PATH' >> /home/user/.bashrc",
+      { cwd: "/home/user/project", timeoutMs: TIMEOUT }
+    )
+    const newNode = await sandbox.commands.run("/home/user/bin/node --version", { cwd: "/home/user/project" })
+    console.log(`  Upgraded to: ${(newNode.stdout || "").trim()}`)
+
+    // Install dependencies with upgraded Node
+    console.log("\nInstalling dependencies (this takes ~60s)...")
+    try {
+      await sandbox.commands.run("export PATH=/home/user/bin:$PATH && npm install --legacy-peer-deps", {
+        cwd: "/home/user/project",
+        timeoutMs: TIMEOUT,
+      })
+      console.log("  Dependencies installed")
+    } catch (err) {
+      console.error("npm install failed — trying with --force...")
+      await sandbox.commands.run("export PATH=/home/user/bin:$PATH && npm install --force", {
+        cwd: "/home/user/project",
+        timeoutMs: TIMEOUT,
+      })
+      console.log("  Dependencies installed (forced)")
     }
-    console.log("  Dependencies installed")
 
     // Run gates
     const results: GateResult[] = []
 
+    const pathPrefix = "export PATH=/home/user/bin:$PATH &&"
+
     if (runTypecheck) {
-      results.push(await runGate(sandbox, "TypeScript", "npx tsc --noEmit"))
+      results.push(await runGate(sandbox, "TypeScript", `${pathPrefix} node_modules/.bin/tsc --noEmit`))
     }
 
     if (runLint) {
-      results.push(await runGate(sandbox, "Lint", "npx eslint . --max-warnings 0"))
+      results.push(await runGate(sandbox, "Lint", `${pathPrefix} node_modules/.bin/eslint . --max-warnings 0`))
     }
 
     if (runTest) {
-      results.push(await runGate(sandbox, "Vitest", "npx vitest run"))
+      results.push(await runGate(sandbox, "Vitest", `${pathPrefix} node_modules/.bin/vitest run`))
     }
 
     if (runBuild) {
-      results.push(await runGate(sandbox, "Build", "npx next build"))
+      results.push(await runGate(sandbox, "Build", `${pathPrefix} node_modules/.bin/next build`))
     }
 
     // Summary
