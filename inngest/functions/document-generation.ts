@@ -36,7 +36,24 @@ export const documentGeneration = inngest.createFunction(
       }
     })
 
-    // Step 2: Generate PDF and upload to Vercel Blob
+    // Step 2: Generate AI content (HEAD layer)
+    const aiContent = await step.run("generate-ai-content", async () => {
+      try {
+        const { generateDocumentContent } = await import("@/lib/ai/document-generator")
+        return await generateDocumentContent({
+          businessName,
+          documentType,
+          vertical,
+          complianceScore: clientData.compliance_score ?? 0,
+          riskLevel: clientData.risk_level ?? "unknown",
+        })
+      } catch (err) {
+        console.warn("[document-generation] AI content generation failed, using static templates:", err instanceof Error ? err.message : err)
+        return null
+      }
+    })
+
+    // Step 3: Generate PDF and upload to Vercel Blob
     const docResult = await step.run("generate-document", async () => {
       const { generateCompliancePDF } = await import("@/lib/pdf")
       const { put } = await import("@vercel/blob")
@@ -50,6 +67,7 @@ export const documentGeneration = inngest.createFunction(
         riskLevel: clientData.risk_level ?? "unknown",
         auditCount: clientData.auditCount,
         incidentCount: clientData.incidentCount,
+        aiContent: aiContent ?? undefined,
       })
 
       const blob = await put(

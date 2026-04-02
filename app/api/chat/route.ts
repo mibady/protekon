@@ -1,0 +1,67 @@
+import { streamText } from "ai"
+import { anthropic } from "@ai-sdk/anthropic"
+import { createClient } from "@/lib/supabase/server"
+
+export async function POST(req: Request) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return new Response("Unauthorized", { status: 401 })
+  }
+
+  const { messages } = await req.json()
+
+  // Gather client context for RAG
+  const [clientResult, docsResult, incidentsResult, regsResult] = await Promise.all([
+    supabase.from("clients").select("business_name, vertical, compliance_score, risk_level, plan").eq("id", user.id).single(),
+    supabase.from("documents").select("type, status, created_at").eq("client_id", user.id).order("created_at", { ascending: false }).limit(10),
+    supabase.from("incidents").select("description, severity, incident_date, location").eq("client_id", user.id).order("incident_date", { ascending: false }).limit(5),
+    supabase.from("regulatory_updates").select("title, summary, severity, effective_date").order("created_at", { ascending: false }).limit(5),
+  ])
+
+  const client = clientResult.data
+  const docs = docsResult.data ?? []
+  const incidents = incidentsResult.data ?? []
+  const regs = regsResult.data ?? []
+
+  const contextBlock = `
+CLIENT PROFILE:
+- Business: ${client?.business_name ?? "Unknown"}
+- Industry: ${client?.vertical ?? "Unknown"}
+- Compliance Score: ${client?.compliance_score ?? 0}%
+- Risk Level: ${client?.risk_level ?? "Unknown"}
+- Plan: ${client?.plan ?? "Unknown"}
+
+RECENT DOCUMENTS (${docs.length}):
+${docs.map((d) => `- ${d.type} (${d.status}, ${new Date(d.created_at).toLocaleDateString()})`).join("\n")}
+
+RECENT INCIDENTS (${incidents.length}):
+${incidents.map((i) => `- [${i.severity}] ${i.description?.slice(0, 100)} (${i.incident_date}, ${i.location})`).join("\n")}
+
+LATEST REGULATORY UPDATES (${regs.length}):
+${regs.map((r) => `- [${r.severity}] ${r.title} (effective: ${r.effective_date ?? "TBD"}) — ${r.summary?.slice(0, 150)}`).join("\n")}
+`.trim()
+
+  const result = streamText({
+    model: anthropic("claude-sonnet-4-6"),
+    system: `You are the Protekon Compliance Assistant — an AI compliance advisor for California small and mid-sized businesses. You help clients understand their compliance obligations, interpret regulations, and take action on their compliance posture.
+
+You have access to the client's profile, recent documents, incidents, and regulatory updates below. Use this context to provide personalized, actionable advice.
+
+${contextBlock}
+
+Rules:
+- Always reference specific Cal/OSHA standards (e.g., 8 CCR 3203, SB 553) when relevant
+- Provide California-specific guidance — do not give generic federal-only advice
+- When discussing penalties, use real Cal/OSHA penalty ranges (serious: $18,000+, willful: $72,988 avg)
+- If the client asks about something outside their current documents, recommend requesting the relevant document type
+- Keep responses concise and actionable — these are busy business owners, not compliance experts
+- Never provide legal advice — always recommend consulting with a compliance specialist for legal questions
+- Use the client's industry context to tailor recommendations`,
+    messages,
+    maxOutputTokens: 2000,
+  })
+
+  return result.toUIMessageStreamResponse()
+}

@@ -99,14 +99,45 @@ export const regulatoryScan = inngest.createFunction(
 
           if (existing && existing.length > 0) continue
 
+          // AI impact analysis (HEAD layer) — enhances severity classification
+          let aiSeverity = item.severity
+          let aiMetadata = null
+          try {
+            const { analyzeRegulatoryImpact } = await import("@/lib/ai/regulatory-analyzer")
+            const analysis = await analyzeRegulatoryImpact({
+              title: item.title,
+              summary: item.summary,
+              jurisdiction: source.jurisdiction,
+              category: source.category,
+              sourceUrl: item.sourceUrl,
+              effectiveDate: item.effectiveDate,
+            })
+            // Map AI impact level to severity
+            aiSeverity = analysis.impactLevel === "critical" || analysis.impactLevel === "high"
+              ? "high"
+              : analysis.impactLevel === "medium"
+                ? "medium"
+                : "low"
+            aiMetadata = {
+              affectedDocuments: analysis.affectedDocuments,
+              affectedIndustries: analysis.affectedIndustries,
+              clientAction: analysis.clientAction,
+              complianceDeadline: analysis.complianceDeadline,
+              penaltyRisk: analysis.penaltyRisk,
+              aiSummary: analysis.summary,
+            }
+          } catch (err) {
+            console.warn("[regulatory-scan] AI analysis failed for:", item.title, err instanceof Error ? err.message : err)
+          }
+
           await supabase.from("regulatory_updates").insert({
             jurisdiction: source.jurisdiction,
             category: source.category,
             title: item.title,
-            summary: item.summary,
+            summary: aiMetadata?.aiSummary || item.summary,
             effective_date: item.effectiveDate,
             source_url: item.sourceUrl,
-            severity: item.severity,
+            severity: aiSeverity,
           })
           inserted++
         }

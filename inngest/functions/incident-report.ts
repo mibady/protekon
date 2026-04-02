@@ -25,13 +25,37 @@ export const incidentReport = inngest.createFunction(
     }
     const supabase = createAdminClient()
 
-    // Step 1: Strip PII from description
+    // Step 1: AI classification (HEAD layer) — enhances severity + PII detection
+    const aiClassification = await step.run("ai-classify-incident", async () => {
+      try {
+        const { classifyIncident } = await import("@/lib/ai/incident-classifier")
+        return await classifyIncident({
+          description: incidentData.description,
+          location: incidentData.location,
+          date: incidentData.date,
+          vertical: "general",
+          userSeverity: incidentData.severity,
+        })
+      } catch (err) {
+        console.warn("[incident-report] AI classification failed, using manual severity:", err instanceof Error ? err.message : err)
+        return null
+      }
+    })
+
+    // Step 2: Strip PII from description (regex baseline + AI enhancement)
     const sanitized = await step.run("strip-pii", async () => {
       return {
         description: stripPII(incidentData.description),
         location: incidentData.location,
         date: incidentData.date,
-        severity: incidentData.severity,
+        severity: aiClassification?.severity ?? incidentData.severity,
+        aiClassification: aiClassification ? {
+          oshaCode: aiClassification.oshaCode,
+          category: aiClassification.category,
+          osha300Recordable: aiClassification.osha300Recordable,
+          recommendation: aiClassification.recommendation,
+          piiDetected: aiClassification.piiDetected,
+        } : null,
       }
     })
 

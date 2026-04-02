@@ -77,6 +77,7 @@ export async function generateCompliancePDF(options: {
   riskLevel: string
   auditCount: number
   incidentCount: number
+  aiContent?: { title: string; sections: { heading: string; body: string }[]; recommendations: string[] }
 }): Promise<{ buffer: Uint8Array; pages: number }> {
   const doc = await PDFDocument.create()
   const font = await doc.embedFont(StandardFonts.Helvetica)
@@ -167,6 +168,64 @@ export async function generateCompliancePDF(options: {
       for (const line of itemLines) {
         content.drawText(line, { x: MARGIN + 15, y, size: 10, font, color: BRAND.midnight })
         y -= 16
+      }
+    }
+  }
+
+  // --- AI-Generated Content Pages (if available) ---
+  if (options.aiContent) {
+    for (const section of options.aiContent.sections) {
+      // Check if we need a new page
+      if (y < 150) {
+        const newPage = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+        y = PAGE_HEIGHT - MARGIN - 30
+        // Use the new page for drawing
+        const currentPage = doc.getPages()[doc.getPageCount() - 1]
+        currentPage.drawText(section.heading, { x: MARGIN, y, size: 14, font: fontBold, color: BRAND.midnight })
+      } else {
+        y -= 30
+        content.drawRectangle({ x: MARGIN, y: y - 2, width: 40, height: 2, color: BRAND.crimson })
+        content.drawText(section.heading, { x: MARGIN + 50, y, size: 13, font: fontBold, color: BRAND.midnight })
+      }
+      y -= 25
+
+      // Render body text with word wrapping
+      const bodyLines = wrapText(section.body, font, 10, CONTENT_WIDTH - 20)
+      for (const line of bodyLines) {
+        if (y < 50) {
+          const newPage = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+          y = PAGE_HEIGHT - MARGIN - 30
+          newPage.drawText(section.heading + " (continued)", { x: MARGIN, y, size: 12, font: fontBold, color: BRAND.steel })
+          y -= 25
+        }
+        const currentPage = doc.getPages()[doc.getPageCount() - 1]
+        currentPage.drawText(line, { x: MARGIN + 15, y, size: 10, font, color: BRAND.midnight })
+        y -= 14
+      }
+    }
+
+    // AI Recommendations section
+    if (options.aiContent.recommendations.length > 0) {
+      if (y < 150) {
+        doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+        y = PAGE_HEIGHT - MARGIN - 30
+      }
+      y -= 30
+      const lastPage = doc.getPages()[doc.getPageCount() - 1]
+      lastPage.drawRectangle({ x: MARGIN, y: y - 2, width: 40, height: 2, color: BRAND.gold })
+      lastPage.drawText("AI-Generated Recommendations", { x: MARGIN + 50, y, size: 13, font: fontBold, color: BRAND.midnight })
+      y -= 25
+      for (const rec of options.aiContent.recommendations) {
+        const recLines = wrapText(`\u2022  ${rec}`, font, 10, CONTENT_WIDTH - 20)
+        for (const line of recLines) {
+          if (y < 50) {
+            doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+            y = PAGE_HEIGHT - MARGIN - 30
+          }
+          const pg = doc.getPages()[doc.getPageCount() - 1]
+          pg.drawText(line, { x: MARGIN + 15, y, size: 10, font, color: BRAND.midnight })
+          y -= 16
+        }
       }
     }
   }
