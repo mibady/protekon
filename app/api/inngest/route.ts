@@ -8,6 +8,7 @@ import { monthlyAudit } from "@/inngest/functions/monthly-audit"
 import { trainingReminders } from "@/inngest/functions/training-reminders"
 import { regulatoryScan } from "@/inngest/functions/regulatory-scan"
 import { paymentFailed } from "@/inngest/functions/payment-failed"
+import { scheduledDelivery } from "@/inngest/functions/scheduled-delivery"
 
 export const maxDuration = 300
 
@@ -22,5 +23,6 @@ export const { GET, POST, PUT } = serve({
     trainingReminders,
     regulatoryScan,
     paymentFailed,
+    scheduledDelivery,
   ],
 })

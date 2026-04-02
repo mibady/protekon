@@ -68,10 +68,16 @@ export const intakePipeline = inngest.createFunction(
       await sendEmail({ to: email, ...intakeWelcomeEmail(email, scoring.complianceScore, scoring.riskLevel) })
     })
 
-    // Step 5: Wait for onboarding period
+    // Step 5: Create default delivery schedules
+    await step.run("create-delivery-schedules", async () => {
+      const { createDefaultDeliveries } = await import("@/lib/actions/scheduled-deliveries")
+      await createDefaultDeliveries(client.id)
+    })
+
+    // Step 6: Wait for onboarding period
     await step.sleep("wait-for-onboarding", "48h")
 
-    // Step 6: Schedule first audit
+    // Step 7: Schedule first audit
     await step.run("schedule-first-audit", async () => {
       const month = new Date().toISOString().slice(0, 7)
       const seq = String(Math.floor(Math.random() * 900) + 100)
