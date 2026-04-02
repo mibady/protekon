@@ -1,8 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { ChartLine, WarningCircle, FileText, Scales, EnvelopeSimple, CalendarCheck, Download, ArrowRight } from "@phosphor-icons/react"
 import Link from "next/link"
+import { requestDocument } from "@/lib/actions/documents"
 
 const reports = [
   {
@@ -56,6 +58,22 @@ const reports = [
 ]
 
 export default function ReportsHubPage() {
+  const [generating, setGenerating] = useState<string | null>(null)
+  const [generated, setGenerated] = useState<string | null>(null)
+
+  async function handleGenerate(reportType: string) {
+    setGenerating(reportType)
+    setGenerated(null)
+    const fd = new FormData()
+    fd.set("type", reportType)
+    fd.set("urgency", "normal")
+    fd.set("notes", `Auto-generated from reports hub: ${reportType}`)
+    await requestDocument(fd)
+    setGenerating(null)
+    setGenerated(reportType)
+    setTimeout(() => setGenerated(null), 3000)
+  }
+
   return (
     <div className="p-6 lg:p-8">
       {/* Quick Generate Bar */}
@@ -66,15 +84,20 @@ export default function ReportsHubPage() {
           </span>
         </div>
         <div className="flex flex-wrap gap-3">
-          <button className="px-4 py-2 border border-brand-white/30 text-brand-white font-display font-semibold text-[9px] tracking-[2px] uppercase hover:bg-brand-white/10 transition-colors">
-            Monthly Summary
-          </button>
-          <button className="px-4 py-2 border border-brand-white/30 text-brand-white font-display font-semibold text-[9px] tracking-[2px] uppercase hover:bg-brand-white/10 transition-colors">
-            Incident Export
-          </button>
-          <button className="px-4 py-2 border border-brand-white/30 text-brand-white font-display font-semibold text-[9px] tracking-[2px] uppercase hover:bg-brand-white/10 transition-colors">
-            Annual Package
-          </button>
+          {[
+            { label: "Monthly Summary", type: "monthly-compliance-summary" },
+            { label: "Incident Export", type: "incident-analysis-export" },
+            { label: "Annual Package", type: "annual-audit-package" },
+          ].map(({ label, type }) => (
+            <button
+              key={type}
+              onClick={() => handleGenerate(type)}
+              disabled={generating === type}
+              className="px-4 py-2 border border-brand-white/30 text-brand-white font-display font-semibold text-[9px] tracking-[2px] uppercase hover:bg-brand-white/10 transition-colors disabled:opacity-50"
+            >
+              {generating === type ? "Generating..." : generated === type ? "Requested ✓" : label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -139,9 +162,13 @@ export default function ReportsHubPage() {
               Download your complete compliance archive as a single PDF. Includes all 6 reports + all documents + delivery log. One-click generation.
             </p>
           </div>
-          <button className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-8 py-4 hover:brightness-110 transition-all flex-shrink-0">
+          <button
+            onClick={() => handleGenerate("annual-audit-package")}
+            disabled={generating === "annual-audit-package"}
+            className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-8 py-4 hover:brightness-110 transition-all flex-shrink-0 disabled:opacity-50"
+          >
             <Download size={18} weight="bold" />
-            Generate Full Package
+            {generating === "annual-audit-package" ? "Generating..." : generated === "annual-audit-package" ? "Requested ✓" : "Generate Full Package"}
           </button>
         </div>
       </motion.div>

@@ -172,8 +172,8 @@ export default function DashboardMarketplacePage() {
                 ))}
               </ul>
 
-              <button className="w-full font-display font-semibold text-[10px] tracking-[3px] uppercase text-brand-white bg-crimson py-3 rounded hover:brightness-110 transition-all">
-                Add to Plan
+              <button disabled className="w-full font-display font-semibold text-[10px] tracking-[3px] uppercase text-brand-white/60 bg-midnight/40 py-3 cursor-not-allowed">
+                Coming Soon
               </button>
             </motion.div>
           ))}
@@ -220,9 +220,12 @@ export default function DashboardMarketplacePage() {
         <p className="font-sans text-[14px] text-brand-white/80 mb-5">
           Our API team can build custom integrations for enterprise customers.
         </p>
-        <button className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-crimson bg-brand-white px-8 py-3 rounded hover:bg-parchment transition-colors">
+        <a
+          href="/contact"
+          className="inline-block font-display font-semibold text-[10px] tracking-[3px] uppercase text-crimson bg-brand-white px-8 py-3 rounded hover:bg-parchment transition-colors"
+        >
           Contact API Team
-        </button>
+        </a>
       </section>
     </div>
   )

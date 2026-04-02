@@ -1,10 +1,12 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState } from "react"
 import Link from "next/link"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
 import { FileText, Video, Newspaper, BookOpen, Download, ArrowRight } from "@phosphor-icons/react"
+import { submitSampleGate } from "@/lib/actions/samples"
 
 const featuredResources = [
   {
@@ -80,6 +82,20 @@ const downloads = [
 ]
 
 export default function ResourcesPage() {
+  const [nlEmail, setNlEmail] = useState("")
+  const [nlSubmitting, setNlSubmitting] = useState(false)
+  const [nlDone, setNlDone] = useState(false)
+
+  async function handleNewsletterSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!nlEmail.trim()) return
+    setNlSubmitting(true)
+    const fd = new FormData()
+    fd.set("email", nlEmail)
+    await submitSampleGate(fd)
+    setNlDone(true)
+    setNlSubmitting(false)
+  }
   return (
     <main className="min-h-screen bg-void">
       <Nav />
@@ -245,17 +261,22 @@ export default function ResourcesPage() {
           <p className="font-sans text-[14px] text-steel mb-8">
             Get weekly compliance updates, regulation changes, and enforcement trends delivered to your inbox.
           </p>
-          <form className="flex flex-col sm:flex-row gap-4">
+          <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4">
             <input
               type="email"
+              required
+              value={nlEmail}
+              onChange={(e) => setNlEmail(e.target.value)}
               placeholder="Enter your email"
-              className="flex-1 bg-midnight border border-brand-white/[0.08] px-4 py-3 font-sans text-[14px] text-parchment placeholder:text-steel focus:outline-none focus:border-gold transition-colors"
+              disabled={nlDone}
+              className="flex-1 bg-midnight border border-brand-white/[0.08] px-4 py-3 font-sans text-[14px] text-parchment placeholder:text-steel focus:outline-none focus:border-gold transition-colors disabled:opacity-50"
             />
             <button
               type="submit"
-              className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment bg-crimson px-6 py-3 hover:brightness-110 transition-all"
+              disabled={nlSubmitting || nlDone}
+              className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment bg-crimson px-6 py-3 hover:brightness-110 transition-all disabled:opacity-70"
             >
-              Subscribe
+              {nlSubmitting ? "Subscribing..." : nlDone ? "Subscribed ✓" : "Subscribe"}
             </button>
           </form>
         </div>

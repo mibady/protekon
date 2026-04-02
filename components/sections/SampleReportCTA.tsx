@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion"
 import { useRef, useState } from "react"
+import { submitSampleGate } from "@/lib/actions/samples"
 
 const industries = [
   "Construction",
@@ -26,12 +27,24 @@ export default function SampleReportCTA() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Simulate submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    setError(null)
+
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+
+    const result = await submitSampleGate(formData)
+
+    if (result.error) {
+      setError(result.error)
+    } else {
+      setSubmitted(true)
+    }
     setIsSubmitting(false)
   }
 
@@ -92,6 +105,7 @@ export default function SampleReportCTA() {
                   BUSINESS EMAIL
                 </label>
                 <input
+                  name="email"
                   type="email"
                   required
                   placeholder="you@company.com"
@@ -105,6 +119,7 @@ export default function SampleReportCTA() {
                   INDUSTRY
                 </label>
                 <select
+                  name="vertical"
                   required
                   className="w-full h-12 px-4 bg-brand-white/[0.04] border border-brand-white/10 text-brand-white font-sans text-[14px] focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
                   style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237A8FA5' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
@@ -124,6 +139,7 @@ export default function SampleReportCTA() {
                   EMPLOYEE COUNT
                 </label>
                 <select
+                  name="employeeCount"
                   required
                   className="w-full h-12 px-4 bg-brand-white/[0.04] border border-brand-white/10 text-brand-white font-sans text-[14px] focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
                   style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237A8FA5' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
@@ -147,10 +163,16 @@ export default function SampleReportCTA() {
               >
                 {isSubmitting ? (
                   <span className="animate-pulse">PROCESSING...</span>
+                ) : submitted ? (
+                  <>SENT — CHECK YOUR INBOX ✓</>
                 ) : (
                   <>SEND MY SAMPLE REPORT <span className="text-lg">→</span></>
                 )}
               </motion.button>
+
+              {error && (
+                <p className="font-sans text-[12px] text-crimson text-center">{error}</p>
+              )}
 
               {/* Fine print */}
               <p className="font-sans font-light text-[11px] text-steel text-center">
