@@ -7,29 +7,26 @@ const footerLinks = {
   solutions: {
     title: "SOLUTIONS",
     links: [
-      { name: "Compliance Suite", href: "#compliance-suite" },
-      { name: "Construction Shield", href: "#construction" },
-      { name: "Healthcare Shield", href: "#healthcare" },
-      { name: "Real Estate Shield", href: "#real-estate" },
+      { name: "Compliance Suite", href: "/solutions/compliance-suite" },
+      { name: "Construction Shield", href: "/solutions/construction" },
+      { name: "Healthcare Shield", href: "/solutions/healthcare" },
+      { name: "Real Estate Shield", href: "/solutions/real-estate" },
     ],
   },
   company: {
     title: "COMPANY",
     links: [
       { name: "About", href: "/about" },
-      { name: "Press & Media", href: "/press" },
-      { name: "Investors", href: "/investors" },
-      { name: "Careers", href: "/careers" },
+      { name: "Industries", href: "/industries" },
       { name: "Contact", href: "/contact" },
     ],
   },
   resources: {
     title: "RESOURCES",
     links: [
-      { name: "Blog / Resources", href: "/blog" },
-      { name: "API Docs (Phase 2)", href: "/api-docs" },
+      { name: "Resources", href: "/resources" },
       { name: "Compliance Calculator", href: "/calculator" },
-      { name: "Sample Reports", href: "#sample" },
+      { name: "Sample Reports", href: "/samples" },
       { name: "Privacy Policy", href: "/privacy" },
       { name: "Terms of Service", href: "/terms" },
     ],
