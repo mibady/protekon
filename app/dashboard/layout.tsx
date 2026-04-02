@@ -58,6 +58,8 @@ const navGroups = [
       { name: "Regulatory Updates", href: "/dashboard/regulations", icon: Bell, badge: 3 },
       { name: "Reports", href: "/dashboard/reports", icon: Clipboard },
       { name: "Training", href: "/dashboard/training", icon: GraduationCap },
+      { name: "Quarterly Reviews", href: "/dashboard/reports/compliance-score", icon: ChartLine, minTier: "professional" as const },
+      { name: "Annual Audit", href: "/dashboard/reports/annual-summary", icon: Clipboard, minTier: "multi-site" as const },
     ]
   },
   {
@@ -94,6 +96,11 @@ export default function DashboardLayout({
 
   const complianceScore = client?.compliance_score ?? 0
   const scoreColor = complianceScore >= 75 ? "#2A7D4F" : complianceScore >= 50 ? "#C9A84C" : "#C41230"
+  const clientPlan = client?.plan || "core"
+
+  const tierRank: Record<string, number> = { core: 1, professional: 2, "multi-site": 3 }
+  const tierLabel: Record<string, string> = { core: "Core", professional: "Professional", "multi-site": "Multi-Site" }
+  const canAccess = (minTier?: string) => !minTier || (tierRank[clientPlan] ?? 1) >= (tierRank[minTier] ?? 1)
 
   // Get current page name for breadcrumb
   const getPageName = () => {
@@ -230,36 +237,51 @@ export default function DashboardLayout({
               </span>
               <ul className="flex flex-col gap-0.5">
                 {group.items.map((item) => {
-                  const isActive = pathname === item.href || 
+                  const isActive = pathname === item.href ||
                     (item.href !== "/dashboard" && pathname.startsWith(item.href))
+                  const hasAccess = canAccess((item as { minTier?: string }).minTier)
                   return (
                     <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        className={`flex items-center justify-between px-3 py-2.5 transition-colors ${
-                          isActive 
-                            ? 'bg-crimson/[0.07] border-l-[3px] border-crimson' 
-                            : 'border-l-[3px] border-transparent hover:bg-brand-white/[0.04]'
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <item.icon 
-                            size={16} 
-                            weight={isActive ? "fill" : "regular"} 
-                            className={isActive ? "text-crimson" : "text-steel"}
-                          />
-                          <span className={`font-display font-medium text-[11px] tracking-[1px] ${
-                            isActive ? "text-brand-white" : "text-brand-white/45"
-                          }`}>
-                            {item.name}
+                      {hasAccess ? (
+                        <Link
+                          href={item.href}
+                          className={`flex items-center justify-between px-3 py-2.5 transition-colors ${
+                            isActive
+                              ? 'bg-crimson/[0.07] border-l-[3px] border-crimson'
+                              : 'border-l-[3px] border-transparent hover:bg-brand-white/[0.04]'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <item.icon
+                              size={16}
+                              weight={isActive ? "fill" : "regular"}
+                              className={isActive ? "text-crimson" : "text-steel"}
+                            />
+                            <span className={`font-display font-medium text-[11px] tracking-[1px] ${
+                              isActive ? "text-brand-white" : "text-brand-white/45"
+                            }`}>
+                              {item.name}
+                            </span>
+                          </div>
+                          {item.badge && (
+                            <span className="px-2 py-0.5 bg-crimson text-brand-white font-display font-bold text-[9px] rounded-full">
+                              {item.badge}
+                            </span>
+                          )}
+                        </Link>
+                      ) : (
+                        <div className="flex items-center justify-between px-3 py-2.5 opacity-40 cursor-default">
+                          <div className="flex items-center gap-3">
+                            <item.icon size={16} className="text-steel/50" />
+                            <span className="font-display font-medium text-[11px] tracking-[1px] text-brand-white/30">
+                              {item.name}
+                            </span>
+                          </div>
+                          <span className="font-display text-[7px] tracking-[1px] uppercase text-gold/60 bg-gold/[0.08] px-1.5 py-0.5">
+                            Upgrade
                           </span>
                         </div>
-                        {item.badge && (
-                          <span className="px-2 py-0.5 bg-crimson text-brand-white font-display font-bold text-[9px] rounded-full">
-                            {item.badge}
-                          </span>
-                        )}
-                      </Link>
+                      )}
                     </li>
                   )
                 })}
@@ -272,11 +294,16 @@ export default function DashboardLayout({
         <div className="px-4 py-4 border-t border-brand-white/[0.06]">
           <div className="bg-gold/[0.08] border border-gold/20 px-4 py-3 text-center">
             <span className="font-display font-semibold text-[8px] tracking-[3px] uppercase text-gold">
-              Professional Tier
+              {tierLabel[clientPlan] || "Core"} Tier
             </span>
-            <p className="font-sans font-light text-[10px] text-steel mt-1">
-              Next billing: Jan 15, 2026
-            </p>
+            {clientPlan !== "multi-site" && (
+              <Link
+                href="/dashboard/settings"
+                className="block font-sans font-light text-[10px] text-gold/70 mt-1 hover:text-gold transition-colors"
+              >
+                Upgrade plan &rarr;
+              </Link>
+            )}
           </div>
         </div>
 

@@ -272,6 +272,43 @@ export default function SettingsPage() {
                     {client?.plan === "core" ? "$597/mo" : client?.plan === "professional" ? "$897/mo" : client?.plan === "multi-site" ? "$1,297/mo" : "—"}
                   </span>
                 </div>
+                {/* Plan Features Checklist */}
+                <div className="mb-4 pt-4 border-t border-midnight/[0.06]">
+                  <span className="font-display text-[9px] tracking-[2px] uppercase text-steel block mb-3">Your Plan Includes</span>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {(client?.plan === "multi-site"
+                      ? ["Up to 3 locations", "Full vertical stack", "Consolidated reporting", "Same-day delivery", "Dedicated analyst", "Annual audit package", "White-glove onboarding"]
+                      : client?.plan === "professional"
+                        ? ["Up to 2 locations", "IIPP + SB 553 + EAP", "Quarterly reviews", "Weekly + monthly reports", "Priority support", "Dedicated analyst", "24h delivery"]
+                        : ["1 location", "IIPP + SB 553 WVPP", "Incident logging + PII stripping", "Weekly regulatory monitoring", "Monthly report to inbox", "AI compliance chat"]
+                    ).map((f) => (
+                      <li key={f} className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-gold flex-shrink-0" />
+                        <span className="font-sans text-[12px] text-midnight">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Upgrade CTA */}
+                {client?.plan !== "multi-site" && (
+                  <div className="mb-4 bg-gold/[0.06] border border-gold/20 px-4 py-3 flex items-center justify-between">
+                    <div>
+                      <span className="font-display font-bold text-[12px] text-midnight">
+                        Upgrade to {client?.plan === "core" ? "Professional" : "Multi-Site"}
+                      </span>
+                      <span className="font-sans text-[11px] text-steel block">
+                        {client?.plan === "core"
+                          ? "Add quarterly reviews, priority support, and a second location."
+                          : "Add consolidated reporting, annual audit, and white-glove service."}
+                      </span>
+                    </div>
+                    <span className="font-display font-bold text-[14px] text-gold">
+                      {client?.plan === "core" ? "$897/mo" : "$1,297/mo"}
+                    </span>
+                  </div>
+                )}
+
                 <p className="font-sans text-[13px] text-steel mb-4">
                   Manage your subscription, update payment methods, and view invoices through the Stripe billing portal.
                 </p>

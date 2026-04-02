@@ -22,7 +22,7 @@ export const intakePipeline = inngest.createFunction(
       return { complianceScore: percentage, riskLevel }
     })
 
-    // Step 2: Upsert client record
+    // Step 2: Upsert client record and fetch plan
     const client = await step.run("upsert-client-record", async () => {
       const { data, error } = await supabase
         .from("clients")
@@ -36,20 +36,33 @@ export const intakePipeline = inngest.createFunction(
           },
           { onConflict: "email" }
         )
-        .select("id")
+        .select("id, plan")
         .single()
 
       if (error) throw new Error(`Failed to upsert client: ${error.message}`)
       return data
     })
 
-    // Step 3: Generate starter documents
+    const plan = client.plan || "core"
+
+    // Step 3: Generate starter documents (tier-aware)
     await step.run("generate-documents", async () => {
+      // All tiers get these 3 base docs
       const docTypes = [
         { type: `${vertical}-compliance-plan`, filename: `${vertical}-compliance-plan.pdf` },
         { type: `${vertical}-gap-analysis`, filename: `${vertical}-gap-analysis.pdf` },
         { type: "incident-response-protocol", filename: "incident-response-protocol.pdf" },
       ]
+
+      // Professional + Multi-Site get Emergency Action Plan
+      if (plan === "professional" || plan === "multi-site") {
+        docTypes.push({ type: "emergency-action-plan", filename: "emergency-action-plan.pdf" })
+      }
+
+      // Multi-Site gets consolidated compliance report
+      if (plan === "multi-site") {
+        docTypes.push({ type: "consolidated-compliance-report", filename: "consolidated-compliance-report.pdf" })
+      }
 
       for (const doc of docTypes) {
         const seq = String(Math.floor(Math.random() * 900) + 100)
@@ -63,16 +76,28 @@ export const intakePipeline = inngest.createFunction(
       }
     })
 
-    // Step 4: Send welcome email
+    // Step 4: Send tier-aware welcome email
     await step.run("send-welcome-email", async () => {
-      await sendEmail({ to: email, ...intakeWelcomeEmail(email, scoring.complianceScore, scoring.riskLevel) })
+      await sendEmail({ to: email, ...intakeWelcomeEmail(email, scoring.complianceScore, scoring.riskLevel, plan) })
     })
 
-    // Step 5: Create default delivery schedules
+    // Step 5: Create tier-based delivery schedules
     await step.run("create-delivery-schedules", async () => {
       const { createDefaultDeliveries } = await import("@/lib/actions/scheduled-deliveries")
-      await createDefaultDeliveries(client.id)
+      await createDefaultDeliveries(client.id, plan)
     })
+
+    // Step 5b: Flag white-glove onboarding for Multi-Site
+    if (plan === "multi-site") {
+      await step.run("flag-white-glove-onboarding", async () => {
+        await supabase.from("audit_log").insert({
+          client_id: client.id,
+          event_type: "white_glove_onboarding_requested",
+          description: `Multi-Site client ${businessName} requires white-glove onboarding. Dedicated analyst assignment needed.`,
+          metadata: { plan, vertical, email },
+        })
+      })
+    }
 
     // Step 6: Wait for onboarding period
     await step.sleep("wait-for-onboarding", "48h")

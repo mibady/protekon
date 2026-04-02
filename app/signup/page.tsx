@@ -7,9 +7,9 @@ import { Eye, EyeSlash, ArrowRight, Check } from "@phosphor-icons/react"
 import { signUp } from "@/lib/actions/auth"
 
 const plans = [
-  { id: "core", name: "Core", price: "$597", period: "/mo", employees: "1 location · up to 50 emp" },
-  { id: "professional", name: "Professional", price: "$897", period: "/mo", employees: "Up to 2 locations · 150 emp", popular: true },
-  { id: "multi-site", name: "Multi-Site", price: "$1,297", period: "/mo", employees: "Up to 3 locations · 150+ emp" },
+  { id: "core", name: "Core", price: "$597", period: "/mo", employees: "1 location · up to 50 emp", maxLocations: 1, setupFee: 297 },
+  { id: "professional", name: "Professional", price: "$897", period: "/mo", employees: "Up to 2 locations · 150 emp", popular: true, maxLocations: 2, setupFee: 497 },
+  { id: "multi-site", name: "Multi-Site", price: "$1,297", period: "/mo", employees: "Up to 3 locations · 150+ emp", maxLocations: 3, setupFee: 797 },
 ]
 
 const industries = [
@@ -35,6 +35,7 @@ export default function SignupPage() {
     industry: "",
     employeeCount: "",
     plan: "professional",
+    locationCount: "1",
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,6 +55,7 @@ export default function SignupPage() {
     data.set("businessName", formData.businessName)
     data.set("vertical", formData.industry)
     data.set("plan", formData.plan)
+    data.set("locationCount", formData.locationCount)
 
     const result = await signUp(data)
 
@@ -298,10 +300,10 @@ export default function SignupPage() {
                       <button
                         key={plan.id}
                         type="button"
-                        onClick={() => setFormData({ ...formData, plan: plan.id })}
+                        onClick={() => setFormData({ ...formData, plan: plan.id, locationCount: "1" })}
                         className={`relative flex items-center justify-between p-4 border transition-all ${
-                          formData.plan === plan.id 
-                            ? 'border-gold bg-gold/5' 
+                          formData.plan === plan.id
+                            ? 'border-gold bg-gold/5'
                             : 'border-brand-white/[0.1] hover:border-brand-white/20'
                         }`}
                       >
@@ -335,6 +337,48 @@ export default function SignupPage() {
                     ))}
                   </div>
                 </div>
+
+                {/* Location Count (Professional + Multi-Site) */}
+                {(() => {
+                  const selectedPlan = plans.find(p => p.id === formData.plan)
+                  if (!selectedPlan || selectedPlan.maxLocations <= 1) return null
+                  return (
+                    <div className="flex flex-col gap-2">
+                      <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel">
+                        Number of Locations
+                      </label>
+                      <select
+                        value={formData.locationCount}
+                        onChange={(e) => setFormData({ ...formData, locationCount: e.target.value })}
+                        className="w-full bg-midnight/50 border border-brand-white/[0.1] px-4 py-3.5 font-sans text-[15px] text-parchment focus:outline-none focus:border-gold/50 transition-colors appearance-none cursor-pointer"
+                      >
+                        {Array.from({ length: selectedPlan.maxLocations }, (_, i) => i + 1).map(n => (
+                          <option key={n} value={String(n)}>
+                            {n} location{n > 1 ? "s" : ""}
+                            {n > (selectedPlan.id === "professional" ? 1 : 1) && n > 1 ? ` (+$${selectedPlan.id === "multi-site" ? "147" : "197"}/mo per additional)` : ""}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )
+                })()}
+
+                {/* Setup Fee Display */}
+                {(() => {
+                  const selectedPlan = plans.find(p => p.id === formData.plan)
+                  if (!selectedPlan) return null
+                  return (
+                    <div className="bg-midnight/30 border border-brand-white/[0.06] px-4 py-3 flex items-center justify-between">
+                      <span className="font-sans text-[13px] text-steel">
+                        One-time setup fee
+                        {selectedPlan.id === "multi-site" && <span className="text-gold ml-1">(white-glove onboarding)</span>}
+                      </span>
+                      <span className="font-display font-bold text-[16px] text-parchment">
+                        ${selectedPlan.setupFee}
+                      </span>
+                    </div>
+                  )
+                })()}
               </>
             )}
 

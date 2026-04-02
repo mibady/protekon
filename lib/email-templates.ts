@@ -31,18 +31,56 @@ export function welcomeEmail(email: string) {
   }
 }
 
-export function intakeWelcomeEmail(email: string, score: number, riskLevel: string) {
+export function intakeWelcomeEmail(email: string, score: number, riskLevel: string, plan?: string) {
   const color = riskLevel === "low" ? "#16a34a" : riskLevel === "medium" ? "#ca8a04" : "#dc2626"
+  const tierName = plan === "multi-site" ? "Multi-Site" : plan === "professional" ? "Professional" : "Core"
+
+  const tierFeatures: Record<string, string[]> = {
+    core: [
+      "1 location covered",
+      "AI-generated IIPP + SB 553 WVPP",
+      "Incident logging with PII stripping",
+      "Weekly regulatory monitoring",
+      "Monthly compliance report to inbox",
+      "AI compliance chat assistant",
+    ],
+    professional: [
+      "Up to 2 locations covered",
+      "AI-generated IIPP + SB 553 + Emergency Action Plan",
+      "Unlimited incident logging + AI classification",
+      "Daily regulatory monitoring + AI impact analysis",
+      "Weekly + monthly reports delivered to inbox",
+      "Quarterly compliance reviews",
+      "Priority support + dedicated analyst",
+    ],
+    "multi-site": [
+      "Up to 3 locations covered",
+      "Full vertical compliance stack",
+      "Consolidated multi-site reporting",
+      "Same-day document delivery",
+      "Dedicated compliance analyst (human review)",
+      "Annual audit package",
+      "White-glove onboarding — your analyst will reach out within 24 hours",
+    ],
+  }
+
+  const features = tierFeatures[plan || "core"] ?? tierFeatures.core
+
   return {
-    subject: `Your Compliance Score: ${score}%`,
+    subject: `Your Compliance Score: ${score}% — ${tierName} Plan Activated`,
     html: layoutWrapper(`
-      <h2 style="color:#1a1a2e;margin:0 0 16px;">Intake Complete</h2>
+      <h2 style="color:#1a1a2e;margin:0 0 16px;">Intake Complete — ${tierName} Plan</h2>
       <p style="color:#555;line-height:1.6;">Thanks for completing your intake, ${email}. Here's your initial assessment:</p>
       <div style="text-align:center;margin:24px 0;">
         <span style="font-size:48px;font-weight:800;color:${color};">${score}%</span>
         <br><span style="font-size:14px;color:#888;text-transform:uppercase;letter-spacing:2px;">${riskLevel} risk</span>
       </div>
-      <p style="color:#555;line-height:1.6;">Your compliance documents are being generated and will be ready within 48 hours.</p>
+      <h3 style="color:#1a1a2e;margin:24px 0 12px;font-size:15px;">Your ${tierName} Plan Includes:</h3>
+      <ul style="color:#555;line-height:1.8;padding-left:20px;">
+        ${features.map(f => `<li>${f}</li>`).join("")}
+      </ul>
+      <p style="color:#555;line-height:1.6;margin-top:16px;">Your compliance documents are being generated and will be ready within 48 hours.</p>
+      ${plan === "multi-site" ? '<p style="color:#C9A84C;font-weight:600;margin-top:12px;">Your dedicated compliance analyst will reach out within 24 hours to begin your white-glove onboarding.</p>' : ""}
     `),
   }
 }

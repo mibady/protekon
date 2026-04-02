@@ -61,32 +61,42 @@ export async function updateDeliveryPreference(
   return { success: true }
 }
 
-export async function createDefaultDeliveries(clientId: string): Promise<void> {
+export async function createDefaultDeliveries(clientId: string, plan?: string): Promise<void> {
   const admin = createAdminClient()
   const now = new Date()
 
-  const defaults = [
+  const allDeliveries = [
     {
       delivery_type: "weekly-summary",
       frequency: "weekly",
-      next_delivery_date: getNextWeekday(now, 1).toISOString().slice(0, 10), // Next Monday
+      next_delivery_date: getNextWeekday(now, 1).toISOString().slice(0, 10),
+      tiers: ["professional", "multi-site"],
     },
     {
       delivery_type: "monthly-report",
       frequency: "monthly",
       next_delivery_date: getFirstOfNextMonth(now).toISOString().slice(0, 10),
+      tiers: ["core", "professional", "multi-site"],
     },
     {
       delivery_type: "quarterly-review",
       frequency: "quarterly",
       next_delivery_date: getNextQuarter(now).toISOString().slice(0, 10),
+      tiers: ["professional", "multi-site"],
     },
     {
       delivery_type: "annual-audit",
       frequency: "annual",
       next_delivery_date: getNextAnnual(now).toISOString().slice(0, 10),
+      tiers: ["multi-site"],
     },
   ]
+
+  // Filter deliveries by plan tier (default to core if unknown)
+  const clientPlan = plan || "core"
+  const defaults = allDeliveries
+    .filter(d => d.tiers.includes(clientPlan))
+    .map(({ tiers: _tiers, ...rest }) => rest)
 
   for (const d of defaults) {
     await admin.from("scheduled_deliveries").upsert(

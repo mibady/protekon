@@ -30,6 +30,7 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
   const businessName = formData.get("businessName") as string
   const vertical = formData.get("vertical") as string
   const plan = formData.get("plan") as string
+  const locationCount = parseInt(formData.get("locationCount") as string) || 1
 
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -39,6 +40,7 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
         business_name: businessName,
         vertical,
         plan,
+        location_count: locationCount,
       },
     },
   })
