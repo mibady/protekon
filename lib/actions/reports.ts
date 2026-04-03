@@ -1,15 +1,9 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
-
-async function getAuthenticatedClientId() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  return { supabase, clientId: user?.id ?? null }
-}
+import { getAuth } from "@/lib/actions/shared"
 
 export async function getReportsSummary() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return { documentCount: 0, incidentCount: 0, auditCount: 0, trainingCount: 0 }
 
   const [docRes, incRes, audRes, trainRes] = await Promise.all([
@@ -28,7 +22,7 @@ export async function getReportsSummary() {
 }
 
 export async function getComplianceScoreReport() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return { score: 0, monthlyScores: [], documents: [], categories: [] }
 
   const [clientRes, auditsRes, docsRes, incCountRes, trainCountRes] = await Promise.all([
@@ -75,7 +69,7 @@ export async function getComplianceScoreReport() {
 }
 
 export async function getIncidentAnalysis() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return { kpis: [], incidentsByType: [], incidentsBySeverity: [], correctiveActions: [] }
 
   const { data: incidents } = await supabase
@@ -136,7 +130,7 @@ export async function getIncidentAnalysis() {
 }
 
 export async function getDocumentHistory() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return { stats: [], documents: [], deliveryLog: [] }
 
   const { data: docs } = await supabase
@@ -187,7 +181,7 @@ export async function getDocumentHistory() {
 }
 
 export async function getDeliveryLog() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return { stats: [], deliveries: [], deliverySchedule: [] }
 
   const { data: deliveries } = await supabase
@@ -254,7 +248,7 @@ export async function getDeliveryLog() {
 }
 
 export async function getAnnualSummary() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return { businessName: "—", score: 0, stats: [], oshaLog: [] }
 
   const year = new Date().getFullYear()
@@ -302,7 +296,7 @@ export async function getAnnualSummary() {
 }
 
 export async function getRegulatoryImpact() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return { stats: [], quarters: [] }
 
   const { data: updates } = await supabase
@@ -347,7 +341,7 @@ export async function getRegulatoryImpact() {
 }
 
 export async function getRegulations() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return []
 
   const { data } = await supabase
@@ -373,7 +367,7 @@ export async function getRegulations() {
 }
 
 export async function acknowledgeRegulation(regulationId: string) {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return { error: "Unauthorized" }
 
   // Get current acknowledged_by array
@@ -395,7 +389,7 @@ export async function acknowledgeRegulation(regulationId: string) {
 }
 
 export async function getAlerts() {
-  const { supabase, clientId } = await getAuthenticatedClientId()
+  const { supabase, clientId } = await getAuth()
   if (!clientId) return []
 
   const now = new Date().toISOString().slice(0, 10)

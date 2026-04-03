@@ -1,12 +1,6 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
-
-async function getAuth() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  return { supabase, clientId: user?.id ?? null }
-}
+import { getAuth } from "@/lib/actions/shared"
 
 export async function getEquipment() {
   const { supabase, clientId } = await getAuth()
