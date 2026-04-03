@@ -24,15 +24,14 @@ export async function createIncident(formData: FormData): Promise<ActionResult> 
     return { error: "Description and severity are required." }
   }
 
-  // Generate incident ID: INC-YYYY-NNN
+  // Generate collision-safe incident ID: INC-YYYY-XXXXX
   const year = new Date().getFullYear()
-  const { count } = await supabase
-    .from("incidents")
-    .select("*", { count: "exact", head: true })
-    .eq("client_id", user.id)
-
-  const seq = String((count ?? 0) + 1).padStart(3, "0")
-  const incidentId = `INC-${year}-${seq}`
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789" // no ambiguous 0/O/1/I
+  let suffix = ""
+  for (let i = 0; i < 5; i++) {
+    suffix += chars[Math.floor(Math.random() * chars.length)]
+  }
+  const incidentId = `INC-${year}-${suffix}`
 
   // Collect extra form fields into metadata
   const metadata = {
@@ -59,12 +58,13 @@ export async function createIncident(formData: FormData): Promise<ActionResult> 
   }
 
   // Log to audit trail
-  await supabase.from("audit_log").insert({
+  const { error: auditError } = await supabase.from("audit_log").insert({
     client_id: user.id,
     event_type: "incident.reported",
     description: `Logged incident ${incidentId} (${severity})`,
     metadata: { incident_id: incidentId, severity, type: metadata.type },
   })
+  if (auditError) console.error("[createIncident] Audit log failed:", auditError.message)
 
   // Fire Inngest event to trigger incident processing pipeline
   await inngest.send({
@@ -102,4 +102,61 @@ export async function getIncidents(): Promise<Incident[]> {
   if (error) return []
 
   return data as Incident[]
+}
+
+export async function updateIncident(
+  id: string,
+  data: Partial<Omit<Incident, "id" | "incident_id" | "created_at">>
+): Promise<ActionResult> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { error: "You must be logged in to update an incident." }
+  }
+
+  // Verify ownership
+  const { data: existing, error: fetchError } = await supabase
+    .from("incidents")
+    .select("id, incident_id, client_id")
+    .eq("id", id)
+    .eq("client_id", user.id)
+    .single()
+
+  if (fetchError || !existing) {
+    return { error: "Incident not found or access denied." }
+  }
+
+  // Build update payload — only include fields that were provided
+  const updatePayload: Record<string, unknown> = {}
+  if (data.description !== undefined) updatePayload.description = data.description
+  if (data.location !== undefined) updatePayload.location = data.location
+  if (data.incident_date !== undefined) updatePayload.incident_date = data.incident_date
+  if (data.severity !== undefined) updatePayload.severity = data.severity
+  if (data.follow_up_id !== undefined) updatePayload.follow_up_id = data.follow_up_id
+  if (data.metadata !== undefined) updatePayload.metadata = data.metadata
+
+  const { error } = await supabase
+    .from("incidents")
+    .update(updatePayload)
+    .eq("id", id)
+    .eq("client_id", user.id)
+
+  if (error) {
+    return { error: error.message }
+  }
+
+  // Log to audit trail
+  const { error: auditError } = await supabase.from("audit_log").insert({
+    client_id: user.id,
+    event_type: "incident.updated",
+    description: `Updated incident ${existing.incident_id}`,
+    metadata: { incident_id: existing.incident_id, updated_fields: Object.keys(updatePayload) },
+  })
+  if (auditError) console.error("[updateIncident] Audit log failed:", auditError.message)
+
+  return { success: true }
 }

@@ -15,8 +15,14 @@ export async function POST(request: NextRequest) {
   const { planId } = (await request.json()) as { planId: string }
   const priceId = PRICE_IDS[planId]
 
-  if (!priceId) {
+  if (priceId === undefined) {
     return NextResponse.json({ error: "Invalid plan" }, { status: 400 })
+  }
+  if (!priceId) {
+    return NextResponse.json(
+      { error: "Stripe is not configured for this plan yet. Please contact support." },
+      { status: 400 }
+    )
   }
 
   // Look up existing stripe_customer_id
