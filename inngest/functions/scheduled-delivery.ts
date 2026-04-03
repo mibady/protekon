@@ -198,12 +198,12 @@ async function gatherDeliveryContent(
 
 function getSubjectLine(deliveryType: string, businessName: string): string {
   const labels: Record<string, string> = {
-    "weekly-summary": "Weekly Compliance Summary",
-    "monthly-report": "Monthly Compliance Report",
-    "quarterly-review": "Quarterly Compliance Review",
-    "annual-audit": "Annual Compliance Audit Package",
+    "weekly-summary": "Your AI compliance officer's weekly report",
+    "monthly-report": "Your AI compliance officer's monthly report",
+    "quarterly-review": "Your AI compliance officer's quarterly review",
+    "annual-audit": "Your AI compliance officer's annual audit package",
   }
-  return `${labels[deliveryType] ?? "Compliance Update"} — ${businessName} | Protekon`
+  return `${labels[deliveryType] ?? "Your AI compliance officer's update"} — ${businessName}`
 }
 
 function calculateNextDeliveryDate(frequency: string): string {
@@ -255,7 +255,8 @@ function buildDeliveryEmail(opts: {
     </div>
     <div style="background:#ffffff;border:1px solid #e8e2d8;padding:32px;">
       <h2 style="color:#0B1D3A;margin:0 0 4px;font-size:20px;">${typeLabel[deliveryType] ?? "Compliance Update"}</h2>
-      <p style="color:#7A8FA5;margin:0 0 24px;font-size:13px;">${businessName} &middot; ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
+      <p style="color:#7A8FA5;margin:0 0 8px;font-size:13px;">${businessName} &middot; ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
+      <p style="color:#555;margin:0 0 24px;font-size:14px;line-height:1.6;">Your AI compliance officer has completed its ${deliveryType.replace("-", " ")} review. Here's your compliance status:</p>
 
       <div style="background:#f4efe6;padding:20px;margin-bottom:24px;display:flex;align-items:center;">
         <div style="text-align:center;flex:1;">

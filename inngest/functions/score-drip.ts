@@ -135,8 +135,8 @@ function buildDay0Email(
   const content = `
 <h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">Hi ${name},</h1>
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Your California compliance score is <strong style="font-size:18px;color:${score <= 2 ? "#dc2626" : score <= 4 ? "#ca8a04" : "#16a34a"};">${score}/6</strong>.
-  Here's what that means for your ${industry} business.
+  Your AI compliance officer just finished scanning California workplace regulations against your ${industry} business. Your compliance score is <strong style="font-size:18px;color:${score <= 2 ? "#dc2626" : score <= 4 ? "#ca8a04" : "#16a34a"};">${score}/6</strong>.
+  Here's what that means.
 </p>
 
 <h2 style="font-size:16px;color:#18181b;margin:24px 0 8px;">Open gaps</h2>
@@ -152,7 +152,7 @@ ${gapListHtml || "<li>None — you're in great shape.</li>"}
 </p>
 
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  We put together a detailed report with specifics on each gap, the regulation behind it, and what "fixed" looks like.
+  Your AI compliance officer put together a detailed report with specifics on each gap, the regulation behind it, and what "fixed" looks like.
 </p>
 
 ${ctaButton("View your full report &rarr;", `${appUrl}/api/score/report?id=${lead_id}`)}
@@ -224,7 +224,7 @@ function buildDay7Email(name: string, industry: string, lead_id: string): string
 </p>
 
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  That's what we do. Here's a sample of what a Protekon client in your space receives:
+  That's what your AI compliance officer handles. Here's a sample of what a Protekon client in your space receives:
 </p>
 
 <ul style="font-size:14px;color:#3f3f46;line-height:2;padding-left:20px;">
@@ -290,7 +290,7 @@ function buildDay14Email(
 </table>
 
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  $597 per month gets you a fully managed compliance program — documents, training tracking, incident management, and a dedicated compliance dashboard. Cancel anytime.
+  $597 per month gets you an AI compliance officer that manages your entire program — documents, training tracking, incident management, and a dedicated compliance dashboard. Cancel anytime.
 </p>
 
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">

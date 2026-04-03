@@ -301,10 +301,11 @@ export default function IntakePage() {
                   Fine Exposure
                 </h4>
                 <p className="font-sans text-[13px] text-steel mt-1">
-                  Based on your responses, you lack{" "}
-                  <span className="font-bold text-crimson">{totalQuestions - yesCount}</span> of{" "}
-                  {totalQuestions} mandated requirements. Average serious Cal/OSHA violation:{" "}
-                  <span className="font-bold text-crimson">$7,229</span> per citation.
+                  Your AI compliance officer has identified{" "}
+                  <span className="font-bold text-crimson">{totalQuestions - yesCount}</span> compliance
+                  gaps. Average serious violation:{" "}
+                  <span className="font-bold text-crimson">$7,229</span>. Submit your assessment and the
+                  agent will begin generating your compliance documents immediately.
                 </p>
               </div>
             </div>

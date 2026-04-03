@@ -154,8 +154,8 @@ export const regulatoryScan = inngest.createFunction(
         const officerEmail = getComplianceOfficerEmail()
         await sendEmail({
           to: officerEmail,
-          subject: `Regulatory Scan: ${totalNew} new update${totalNew === 1 ? "" : "s"} found`,
-          html: `<p>${totalNew} new regulatory update${totalNew === 1 ? " has" : "s have"} been added to Protekon. <a href="${getSiteUrl()}/dashboard/regulations">Review now</a>.</p>`,
+          subject: `Your AI compliance officer flagged ${totalNew} regulatory change${totalNew === 1 ? "" : "s"}`,
+          html: `<p>Your AI compliance officer identified ${totalNew} regulatory change${totalNew === 1 ? "" : "s"} during this morning's scan that may affect your business. <a href="${getSiteUrl()}/dashboard/regulations">Review now</a>.</p>`,
         })
       })
     }

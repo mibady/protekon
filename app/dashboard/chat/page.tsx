@@ -26,10 +26,10 @@ export default function ChatPage() {
   }
 
   const suggestions = [
-    "What is my current compliance status?",
-    "What does SB 553 require for my business?",
-    "How do I improve my compliance score?",
-    "What are the latest regulatory changes affecting my industry?",
+    "What is my current compliance posture?",
+    "What has my compliance officer flagged this week?",
+    "What would an inspector look for at my business?",
+    "What regulatory changes affect my industry right now?",
   ]
 
   return (
@@ -60,7 +60,7 @@ export default function ChatPage() {
               <Robot size={32} weight="fill" className="text-crimson" />
             </div>
             <h2 className="font-display font-bold text-[20px] text-midnight mb-2">
-              Protekon Compliance Assistant
+              PROTEKON AI Compliance Officer
             </h2>
             <p className="font-sans text-[14px] text-steel max-w-md mb-8">
               I have access to your compliance profile, documents, incidents, and the latest

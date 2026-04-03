@@ -114,6 +114,18 @@ export default function DashboardPage() {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+      {/* AI Compliance Officer Status */}
+      <motion.div
+        className="bg-midnight border-l-[3px] border-crimson px-6 py-4"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <p className="font-sans text-[13px] leading-relaxed text-brand-white/80">
+          Your AI compliance officer is active. It&apos;s monitoring Cal/OSHA, OSHSB, and CSLB feeds daily. Your first compliance documents will be delivered within 48 hours of completing your intake assessment.
+        </p>
+      </motion.div>
+
       {/* BENTO ROW 1 - Three Equal Columns */}
       <div className="grid md:grid-cols-3 gap-6">
         {/* Card A: Compliance Score */}

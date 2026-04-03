@@ -132,7 +132,7 @@ export default function DashboardLayout({
                 PROT<span className="text-crimson">E</span>KON
               </span>
               <span className="font-display font-normal text-[8px] tracking-[3px] text-gold">
-                MANAGED COMPLIANCE
+                AI COMPLIANCE OFFICER
               </span>
             </div>
           </Link>

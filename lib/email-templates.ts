@@ -22,10 +22,10 @@ function layoutWrapper(content: string): string {
 
 export function welcomeEmail(email: string) {
   return {
-    subject: "Welcome to Protekon",
+    subject: "Your AI compliance officer is now active",
     html: layoutWrapper(`
-      <h2 style="color:#1a1a2e;margin:0 0 16px;">Welcome to Protekon</h2>
-      <p style="color:#555;line-height:1.6;">Your account (${email}) is set up. Log in to your dashboard to complete your compliance intake questionnaire and get started.</p>
+      <h2 style="color:#1a1a2e;margin:0 0 16px;">Your AI Compliance Officer Is Online</h2>
+      <p style="color:#555;line-height:1.6;">Your AI compliance officer is online and monitoring California workplace regulations for your business. Here's what happens next: log in to your dashboard (${email}) to complete your compliance intake questionnaire and activate full monitoring.</p>
       <a href="${getSiteUrl()}/dashboard" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">GO TO DASHBOARD</a>
     `),
   }
@@ -102,10 +102,10 @@ export function documentReadyEmail(documentType: string, businessName: string) {
 export function incidentAlertEmail(incidentId: string, businessName: string, severity: string) {
   const color = severity === "severe" ? "#dc2626" : severity === "serious" ? "#ca8a04" : "#555"
   return {
-    subject: `Incident Alert: ${incidentId} — ${severity.toUpperCase()}`,
+    subject: `Your AI compliance officer processed incident ${incidentId} — ${severity.toUpperCase()}`,
     html: layoutWrapper(`
-      <h2 style="color:#1a1a2e;margin:0 0 16px;">Incident Reported</h2>
-      <p style="color:#555;line-height:1.6;">A new incident has been logged for <strong>${businessName}</strong>.</p>
+      <h2 style="color:#1a1a2e;margin:0 0 16px;">Incident Processed</h2>
+      <p style="color:#555;line-height:1.6;">Your AI compliance officer has classified, documented, and logged incident #${incidentId} for <strong>${businessName}</strong>. PII has been stripped. OSHA 300 entry created.</p>
       <div style="background:#f5f3ef;padding:16px;margin:16px 0;border-left:3px solid ${color};">
         <strong style="color:#1a1a2e;">ID:</strong> ${incidentId}<br>
         <strong style="color:#1a1a2e;">Severity:</strong> <span style="color:${color};font-weight:600;">${severity.toUpperCase()}</span>
