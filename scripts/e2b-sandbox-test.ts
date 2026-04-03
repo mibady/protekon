@@ -45,6 +45,7 @@ const INCLUDE_PATTERNS = [
 const INCLUDE_DIRS = [
   "app",
   "components",
+  "hooks",
   "lib",
   "inngest",
   "supabase",
@@ -235,7 +236,18 @@ async function main() {
     }
 
     if (runLint) {
-      results.push(await runGate(sandbox, "Lint", `node_modules/.bin/next lint`))
+      // Check if eslint config exists before running
+      const hasEslint = await sandbox.commands.run(
+        "test -f .eslintrc.json || test -f .eslintrc.js || test -f eslint.config.mjs || test -f eslint.config.js && echo yes || echo no",
+        { cwd: "/home/user/project" }
+      )
+      if ((hasEslint.stdout || "").trim() === "yes") {
+        results.push(await runGate(sandbox, "Lint", `node_modules/.bin/next lint`))
+      } else {
+        console.log("\n── Lint ──")
+        console.log("⊘ Lint: SKIP (no eslint config found)")
+        results.push({ gate: "Lint", success: true, duration: 0, output: "skipped — no eslint config" })
+      }
     }
 
     if (runTest) {
