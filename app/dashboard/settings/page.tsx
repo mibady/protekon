@@ -159,13 +159,15 @@ export default function SettingsPage() {
                     defaultValue={client?.vertical || ""}
                     className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
                   >
+                    <option value="agriculture">Agriculture</option>
                     <option value="construction">Construction</option>
-                    <option value="manufacturing">Manufacturing</option>
                     <option value="healthcare">Healthcare</option>
                     <option value="hospitality">Hospitality</option>
+                    <option value="manufacturing">Manufacturing</option>
+                    <option value="real-estate">Real Estate</option>
                     <option value="retail">Retail</option>
-                    <option value="agriculture">Agriculture</option>
                     <option value="transportation">Transportation</option>
+                    <option value="wholesale">Wholesale</option>
                     <option value="other">Other</option>
                   </select>
                 </div>

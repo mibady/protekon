@@ -13,13 +13,15 @@ const plans = [
 ]
 
 const industries = [
-  "Construction",
-  "Manufacturing", 
   "Agriculture",
-  "Hospitality",
+  "Construction",
   "Healthcare",
+  "Hospitality",
+  "Manufacturing",
+  "Real Estate",
   "Retail",
   "Transportation",
+  "Wholesale",
   "Other",
 ]
 
@@ -265,7 +267,7 @@ export default function SignupPage() {
                   >
                     <option value="" disabled>Select your industry</option>
                     {industries.map((ind) => (
-                      <option key={ind} value={ind.toLowerCase()}>{ind}</option>
+                      <option key={ind} value={ind.toLowerCase().replace(/\s+/g, "-")}>{ind}</option>
                     ))}
                   </select>
                 </div>

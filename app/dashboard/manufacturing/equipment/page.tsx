@@ -35,6 +35,7 @@ const config: VerticalPageConfig = {
     ]},
     { name: "last_inspection", label: "Last Inspection", type: "date" },
     { name: "next_inspection", label: "Next Inspection", type: "date" },
+    { name: "notes", label: "Notes", type: "text", placeholder: "Optional notes" },
   ],
   columns: [
     { key: "equipment_name", label: "Equipment" },

@@ -32,7 +32,9 @@ const config: VerticalPageConfig = {
       { value: "non-compliant", label: "Non-Compliant" },
       { value: "in-progress", label: "In Progress" },
     ]},
+    { name: "state", label: "State", type: "text", placeholder: "CA" },
     { name: "compliance_score", label: "Compliance Score", type: "number" },
+    { name: "last_audit", label: "Last Audit", type: "date" },
   ],
   columns: [
     { key: "store_name", label: "Store" },
