@@ -441,3 +441,31 @@ Must replicate the following from the previous project:
 - Add location-specific intake branching (per-location name, address, hazards)
 - Integration/E2E testing: signup → intake → document generation → delivery pipeline
 - Consider regulatory knowledge base (RAG corpus of actual regulation text for HEAD layer)
+
+## Session 7 — 2026-04-02 (E2B Custom Template)
+
+### Completed
+- Created custom E2B template `nextjs-quality-gates` via v2 SDK (remote build, no Docker)
+- Template specs: 2 vCPUs, 4096 MB RAM, Node.js 22.16.0, Ubuntu 22.04
+- Updated `scripts/e2b-sandbox-test.ts` to use new template (was `base` with 512MB)
+- Removed Node.js upgrade step (pre-installed in template)
+- Removed PATH prefix workarounds
+- Verified: tsc runs to completion (no OOM) — found 8 real type errors
+- Saved E2B template setup to global memory
+
+### Decisions Made
+- E2B v2 build system (programmatic `Template` class) over v1 CLI (requires Docker)
+- 4GB RAM template for Next.js projects — 512MB base was causing OOM on tsc/build
+- Template files live in `e2b-template/` dir (template.ts + build.ts)
+
+### Known Issues
+- 8 TypeScript errors: missing `@/hooks/use-mobile`, `@/hooks/use-toast`, implicit any in toaster.tsx, tailwind darkMode type
+- Stripe env vars still need product creation
+- Setup fee not wired to Stripe checkout
+
+### Next Session Should
+- Fix 8 TypeScript errors (missing hooks, tailwind config)
+- Run `--all` gates to see full pass/fail status
+- Set up Stripe products ($597/$897/$1,297 recurring + setup fees)
+- Wire setup fee to Stripe checkout
+- Consider snapshot after npm install to halve E2B run time/cost
