@@ -99,7 +99,10 @@ export async function getIncidents(): Promise<Incident[]> {
     .eq("client_id", user.id)
     .order("incident_date", { ascending: false })
 
-  if (error) return []
+  if (error) {
+    console.error("[getIncidents] Database error:", error.message)
+    return []
+  }
 
   return data as Incident[]
 }

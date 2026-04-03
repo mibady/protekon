@@ -158,7 +158,22 @@ export default function DocumentHistoryReportPage() {
           <h3 className="font-display font-bold text-[12px] tracking-[3px] uppercase text-midnight">
             Full Delivery Log
           </h3>
-          <button className="font-display font-medium text-[10px] tracking-[2px] uppercase text-gold hover:text-gold/80">
+          <button
+            onClick={() => {
+              if (!deliveryLog.length) return
+              const headers = ["Date", "Document", "Version", "Recipient", "Status", "Open Time"]
+              const rows = deliveryLog.map((log) => [log.date, log.document, log.version, log.recipient, log.status, log.openTime].join(","))
+              const csv = [headers.join(","), ...rows].join("\n")
+              const blob = new Blob([csv], { type: "text/csv" })
+              const url = URL.createObjectURL(blob)
+              const a = document.createElement("a")
+              a.href = url
+              a.download = "document-history.csv"
+              a.click()
+              URL.revokeObjectURL(url)
+            }}
+            className="font-display font-medium text-[10px] tracking-[2px] uppercase text-gold hover:text-gold/80"
+          >
             Export CSV
           </button>
         </div>

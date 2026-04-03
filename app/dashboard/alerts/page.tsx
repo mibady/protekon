@@ -138,7 +138,19 @@ export default function AlertsPage() {
                     <span className="font-sans text-[12px]">{alert.date}</span>
                   </div>
                 </div>
-                <button className="mt-4 inline-flex items-center gap-1 font-display text-[11px] tracking-[2px] uppercase text-crimson hover:text-crimson/80 transition-colors">
+                <button
+                  onClick={() => {
+                    const routes: Record<string, string> = {
+                      "View Details": `/dashboard/alerts`,
+                      "Review Document": `/dashboard/documents`,
+                      "View Incident": `/dashboard/incidents`,
+                      "View Regulation": `/dashboard/regulations`,
+                    }
+                    const href = routes[alert.action] ?? "/dashboard"
+                    window.location.href = href
+                  }}
+                  className="mt-4 inline-flex items-center gap-1 font-display text-[11px] tracking-[2px] uppercase text-crimson hover:text-crimson/80 transition-colors"
+                >
                   {alert.action}
                   <CaretRight size={14} weight="bold" />
                 </button>

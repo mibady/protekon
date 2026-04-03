@@ -10,7 +10,7 @@ export default function Hero() {
       {/* 55/45 Grid Split */}
       <div className="grid lg:grid-cols-[55%_45%] min-h-screen">
         {/* LEFT PANEL - Content */}
-        <div className="relative flex flex-col justify-center px-8 lg:px-16 py-20 lg:py-0 bg-void">
+        <div className="relative flex flex-col justify-center px-8 lg:px-16 pt-24 pb-20 lg:pt-[96px] lg:pb-0 bg-void">
           {/* Background texture */}
           <div 
             className="absolute inset-0 opacity-[0.02]"

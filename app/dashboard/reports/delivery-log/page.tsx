@@ -79,7 +79,22 @@ export default function DeliveryLogReportPage() {
             <h3 className="font-display font-bold text-[12px] tracking-[3px] uppercase text-midnight">
               All Deliveries
             </h3>
-            <button className="font-display font-medium text-[10px] tracking-[2px] uppercase text-gold hover:text-gold/80">
+            <button
+              onClick={() => {
+                if (!deliveries.length) return
+                const headers = ["Date", "Type", "Name", "Status", "Open Time"]
+                const rows = deliveries.map((d) => [d.date, d.type, d.name, d.status, d.openTime].join(","))
+                const csv = [headers.join(","), ...rows].join("\n")
+                const blob = new Blob([csv], { type: "text/csv" })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement("a")
+                a.href = url
+                a.download = "delivery-log.csv"
+                a.click()
+                URL.revokeObjectURL(url)
+              }}
+              className="font-display font-medium text-[10px] tracking-[2px] uppercase text-gold hover:text-gold/80"
+            >
               Export CSV
             </button>
           </div>
