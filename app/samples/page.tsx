@@ -258,7 +258,10 @@ export default function SamplesPage() {
                   </div>
 
                   {gateUnlocked ? (
-                    <button className="w-full bg-midnight text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 flex items-center justify-center gap-2 hover:bg-midnight/90 transition-colors">
+                    <button
+                      onClick={() => window.open(`/api/samples/gate?report=${encodeURIComponent(report.title)}`, "_blank")}
+                      className="w-full bg-midnight text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 flex items-center justify-center gap-2 hover:bg-midnight/90 transition-colors"
+                    >
                       <Download size={14} weight="bold" />
                       Download Sample
                     </button>

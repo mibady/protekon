@@ -241,7 +241,10 @@ export default function ResourcesPage() {
                       </span>
                     </div>
                   </div>
-                  <button className="font-display text-[9px] tracking-[2px] uppercase text-gold hover:text-parchment transition-colors">
+                  <button
+                    onClick={() => window.open(`/api/samples/gate?report=${encodeURIComponent(download.title)}`, "_blank")}
+                    className="font-display text-[9px] tracking-[2px] uppercase text-gold hover:text-parchment transition-colors"
+                  >
                     Download
                   </button>
                 </motion.div>

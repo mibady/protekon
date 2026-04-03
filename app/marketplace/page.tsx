@@ -189,9 +189,12 @@ export default function MarketplacePage() {
                   ))}
                 </ul>
 
-                <button className="w-full font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment border border-brand-white/20 py-3 hover:border-gold hover:text-gold transition-colors">
+                <Link
+                  href="/signup"
+                  className="block w-full text-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment border border-brand-white/20 py-3 hover:border-gold hover:text-gold transition-colors"
+                >
                   Add to Plan
-                </button>
+                </Link>
               </motion.div>
             ))}
           </div>

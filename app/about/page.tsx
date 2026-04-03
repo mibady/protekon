@@ -7,9 +7,9 @@ import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
 
 const stats = [
-  { value: "73,960", label: "Cal/OSHA Citations Analyzed" },
-  { value: "$164M", label: "Total Penalties Tracked" },
-  { value: "14,443", label: "Serious Violations" },
+  { value: "73,960+", label: "Citations Issued Annually" },
+  { value: "$164M+", label: "In Annual Penalties" },
+  { value: "14,443", label: "Serious Violations Per Year" },
   { value: "68.7%", label: "Construction + Manufacturing" },
 ]
 
@@ -36,12 +36,6 @@ const values = [
   },
 ]
 
-const team = [
-  { initials: "JM", name: "James Mitchell", role: "CEO & Founder" },
-  { initials: "SR", name: "Sarah Rodriguez", role: "Chief Compliance Officer" },
-  { initials: "DK", name: "David Kim", role: "Head of Engineering" },
-  { initials: "LP", name: "Lisa Patel", role: "Director of Operations" },
-]
 
 export default function AboutPage() {
   return (
@@ -83,8 +77,8 @@ export default function AboutPage() {
               </h1>
               
               <p className="font-sans text-[17px] leading-[1.8] text-fog max-w-[520px]">
-                PROTEKON is a compliance intelligence company. We scrape, monitor, 
-                classify, and deliver regulatory compliance as a recurring managed service — 
+                PROTEKON is a compliance intelligence company. We monitor, analyze,
+                classify, and deliver regulatory compliance as a recurring managed service —
                 beginning with California&apos;s most enforcement-active industries.
               </p>
             </motion.div>
@@ -117,9 +111,9 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              Cal/OSHA issued 73,960 citations to California businesses. Most weren&apos;t 
-              willfully non-compliant — they simply didn&apos;t have the infrastructure to 
-              track regulations, write plans, or respond to changes.
+              Every year, Cal/OSHA issues tens of thousands of citations to California
+              businesses. Most aren&apos;t willfully non-compliant — they simply don&apos;t
+              have the infrastructure to track regulations, write plans, or respond to changes.
             </motion.p>
             <motion.p
               className="font-sans text-[16px] leading-[1.8] text-steel"
@@ -200,51 +194,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team */}
-      <section className="py-24 px-6 lg:px-8 bg-parchment">
-        <div className="max-w-[1200px] mx-auto">
-          <motion.div
-            className="mb-16 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-crimson">
-              Leadership
-            </span>
-            <h2 className="font-display font-black text-[42px] text-midnight mt-4">
-              The Protekon Team
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {team.map((member, i) => (
-              <motion.div
-                key={member.name}
-                className="text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 * i }}
-              >
-                {/* Avatar placeholder */}
-                <div className="w-20 h-20 mx-auto mb-4 bg-midnight flex items-center justify-center">
-                  <span className="font-display font-bold text-[24px] text-parchment">
-                    {member.initials}
-                  </span>
-                </div>
-                <h3 className="font-display font-bold text-[16px] text-midnight">
-                  {member.name}
-                </h3>
-                <p className="font-display font-normal text-[10px] tracking-[3px] uppercase text-steel mt-1">
-                  {member.role}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-24 px-6 lg:px-8 bg-void">
         <div className="max-w-[900px] mx-auto text-center">
@@ -263,7 +212,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Join 500+ California businesses who trust Protekon for their 
+            Join California businesses who trust Protekon for their
             workplace compliance.
           </motion.p>
           <motion.div
