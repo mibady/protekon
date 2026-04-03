@@ -469,3 +469,79 @@ Must replicate the following from the previous project:
 - Set up Stripe products ($597/$897/$1,297 recurring + setup fees)
 - Wire setup fee to Stripe checkout
 - Consider snapshot after npm install to halve E2B run time/cost
+
+## Session 8 — 2026-04-03 — MILESTONE: Production Polish + 9-Vertical Completion
+
+### Completed
+
+**Production Polish (3 commits):**
+- Added 2 export API routes: `/api/export/incidents` (CSV/PDF) and `/api/export/report` (6 report types, PDF)
+- Wired 14 decorative buttons across dashboard (exports, edit, filters, bulk actions)
+- Added incident edit flow: `updateIncident` action + edit modal with pre-filled form
+- Added `markAllAlertsRead` + `getAlerts` server actions with pagination and error propagation
+- Hardened Stripe checkout validation (unknown plan vs unconfigured env var distinction)
+- Created ESLint flat config (`eslint.config.mjs`) for ESLint 10
+- Fixed incident ID race condition (random alphanumeric IDs instead of count-based)
+- Fixed alerts error propagation (`{ data, error }` return type)
+- Wired regulations severity filter dropdown
+- Added server-side error logging to export routes
+- Added audit log error checking in incident actions
+
+**About Page + Public Pages (1 commit):**
+- Removed scraper stats from about page, reframed as industry context
+- Removed "scrape" from hero copy
+- Removed placeholder team section (fake names)
+- Removed unverified "500+" social proof claim
+- Wired 3 public page buttons (samples download, resources download, marketplace add-to-plan)
+
+**9-Vertical Completion (3 commits):**
+- Created generic `VerticalPage` component (304 lines, config-driven)
+- Created Supabase migration 004: 6 new tables with RLS (manufacturing_equipment, hospitality_inspections, agriculture_crews, retail_locations, wholesale_zones, transportation_fleet)
+- Created 6 server action files following existing CRUD patterns
+- Created 6 dashboard pages using VerticalPage component
+- Wired sidebar nav for all 9 verticals (conditional on client.vertical)
+- Added 6 PDF vertical sections to lib/pdf.ts
+- Added real-estate AI context to document-generator.ts
+- Removed scraper data from /industries and /industries/[slug] pages
+
+**Alignment Fixes (2 commits):**
+- Extracted shared `getAuth()` helper from 12 duplicated action files into `lib/actions/shared.ts`
+- Added real-estate + wholesale to signup and settings industry dropdowns
+- Fixed slug generation: "Real Estate" → "real-estate" (hyphenated)
+- Added missing form fields: manufacturing notes, retail state/last_audit
+- Alphabetized all dropdown options
+
+### Audit Snapshot
+| Metric | Count |
+|--------|-------|
+| Pages | 50 (was 32 at Session 0) |
+| API Routes | 11 (was 0) |
+| Components | 70 (was 69) |
+| Server Action Files | 22 |
+| Supabase Migrations | 4 |
+| Inngest Functions | 11 |
+| Tracked Files | 261 (was 238) |
+| Tests | 47 passing (9 test files) |
+| Build | Pass |
+| Lint | 0 errors, 30 warnings |
+
+### Decisions Made
+- Generic VerticalPage component over copy-paste per vertical (config-driven, ~50 lines per page vs ~340)
+- Random alphanumeric incident IDs (INC-YYYY-XXXXX) over sequential (race-condition-safe)
+- Skip dedicated /solutions pages for 6 new verticals — /industries + /solutions/compliance-suite covers it
+- Remove all scraper-sourced data from public pages (competitive intel risk)
+- Shared getAuth helper over per-file duplication (12 files → 1 source of truth)
+- Platform evolution plan saved to docs/platform-evolution-plan.md (white-label compliance platform for channel partners)
+
+### Known Issues
+- Stripe products not yet created in dashboard ($597/$897/$1,297 + setup fees) — env vars empty
+- Resend API key not configured for production email
+- 4 existing vertical pages (construction, healthcare x2, real-estate) not yet migrated to generic VerticalPage component
+- 30 lint warnings (all @typescript-eslint/no-unused-vars) — non-blocking
+
+### Next Session Should
+- Create Stripe products in dashboard + set env vars
+- Consider migrating 4 existing vertical pages to use generic VerticalPage component
+- Begin platform evolution work per docs/platform-evolution-plan.md (partner tenancy, white-label)
+- Deploy to Vercel and verify all 50 pages render correctly
+- Run E2B sandbox `--all` gates to verify cloud build
