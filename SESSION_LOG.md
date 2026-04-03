@@ -545,3 +545,75 @@ Must replicate the following from the previous project:
 - Begin platform evolution work per docs/platform-evolution-plan.md (partner tenancy, white-label)
 - Deploy to Vercel and verify all 50 pages render correctly
 - Run E2B sandbox `--all` gates to verify cloud build
+
+---
+
+## Session 9 — 2026-04-03 — MILESTONE: Unified Pricing + Partner Pages + AI Officer Repositioning
+
+### Completed
+
+**Phase 1 — Unified Pricing + Compliance Score Lead Magnet:**
+- Rewrote /pricing page with comparison table, add-a-vertical section, setup fee explainer, 8 FAQs
+- Built /score 4-step compliance assessment (business context → compliance posture with live SVG scoring ring → email gate → dynamic results with gap analysis and fine exposure)
+- Created score calculator, Zod-validated API routes, PDF report generation (pdf-lib)
+- Created compliance_score_leads table (migration 005) with RLS
+
+**Phase 2 — Partner Acquisition Pages:**
+- Built /partners marketing page (6 partner profiles, margin math, 3-step model, FAQ)
+- Built /partners/pricing (4 partner tiers + interactive margin calculator + build-vs-partner table)
+- Built /partners/apply (4-section application form with confirmation state)
+- Built /partners/boot-camp (6-module curriculum with accordion, metrics, certification)
+- Created partner_applications table (migration 006) with RLS
+- Created partner submit API route with Zod validation
+
+**Phase 3 — Solutions Pricing + Drip Sequence:**
+- Added unified pricing block to all 4 solutions pages (compliance-suite, construction, healthcare, real-estate)
+- Built 5-email Inngest drip sequence for score leads (Day 0/3/7/14/21)
+- Wired score submit API to fire score/lead.created Inngest event
+
+**Phase 4 — AI Compliance Officer Repositioning:**
+- Repositioned all copy from "Managed Compliance" to "AI Compliance Officer" across 24 files
+- Updated homepage (hero, product overview, 4 feature cards, comparison table, pricing, CTAs)
+- Added 2 new homepage sections: "What Your AI Compliance Officer Does Every Day" (5 timeline cards) and "Before/After" comparison table
+- Updated pricing, about, samples, signup pages
+- Updated Nav tagline, Footer tagline + copyright year
+- Updated dashboard sidebar, welcome message, intake warning, chat intro + suggestion chips
+- Updated Inngest email templates (score-drip, scheduled-delivery, regulatory-scan, email-templates.ts)
+
+### Audit Snapshot
+- Pages: 25 (public) + 30 (dashboard) = 55 total
+- API routes: 14
+- Components: 74
+- Server actions: 24 files
+- Migrations: 6
+- Inngest functions: 10
+- Type definitions: 2 (score.ts, partner.ts)
+- Specs: 10
+- Build: PASS (all 5 commits passed pre-commit hooks)
+
+### Decisions Made
+- Phased the COPY_UNIFIED_PRICING epic into 3 buildable phases (pricing+score → partner pages → solutions+drip)
+- AI Compliance Officer positioning shift applied across all customer-facing and dashboard copy
+- Partner portal dashboard and assessment tool deferred to future session (major feature scope)
+- Score page uses client-side calculateScore for live preview + server-side for final submission
+- Partner application uses public form (no auth required, anon insert RLS)
+
+### Known Issues
+- Stripe products not yet created in dashboard (env vars empty)
+- Migrations 005+006 not yet run against production Supabase
+- Partner portal dashboard (/partner) not yet built (authenticated partner view)
+- Partner assessment tool (/partner/assessments) not yet built
+- White-label branding system not yet built
+- pid parameter captured on /score client but not persisted to DB (Phase 2 partner linking)
+
+### Next Session Should
+- Create Stripe products in dashboard ($597/$897/$1,297 recurring + setup fees) and set env vars
+- Run `supabase db push` for migrations 005 + 006
+- Build partner portal dashboard (/partner — authenticated partner view with client roster)
+- Build partner assessment tool (/partner/assessments — send/track compliance scores)
+- Deploy to Vercel and verify all 55 pages render
+- Consider E2E browser tests for /score and /partners/apply forms
+
+### Git
+- 5 commits: c62ee90, fc863ec, d931ef2, 46a97c2, 6c38252
+- All pushed to origin/main
