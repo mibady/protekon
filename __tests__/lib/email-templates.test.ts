@@ -22,7 +22,7 @@ import {
 describe("email templates", () => {
   it("welcomeEmail returns subject and html with email", () => {
     const result = welcomeEmail("user@test.com")
-    expect(result.subject).toBe("Welcome to Protekon")
+    expect(result.subject).toBe("Your AI compliance officer is now active")
     expect(result.html).toContain("user@test.com")
     expect(result.html).toContain("https://test.protekon.com/dashboard")
   })
