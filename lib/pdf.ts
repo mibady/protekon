@@ -29,6 +29,36 @@ const verticalSections: Record<string, { title: string; items: string[] }[]> = {
     { title: "Municipal Ordinances", items: ["Local permit requirements", "Zoning compliance", "Noise and nuisance regulations", "Tenant protection laws"] },
     { title: "Liability Management", items: ["Insurance coverage review", "Incident documentation", "Vendor liability agreements", "Risk assessment protocols"] },
   ],
+  manufacturing: [
+    { title: "Equipment Safety", items: ["Machine guarding program", "Lockout/Tagout procedures (8 CCR 3314)", "Pressure vessel inspections", "Electrical safety protocols"] },
+    { title: "Chemical Management", items: ["Hazard communication program", "SDS management", "Chemical inventory tracking", "Spill response procedures"] },
+    { title: "Training Compliance", items: ["LOTO certification records", "Equipment operator training", "PPE requirements by task", "Annual refresher schedules"] },
+  ],
+  hospitality: [
+    { title: "Health & Safety Inspections", items: ["Health department inspection readiness", "Fire safety compliance", "Food handling certifications", "Sanitation protocols"] },
+    { title: "Guest Safety", items: ["Incident reporting procedures", "ADA accessibility compliance", "Emergency evacuation plans", "Pool/spa safety (if applicable)"] },
+    { title: "Employee Safety", items: ["Bloodborne pathogen training", "Slip/trip/fall prevention", "Hazard communication", "PPE requirements"] },
+  ],
+  agriculture: [
+    { title: "Heat Illness Prevention", items: ["Heat Illness Prevention Plan (8 CCR 3395)", "Water provision verification", "Shade structure compliance", "High-heat procedures (>=95F)"] },
+    { title: "Field Safety", items: ["Pesticide safety and CalEPA compliance", "Equipment operation training", "Field sanitation facilities", "Emergency response procedures"] },
+    { title: "Crew Management", items: ["Crew supervisor safety training", "Portable ladder safety (8 CCR 3457)", "Youth labor compliance", "Housing standards (if applicable)"] },
+  ],
+  retail: [
+    { title: "Store Compliance", items: ["Fire safety and exit compliance", "ADA accessibility requirements", "Hazard communication program", "Emergency action plan"] },
+    { title: "Employee Safety", items: ["IIPP implementation (8 CCR 3203)", "Ergonomics for repetitive tasks", "Workplace violence prevention (SB 553)", "Seasonal worker training"] },
+    { title: "Inventory Safety", items: ["Material handling procedures", "Shelf stacking and storage limits", "Chemical product storage", "Forklift safety (if applicable)"] },
+  ],
+  wholesale: [
+    { title: "Warehouse Safety", items: ["Forklift/PIT safety (8 CCR 3668F)", "Loading dock procedures", "Rack inspection program", "Floor marking and aisle clearance"] },
+    { title: "Hazmat Management", items: ["Hazardous material storage", "Chemical inventory and SDS", "Spill containment procedures", "PPE requirements by zone"] },
+    { title: "Operator Compliance", items: ["Forklift operator certification", "Machine guarding (8 CCR 3314)", "LOTO procedures", "Annual safety training"] },
+  ],
+  transportation: [
+    { title: "Fleet Compliance", items: ["DOT inspection readiness", "Vehicle maintenance logs", "Pre-trip inspection procedures", "Hours of service tracking"] },
+    { title: "Driver Certifications", items: ["CDL status monitoring", "Medical certificate tracking", "Drug and alcohol testing program", "Defensive driving training"] },
+    { title: "Safety Programs", items: ["Accident/incident reporting", "Hazmat transport compliance", "Fatigue management program", "Vehicle emergency equipment"] },
+  ],
 }
 
 const defaultSections = [

@@ -29,7 +29,12 @@ import {
   Handshake,
   MapPin,
   Scroll,
-  GraduationCap
+  GraduationCap,
+  Wrench,
+  ClipboardText,
+  Plant,
+  Warehouse,
+  Truck
 } from "@phosphor-icons/react"
 import { signOut } from "@/lib/actions/auth"
 import { getClientProfile } from "@/lib/actions/settings"
@@ -225,6 +230,84 @@ export default function DashboardLayout({
                   <Link href="/dashboard/real-estate/properties" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/real-estate") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
                     <MapPin size={16} className={pathname.startsWith("/dashboard/real-estate") ? "text-crimson" : "text-steel"} />
                     <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/real-estate") ? "text-brand-white" : "text-brand-white/45"}`}>Properties</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "manufacturing" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">MANUFACTURING</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/manufacturing/equipment" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/manufacturing") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <Wrench size={16} className={pathname.startsWith("/dashboard/manufacturing") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/manufacturing") ? "text-brand-white" : "text-brand-white/45"}`}>Equipment & LOTO</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "hospitality" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">HOSPITALITY</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/hospitality/inspections" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/hospitality") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <ClipboardText size={16} className={pathname.startsWith("/dashboard/hospitality") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/hospitality") ? "text-brand-white" : "text-brand-white/45"}`}>Health Inspections</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "agriculture" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">AGRICULTURE</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/agriculture/crews" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/agriculture") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <Plant size={16} className={pathname.startsWith("/dashboard/agriculture") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/agriculture") ? "text-brand-white" : "text-brand-white/45"}`}>Field Crews</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "retail" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">RETAIL</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/retail/locations" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/retail") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <Storefront size={16} className={pathname.startsWith("/dashboard/retail") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/retail") ? "text-brand-white" : "text-brand-white/45"}`}>Store Locations</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "wholesale" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">WHOLESALE</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/wholesale/zones" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/wholesale") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <Warehouse size={16} className={pathname.startsWith("/dashboard/wholesale") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/wholesale") ? "text-brand-white" : "text-brand-white/45"}`}>Safety Zones</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "transportation" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">TRANSPORTATION</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/transportation/fleet" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/transportation") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <Truck size={16} className={pathname.startsWith("/dashboard/transportation") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/transportation") ? "text-brand-white" : "text-brand-white/45"}`}>Fleet & Drivers</span>
                   </Link>
                 </li>
               </ul>

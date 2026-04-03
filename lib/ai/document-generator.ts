@@ -145,6 +145,14 @@ function getVerticalContext(vertical: string): string {
 - Vehicle operation and fleet safety
 - Hazardous materials transport
 - Hours of service and fatigue management`,
+    "real-estate": `Industry-Specific Standards:
+- Building code adherence and permit compliance
+- Fire safety inspection requirements
+- ADA accessibility compliance
+- Environmental compliance (lead, asbestos, mold)
+- Tenant protection laws and rent control
+- Municipal ordinance tracking
+- Property manager liability requirements`,
   }
 
   return contexts[vertical] || contexts.construction || ""
