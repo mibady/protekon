@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { calculateScore } from "@/lib/score-calculator"
 import { submitScore } from "@/lib/actions/score"
+import { inngest } from "@/inngest/client"
 import type { ScoreLead } from "@/lib/types/score"
 
 const SubmitScoreSchema = z.object({
@@ -54,6 +55,27 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if ("error" in response) {
       return NextResponse.json({ error: response.error }, { status: 500 })
     }
+
+    // Trigger drip sequence
+    await inngest.send({
+      name: "score/lead.created",
+      data: {
+        lead_id: response.id,
+        email: lead.email,
+        name: lead.name,
+        score: result.score,
+        score_tier: result.tier,
+        gaps: result.gaps.map((g) => ({
+          key: g.key,
+          label: g.label,
+          description: g.description,
+        })),
+        industry: lead.answers.industry,
+        fine_low: result.fine_low,
+        fine_high: result.fine_high,
+        partner_ref: lead.partner_ref,
+      },
+    })
 
     return NextResponse.json({
       success: true,

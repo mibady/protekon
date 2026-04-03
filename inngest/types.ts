@@ -49,4 +49,18 @@ export type Events = {
       invoiceId: string
     }
   }
+  "score/lead.created": {
+    data: {
+      lead_id: string
+      email: string
+      name: string
+      score: number
+      score_tier: string
+      gaps: Array<{ key: string; label: string; description: string }>
+      industry: string
+      fine_low: number
+      fine_high: number
+      partner_ref?: string
+    }
+  }
 }

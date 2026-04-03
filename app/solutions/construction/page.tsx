@@ -129,6 +129,78 @@ export default function ConstructionPage() {
         </div>
       </section>
 
+      {/* Unified Pricing */}
+      <section className="py-24 px-6 lg:px-8 bg-midnight">
+        <div className="max-w-[1000px] mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="font-display font-black text-[clamp(28px,4vw,42px)] text-parchment mb-4">
+              One price for managed compliance. Every domain.
+            </h2>
+            <p className="font-sans text-[16px] text-fog max-w-[700px] mx-auto">
+              PROTEKON uses one pricing structure across all compliance verticals — SB 553, Construction, Healthcare,
+              Manufacturing, Retail, Transportation, Wholesale, Hospitality, Agriculture, and Real Estate.
+              You pick your domain during intake. The service level is the same.
+            </p>
+          </div>
+
+          {/* 3 tier cards in a row */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {/* Core */}
+            <div className="bg-void border border-brand-white/[0.06] p-6">
+              <h3 className="font-display font-bold text-[20px] text-parchment mb-1">Core</h3>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-display font-black text-[32px] text-gold">$597</span>
+                <span className="text-steel text-[14px]">/month</span>
+              </div>
+              <p className="text-steel text-[12px] mb-3">+ $297 one-time setup</p>
+              <p className="text-fog text-[14px]">Single location, 10–50 employees, full managed compliance for one vertical.</p>
+            </div>
+
+            {/* Professional */}
+            <div className="bg-void border border-crimson/30 p-6 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="font-display font-semibold text-[9px] tracking-[2px] uppercase text-parchment bg-crimson px-3 py-1">Most Popular</span>
+              </div>
+              <h3 className="font-display font-bold text-[20px] text-parchment mb-1">Professional</h3>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-display font-black text-[32px] text-gold">$897</span>
+                <span className="text-steel text-[14px]">/month</span>
+              </div>
+              <p className="text-steel text-[12px] mb-3">+ $397 one-time setup</p>
+              <p className="text-fog text-[14px]">50–150 employees, quarterly reviews, vertical-specific tracking, priority support.</p>
+            </div>
+
+            {/* Multi-Site */}
+            <div className="bg-void border border-brand-white/[0.06] p-6">
+              <h3 className="font-display font-bold text-[20px] text-parchment mb-1">Multi-Site</h3>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-display font-black text-[32px] text-gold">$1,297</span>
+                <span className="text-steel text-[14px]">/month</span>
+              </div>
+              <p className="text-steel text-[12px] mb-3">+ $597 one-time setup</p>
+              <p className="text-fog text-[14px]">2+ locations, per-site documentation, consolidated reporting, monthly review call.</p>
+            </div>
+          </div>
+
+          {/* Add-on note + CTAs */}
+          <div className="text-center">
+            <p className="text-fog text-[15px] mb-8">
+              Need construction safety plus another compliance area? Add any vertical for <span className="text-gold font-semibold">+$397/month</span>. No additional setup fee.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/signup" className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-crimson/90 transition-colors">
+                Start My Construction Compliance
+                <ArrowRight size={14} weight="bold" />
+              </Link>
+              <Link href="/pricing" className="inline-flex items-center justify-center gap-2 border border-brand-white/[0.1] text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:border-gold/50 hover:text-gold transition-colors">
+                See Full Pricing
+              </Link>
+            </div>
+            <p className="text-steel text-[12px] mt-4">Setup fee + first month at sign-up. Cancel anytime after month 3. 48-hour delivery guarantee.</p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20 px-8">
         <div className="max-w-[800px] mx-auto text-center">
