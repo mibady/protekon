@@ -9,6 +9,8 @@ import SocialProof from "@/components/sections/SocialProof"
 import ProductOverview from "@/components/sections/ProductOverview"
 import DataSection from "@/components/sections/DataSection"
 import Comparison from "@/components/sections/Comparison"
+import DailyTimeline from "@/components/sections/DailyTimeline"
+import BeforeAfter from "@/components/sections/BeforeAfter"
 import Pricing from "@/components/sections/Pricing"
 import Testimonials from "@/components/sections/Testimonials"
 import SampleReportCTA from "@/components/sections/SampleReportCTA"
@@ -29,6 +31,8 @@ export default function Home() {
           <ProductOverview />
           <DataSection />
           <Comparison />
+          <DailyTimeline />
+          <BeforeAfter />
           <Pricing />
           <Testimonials />
           <SampleReportCTA />

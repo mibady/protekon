@@ -146,9 +146,19 @@ const faqs = [
       "You can downgrade at the end of any billing cycle. Moving from Multi-Site to Professional or Professional to Core takes effect on your next invoice. No penalties, no friction. Your existing documents and history stay in your account.",
   },
   {
-    question: "Do you offer a free trial?",
+    question: "Do I need to install any software or manage anything?",
     answer:
-      "We don\u2019t offer a free trial of the managed service \u2014 because every plan requires real setup work (collecting your data, generating your plan, configuring your pipeline). What we do offer is a free compliance score. Visit /score, answer a few questions, and get an instant assessment of where your business stands. No credit card, no commitment.",
+      "No. Your AI compliance officer runs autonomously. Compliance documents are delivered to your inbox on schedule. Your dashboard shows real-time compliance status, but you never have to log in for the agent to do its job. It monitors regulations, processes incidents, updates documents, and sends you proof \u2014 whether you check the dashboard or not.",
+  },
+  {
+    question: "How is this different from compliance software like NAVEX or FaceUp?",
+    answer:
+      "Enterprise compliance software gives you a dashboard to manage yourself. You still need staff to enter data, interpret regulations, generate reports, and maintain records. Protekon is an AI agent that does all of that autonomously. You don\u2019t operate a system. You don\u2019t manage a platform. The agent does the compliance work \u2014 the same work a $60\u201380K/year compliance officer would do \u2014 for less than $1,300/month.",
+  },
+  {
+    question: "What does the AI actually do vs. a human?",
+    answer:
+      "The AI writes your compliance plans from your intake data, classifies incidents by severity and OSHA code, strips personally identifiable information from reports, scans three regulatory feeds every morning, analyzes the impact of new regulations on your documents, and delivers reports on schedule. A human compliance analyst reviews edge cases on Professional and Multi-Site plans. The AI handles the 95% that is procedural. The human handles the 5% that requires judgment.",
   },
 ]
 
@@ -206,10 +216,8 @@ export default function PricingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            Managed compliance. Not managed software.
-            <br />
-            Not managed templates.{" "}
-            <span className="text-gold">The actual compliance.</span>
+            Less Than 1% of a Compliance Officer.{" "}
+            <span className="text-gold">100% of the Work.</span>
           </motion.h1>
 
           <motion.p
@@ -218,10 +226,12 @@ export default function PricingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            Pick your compliance domain during intake. Your plan, your incident
-            processing, your regulatory monitoring, and your audit-ready
-            documentation package deliver within 48 hours. Add additional domains
-            anytime at a flat rate. One dashboard, one invoice, one account.
+            A full-time compliance officer costs $60–80K a year. Your AI
+            compliance officer costs $7,164–$15,564 a year — and it works 24
+            hours a day, 365 days a year. Every plan includes full document
+            generation, incident classification, regulatory monitoring, PII
+            stripping, and scheduled delivery. No incomplete tiers. No add-on
+            fees.
           </motion.p>
         </div>
       </section>
@@ -236,12 +246,10 @@ export default function PricingPage() {
           variants={sectionVariants}
         >
           <p className="font-sans text-[15px] text-steel leading-relaxed border border-brand-white/[0.06] bg-midnight/50 px-8 py-6">
-            Every plan covers any single compliance vertical &mdash; SB&nbsp;553,
-            Construction, Healthcare, Manufacturing, Retail, Transportation,
-            Wholesale, Hospitality, Agriculture, or Real Estate. Pick your
-            vertical during intake. The deliverables, incident processing, and
-            regulatory monitoring are the same regardless of which domain you
-            choose.
+            Your AI compliance officer costs less than one serious violation.
+            Average serious fine: $7,229. Protekon Core annual cost: $7,164.
+            The agent pays for itself the first time an inspector walks away
+            with zero citations.
           </p>
         </motion.div>
       </section>
@@ -571,7 +579,7 @@ export default function PricingPage() {
             viewport={{ once: true }}
             variants={sectionVariants}
           >
-            Start today. Be compliant by Thursday.
+            Your AI Compliance Officer Is Ready.
           </motion.h2>
 
           <motion.p
@@ -582,8 +590,9 @@ export default function PricingPage() {
             variants={sectionVariants}
             transition={{ delay: 0.1 }}
           >
-            Setup fee + first month collected at sign-up. Cancel anytime after
-            month 3. 48-hour delivery guarantee.
+            First delivery in 48 hours. Regulatory monitoring starts
+            immediately. No software. No staff. No onboarding meetings. Cancel
+            anytime.
           </motion.p>
 
           <motion.div
@@ -598,7 +607,7 @@ export default function PricingPage() {
               href="/signup"
               className="inline-flex items-center justify-center gap-2 bg-parchment text-crimson font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-parchment/90 transition-colors"
             >
-              Get Compliant Today
+              Activate Your AI Compliance Officer
               <ArrowRight size={16} weight="bold" />
             </Link>
             <Link

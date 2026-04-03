@@ -5,13 +5,14 @@ import { useRef } from "react"
 import { Check, X, Minus } from "@phosphor-icons/react"
 
 const capabilities: { name: string; training: boolean | "partial"; diy: boolean | "partial"; enterprise: boolean | "partial"; consultant: boolean | "partial"; shield: boolean | "partial" }[] = [
-  { name: "Writes plan for you", training: false, diy: false, enterprise: true, consultant: true, shield: true },
-  { name: "Manages incident log", training: false, diy: false, enterprise: true, consultant: "partial", shield: true },
-  { name: "Monitors reg changes", training: false, diy: false, enterprise: true, consultant: false, shield: true },
-  { name: "Strips PII automatically", training: false, diy: false, enterprise: false, consultant: false, shield: true },
-  { name: "Delivers to inbox", training: false, diy: false, enterprise: false, consultant: false, shield: true },
-  { name: "No software to learn", training: true, diy: true, enterprise: false, consultant: true, shield: true },
-  { name: "Recurring service", training: false, diy: false, enterprise: true, consultant: "partial", shield: true },
+  { name: "Runs autonomously 24/7", training: false, diy: false, enterprise: false, consultant: false, shield: true },
+  { name: "Writes your plan autonomously", training: false, diy: false, enterprise: true, consultant: true, shield: true },
+  { name: "Classifies + logs incidents via AI", training: false, diy: false, enterprise: true, consultant: "partial", shield: true },
+  { name: "Scans regulations daily at 6am", training: false, diy: false, enterprise: true, consultant: false, shield: true },
+  { name: "AI strips PII + assigns OSHA codes", training: false, diy: false, enterprise: false, consultant: false, shield: true },
+  { name: "Delivers proof on schedule", training: false, diy: false, enterprise: false, consultant: false, shield: true },
+  { name: "Zero software. Zero staff.", training: true, diy: true, enterprise: false, consultant: true, shield: true },
+  { name: "Always-on AI agent", training: false, diy: false, enterprise: false, consultant: false, shield: true },
 ]
 
 const pricing = {
@@ -46,7 +47,7 @@ export default function Comparison() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.5 }}
         >
-          THE ONLY OPTION THAT DOES THE WORK
+          THE ONLY OPTION THAT DOESN&apos;T REQUIRE YOU.
         </motion.h2>
 
         {/* Comparison Table */}
@@ -143,18 +144,15 @@ export default function Comparison() {
           </table>
         </motion.div>
 
-        {/* Bottom Banner */}
-        <motion.div
-          className="mt-12 py-4 px-6 bg-crimson/[0.08] border border-crimson/20 text-center"
+        {/* Subtext */}
+        <motion.p
+          className="mt-8 text-center font-sans font-light text-[16px] leading-[1.75] text-fog max-w-[600px] mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <p className="font-display font-semibold text-[20px] text-gold">
-            No funded competitor occupies managed, done-for-you physical workplace 
-            compliance for SMBs at $300–$500/month.
-          </p>
-        </motion.div>
+          Every other option on this table requires you to do the compliance work. PROTEKON is the only AI agent that does it for you.
+        </motion.p>
       </div>
     </section>
   )

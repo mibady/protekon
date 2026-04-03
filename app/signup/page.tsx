@@ -98,11 +98,12 @@ export default function SignupPage() {
             transition={{ delay: 0.2 }}
           >
             <h2 className="font-display font-black text-[48px] leading-[0.95] text-parchment mb-6">
-              Start Your<br />Compliance Plan.
+              Activate Your<br />AI Compliance Officer.
             </h2>
             <p className="font-sans text-[16px] leading-[1.75] text-fog">
-              Get your IIPP, SB 553 plan, and incident logging system set up 
-              and delivered within 48 hours.
+              Answer a few questions about your business. Your AI compliance
+              officer starts monitoring regulations immediately. First document
+              delivered in 48 hours.
             </p>
           </motion.div>
 
@@ -114,10 +115,11 @@ export default function SignupPage() {
             transition={{ delay: 0.4 }}
           >
             {[
-              "California-specific compliance documents",
-              "First delivery within 48 hours",
-              "Ongoing regulatory monitoring",
-              "Cancel anytime, no contracts",
+              "AI writes your IIPP + SB 553 plan in 48 hours",
+              "Incident classification + PII stripping from day one",
+              "Regulatory monitoring starts immediately — daily 6am scans",
+              "Scheduled delivery to your inbox — no login required",
+              "No software to install. No staff to hire. No training.",
             ].map((benefit, i) => (
               <div key={i} className="flex items-center gap-3">
                 <div className="w-5 h-5 flex items-center justify-center bg-crimson/10 text-crimson">

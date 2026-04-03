@@ -74,7 +74,7 @@ export default function SampleReportCTA() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              SEE EXACTLY WHAT PROTEKON DELIVERS
+              SEE EXACTLY WHAT YOUR AI COMPLIANCE OFFICER PRODUCES
             </motion.h2>
 
             {/* Body */}
@@ -84,9 +84,10 @@ export default function SampleReportCTA() {
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Enter your industry. Enter your employee count. We generate a sample 
-              IIPP and compliance risk summary specific to your business. 
-              Delivered to your inbox in minutes. Not hours. Minutes.
+              Enter your industry and employee count. Your AI compliance officer generates
+              a sample IIPP and compliance risk summary specific to your business profile.
+              In your inbox in minutes. This is what the agent produces on day one — and it
+              only gets more thorough from there.
             </motion.p>
           </div>
 

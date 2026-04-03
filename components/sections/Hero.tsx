@@ -24,15 +24,25 @@ export default function Hero() {
           />
 
           <div className="relative z-10 max-w-[560px]">
+            {/* Eyebrow */}
+            <motion.span
+              className="font-display font-medium text-[10px] tracking-[4px] uppercase text-crimson mb-4 block"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.05 }}
+            >
+              THE AI COMPLIANCE OFFICER FOR CALIFORNIA SMBS
+            </motion.span>
+
             {/* Headline */}
             <motion.h1
-              className="font-display font-black text-[clamp(36px,6vw,64px)] leading-[0.95] tracking-tight text-brand-white mb-6"
+              className="font-display font-black text-[clamp(32px,5.5vw,58px)] leading-[0.95] tracking-tight text-brand-white mb-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
             >
-              CALIFORNIA WORKPLACE COMPLIANCE.{" "}
-              <span className="text-gold">DONE FOR YOU.</span>
+              YOUR COMPLIANCE OFFICER DOESN&apos;T TAKE PTO. DOESN&apos;T MISS DEADLINES.{" "}
+              <span className="text-gold">DOESN&apos;T COST $80K.</span>
             </motion.h1>
 
             {/* Subheadline */}
@@ -42,9 +52,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              Stop waiting for an inspection to find out you are out of compliance. 
-              PROTEKON writes your IIPP, builds your SB 553 plan, logs your incidents, 
-              and monitors every regulation change. You run your business. We handle the rest.
+              PROTEKON is the AI compliance officer that runs your entire compliance department.
+              It writes your IIPP. Builds your SB 553 plan. Classifies every incident.
+              Strips PII automatically. Monitors Cal/OSHA at 6am every morning. Updates your
+              documents before you know the law changed. You answer 6 questions. The agent
+              handles everything else — 24 hours a day, 365 days a year.
             </motion.p>
 
             {/* CTAs */}
@@ -58,13 +70,13 @@ export default function Hero() {
                 href="/signup"
                 className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-brand-white bg-crimson px-8 py-4 border-l-[3px] border-brand-white/30 hover:brightness-110 transition-all"
               >
-                Start Your Compliance Plan
+                Activate Your AI Compliance Officer
               </Link>
               <Link
                 href="#sample"
                 className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-brand-white/70 px-8 py-4 border border-brand-white/15 hover:border-gold hover:text-gold transition-colors"
               >
-                Download Sample Report
+                See What The Agent Delivers
               </Link>
             </motion.div>
 
@@ -75,7 +87,7 @@ export default function Hero() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              Zero software. First document delivered in 48 hours. Cancel anytime.
+              No software. No staff. First delivery in 48 hours. Cancel anytime.
             </motion.p>
           </div>
         </div>
@@ -182,7 +194,7 @@ export default function Hero() {
             <div className="grid grid-cols-2 lg:grid-cols-4">
               {[
                 { value: '$109.6M', label: 'CA SMB Penalties' },
-                { value: '44,742', label: 'Target Violations' },
+                { value: '73,960', label: 'Citations Analyzed' },
                 { value: '48hrs', label: 'First Delivery' },
                 { value: '$7,229', label: 'Avg Serious Fine' },
               ].map((stat, i) => (

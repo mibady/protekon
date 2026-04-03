@@ -11,7 +11,7 @@ const features = [
     borderColor: "#C41230",
     title: "IIPP + SB 553 DOCUMENTS",
     description:
-      "8 CCR 3203 requires every California employer to have a written IIPP. SB 553 demands a Workplace Violence Prevention Plan. We write both. In your name. Ready to post before the inspector arrives.",
+      "8 CCR 3203 requires a written IIPP. SB 553 demands a Workplace Violence Prevention Plan. Your AI compliance officer writes both — generated from your actual business address, worksite layout, and employee count. Not a template. A site-specific plan, ready to post before the inspector arrives.",
     tags: ["IIPP", "SB 553", "WVPP", "8 CCR 3203"],
   },
   {
@@ -20,7 +20,7 @@ const features = [
     borderColor: "#C9A84C",
     title: "INCIDENT LOG MANAGEMENT",
     description:
-      "Text or voice. That is all it takes to log an incident. AI classifies severity, strips all PII, and creates OSHA 300-compliant entries. Legally defensible documentation from day one.",
+      "Describe what happened in plain English. Your AI compliance officer classifies severity, assigns the OSHA code, flags personally identifiable information, strips it, creates an OSHA 300-compliant entry, notifies your compliance team, and schedules follow-ups based on severity — all from one description. You never touch a log.",
     tags: ["OSHA 300", "PII PROTECTED", "AI CLASSIFIED"],
   },
   {
@@ -29,7 +29,7 @@ const features = [
     borderColor: "#C41230",
     title: "REGULATORY MONITORING",
     description:
-      "Cal/OSHA. OSHSB. CSLB. Municipal ordinances. We watch them all. 24/7. When regulations change, your documents update automatically. No action required.",
+      "Every morning at 6am, your AI compliance officer scans Cal/OSHA, OSHSB, and CSLB feeds. When a regulation changes, it determines which of your documents are affected, assesses the penalty risk, generates a plain-English impact summary, and alerts you with a compliance deadline. Before you pour your first coffee.",
     tags: ["Cal/OSHA", "SB 553", "REAL-TIME"],
   },
   {
@@ -38,7 +38,7 @@ const features = [
     borderColor: "#C9A84C",
     title: "SCHEDULED DELIVERY",
     description:
-      "Weekly summaries. Monthly reports. Quarterly reviews. Annual audit packages. All formatted. All branded. All in your inbox before you need them.",
+      "Your AI compliance officer delivers weekly summaries, monthly status reports, quarterly compliance reviews, and annual audit packages — formatted, branded, and in your inbox on schedule. Not reminders to go do something. Proof that it is already done.",
     tags: ["WEEKLY", "MONTHLY", "QUARTERLY"],
   },
 ]
@@ -60,16 +60,17 @@ export default function ProductOverview() {
 
             {/* Headline */}
             <h2 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-brand-white mb-6">
-              COMPLIANCE IS NOT YOUR JOB.
-              <br />
-              IT&apos;S OURS.
+              AN AI AGENT THAT RUNS YOUR COMPLIANCE DEPARTMENT.
             </h2>
 
             {/* Body */}
             <p className="font-sans font-light text-[15px] leading-[1.75] text-fog mb-8 max-w-[380px]">
-              The Protekon Engine watches every regulation. Writes every document. 
-              Logs every incident. Delivers everything to your inbox before the deadline hits. 
-              Nothing reaches you without going through PROTEKON first.
+              Most businesses handle compliance one of two ways: they hire an $80K/year officer,
+              or they use a spreadsheet and hope nobody checks. PROTEKON is the third option.
+              An AI compliance officer that monitors every regulation, writes every document,
+              classifies every incident, and delivers audit-ready proof to your inbox — while
+              you sleep. It never takes a sick day. It never misses a deadline. And it costs
+              less than a single serious violation.
             </p>
 
             {/* CTA Link */}
@@ -77,7 +78,7 @@ export default function ProductOverview() {
               href="#engine"
               className="font-display font-semibold text-[12px] tracking-[2px] text-gold border-b border-gold/40 pb-1 hover:border-gold transition-colors inline-flex items-center gap-2"
             >
-              SEE HOW IT WORKS
+              SEE WHAT THE AGENT DOES
               <span className="text-lg">→</span>
             </Link>
           </div>

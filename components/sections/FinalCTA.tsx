@@ -13,14 +13,12 @@ export default function FinalCTA() {
       <div className="max-w-[900px] mx-auto px-8 text-center">
         {/* Headline */}
         <motion.h2
-          className="font-display font-black text-[clamp(40px,7vw,80px)] leading-[0.88] text-brand-white mb-6"
+          className="font-display font-black text-[clamp(36px,6vw,72px)] leading-[0.88] text-brand-white mb-6"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.5 }}
         >
-          STOP PAYING FINES.
-          <br />
-          START PAYING US.
+          YOU CAN&apos;T AFFORD A COMPLIANCE OFFICER. YOU CAN&apos;T AFFORD NOT TO HAVE ONE.
         </motion.h2>
 
         {/* Subheadline */}
@@ -30,7 +28,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          One Cal/OSHA citation costs more than an entire year of PROTEKON. Protect everything. Miss nothing.
+          A compliance officer costs $80K. A Cal/OSHA citation costs $7,229. Your AI compliance officer costs $597/month. The math is not complicated.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -48,7 +46,7 @@ export default function FinalCTA() {
               href="/signup"
               className="inline-flex items-center justify-center font-display font-semibold text-[10px] tracking-[3px] uppercase bg-brand-white text-crimson px-8 py-4 min-w-[280px]"
             >
-              START YOUR COMPLIANCE PLAN
+              ACTIVATE YOUR AI COMPLIANCE OFFICER
             </Link>
           </motion.div>
 
@@ -60,7 +58,7 @@ export default function FinalCTA() {
               href="/contact"
               className="inline-flex items-center justify-center font-display font-semibold text-[10px] tracking-[3px] uppercase border border-brand-white text-brand-white px-8 py-4 min-w-[280px] hover:bg-brand-white/10 transition-colors"
             >
-              TALK TO A COMPLIANCE EXPERT
+              SEE WHAT THE AGENT DELIVERS
             </Link>
           </motion.div>
         </motion.div>
@@ -72,7 +70,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          $597/month. $7,229 average fine. One citation pays for a year.
+          $597/month. $80K/year compliance officer. $7,229 per citation. Pick your math.
         </motion.p>
       </div>
     </section>

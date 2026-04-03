@@ -59,13 +59,12 @@ export default function Footer() {
 
             {/* Tagline */}
             <p className="font-display font-light text-[11px] tracking-[4px] uppercase text-gold mb-4">
-              MANAGED COMPLIANCE. DELIVERED.
+              AI COMPLIANCE OFFICER
             </p>
 
             {/* Description */}
             <p className="font-sans font-light text-[12px] leading-[1.75] text-steel max-w-[240px] mb-6">
-              PROTEKON delivers California workplace 
-              compliance as a recurring managed service.
+              PROTEKON is the AI compliance officer for California businesses. It monitors every regulation, writes every document, and runs your compliance department — so you never have to.
             </p>
 
             {/* Social Icons */}
@@ -151,7 +150,7 @@ export default function Footer() {
         <div className="py-6 border-t border-brand-white/[0.04] flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Left: Copyright */}
           <p className="font-display font-normal text-[9px] tracking-[2px] text-brand-white/20">
-            © 2025 PROTEKON. All rights reserved.
+            © 2026 PROTEKON. All rights reserved.
           </p>
 
           {/* Center: Security badges */}

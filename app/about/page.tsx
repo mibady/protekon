@@ -21,8 +21,8 @@ const values = [
   },
   {
     number: "02",
-    title: "Done For You",
-    description: "We don't sell tools. We do the work. Your compliance posture improves without any effort from your team."
+    title: "Agent, Not Software",
+    description: "We don't sell dashboards. We don't sell templates. Your AI compliance officer does the work — autonomously, on schedule, without being prompted. Your compliance posture improves while you run your business."
   },
   {
     number: "03",
@@ -73,13 +73,17 @@ export default function AboutPage() {
               </div>
               
               <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.95] text-parchment mb-8">
-                We Built the Machine That Manages Compliance.
+                We Built the AI That Runs Your Compliance Department.
               </h1>
               
               <p className="font-sans text-[17px] leading-[1.8] text-fog max-w-[520px]">
-                PROTEKON is a compliance intelligence company. We monitor, analyze,
-                classify, and deliver regulatory compliance as a recurring managed service —
-                beginning with California&apos;s most enforcement-active industries.
+                PROTEKON is the AI compliance officer for California businesses. It
+                monitors every regulation. Writes every document. Classifies every
+                incident. Delivers audit-ready proof to your inbox — automatically, on
+                schedule, without being asked. We built it because 14,443 California
+                businesses receive serious OSHA violations every year. Most of them
+                aren&apos;t reckless. They just don&apos;t have the infrastructure to keep up.
+                Now they do.
               </p>
             </motion.div>
           </div>
@@ -99,7 +103,7 @@ export default function AboutPage() {
               Our Mission
             </span>
             <h2 className="font-display font-black text-[clamp(36px,5vw,52px)] text-midnight mt-4 max-w-[700px]">
-              The Intelligence Gap We Closed
+              The $80K Problem We Solved for $597/Month
             </h2>
           </motion.div>
 
@@ -111,9 +115,10 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              Every year, Cal/OSHA issues tens of thousands of citations to California
-              businesses. Most aren&apos;t willfully non-compliant — they simply don&apos;t
-              have the infrastructure to track regulations, write plans, or respond to changes.
+              A full-time compliance officer costs $60,000–$80,000 a year. Enterprise
+              GRC software costs $800–$2,000/month and still requires a team to operate.
+              Meanwhile, a 30-person warehouse in Fresno faces the same Cal/OSHA regulations
+              as a Fortune 500 company — but has none of the infrastructure to stay compliant.
             </motion.p>
             <motion.p
               className="font-sans text-[16px] leading-[1.8] text-steel"
@@ -122,9 +127,10 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              Protekon was built to close that gap. Not with software that requires 
-              another full-time employee to operate — but with a service that watches, 
-              writes, and delivers compliance on your behalf.
+              The average serious Cal/OSHA fine is $7,229. Protekon Core costs $597/month.
+              We built an AI agent that does the work of a compliance officer — writing plans,
+              classifying incidents, stripping PII, scanning regulations, and delivering
+              audit-ready documents — for less than 1% of the cost of hiring one.
             </motion.p>
           </div>
 

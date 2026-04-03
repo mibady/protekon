@@ -101,7 +101,7 @@ export default function Nav() {
                   PROT<span className="text-crimson">E</span>KON
                 </span>
                 <span className="font-display font-normal text-[9px] tracking-[2.5px] text-gold">
-                  MANAGED COMPLIANCE
+                  AI COMPLIANCE OFFICER
                 </span>
               </div>
             </Link>
