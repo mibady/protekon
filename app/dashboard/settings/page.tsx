@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { User, Building, Bell, Shield, CreditCard, EnvelopeSimple } from "@phosphor-icons/react"
 import { getClientProfile, updateProfile, updateCompany, changePassword, getNotificationPreferences, updateNotificationPreferences } from "@/lib/actions/settings"
 import type { ClientProfile } from "@/lib/types"
+import { toast } from "sonner"
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("profile")
@@ -248,7 +249,13 @@ export default function SettingsPage() {
                 <p className="font-sans text-[14px] text-steel mb-4">
                   Add an extra layer of security to your account by enabling two-factor authentication.
                 </p>
-                <button type="button" className="font-display text-[11px] tracking-[2px] uppercase text-crimson border border-crimson px-6 py-3 hover:bg-crimson hover:text-parchment transition-colors">
+                <button
+                  type="button"
+                  onClick={() => {
+                    toast.info("Two-factor authentication coming soon")
+                  }}
+                  className="font-display text-[11px] tracking-[2px] uppercase text-crimson border border-crimson px-6 py-3 hover:bg-crimson hover:text-parchment transition-colors"
+                >
                   Enable 2FA
                 </button>
               </div>

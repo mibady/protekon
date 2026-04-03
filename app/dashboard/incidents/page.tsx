@@ -4,8 +4,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Eye, PencilSimple, X, ShieldCheck, Plus, Export } from "@phosphor-icons/react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { getIncidents } from "@/lib/actions/incidents"
+import { getIncidents, updateIncident } from "@/lib/actions/incidents"
 import type { Incident } from "@/lib/types"
+import { toast } from "sonner"
 
 const severityStyles: Record<string, string> = {
   "severe": "bg-crimson text-white",
@@ -19,6 +20,13 @@ export default function IncidentsPage() {
   const [incidents, setIncidents] = useState<Incident[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null)
+  const [editingIncident, setEditingIncident] = useState<Incident | null>(null)
+  const [editSaving, setEditSaving] = useState(false)
+
+  const refreshIncidents = async (): Promise<void> => {
+    const data = await getIncidents()
+    setIncidents(data)
+  }
 
   useEffect(() => {
     getIncidents().then((data) => {
@@ -45,7 +53,10 @@ export default function IncidentsPage() {
           </p>
         </div>
         <div className="flex gap-3">
-          <button className="inline-flex items-center gap-2 border border-midnight/[0.1] text-midnight font-display font-semibold text-[11px] tracking-[2px] uppercase px-4 py-3 hover:bg-midnight/[0.04] transition-colors">
+          <button
+            onClick={() => window.open("/api/export/incidents?format=csv")}
+            className="inline-flex items-center gap-2 border border-midnight/[0.1] text-midnight font-display font-semibold text-[11px] tracking-[2px] uppercase px-4 py-3 hover:bg-midnight/[0.04] transition-colors"
+          >
             <Export size={16} />
             Export
           </button>
@@ -152,7 +163,10 @@ export default function IncidentsPage() {
                             >
                               <Eye size={16} className="text-steel" />
                             </button>
-                            <button className="p-2 hover:bg-midnight/[0.04] transition-colors">
+                            <button
+                              onClick={() => setEditingIncident(incident)}
+                              className="p-2 hover:bg-midnight/[0.04] transition-colors"
+                            >
                               <PencilSimple size={16} className="text-steel" />
                             </button>
                           </div>
@@ -321,10 +335,19 @@ export default function IncidentsPage() {
 
               {/* Footer */}
               <div className="sticky bottom-0 bg-brand-white border-t border-midnight/[0.06] px-6 py-4 flex gap-3">
-                <button className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors">
+                <button
+                  onClick={() => window.open("/api/export/incidents?format=pdf")}
+                  className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
+                >
                   Export PDF
                 </button>
-                <button className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors">
+                <button
+                  onClick={() => {
+                    setEditingIncident(selectedIncident)
+                    setSelectedIncident(null)
+                  }}
+                  className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
+                >
                   Edit
                 </button>
                 <button
@@ -334,6 +357,166 @@ export default function IncidentsPage() {
                   Close
                 </button>
               </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Edit Incident Modal */}
+      <AnimatePresence>
+        {editingIncident && (
+          <>
+            <motion.div
+              className="fixed inset-0 bg-void/60 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setEditingIncident(null)}
+            />
+            <motion.div
+              className="fixed inset-x-4 top-[10%] mx-auto max-w-[520px] bg-brand-white z-50 shadow-2xl overflow-y-auto max-h-[80vh]"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="border-b border-midnight/[0.06] px-6 py-4 flex items-center justify-between">
+                <h2 className="font-display font-bold text-[18px] text-midnight">Edit Incident</h2>
+                <button
+                  onClick={() => setEditingIncident(null)}
+                  className="p-2 hover:bg-midnight/[0.04] transition-colors"
+                >
+                  <X size={20} className="text-steel" />
+                </button>
+              </div>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault()
+                  if (!editingIncident) return
+                  setEditSaving(true)
+                  const form = e.currentTarget
+                  const formData = new FormData(form)
+                  const result = await updateIncident(editingIncident.id, {
+                    description: formData.get("description") as string,
+                    location: (formData.get("location") as string) || null,
+                    severity: formData.get("severity") as string,
+                    incident_date: (formData.get("incident_date") as string) || null,
+                    metadata: {
+                      ...editingIncident.metadata,
+                      type: (formData.get("type") as string) || editingIncident.metadata?.type,
+                      actionsTaken: (formData.get("actionsTaken") as string) || editingIncident.metadata?.actionsTaken,
+                    },
+                  })
+                  setEditSaving(false)
+                  if (result.error) {
+                    toast.error(result.error)
+                  } else {
+                    toast.success("Incident updated successfully")
+                    setEditingIncident(null)
+                    await refreshIncidents()
+                  }
+                }}
+                className="p-6 space-y-5"
+              >
+                <div className="flex flex-col gap-2">
+                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    Description
+                  </label>
+                  <textarea
+                    name="description"
+                    defaultValue={editingIncident.description}
+                    required
+                    rows={3}
+                    className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors resize-none"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                      Severity
+                    </label>
+                    <select
+                      name="severity"
+                      defaultValue={editingIncident.severity}
+                      className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
+                    >
+                      <option value="minor">Minor</option>
+                      <option value="moderate">Moderate</option>
+                      <option value="serious">Serious</option>
+                      <option value="severe">Severe</option>
+                      <option value="near-miss">Near Miss</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                      Type
+                    </label>
+                    <select
+                      name="type"
+                      defaultValue={editingIncident.metadata?.type || "other"}
+                      className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
+                    >
+                      <option value="injury">Injury</option>
+                      <option value="near-miss">Near Miss</option>
+                      <option value="property-damage">Property Damage</option>
+                      <option value="environmental">Environmental</option>
+                      <option value="workplace-violence">Workplace Violence</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                      Location
+                    </label>
+                    <input
+                      name="location"
+                      type="text"
+                      defaultValue={editingIncident.location || ""}
+                      className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                      Date
+                    </label>
+                    <input
+                      name="incident_date"
+                      type="date"
+                      defaultValue={editingIncident.incident_date || ""}
+                      className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    Actions Taken
+                  </label>
+                  <textarea
+                    name="actionsTaken"
+                    defaultValue={editingIncident.metadata?.actionsTaken || ""}
+                    rows={2}
+                    className="border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors resize-none"
+                  />
+                </div>
+                <div className="flex gap-3 pt-4 border-t border-midnight/[0.06]">
+                  <button
+                    type="button"
+                    onClick={() => setEditingIncident(null)}
+                    className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={editSaving}
+                    className="flex-1 bg-midnight text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:brightness-110 transition-all disabled:opacity-50"
+                  >
+                    {editSaving ? "Saving..." : "Save Changes"}
+                  </button>
+                </div>
+              </form>
             </motion.div>
           </>
         )}

@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion"
 import { Warning, Info, CheckCircle, Clock, CaretRight } from "@phosphor-icons/react"
-import { useState, useEffect } from "react"
-import { getAlerts } from "@/lib/actions/reports"
+import { useState, useEffect, useCallback } from "react"
+import { getAlerts, markAllAlertsRead } from "@/lib/actions/alerts"
+import { toast } from "sonner"
 
 const getAlertIcon = (type: string) => {
   switch (type) {
@@ -32,15 +33,29 @@ const getAlertBorder = (type: string) => {
 }
 
 export default function AlertsPage() {
-  const [alerts, setAlerts] = useState<{ id: string; type: string; title: string; description: string; date: string; action: string }[]>([])
+  const [alerts, setAlerts] = useState<{ id: string; type: string; title: string; description: string; date: string; action: string; read: boolean }[]>([])
   const [loading, setLoading] = useState(true)
+  const [offset, setOffset] = useState(0)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [markingRead, setMarkingRead] = useState(false)
+  const LIMIT = 20
+
+  const fetchAlerts = useCallback(async (currentOffset: number, append: boolean = false) => {
+    const result = await getAlerts(currentOffset, LIMIT)
+    if (result.error) {
+      toast.error("Failed to load alerts")
+    }
+    if (append) {
+      setAlerts((prev) => [...prev, ...result.data])
+    } else {
+      setAlerts(result.data)
+    }
+    return result.data
+  }, [])
 
   useEffect(() => {
-    getAlerts().then((data) => {
-      setAlerts(data)
-      setLoading(false)
-    })
-  }, [])
+    fetchAlerts(0).then(() => setLoading(false))
+  }, [fetchAlerts])
 
   const urgentCount = alerts.filter(a => a.type === "urgent").length
   const warningCount = alerts.filter(a => a.type === "warning").length
@@ -56,8 +71,22 @@ export default function AlertsPage() {
             Stay informed about compliance updates and deadlines
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 text-steel hover:text-midnight font-display text-[11px] tracking-[2px] uppercase transition-colors">
-          Mark All as Read
+        <button
+          onClick={async () => {
+            setMarkingRead(true)
+            const result = await markAllAlertsRead()
+            if (result.success) {
+              setAlerts((prev) => prev.map((a) => ({ ...a, read: true })))
+              toast.success("All alerts marked as read")
+            } else {
+              toast.error(result.error || "Failed to mark alerts as read")
+            }
+            setMarkingRead(false)
+          }}
+          disabled={markingRead}
+          className="inline-flex items-center gap-2 text-steel hover:text-midnight font-display text-[11px] tracking-[2px] uppercase transition-colors disabled:opacity-50"
+        >
+          {markingRead ? "Marking..." : "Mark All as Read"}
         </button>
       </div>
 
@@ -121,8 +150,21 @@ export default function AlertsPage() {
 
       {/* Load More */}
       <div className="text-center mt-8">
-        <button className="font-display text-[11px] tracking-[2px] uppercase text-steel hover:text-midnight border border-ash px-6 py-3 hover:border-midnight transition-colors">
-          Load Earlier Alerts
+        <button
+          onClick={async () => {
+            setLoadingMore(true)
+            const newOffset = offset + LIMIT
+            const data = await fetchAlerts(newOffset, true)
+            setOffset(newOffset)
+            if (data.length === 0) {
+              toast.info("No more alerts to load")
+            }
+            setLoadingMore(false)
+          }}
+          disabled={loadingMore}
+          className="font-display text-[11px] tracking-[2px] uppercase text-steel hover:text-midnight border border-ash px-6 py-3 hover:border-midnight transition-colors disabled:opacity-50"
+        >
+          {loadingMore ? "Loading..." : "Load Earlier Alerts"}
         </button>
       </div>
     </div>

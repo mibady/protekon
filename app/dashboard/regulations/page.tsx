@@ -5,16 +5,19 @@ import { ArrowRight, Check, Eye, ArrowSquareOut } from "@phosphor-icons/react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { getRegulations, acknowledgeRegulation } from "@/lib/actions/reports"
+import { toast } from "sonner"
 
 type Regulation = {
   id: string; severity: string; code: string; issuingBody: string; publishedDate: string;
   title: string; type: string; summary: string; effectiveDate: string;
   complianceDeadline: string | null; actionRequired: boolean; unread: boolean; impactText: string | null;
+  source_url: string | null;
 }
 
 export default function RegulationsPage() {
   const [updates, setUpdates] = useState<Regulation[]>([])
   const [loading, setLoading] = useState(true)
+  const [severityFilter, setSeverityFilter] = useState<string>("all")
 
   useEffect(() => {
     getRegulations().then((data) => {
@@ -28,6 +31,9 @@ export default function RegulationsPage() {
     await acknowledgeRegulation(id)
   }
 
+  const filtered = severityFilter === "all"
+    ? updates
+    : updates.filter(u => u.severity === severityFilter)
   const unreadCount = updates.filter(u => u.unread).length
 
   return (
@@ -44,18 +50,22 @@ export default function RegulationsPage() {
           <span className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
             Filter by Severity:
           </span>
-          <select className="bg-brand-white border border-midnight/[0.08] px-3 py-2 font-sans text-[13px] text-midnight">
-            <option>All</option>
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
+          <select
+            value={severityFilter}
+            onChange={(e) => setSeverityFilter(e.target.value)}
+            className="bg-brand-white border border-midnight/[0.08] px-3 py-2 font-sans text-[13px] text-midnight"
+          >
+            <option value="all">All</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
           </select>
         </div>
       </div>
 
       {/* Update Cards */}
       <div className="space-y-4">
-        {updates.map((update, i) => (
+        {filtered.map((update, i) => (
           <motion.div 
             key={update.id}
             className={`bg-brand-white border border-midnight/[0.08] overflow-hidden ${
@@ -164,7 +174,16 @@ export default function RegulationsPage() {
                   <ArrowRight size={14} weight="bold" />
                 </Link>
               )}
-              <button className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors">
+              <button
+                onClick={() => {
+                  if (update.source_url) {
+                    window.open(update.source_url, "_blank")
+                  } else {
+                    toast.info("Source URL not available")
+                  }
+                }}
+                className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors"
+              >
                 <ArrowSquareOut size={14} />
                 View Source
               </button>

@@ -38,7 +38,10 @@ export default function DeliveryLogReportPage() {
             Generated January 15, 2026
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-6 py-3 hover:brightness-110 transition-all">
+        <button
+          onClick={() => window.open("/api/export/report?type=delivery-log&format=pdf")}
+          className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-6 py-3 hover:brightness-110 transition-all"
+        >
           <Download size={16} weight="bold" />
           Export PDF
         </button>

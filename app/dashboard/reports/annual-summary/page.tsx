@@ -84,7 +84,10 @@ export default function AnnualSummaryReportPage() {
             Calendar Year 2025 · Prepared by Shield CaaS by PROTEKON
           </p>
 
-          <button className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-8 py-4 mt-8 hover:brightness-110 transition-all">
+          <button
+            onClick={() => window.open("/api/export/report?type=annual-summary&format=pdf")}
+            className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[2px] uppercase px-8 py-4 mt-8 hover:brightness-110 transition-all"
+          >
             <Download size={18} weight="bold" />
             Download Full Package (PDF)
           </button>
@@ -190,7 +193,10 @@ export default function AnnualSummaryReportPage() {
             <p className="font-sans text-[12px] text-steel italic">
               This log must be posted February 1–April 30 per OSHA requirements.
             </p>
-            <button className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase px-6 py-3 hover:brightness-110 transition-all">
+            <button
+              onClick={() => window.open("/api/export/report?type=annual-summary&format=pdf")}
+              className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase px-6 py-3 hover:brightness-110 transition-all"
+            >
               <Download size={14} weight="bold" />
               Download OSHA 300 Log PDF
             </button>
@@ -293,7 +299,10 @@ export default function AnnualSummaryReportPage() {
           <p className="font-sans text-[15px] text-parchment/80 mb-6">
             Single PDF. All documents. All logs. All reports. Print and store.
           </p>
-          <button className="inline-flex items-center gap-2 bg-brand-white text-crimson font-display font-semibold text-[11px] tracking-[2px] uppercase px-8 py-4 hover:bg-parchment transition-colors">
+          <button
+            onClick={() => window.open("/api/export/report?type=annual-summary&format=pdf")}
+            className="inline-flex items-center gap-2 bg-brand-white text-crimson font-display font-semibold text-[11px] tracking-[2px] uppercase px-8 py-4 hover:bg-parchment transition-colors"
+          >
             <Download size={18} weight="bold" />
             Download Full Package (PDF)
           </button>
