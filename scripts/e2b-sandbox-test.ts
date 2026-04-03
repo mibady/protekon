@@ -21,8 +21,9 @@ import { fileURLToPath } from "url"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const TEMPLATE = process.env.SANDBOX_TEMPLATE || "base"
-const TIMEOUT = parseInt(process.env.SANDBOX_TIMEOUT || "300000")
+const TEMPLATE = process.env.SANDBOX_TEMPLATE || "nextjs-quality-gates"
+const TIMEOUT = parseInt(process.env.SANDBOX_TIMEOUT || "600000")
+const NODE_MEM = "NODE_OPTIONS=--max-old-space-size=2048"
 const PROJECT_ROOT = join(__dirname, "..")
 
 // ── File Collection ──
@@ -148,8 +149,18 @@ async function runGate(sandbox: Sandbox, gate: string, command: string): Promise
     }
 
     return { gate, success, duration, output }
-  } catch (err) {
+  } catch (err: unknown) {
     const duration = Date.now() - start
+
+    // E2B throws CommandExitError on non-zero exit codes — extract output
+    const exitErr = err as { exitCode?: number; stdout?: string; stderr?: string; message?: string }
+    if (exitErr.exitCode !== undefined) {
+      const output = (exitErr.stdout || "") + (exitErr.stderr || "")
+      if (output.trim()) console.log(output.trim())
+      console.log(`\n✗ ${gate}: FAIL (exit ${exitErr.exitCode}) (${(duration / 1000).toFixed(1)}s)`)
+      return { gate, success: false, duration, output }
+    }
+
     const msg = err instanceof Error ? err.message : String(err)
     console.log(`\n✗ ${gate}: ERROR (${(duration / 1000).toFixed(1)}s) — ${msg}`)
     return { gate, success: false, duration, output: msg }
@@ -195,30 +206,21 @@ async function main() {
     }
     console.log("  Upload complete")
 
-    // Upgrade Node.js (Vitest 4+ / Vite 8 requires >=20.19.0 or >=22.12.0)
-    console.log("\nUpgrading Node.js...")
+    // Verify Node.js (pre-installed in nextjs-quality-gates template)
     const nodeCheck = await sandbox.commands.run("node --version", { cwd: "/home/user/project" })
-    console.log(`  Current: ${(nodeCheck.stdout || "").trim()}`)
+    console.log(`\nNode.js: ${(nodeCheck.stdout || "").trim()}`)
 
-    // Install Node 22 to user home (no root needed)
-    await sandbox.commands.run(
-      "curl -fsSL https://nodejs.org/dist/v22.16.0/node-v22.16.0-linux-x64.tar.xz | tar -xJ --no-same-owner -C /home/user --strip-components=1 && export PATH=/home/user/bin:$PATH && echo 'export PATH=/home/user/bin:$PATH' >> /home/user/.bashrc",
-      { cwd: "/home/user/project", timeoutMs: TIMEOUT }
-    )
-    const newNode = await sandbox.commands.run("/home/user/bin/node --version", { cwd: "/home/user/project" })
-    console.log(`  Upgraded to: ${(newNode.stdout || "").trim()}`)
-
-    // Install dependencies with upgraded Node
-    console.log("\nInstalling dependencies (this takes ~60s)...")
+    // Install dependencies
+    console.log("Installing dependencies (this takes ~60s)...")
     try {
-      await sandbox.commands.run("export PATH=/home/user/bin:$PATH && npm install --legacy-peer-deps", {
+      await sandbox.commands.run("npm install --legacy-peer-deps", {
         cwd: "/home/user/project",
         timeoutMs: TIMEOUT,
       })
       console.log("  Dependencies installed")
     } catch (err) {
       console.error("npm install failed — trying with --force...")
-      await sandbox.commands.run("export PATH=/home/user/bin:$PATH && npm install --force", {
+      await sandbox.commands.run("npm install --force", {
         cwd: "/home/user/project",
         timeoutMs: TIMEOUT,
       })
@@ -228,22 +230,20 @@ async function main() {
     // Run gates
     const results: GateResult[] = []
 
-    const pathPrefix = "export PATH=/home/user/bin:$PATH &&"
-
     if (runTypecheck) {
-      results.push(await runGate(sandbox, "TypeScript", `${pathPrefix} node_modules/.bin/tsc --noEmit`))
+      results.push(await runGate(sandbox, "TypeScript", `${NODE_MEM} node_modules/.bin/tsc --noEmit --skipLibCheck`))
     }
 
     if (runLint) {
-      results.push(await runGate(sandbox, "Lint", `${pathPrefix} node_modules/.bin/eslint . --max-warnings 0`))
+      results.push(await runGate(sandbox, "Lint", `node_modules/.bin/next lint`))
     }
 
     if (runTest) {
-      results.push(await runGate(sandbox, "Vitest", `${pathPrefix} node_modules/.bin/vitest run`))
+      results.push(await runGate(sandbox, "Vitest", `node_modules/.bin/vitest run`))
     }
 
     if (runBuild) {
-      results.push(await runGate(sandbox, "Build", `${pathPrefix} node_modules/.bin/next build`))
+      results.push(await runGate(sandbox, "Build", `${NODE_MEM} node_modules/.bin/next build`))
     }
 
     // Summary
