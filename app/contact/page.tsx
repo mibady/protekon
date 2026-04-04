@@ -4,6 +4,8 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { EnvelopeSimple, Phone, MapPin, PaperPlaneTilt } from "@phosphor-icons/react"
+import { toast } from "sonner"
+import { submitContact } from "@/lib/actions/contact"
 
 export default function ContactPage() {
   const [formState, setFormState] = useState({
@@ -20,10 +22,13 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    const result = await submitContact(formState)
     setIsSubmitting(false)
-    setIsSubmitted(true)
+    if (result.error) {
+      toast.error(result.error)
+    } else {
+      setIsSubmitted(true)
+    }
   }
 
   return (

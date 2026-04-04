@@ -449,35 +449,50 @@ export default function DashboardLayout({
                     <ul className="flex flex-col gap-0.5">
                       {group.items.map((item) => {
                         const isActive = pathname === item.href
+                        const hasAccess = canAccess((item as { minTier?: string }).minTier)
                         return (
                           <li key={item.name}>
-                            <Link
-                              href={item.href}
-                              onClick={() => setSidebarOpen(false)}
-                              className={`flex items-center justify-between px-3 py-2.5 transition-colors ${
-                                isActive 
-                                  ? 'bg-crimson/[0.07] border-l-[3px] border-crimson' 
-                                  : 'border-l-[3px] border-transparent'
-                              }`}
-                            >
-                              <div className="flex items-center gap-3">
-                                <item.icon 
-                                  size={16} 
-                                  weight={isActive ? "fill" : "regular"} 
-                                  className={isActive ? "text-crimson" : "text-steel"}
-                                />
-                                <span className={`font-display font-medium text-[11px] tracking-[1px] ${
-                                  isActive ? "text-brand-white" : "text-brand-white/45"
-                                }`}>
-                                  {item.name}
+                            {hasAccess ? (
+                              <Link
+                                href={item.href}
+                                onClick={() => setSidebarOpen(false)}
+                                className={`flex items-center justify-between px-3 py-2.5 transition-colors ${
+                                  isActive
+                                    ? 'bg-crimson/[0.07] border-l-[3px] border-crimson'
+                                    : 'border-l-[3px] border-transparent'
+                                }`}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <item.icon
+                                    size={16}
+                                    weight={isActive ? "fill" : "regular"}
+                                    className={isActive ? "text-crimson" : "text-steel"}
+                                  />
+                                  <span className={`font-display font-medium text-[11px] tracking-[1px] ${
+                                    isActive ? "text-brand-white" : "text-brand-white/45"
+                                  }`}>
+                                    {item.name}
+                                  </span>
+                                </div>
+                                {item.badge && (
+                                  <span className="px-2 py-0.5 bg-crimson text-brand-white font-display font-bold text-[9px] rounded-full">
+                                    {item.badge}
+                                  </span>
+                                )}
+                              </Link>
+                            ) : (
+                              <div className="flex items-center justify-between px-3 py-2.5 opacity-40 cursor-default">
+                                <div className="flex items-center gap-3">
+                                  <item.icon size={16} className="text-steel/50" />
+                                  <span className="font-display font-medium text-[11px] tracking-[1px] text-brand-white/30">
+                                    {item.name}
+                                  </span>
+                                </div>
+                                <span className="font-display text-[7px] tracking-[1px] uppercase text-gold/60 bg-gold/[0.08] px-1.5 py-0.5">
+                                  Upgrade
                                 </span>
                               </div>
-                              {item.badge && (
-                                <span className="px-2 py-0.5 bg-crimson text-brand-white font-display font-bold text-[9px] rounded-full">
-                                  {item.badge}
-                                </span>
-                              )}
-                            </Link>
+                            )}
                           </li>
                         )
                       })}

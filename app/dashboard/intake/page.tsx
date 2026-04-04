@@ -3,8 +3,49 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { ShieldCheck, ArrowRight, Warning, CheckCircle, XCircle } from "@phosphor-icons/react"
+import { ShieldCheck, ArrowRight, Warning, CheckCircle, XCircle, Buildings } from "@phosphor-icons/react"
 import { submitIntake, getIntakeStatus, type IntakeAnswers } from "@/lib/actions/intake"
+
+type PlanId = "core" | "professional" | "multi-site"
+
+const plans: { id: PlanId; name: string; price: string; description: string; features: string[] }[] = [
+  {
+    id: "core",
+    name: "Core",
+    price: "$597",
+    description: "Essential compliance for single-location businesses",
+    features: [
+      "WVPP + IIPP documents",
+      "Incident log system",
+      "Quarterly regulatory updates",
+      "Email support",
+    ],
+  },
+  {
+    id: "professional",
+    name: "Professional",
+    price: "$897",
+    description: "Full compliance suite with quarterly reviews",
+    features: [
+      "Everything in Core",
+      "Quarterly compliance reviews",
+      "Training program management",
+      "Priority support",
+    ],
+  },
+  {
+    id: "multi-site",
+    name: "Multi-Site",
+    price: "$1,297",
+    description: "Enterprise compliance across multiple locations",
+    features: [
+      "Everything in Professional",
+      "Annual audit report",
+      "Multi-location management",
+      "Dedicated compliance officer",
+    ],
+  },
+]
 
 const questions: { key: keyof IntakeAnswers; label: string; description: string }[] = [
   {
@@ -52,6 +93,8 @@ export default function IntakePage() {
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult] = useState<{ success?: boolean; score?: number; riskLevel?: string; error?: string } | null>(null)
   const [alreadyCompleted, setAlreadyCompleted] = useState(false)
+  const [step, setStep] = useState<"assessment" | "plan">("assessment")
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>("core")
 
   useEffect(() => {
     getIntakeStatus().then((status) => {
@@ -84,14 +127,17 @@ export default function IntakePage() {
     setAnswers((prev) => ({ ...prev, [key]: !prev[key] }))
   }
 
-  async function handleSubmit() {
+  function handleSubmit() {
+    setStep("plan")
+  }
+
+  async function handleFinalSubmit() {
     setSubmitting(true)
-    const res = await submitIntake(answers)
+    const res = await submitIntake({ ...answers, plan: selectedPlan } as IntakeAnswers & { plan: string })
     setResult(res)
     setSubmitting(false)
 
     if (res.success) {
-      // Redirect to dashboard after a moment so user sees the score
       setTimeout(() => router.push("/dashboard"), 3000)
     }
   }
@@ -150,6 +196,97 @@ export default function IntakePage() {
             <ArrowRight size={16} weight="bold" />
           </button>
         </motion.div>
+      </div>
+    )
+  }
+
+  // Plan selection step
+  if (step === "plan") {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-10">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-10"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <button
+              onClick={() => setStep("assessment")}
+              className="font-display text-[10px] tracking-[2px] uppercase text-steel hover:text-midnight transition-colors"
+            >
+              &larr; Back
+            </button>
+          </div>
+          <h1 className="font-display font-black text-[32px] text-midnight mb-2">
+            Choose Your Plan
+          </h1>
+          <p className="font-sans text-[15px] text-steel max-w-xl">
+            Select the compliance tier that fits your business. You can upgrade at any time.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          {plans.map((plan, i) => (
+            <motion.button
+              key={plan.id}
+              type="button"
+              onClick={() => setSelectedPlan(plan.id)}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 * i }}
+              className={`text-left p-6 border-2 transition-colors ${
+                selectedPlan === plan.id
+                  ? "border-crimson bg-crimson/[0.03]"
+                  : "border-midnight/[0.08] bg-brand-white hover:border-midnight/20"
+              }`}
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="font-display font-bold text-[18px] text-midnight">
+                    {plan.name}
+                  </h3>
+                  <p className="font-sans text-[13px] text-steel mt-1">{plan.description}</p>
+                </div>
+                {selectedPlan === plan.id && (
+                  <CheckCircle size={20} weight="fill" className="text-crimson flex-shrink-0 mt-0.5" />
+                )}
+              </div>
+              <div className="mb-5">
+                <span className="font-display font-black text-[32px] text-midnight">{plan.price}</span>
+                <span className="font-sans text-[13px] text-steel">/mo</span>
+              </div>
+              <ul className="space-y-2">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2">
+                    <CheckCircle size={14} weight="fill" className="text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span className="font-sans text-[12px] text-steel">{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.button>
+          ))}
+        </div>
+
+        <motion.button
+          onClick={handleFinalSubmit}
+          disabled={submitting}
+          className="w-full bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase py-4 flex items-center justify-center gap-3 hover:bg-crimson/90 transition-colors disabled:opacity-70"
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+        >
+          {submitting ? (
+            <div className="w-5 h-5 border-2 border-parchment/30 border-t-parchment rounded-full animate-spin" />
+          ) : (
+            <>
+              Start with {plans.find((p) => p.id === selectedPlan)?.name} — {plans.find((p) => p.id === selectedPlan)?.price}/mo
+              <ArrowRight size={16} weight="bold" />
+            </>
+          )}
+        </motion.button>
+
+        <p className="font-sans text-[11px] text-steel/60 text-center mt-4">
+          Your custom compliance package will be delivered within 48 hours.
+        </p>
       </div>
     )
   }
