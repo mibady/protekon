@@ -617,3 +617,63 @@ Must replicate the following from the previous project:
 ### Git
 - 5 commits: c62ee90, fc863ec, d931ef2, 46a97c2, 6c38252
 - All pushed to origin/main
+
+---
+
+## Session 10 — 2026-04-03 — Ship-Ready: Full Wiring + Partner Portal
+
+### Completed
+
+**Phase 1 — Decorative Button Wiring (quick fixes):**
+- Wired 5 decorative buttons: Monthly/Quarterly chart toggles (dashboard), alert action routing (alerts), 2 CSV exports (delivery-log, document-history)
+- Fixed hero nav overlap — added top padding so content clears fixed 72px nav header
+- Added error logging to getIncidents() on DB failure
+
+**Phase 2 — Full 55-Page Audit:**
+- Audited all 55 pages for unwired/decorative elements
+- Found only 3 true gaps: contact form (fake submit), OAuth buttons (no handlers), sidebar tier gating (missing)
+- Documented everything in specs/page-audit.md (643 lines)
+
+**Phase 3 — Ship-Ready Team Build (6 agents):**
+- DB Builder: Migration 007 — partner_profiles, partner_clients, partner_assessments, contact_submissions tables + prospect_id column on score_leads. Full RLS.
+- Backend Builder: lib/actions/contact.ts (submitContact), lib/actions/partner-portal.ts (5 exports), app/api/partner/assessments/route.ts (GET+POST with Zod)
+- Frontend A: Wired contact form to real server action, Google/Apple OAuth to Supabase signInWithOAuth, sidebar tier gating (desktop+mobile) with upgrade badges, intake plan selection step (Core/Professional/Multi-Site)
+- Frontend B: Partner portal — layout with access control, dashboard (4 stat cards + client roster + quick actions), assessments page (table + send dialog)
+- Validator: tsc 0, lint 0 errors (fixed PartnerSidebar inline component), build PASS
+- Auditor: 9/9 items verified (100% functional rate)
+
+### Audit Snapshot
+- Pages: 57 total (25 public + 2 partner + 30 dashboard)
+- API routes: 16
+- Components: 78
+- Server actions: 26 files
+- Migrations: 7
+- Inngest functions: 10
+- Specs: 12
+- Build: PASS (tsc 0, lint 0 errors)
+
+### Decisions Made
+- Contact form submits to contact_submissions table (not email) — allows analytics and follow-up
+- Partner portal requires approved status — pending/suspended partners see "Access Denied"
+- Sidebar tier gating uses tierRank map with locked items showing "Upgrade" badge
+- PartnerSidebar extracted as separate client component from server layout
+
+### Known Issues
+- Stripe products not yet created in dashboard (env vars empty)
+- Migrations 005-007 not yet run against production Supabase
+- White-label branding system not yet built
+- /partner/settings page is a placeholder (links to it but page doesn't exist yet)
+- OAuth requires Google/Apple providers to be enabled in Supabase Auth dashboard
+
+### Next Session Should
+- Create Stripe products in dashboard ($597/$897/$1,297 recurring + setup fees) and set env vars
+- Run `supabase db push` for migrations 005, 006, 007
+- Enable Google/Apple OAuth providers in Supabase Auth settings
+- Build /partner/settings page
+- Build white-label branding system (partner logo/colors on portal + documents)
+- Deploy to Vercel and verify all 57 pages render
+- Consider E2E browser tests for /score, /partners/apply, /partner/assessments
+
+### Git
+- 5 commits: 5d7cbca, eb3cd18, ed8b0b1, 63b934b, 2725006
+- All pushed to origin/main
