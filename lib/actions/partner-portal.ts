@@ -142,6 +142,58 @@ export async function getPartnerAssessments(): Promise<PartnerAssessment[]> {
   return (data ?? []) as PartnerAssessment[]
 }
 
+export async function updatePartnerProfile(formData: FormData): Promise<ActionResult> {
+  try {
+    const supabase = await createClient()
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) return { error: "You must be logged in." }
+
+    const updates: Record<string, unknown> = {}
+
+    const company_name = formData.get("company_name")
+    if (company_name) updates.company_name = String(company_name)
+
+    const contact_name = formData.get("contact_name")
+    if (contact_name) updates.contact_name = String(contact_name)
+
+    const email = formData.get("email")
+    if (email) updates.email = String(email)
+
+    const phone = formData.get("phone")
+    if (phone !== null) updates.phone = String(phone) || null
+
+    const logo_url = formData.get("logo_url")
+    const primary_color = formData.get("primary_color")
+    if (logo_url !== null || primary_color !== null) {
+      updates.branding = {
+        ...(logo_url !== null ? { logo_url: String(logo_url) || null } : {}),
+        ...(primary_color !== null ? { primary_color: String(primary_color) } : {}),
+      }
+    }
+
+    if (Object.keys(updates).length === 0) return { success: true }
+
+    const { error } = await supabase
+      .from("partner_profiles")
+      .update(updates)
+      .eq("user_id", user.id)
+
+    if (error) {
+      console.error("[updatePartnerProfile] Supabase error:", error)
+      return { error: error.message }
+    }
+
+    return { success: true }
+  } catch (err) {
+    console.error("[updatePartnerProfile] Unexpected error:", err)
+    return { error: "Failed to update profile" }
+  }
+}
+
 export async function sendAssessment(data: {
   prospect_name: string
   prospect_email: string
