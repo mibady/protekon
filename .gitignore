@@ -20,4 +20,4 @@ e2e/.auth/
 playwright-report/
 test-results/
 journey-results/
-tsconfig.tsbuildinfo
+tsconfig.tsbuildinfoopensrc/
