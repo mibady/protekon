@@ -677,3 +677,64 @@ Must replicate the following from the previous project:
 ### Git
 - 5 commits: 5d7cbca, eb3cd18, ed8b0b1, 63b934b, 2725006
 - All pushed to origin/main
+
+## Session 11 — 2026-04-04 — Production Blocker Resolution + Full Commit Sweep
+
+### Completed
+
+**Critical Blocker Fix — Auth Bypass:**
+- Created root `middleware.ts` — the auth guard in `lib/supabase/middleware.ts` was never activated. All `/dashboard/*` and `/partner/*` routes were completely unprotected. Now protected.
+- Updated middleware to also cover `/partner/*` routes (was only `/dashboard/*`)
+
+**Admin Partner Approval API:**
+- Created `lib/admin.ts` — admin verification via `ADMIN_EMAILS` env var
+- Created `app/api/admin/partners/route.ts` — GET (list applications/profiles) + PATCH (approve/suspend/reject). Without this, partners were stuck in "pending" forever after applying.
+
+**Stripe Env Var Fix:**
+- Discovered all 7 Stripe env vars in `.env.local` had literal `\n` appended — Stripe API calls were silently failing with invalid price IDs
+- Fixed locally and re-set all 14 Stripe env vars in Vercel (production + development) without the `\n` corruption
+- Verified existing Stripe products and prices are correct: Core $597/mo, Professional $897/mo, Multi-Site $1,297/mo, setup fees $297/$497/$797
+
+**Senior Review Corrections:**
+- Confirmed all 4 "legacy" vertical pages (Construction, Healthcare BAA/PHI, Real Estate) were ALREADY migrated to VerticalPage config pattern — review was wrong
+- Confirmed `getVerticalContext()` already has real-estate case — review was wrong
+- Confirmed `/partner/settings` page already existed (272 lines, 4 tabs) — was untracked
+
+**Full Commit Sweep (8 commits):**
+- Committed all previously untracked work from sessions 10+: partner settings page, 8 Playwright E2E specs, 9 API route tests, 2 test helpers, 24 server action tests, project config files
+- Added `opensrc/` and `tsconfig.tsbuildinfo` to `.gitignore` (33,919 vendored files)
+
+### Audit Snapshot
+- Pages: 58 total
+- API routes: 17 (added admin/partners)
+- Components: 78
+- Server actions: 26 files
+- Migrations: 7
+- Inngest functions: 12
+- Specs: 12
+- Tests: 60 files (9 API + 24 action + 8 E2E + 2 helpers + existing)
+- Build: PASS (tsc 0 errors, lint 0 errors)
+
+### Decisions Made
+- Admin access controlled via `ADMIN_EMAILS` env var (comma-separated) — simple, no admin role table needed yet
+- Partner approval creates a `partner_profiles` row from the application data — keeps the two tables separate (applications = leads, profiles = active partners)
+- Setup fees kept at $297/$497/$797 (existing from prior session), not changed to $497/$797/$1,497
+
+### Known Issues
+- `ADMIN_EMAILS` env var not yet set in Vercel — need to add your email
+- Migrations 005-007 still not pushed to production Supabase
+- OAuth providers (Google/Apple) still need enabling in Supabase Auth dashboard
+- Duplicate Stripe products archived but still visible (prod_UHHc* series) — cosmetic only
+- No admin UI — partner approval is API-only for now (curl/Postman)
+
+### Next Session Should
+- Set `ADMIN_EMAILS` env var in Vercel: `! vercel env add ADMIN_EMAILS production` (then development)
+- Run `supabase db push` for migrations 005, 006, 007 against production
+- Enable Google + Apple OAuth providers in Supabase Auth dashboard
+- Deploy to Vercel and verify deployment succeeds with fixed env vars
+- Build admin UI page for partner management (or keep API-only for MVP)
+- Consider E2E tests against live deployment
+
+### Git
+- 8 commits: 5f284d3, 05a41e4, 12bdaa2, e00e878, 2c46808, 21c00e8, 96336ad, f78262e
+- All pushed to origin/main
