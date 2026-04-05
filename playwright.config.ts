@@ -1,4 +1,8 @@
 import { defineConfig, devices } from "@playwright/test"
+import { loadEnvConfig } from "@next/env"
+
+// Load .env.local so auth setup has Supabase keys
+loadEnvConfig(process.cwd())
 
 export default defineConfig({
   testDir: "./e2e",
@@ -22,7 +26,7 @@ export default defineConfig({
     {
       name: "public",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /public-pages\.spec\.ts|^forms\.spec\.ts$/,
+      testMatch: /public-pages\.spec|^forms\.spec|partner-pages\.spec|score-wizard\.spec|public-forms\.spec|navigation-links\.spec/,
     },
     // Auth tests: test the login/signup flow itself
     {
