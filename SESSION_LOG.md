@@ -738,3 +738,44 @@ Must replicate the following from the previous project:
 ### Git
 - 8 commits: 5f284d3, 05a41e4, 12bdaa2, e00e878, 2c46808, 21c00e8, 96336ad, f78262e
 - All pushed to origin/main
+
+---
+
+## Session 12 — 2026-04-05 — Live DB Audit + Hotpath Performance Fixes
+
+### Completed
+- **user_id→id fix (5 API routes):** Stripe checkout, Stripe portal, report export, incident export, document download all queried `.eq("user_id")` on clients table which has no user_id column — every query returned empty. Fixed to `.eq("id")`.
+- **Monthly audit fan-out refactor:** Replaced sequential per-client loop with Inngest fan-out pattern — orchestrator sends one event per client, new `clientMonthlyAudit` function processes each concurrently. Eliminates O(n²) email lookup and triple-pass summary counting.
+- **Removed plan self-service:** `updateCompany` settings action let users POST any plan tier. Removed plan field from the action — plan is billing-controlled via Stripe.
+- **Migration 007 deployed:** Partner portal tables (contact_submissions, partner_profiles, partner_clients, partner_assessments) now live in production.
+- **Migration 008 deployed:** Fixed plan default starter→core, dropped audit_log_insert_own RLS policy, added client_id indexes on 6 core tables (incidents, documents, audits, training_records, scheduled_deliveries, audit_log).
+- **Migration 009 deployed:** Re-pointed 6 vertical table FKs from auth.users→clients (manufacturing_equipment, hospitality_inspections, agriculture_crews, retail_locations, wholesale_zones, transportation_fleet), added indexes, dropped shield_osha_violations (73k rows of scraper data removed from app DB).
+
+### Audit Snapshot
+- Pages: 58
+- API routes: 16
+- Components: 78
+- Inngest functions: 10 files (11 exports — monthlyAudit + clientMonthlyAudit)
+- Migrations: 9
+- Build: PASS (pre-commit hooks passed both commits)
+
+### Decisions Made
+- Partner portal `user_id` references are correct — partner_profiles has its own user_id FK column, unlike clients where id=auth.uid()
+- OSHA violations data dropped from app DB — belongs in scraper project (vizmtkfpxxjzlpzibate), not co-located with client PII/PHI
+- Vertical table FK chain goes through clients, not directly to auth.users — preserves cascade integrity
+
+### Known Issues
+- OAuth providers (Google/Apple) still need enabling in Supabase Auth dashboard
+- `ADMIN_EMAILS` env var still not set in Vercel
+- No admin UI for partner management (API-only)
+
+### Next Session Should
+- Set `ADMIN_EMAILS` env var in Vercel
+- Enable Google + Apple OAuth in Supabase dashboard
+- Verify partner portal forms work end-to-end now that migration 007 is deployed
+- Deploy to Vercel and smoke test the 5 fixed API routes (Stripe checkout, portal, exports, doc download)
+- Consider building admin UI for partner approval
+
+### Git
+- 2 commits: 16bff37, 8230c70
+- All pushed to origin/main
