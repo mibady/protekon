@@ -21,3 +21,4 @@ playwright-report/
 test-results/
 journey-results/
 tsconfig.tsbuildinfoopensrc/
+tsconfig.tsbuildinfo
