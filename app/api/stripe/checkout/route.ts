@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   const { data: client } = await supabase
     .from("clients")
     .select("id, stripe_customer_id, email")
-    .eq("user_id", user.id)
+    .eq("id", user.id)
     .single()
 
   const origin = request.nextUrl.origin

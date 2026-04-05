@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   const { data: client } = await supabase
     .from("clients")
     .select("stripe_customer_id")
-    .eq("user_id", user.id)
+    .eq("id", user.id)
     .single()
 
   if (!client?.stripe_customer_id) {

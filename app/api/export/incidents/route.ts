@@ -173,7 +173,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const { data: client } = await supabase
     .from("clients")
     .select("id")
-    .eq("user_id", user.id)
+    .eq("id", user.id)
     .single()
 
   if (!client) {

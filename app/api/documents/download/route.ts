@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     .from("clients")
     .select("id")
     .eq("id", doc.client_id)
-    .eq("user_id", user.id)
+    .eq("id", user.id)
     .single()
 
   if (!client) {

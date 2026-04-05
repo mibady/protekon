@@ -4,7 +4,7 @@ import { postSignup } from "@/inngest/functions/post-signup"
 import { intakePipeline } from "@/inngest/functions/intake-pipeline"
 import { documentGeneration } from "@/inngest/functions/document-generation"
 import { incidentReport } from "@/inngest/functions/incident-report"
-import { monthlyAudit } from "@/inngest/functions/monthly-audit"
+import { monthlyAudit, clientMonthlyAudit } from "@/inngest/functions/monthly-audit"
 import { trainingReminders } from "@/inngest/functions/training-reminders"
 import { regulatoryScan } from "@/inngest/functions/regulatory-scan"
 import { paymentFailed } from "@/inngest/functions/payment-failed"
@@ -21,6 +21,7 @@ export const { GET, POST, PUT } = serve({
     documentGeneration,
     incidentReport,
     monthlyAudit,
+    clientMonthlyAudit,
     trainingReminders,
     regulatoryScan,
     paymentFailed,

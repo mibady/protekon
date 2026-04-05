@@ -78,14 +78,11 @@ export async function updateCompany(formData: FormData): Promise<ActionResult> {
   }
 
   const vertical = formData.get("industry") as string
-  const plan = formData.get("plan") as string | null
-
   const updates: Record<string, string | null> = {
     updated_at: new Date().toISOString(),
   }
 
   if (vertical) updates.vertical = vertical
-  if (plan) updates.plan = plan
 
   const { error } = await supabase
     .from("clients")
