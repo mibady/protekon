@@ -76,7 +76,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${barlowCondensed.variable} ${dmSans.variable}`}>
       <head>
-        {(process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "preview") && (
+        {(process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "preview" || process.env.VERCEL_ENV === "production") && (
           // eslint-disable-next-line @next/next/no-sync-scripts
           <script
             data-recording-token="cF1DXcdeEQ0TPFxrwy7AWwY3mAXoCc7RbYnNAhMU"
