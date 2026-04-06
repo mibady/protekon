@@ -124,7 +124,7 @@ export default function NewIncidentPage() {
         {/* Date & Time */}
         <div className="grid sm:grid-cols-2 gap-6 mb-8">
           <div className="flex flex-col gap-2">
-            <label className="font-display text-[10px] tracking-[2px] uppercase text-steel flex items-center gap-2">
+            <label className="font-display text-[12px] tracking-[2px] uppercase text-steel flex items-center gap-2">
               <Calendar size={14} />
               Date of Incident *
             </label>
@@ -137,7 +137,7 @@ export default function NewIncidentPage() {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+            <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
               Time of Incident *
             </label>
             <input
@@ -152,7 +152,7 @@ export default function NewIncidentPage() {
 
         {/* Location */}
         <div className="flex flex-col gap-2 mb-8">
-          <label className="font-display text-[10px] tracking-[2px] uppercase text-steel flex items-center gap-2">
+          <label className="font-display text-[12px] tracking-[2px] uppercase text-steel flex items-center gap-2">
             <MapPin size={14} />
             Location *
           </label>
@@ -169,7 +169,7 @@ export default function NewIncidentPage() {
         {/* Type & Severity */}
         <div className="grid sm:grid-cols-2 gap-6 mb-8">
           <div className="flex flex-col gap-2">
-            <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+            <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
               Incident Type *
             </label>
             <select
@@ -190,7 +190,7 @@ export default function NewIncidentPage() {
             </select>
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+            <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
               Severity Level *
             </label>
             <select
@@ -212,7 +212,7 @@ export default function NewIncidentPage() {
         {/* Injury Questions */}
         <div className="grid sm:grid-cols-2 gap-6 mb-8">
           <div className="flex flex-col gap-2">
-            <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+            <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
               Did an injury occur?
             </label>
             <div className="flex gap-4">
@@ -241,7 +241,7 @@ export default function NewIncidentPage() {
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+            <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
               Medical treatment required?
             </label>
             <div className="flex gap-4">
@@ -273,7 +273,7 @@ export default function NewIncidentPage() {
 
         {/* Description */}
         <div className="flex flex-col gap-2 mb-8">
-          <label className="font-display text-[10px] tracking-[2px] uppercase text-steel flex items-center gap-2">
+          <label className="font-display text-[12px] tracking-[2px] uppercase text-steel flex items-center gap-2">
             <FileText size={14} />
             Description of Incident *
           </label>
@@ -289,7 +289,7 @@ export default function NewIncidentPage() {
 
         {/* Witnesses */}
         <div className="flex flex-col gap-2 mb-8">
-          <label className="font-display text-[10px] tracking-[2px] uppercase text-steel flex items-center gap-2">
+          <label className="font-display text-[12px] tracking-[2px] uppercase text-steel flex items-center gap-2">
             <User size={14} />
             Witnesses (Optional)
           </label>
@@ -304,7 +304,7 @@ export default function NewIncidentPage() {
 
         {/* Actions Taken */}
         <div className="flex flex-col gap-2 mb-8">
-          <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+          <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
             Immediate Actions Taken
           </label>
           <textarea

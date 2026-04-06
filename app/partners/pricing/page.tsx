@@ -333,7 +333,7 @@ export default function PartnerPricingPage() {
                   onChange={(e) => setClients(Number(e.target.value))}
                   className="w-full accent-crimson"
                 />
-                <div className="flex justify-between font-sans text-[10px] text-steel mt-1">
+                <div className="flex justify-between font-sans text-[12px] text-steel mt-1">
                   <span>5</span>
                   <span>100</span>
                 </div>
@@ -352,7 +352,7 @@ export default function PartnerPricingPage() {
                   onChange={(e) => setPrice(Number(e.target.value))}
                   className="w-full accent-crimson"
                 />
-                <div className="flex justify-between font-sans text-[10px] text-steel mt-1">
+                <div className="flex justify-between font-sans text-[12px] text-steel mt-1">
                   <span>$400</span>
                   <span>$1,200</span>
                 </div>
@@ -388,7 +388,7 @@ export default function PartnerPricingPage() {
                 { label: "Margin %", value: `${marginPercentage}%`, highlight: false },
               ].map((item) => (
                 <div key={item.label} className="text-center">
-                  <p className="font-sans text-[10px] tracking-[1px] uppercase text-steel mb-2">
+                  <p className="font-sans text-[12px] tracking-[1px] uppercase text-steel mb-2">
                     {item.label}
                   </p>
                   <p

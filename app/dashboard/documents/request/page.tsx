@@ -117,7 +117,7 @@ export default function DocumentRequestPage() {
       <form onSubmit={handleSubmit}>
         {/* Document Type Selection */}
         <div className="mb-8">
-          <label className="block font-display font-medium text-[10px] tracking-[3px] uppercase text-steel mb-4">
+          <label className="block font-display font-medium text-[12px] tracking-[3px] uppercase text-steel mb-4">
             Select Document Type
           </label>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -148,7 +148,7 @@ export default function DocumentRequestPage() {
                 <p className="font-sans text-[12px] text-steel mb-2">
                   {type.description}
                 </p>
-                <span className="px-2 py-0.5 border border-gold/30 bg-gold/5 font-display font-medium text-[8px] tracking-[1px] text-gold">
+                <span className="px-2 py-0.5 border border-gold/30 bg-gold/5 font-display font-medium text-[10px] tracking-[1px] text-gold">
                   {type.regulation}
                 </span>
               </motion.button>
@@ -158,7 +158,7 @@ export default function DocumentRequestPage() {
 
         {/* Additional Notes */}
         <div className="mb-8">
-          <label className="block font-display font-medium text-[10px] tracking-[3px] uppercase text-steel mb-3">
+          <label className="block font-display font-medium text-[12px] tracking-[3px] uppercase text-steel mb-3">
             Additional Notes (Optional)
           </label>
           <textarea
@@ -171,7 +171,7 @@ export default function DocumentRequestPage() {
 
         {/* Priority */}
         <div className="mb-8">
-          <label className="block font-display font-medium text-[10px] tracking-[3px] uppercase text-steel mb-3">
+          <label className="block font-display font-medium text-[12px] tracking-[3px] uppercase text-steel mb-3">
             Priority
           </label>
           <div className="flex gap-4">

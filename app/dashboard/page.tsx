@@ -136,7 +136,7 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h3 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel mb-4">
+          <h3 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel mb-4">
             Compliance Score
           </h3>
           
@@ -169,7 +169,7 @@ export default function DashboardPage() {
                 <span className="font-display font-black text-[40px] lg:text-[56px] leading-none" style={{ color: scoreColor }}>
                   {complianceScore}
                 </span>
-                <span className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
+                <span className="font-display font-medium text-[12px] tracking-[2px] uppercase text-steel">
                   / 100
                 </span>
               </div>
@@ -206,7 +206,7 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <h3 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel mb-4">
+          <h3 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel mb-4">
             Document Status
           </h3>
           
@@ -226,7 +226,7 @@ export default function DashboardPage() {
                       {new Date(doc.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </p>
                   </div>
-                  <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase flex-shrink-0 ${
+                  <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase flex-shrink-0 ${
                     doc.status === 'current' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' :
                     doc.status === 'requested' ? 'bg-gold/10 text-gold' : 'bg-crimson/10 text-crimson'
                   }`}>
@@ -253,7 +253,7 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h3 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel mb-4">
+          <h3 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel mb-4">
             Incident Summary
           </h3>
           
@@ -318,7 +318,7 @@ export default function DashboardPage() {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel">
+            <h3 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel">
               Incident Trend — 24 Month
             </h3>
             <div className="flex gap-2">
@@ -377,11 +377,11 @@ export default function DashboardPage() {
             <div className="absolute top-2 right-2 flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <span className="w-3 h-[2px] bg-midnight" />
-                <span className="font-sans text-[10px] text-steel">Total</span>
+                <span className="font-sans text-[12px] text-steel">Total</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-3 h-[2px] bg-crimson" />
-                <span className="font-sans text-[10px] text-steel">Recordable</span>
+                <span className="font-sans text-[12px] text-steel">Recordable</span>
               </div>
             </div>
           </div>
@@ -395,7 +395,7 @@ export default function DashboardPage() {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel">
+            <h3 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel">
               Regulatory Feed
             </h3>
             <span className="px-2 py-0.5 bg-crimson text-brand-white font-display font-bold text-[9px] rounded-full">
@@ -413,16 +413,16 @@ export default function DashboardPage() {
                   }`} />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="px-1.5 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[8px] tracking-[1px] text-gold">
+                      <span className="px-1.5 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[10px] tracking-[1px] text-gold">
                         {update.code}
                       </span>
-                      <span className="font-sans text-[10px] text-steel">{update.publishedDate}</span>
+                      <span className="font-sans text-[12px] text-steel">{update.publishedDate}</span>
                     </div>
                     <p className="font-sans text-[12px] text-midnight line-clamp-2">{update.title}</p>
                   </div>
                 </div>
                 {update.unread && (
-                  <span className="inline-block mt-2 px-2 py-0.5 bg-crimson/10 text-crimson font-display font-medium text-[8px] tracking-[1px] uppercase">
+                  <span className="inline-block mt-2 px-2 py-0.5 bg-crimson/10 text-crimson font-display font-medium text-[10px] tracking-[1px] uppercase">
                     Unread
                   </span>
                 )}
@@ -447,7 +447,7 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <h3 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel mb-6">
+        <h3 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel mb-6">
           Scheduled Delivery Timeline
         </h3>
         
@@ -486,14 +486,14 @@ export default function DashboardPage() {
                 </div>
                 
                 {/* Date */}
-                <span className={`mt-2 font-display font-bold text-[10px] tracking-[1px] ${
+                <span className={`mt-2 font-display font-bold text-[12px] tracking-[1px] ${
                   item.status === 'current' ? 'text-crimson' : 'text-midnight'
                 }`}>
                   {item.date}
                 </span>
                 
                 {/* Label */}
-                <span className="font-sans text-[10px] text-steel text-center mt-1">
+                <span className="font-sans text-[12px] text-steel text-center mt-1">
                   {item.label}
                 </span>
               </div>
@@ -514,7 +514,7 @@ export default function DashboardPage() {
                 transition={{ duration: 0.5, delay: 0.55 + i * 0.1 }}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel">
+                  <h3 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel">
                     {card.label}
                   </h3>
                   <ArrowRight size={14} className="text-steel group-hover:text-crimson transition-colors" />

@@ -43,7 +43,7 @@ export default function RealEstatePage() {
             transition={{ duration: 0.6 }}
             className="max-w-[700px]"
           >
-            <span className="font-display text-[10px] tracking-[4px] uppercase text-gold">
+            <span className="font-display text-[12px] tracking-[4px] uppercase text-gold">
               Real Estate Shield
             </span>
             <h1 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-parchment mt-4 mb-6">

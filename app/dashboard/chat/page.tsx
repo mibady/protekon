@@ -180,7 +180,7 @@ export default function ChatPage() {
             <PaperPlaneRight size={18} weight="fill" />
           </motion.button>
         </form>
-        <p className="font-sans text-[10px] text-steel/40 mt-2 text-center">
+        <p className="font-sans text-[12px] text-steel/40 mt-2 text-center">
           Not legal advice. Consult a compliance specialist for legal questions.
         </p>
       </div>

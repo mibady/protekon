@@ -102,7 +102,7 @@ export default function AlertsPage() {
             <span className={`font-display font-bold text-[24px] ${stat.color.split(" ")[0]}`}>
               {stat.count}
             </span>
-            <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mt-1">
+            <span className="font-display text-[12px] tracking-[2px] uppercase text-steel block mt-1">
               {stat.label}
             </span>
           </div>

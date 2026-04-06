@@ -60,7 +60,7 @@ export default function DocumentsPage() {
           <button
             key={pill}
             onClick={() => setActiveFilter(pill)}
-            className={`px-4 py-2 font-display font-medium text-[10px] tracking-[2px] uppercase transition-colors ${
+            className={`px-4 py-2 font-display font-medium text-[12px] tracking-[2px] uppercase transition-colors ${
               activeFilter === pill 
                 ? 'bg-midnight text-brand-white' 
                 : 'bg-brand-white border border-midnight/10 text-midnight hover:bg-midnight/[0.04]'
@@ -105,7 +105,7 @@ export default function DocumentsPage() {
                       {displayType}
                     </span>
                     {doc.priority === "rush" && (
-                      <span className="px-2 py-0.5 bg-gold text-midnight font-display font-bold text-[8px] tracking-[1px] uppercase">
+                      <span className="px-2 py-0.5 bg-gold text-midnight font-display font-bold text-[10px] tracking-[1px] uppercase">
                         Rush
                       </span>
                     )}
@@ -133,7 +133,7 @@ export default function DocumentsPage() {
                   {/* Status */}
                   <div className="flex items-center gap-2 mb-4">
                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: statusColor }} />
-                    <span className="font-display font-medium text-[10px] tracking-[2px] uppercase" style={{ color: statusColor }}>
+                    <span className="font-display font-medium text-[12px] tracking-[2px] uppercase" style={{ color: statusColor }}>
                       {statusLabel}
                     </span>
                   </div>
@@ -145,7 +145,7 @@ export default function DocumentsPage() {
                     <>
                       <a
                         href={`/api/documents/download?id=${doc.document_id}`}
-                        className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors border-r border-midnight/[0.06]"
+                        className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors border-r border-midnight/[0.06]"
                       >
                         <Download size={14} />
                         Download PDF
@@ -154,21 +154,21 @@ export default function DocumentsPage() {
                         href={`/api/documents/download?id=${doc.document_id}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors border-r border-midnight/[0.06]"
+                        className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors border-r border-midnight/[0.06]"
                       >
                         <Eye size={14} />
                         View Online
                       </a>
                     </>
                   ) : (
-                    <div className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-steel border-r border-midnight/[0.06]">
+                    <div className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase text-steel border-r border-midnight/[0.06]">
                       <ArrowsClockwise size={14} className="animate-spin-slow" />
                       Generating...
                     </div>
                   )}
                   <Link
                     href="/dashboard/documents/request"
-                    className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-crimson hover:bg-crimson/[0.04] transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase text-crimson hover:bg-crimson/[0.04] transition-colors"
                   >
                     Request Update
                     <ArrowRight size={14} weight="bold" />

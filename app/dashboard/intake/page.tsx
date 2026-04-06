@@ -173,7 +173,7 @@ export default function IntakePage() {
               <span className={`font-display font-black text-[48px] ${finalColors.text}`}>
                 {finalScore}%
               </span>
-              <p className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel mt-1">
+              <p className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel mt-1">
                 Compliance Score
               </p>
             </div>
@@ -182,7 +182,7 @@ export default function IntakePage() {
               <span className={`inline-block px-3 py-1.5 font-display font-bold text-[11px] tracking-[1px] uppercase ${finalColors.text} ${finalColors.bg}`}>
                 {finalLabel}
               </span>
-              <p className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel mt-3">
+              <p className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel mt-3">
                 Risk Level
               </p>
             </div>
@@ -212,7 +212,7 @@ export default function IntakePage() {
           <div className="flex items-center gap-3 mb-2">
             <button
               onClick={() => setStep("assessment")}
-              className="font-display text-[10px] tracking-[2px] uppercase text-steel hover:text-midnight transition-colors"
+              className="font-display text-[12px] tracking-[2px] uppercase text-steel hover:text-midnight transition-colors"
             >
               &larr; Back
             </button>
@@ -375,7 +375,7 @@ export default function IntakePage() {
         >
           {/* Score Card */}
           <div className="bg-brand-white border border-midnight/[0.08] p-8 flex flex-col items-center">
-            <h3 className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel mb-6">
+            <h3 className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel mb-6">
               Compliance Score
             </h3>
 
@@ -405,14 +405,14 @@ export default function IntakePage() {
             </div>
 
             {/* Risk Badge */}
-            <span className={`px-4 py-1.5 font-display font-bold text-[10px] tracking-[2px] uppercase ${colors.text} ${colors.bg} ${riskLevel === "high" ? "animate-pulse" : ""}`}>
+            <span className={`px-4 py-1.5 font-display font-bold text-[12px] tracking-[2px] uppercase ${colors.text} ${colors.bg} ${riskLevel === "high" ? "animate-pulse" : ""}`}>
               {riskLabel}
             </span>
 
             {/* Gaps */}
             {yesCount < totalQuestions && (
               <div className="mt-6 pt-6 border-t border-ash w-full">
-                <p className="font-display font-semibold text-[10px] tracking-[1px] uppercase text-steel mb-3">
+                <p className="font-display font-semibold text-[12px] tracking-[1px] uppercase text-steel mb-3">
                   Gaps Detected
                 </p>
                 <div className="space-y-2">

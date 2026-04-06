@@ -78,7 +78,7 @@ export default function IndustriesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="font-display text-[10px] tracking-[4px] uppercase text-gold">
+            <span className="font-display text-[12px] tracking-[4px] uppercase text-gold">
               Industries
             </span>
             <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.92] text-parchment mt-4 mb-6">
@@ -137,7 +137,7 @@ export default function IndustriesPage() {
                       <h3 className="font-display font-bold text-[18px] text-parchment">
                         {industry.name}
                       </h3>
-                      <span className={`font-display text-[10px] tracking-[2px] uppercase ${
+                      <span className={`font-display text-[12px] tracking-[2px] uppercase ${
                         industry.riskLevel === "Very High" ? "text-crimson" :
                         industry.riskLevel === "High" ? "text-gold" : "text-steel"
                       }`}>
@@ -159,7 +159,7 @@ export default function IndustriesPage() {
 
                 <Link
                   href={`/industries/${industry.name.toLowerCase().replace(' ', '-')}`}
-                  className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors"
+                  className="inline-flex items-center font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors"
                 >
                   View {industry.name} Solutions
                   <svg className="ml-2 w-4 h-4" viewBox="0 0 16 16" fill="none">

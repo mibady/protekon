@@ -131,7 +131,7 @@ export default function DashboardLayout({
               <span className="font-display font-bold text-[20px] tracking-[6px] text-brand-white">
                 PROT<span className="text-crimson">E</span>KON
               </span>
-              <span className="font-display font-normal text-[8px] tracking-[3px] text-gold">
+              <span className="font-display font-normal text-[10px] tracking-[3px] text-gold">
                 AI COMPLIANCE OFFICER
               </span>
             </div>
@@ -192,7 +192,7 @@ export default function DashboardLayout({
           {/* Vertical-specific nav */}
           {client?.vertical === "construction" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">CONSTRUCTION</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">CONSTRUCTION</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/construction/subcontractors" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/construction") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -205,7 +205,7 @@ export default function DashboardLayout({
           )}
           {client?.vertical === "healthcare" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">HEALTHCARE</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">HEALTHCARE</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/healthcare/phi-inventory" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname === "/dashboard/healthcare/phi-inventory" ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -224,7 +224,7 @@ export default function DashboardLayout({
           )}
           {client?.vertical === "real-estate" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">REAL ESTATE</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">REAL ESTATE</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/real-estate/properties" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/real-estate") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -237,7 +237,7 @@ export default function DashboardLayout({
           )}
           {client?.vertical === "manufacturing" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">MANUFACTURING</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">MANUFACTURING</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/manufacturing/equipment" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/manufacturing") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -250,7 +250,7 @@ export default function DashboardLayout({
           )}
           {client?.vertical === "hospitality" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">HOSPITALITY</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">HOSPITALITY</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/hospitality/inspections" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/hospitality") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -263,7 +263,7 @@ export default function DashboardLayout({
           )}
           {client?.vertical === "agriculture" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">AGRICULTURE</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">AGRICULTURE</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/agriculture/crews" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/agriculture") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -276,7 +276,7 @@ export default function DashboardLayout({
           )}
           {client?.vertical === "retail" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">RETAIL</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">RETAIL</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/retail/locations" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/retail") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -289,7 +289,7 @@ export default function DashboardLayout({
           )}
           {client?.vertical === "wholesale" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">WHOLESALE</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">WHOLESALE</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/wholesale/zones" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/wholesale") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -302,7 +302,7 @@ export default function DashboardLayout({
           )}
           {client?.vertical === "transportation" && (
             <div className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">TRANSPORTATION</span>
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">TRANSPORTATION</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
                   <Link href="/dashboard/transportation/fleet" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/transportation") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
@@ -315,7 +315,7 @@ export default function DashboardLayout({
           )}
           {navGroups.map((group) => (
             <div key={group.label} className="mb-5">
-              <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">
                 {group.label}
               </span>
               <ul className="flex flex-col gap-0.5">
@@ -376,13 +376,13 @@ export default function DashboardLayout({
         {/* Tier Badge */}
         <div className="px-4 py-4 border-t border-brand-white/[0.06]">
           <div className="bg-gold/[0.08] border border-gold/20 px-4 py-3 text-center">
-            <span className="font-display font-semibold text-[8px] tracking-[3px] uppercase text-gold">
+            <span className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-gold">
               {tierLabel[clientPlan] || "Core"} Tier
             </span>
             {clientPlan !== "multi-site" && (
               <Link
                 href="/dashboard/settings"
-                className="block font-sans font-light text-[10px] text-gold/70 mt-1 hover:text-gold transition-colors"
+                className="block font-sans font-light text-[12px] text-gold/70 mt-1 hover:text-gold transition-colors"
               >
                 Upgrade plan &rarr;
               </Link>
@@ -443,7 +443,7 @@ export default function DashboardLayout({
               <nav className="px-4 py-4">
                 {navGroups.map((group) => (
                   <div key={group.label} className="mb-5">
-                    <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">
+                    <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">
                       {group.label}
                     </span>
                     <ul className="flex flex-col gap-0.5">

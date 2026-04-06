@@ -108,7 +108,7 @@ export default function ResourcesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="font-display text-[10px] tracking-[4px] uppercase text-gold">
+            <span className="font-display text-[12px] tracking-[4px] uppercase text-gold">
               Resources
             </span>
             <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.92] text-parchment mt-4 mb-6">
@@ -141,7 +141,7 @@ export default function ResourcesPage() {
                   <div className="w-10 h-10 flex items-center justify-center bg-crimson/10">
                     <resource.icon size={20} weight="bold" className="text-crimson" />
                   </div>
-                  <span className="font-display text-[10px] tracking-[2px] uppercase text-gold">
+                  <span className="font-display text-[12px] tracking-[2px] uppercase text-gold">
                     {resource.type}
                   </span>
                 </div>
@@ -155,12 +155,12 @@ export default function ResourcesPage() {
                 </p>
 
                 <div className="flex items-center justify-between">
-                  <span className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <span className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     {resource.readTime}
                   </span>
                   <Link
                     href={resource.href}
-                    className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors"
+                    className="inline-flex items-center font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors"
                   >
                     Access
                     <ArrowRight size={14} className="ml-1" />
@@ -200,7 +200,7 @@ export default function ResourcesPage() {
                         {article.title}
                       </h3>
                     </div>
-                    <span className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <span className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       {article.date}
                     </span>
                   </Link>
@@ -209,7 +209,7 @@ export default function ResourcesPage() {
             </div>
             <Link
               href="/resources/articles"
-              className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors mt-8"
+              className="inline-flex items-center font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors mt-8"
             >
               View All Articles
               <ArrowRight size={14} className="ml-2" />
@@ -277,7 +277,7 @@ export default function ResourcesPage() {
             <button
               type="submit"
               disabled={nlSubmitting || nlDone}
-              className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment bg-crimson px-6 py-3 hover:brightness-110 transition-all disabled:opacity-70"
+              className="font-display font-semibold text-[12px] tracking-[3px] uppercase text-parchment bg-crimson px-6 py-3 hover:brightness-110 transition-all disabled:opacity-70"
             >
               {nlSubmitting ? "Subscribing..." : nlDone ? "Subscribed ✓" : "Subscribe"}
             </button>

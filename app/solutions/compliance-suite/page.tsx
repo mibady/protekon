@@ -55,7 +55,7 @@ export default function ComplianceSuitePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="font-display text-[10px] tracking-[4px] uppercase text-crimson">
+            <span className="font-display text-[12px] tracking-[4px] uppercase text-crimson">
               Compliance Suite
             </span>
             <h1 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-parchment mt-4 mb-6">
@@ -88,7 +88,7 @@ export default function ComplianceSuitePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <span className="font-display text-[10px] tracking-[4px] uppercase text-gold mb-4 block">
+            <span className="font-display text-[12px] tracking-[4px] uppercase text-gold mb-4 block">
               Starting at
             </span>
             <div className="flex items-baseline gap-2 mb-6">

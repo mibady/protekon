@@ -256,7 +256,7 @@ export default function IncidentsPage() {
                 <div className="bg-midnight p-4">
                   <div className="flex items-center gap-2 mb-3">
                     <ShieldCheck size={18} className="text-gold" />
-                    <span className="font-display font-bold text-[10px] tracking-[2px] uppercase text-gold">
+                    <span className="font-display font-bold text-[12px] tracking-[2px] uppercase text-gold">
                       Incident Description
                     </span>
                   </div>
@@ -267,27 +267,27 @@ export default function IncidentsPage() {
 
                 {/* Details Grid */}
                 <div>
-                  <h3 className="font-display font-bold text-[10px] tracking-[2px] uppercase text-steel mb-3">
+                  <h3 className="font-display font-bold text-[12px] tracking-[2px] uppercase text-steel mb-3">
                     Details
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="bg-parchment p-3">
-                      <span className="font-display text-[8px] tracking-[2px] uppercase text-steel block mb-1">Severity</span>
+                      <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Severity</span>
                       <span className="font-sans font-medium text-[13px] text-midnight capitalize">{selectedIncident.severity.replace("-", " ")}</span>
                     </div>
                     <div className="bg-parchment p-3">
-                      <span className="font-display text-[8px] tracking-[2px] uppercase text-steel block mb-1">Location</span>
+                      <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Location</span>
                       <span className="font-sans font-medium text-[13px] text-midnight">{selectedIncident.location || "—"}</span>
                     </div>
                     {selectedIncident.metadata?.type && (
                       <div className="bg-parchment p-3">
-                        <span className="font-display text-[8px] tracking-[2px] uppercase text-steel block mb-1">Type</span>
+                        <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Type</span>
                         <span className="font-sans font-medium text-[13px] text-midnight capitalize">{selectedIncident.metadata.type.replace("-", " ")}</span>
                       </div>
                     )}
                     {selectedIncident.incident_date && (
                       <div className="bg-parchment p-3">
-                        <span className="font-display text-[8px] tracking-[2px] uppercase text-steel block mb-1">Date</span>
+                        <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Date</span>
                         <span className="font-sans font-medium text-[13px] text-midnight">
                           {new Date(selectedIncident.incident_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                           {selectedIncident.metadata?.time && ` at ${selectedIncident.metadata.time}`}
@@ -300,18 +300,18 @@ export default function IncidentsPage() {
                 {/* Injury Info */}
                 {(selectedIncident.metadata?.injuryOccurred || selectedIncident.metadata?.medicalTreatment) && (
                   <div>
-                    <h3 className="font-display font-bold text-[10px] tracking-[2px] uppercase text-steel mb-3">
+                    <h3 className="font-display font-bold text-[12px] tracking-[2px] uppercase text-steel mb-3">
                       Injury Information
                     </h3>
                     <div className="grid grid-cols-2 gap-3">
                       <div className={`p-3 ${selectedIncident.metadata.injuryOccurred ? "bg-crimson/10" : "bg-parchment"}`}>
-                        <span className="font-display text-[8px] tracking-[2px] uppercase text-steel block mb-1">Injury Occurred</span>
+                        <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Injury Occurred</span>
                         <span className={`font-sans font-bold text-[14px] ${selectedIncident.metadata.injuryOccurred ? "text-crimson" : "text-midnight"}`}>
                           {selectedIncident.metadata.injuryOccurred ? "Yes" : "No"}
                         </span>
                       </div>
                       <div className={`p-3 ${selectedIncident.metadata.medicalTreatment ? "bg-crimson/10" : "bg-parchment"}`}>
-                        <span className="font-display text-[8px] tracking-[2px] uppercase text-steel block mb-1">Medical Treatment</span>
+                        <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Medical Treatment</span>
                         <span className={`font-sans font-bold text-[14px] ${selectedIncident.metadata.medicalTreatment ? "text-crimson" : "text-midnight"}`}>
                           {selectedIncident.metadata.medicalTreatment ? "Yes" : "No"}
                         </span>
@@ -323,7 +323,7 @@ export default function IncidentsPage() {
                 {/* Actions Taken */}
                 {selectedIncident.metadata?.actionsTaken && (
                   <div>
-                    <h3 className="font-display font-bold text-[10px] tracking-[2px] uppercase text-steel mb-3">
+                    <h3 className="font-display font-bold text-[12px] tracking-[2px] uppercase text-steel mb-3">
                       Actions Taken
                     </h3>
                     <p className="font-sans text-[14px] text-midnight leading-relaxed bg-parchment p-4">
@@ -337,7 +337,7 @@ export default function IncidentsPage() {
               <div className="sticky bottom-0 bg-brand-white border-t border-midnight/[0.06] px-6 py-4 flex gap-3">
                 <button
                   onClick={() => window.open("/api/export/incidents?format=pdf")}
-                  className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
+                  className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[12px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
                 >
                   Export PDF
                 </button>
@@ -346,13 +346,13 @@ export default function IncidentsPage() {
                     setEditingIncident(selectedIncident)
                     setSelectedIncident(null)
                   }}
-                  className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
+                  className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[12px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => setSelectedIncident(null)}
-                  className="flex-1 bg-midnight text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:brightness-110 transition-all"
+                  className="flex-1 bg-midnight text-parchment font-display font-semibold text-[12px] tracking-[2px] uppercase py-3 hover:brightness-110 transition-all"
                 >
                   Close
                 </button>
@@ -419,7 +419,7 @@ export default function IncidentsPage() {
                 className="p-6 space-y-5"
               >
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Description
                   </label>
                   <textarea
@@ -432,7 +432,7 @@ export default function IncidentsPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Severity
                     </label>
                     <select
@@ -448,7 +448,7 @@ export default function IncidentsPage() {
                     </select>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Type
                     </label>
                     <select
@@ -467,7 +467,7 @@ export default function IncidentsPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Location
                     </label>
                     <input
@@ -478,7 +478,7 @@ export default function IncidentsPage() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Date
                     </label>
                     <input
@@ -490,7 +490,7 @@ export default function IncidentsPage() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Actions Taken
                   </label>
                   <textarea
@@ -504,14 +504,14 @@ export default function IncidentsPage() {
                   <button
                     type="button"
                     onClick={() => setEditingIncident(null)}
-                    className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
+                    className="flex-1 border border-midnight/[0.1] text-midnight font-display font-semibold text-[12px] tracking-[2px] uppercase py-3 hover:bg-midnight/[0.04] transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={editSaving}
-                    className="flex-1 bg-midnight text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 hover:brightness-110 transition-all disabled:opacity-50"
+                    className="flex-1 bg-midnight text-parchment font-display font-semibold text-[12px] tracking-[2px] uppercase py-3 hover:brightness-110 transition-all disabled:opacity-50"
                   >
                     {editSaving ? "Saving..." : "Save Changes"}
                   </button>

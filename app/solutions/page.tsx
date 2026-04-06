@@ -81,7 +81,7 @@ export default function SolutionsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="font-display text-[10px] tracking-[4px] uppercase text-gold">
+            <span className="font-display text-[12px] tracking-[4px] uppercase text-gold">
               Solutions
             </span>
             <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.92] text-parchment mt-4 mb-6">
@@ -124,7 +124,7 @@ export default function SolutionsPage() {
                     <h3 className="font-display font-bold text-[20px] text-parchment">
                       {solution.title}
                     </h3>
-                    <span className="font-display text-[10px] tracking-[2px] uppercase text-gold">
+                    <span className="font-display text-[12px] tracking-[2px] uppercase text-gold">
                       {solution.subtitle}
                     </span>
                   </div>
@@ -147,7 +147,7 @@ export default function SolutionsPage() {
 
                 <Link
                   href={solution.href}
-                  className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors"
+                  className="inline-flex items-center font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors"
                 >
                   Learn More
                   <svg className="ml-2 w-4 h-4" viewBox="0 0 16 16" fill="none">
@@ -169,7 +169,7 @@ export default function SolutionsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="font-display text-[10px] tracking-[4px] uppercase text-gold">
+            <span className="font-display text-[12px] tracking-[4px] uppercase text-gold">
               Platform
             </span>
             <h2 className="font-display font-black text-[clamp(32px,5vw,48px)] leading-[0.92] text-parchment mt-4">

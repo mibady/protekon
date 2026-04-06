@@ -87,7 +87,7 @@ export default function SamplesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <span className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-gold mb-4 block">
+              <span className="font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold mb-4 block">
                 Sample Reports
               </span>
               <h1 className="font-display font-black text-[48px] md:text-[56px] leading-[0.95] mb-6">
@@ -226,7 +226,7 @@ export default function SamplesPage() {
                     </div>
                   )}
                   {report.badge && (
-                    <span className="absolute top-3 right-3 bg-crimson text-parchment font-display font-bold text-[8px] tracking-[1px] uppercase px-2.5 py-1">
+                    <span className="absolute top-3 right-3 bg-crimson text-parchment font-display font-bold text-[10px] tracking-[1px] uppercase px-2.5 py-1">
                       {report.badge}
                     </span>
                   )}
@@ -261,7 +261,7 @@ export default function SamplesPage() {
                   {gateUnlocked ? (
                     <button
                       onClick={() => window.open(`/api/samples/gate?report=${encodeURIComponent(report.title)}`, "_blank")}
-                      className="w-full bg-midnight text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 flex items-center justify-center gap-2 hover:bg-midnight/90 transition-colors"
+                      className="w-full bg-midnight text-parchment font-display font-semibold text-[12px] tracking-[2px] uppercase py-3 flex items-center justify-center gap-2 hover:bg-midnight/90 transition-colors"
                     >
                       <Download size={14} weight="bold" />
                       Download Sample
@@ -269,7 +269,7 @@ export default function SamplesPage() {
                   ) : (
                     <button
                       onClick={() => document.querySelector<HTMLInputElement>('input[type="email"]')?.focus()}
-                      className="w-full bg-midnight/[0.06] text-steel font-display font-semibold text-[10px] tracking-[2px] uppercase py-3 flex items-center justify-center gap-2 cursor-pointer hover:bg-midnight/[0.1] transition-colors"
+                      className="w-full bg-midnight/[0.06] text-steel font-display font-semibold text-[12px] tracking-[2px] uppercase py-3 flex items-center justify-center gap-2 cursor-pointer hover:bg-midnight/[0.1] transition-colors"
                     >
                       <Lock size={14} weight="fill" />
                       Enter Email to Unlock
@@ -319,7 +319,7 @@ export default function SamplesPage() {
                   <h3 className="font-display font-bold text-[14px] uppercase tracking-[1px]">
                     AI Compliance Officer
                   </h3>
-                  <span className="bg-gold/20 text-gold font-display font-bold text-[8px] tracking-[1px] uppercase px-2 py-0.5">
+                  <span className="bg-gold/20 text-gold font-display font-bold text-[10px] tracking-[1px] uppercase px-2 py-0.5">
                     Included
                   </span>
                 </div>

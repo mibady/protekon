@@ -184,7 +184,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         {/* Hero */}
         <section className="bg-void text-parchment pt-28 pb-20 px-6">
           <div className="max-w-5xl mx-auto">
-            <span className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-gold mb-4 block">
+            <span className="font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold mb-4 block">
               {data.label} Compliance
             </span>
             <h1 className="font-display font-black text-[44px] md:text-[56px] leading-[0.95] mb-6">
