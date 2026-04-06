@@ -32,7 +32,7 @@ export default function DocumentHistoryReportPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
-          <span className="font-display font-medium text-[10px] tracking-[3px] uppercase text-midnight block mb-1">
+          <span className="font-display font-medium text-[12px] tracking-[3px] uppercase text-midnight block mb-1">
             On Demand Report
           </span>
           <h1 className="font-display font-bold text-[28px] text-midnight">Document History Report</h1>
@@ -112,13 +112,13 @@ export default function DocumentHistoryReportPage() {
                               <span className="font-display font-extrabold text-[14px] text-crimson">{v.version}</span>
                               <span className="font-sans text-[12px] text-steel">{v.date}</span>
                               {v.current && (
-                                <span className="px-2 py-0.5 bg-crimson text-white font-display font-bold text-[8px] tracking-[1px] uppercase">
+                                <span className="px-2 py-0.5 bg-crimson text-white font-display font-bold text-[10px] tracking-[1px] uppercase">
                                   Current
                                 </span>
                               )}
                             </div>
                             <p className="font-sans text-[13px] text-midnight mb-2">{v.reason}</p>
-                            <span className="px-2 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[8px] tracking-[1px] text-gold">
+                            <span className="px-2 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[10px] tracking-[1px] text-gold">
                               {v.regulation}
                             </span>
                           </div>
@@ -172,7 +172,7 @@ export default function DocumentHistoryReportPage() {
               a.click()
               URL.revokeObjectURL(url)
             }}
-            className="font-display font-medium text-[10px] tracking-[2px] uppercase text-gold hover:text-gold/80"
+            className="font-display font-medium text-[12px] tracking-[2px] uppercase text-gold hover:text-gold/80"
           >
             Export CSV
           </button>
@@ -197,7 +197,7 @@ export default function DocumentHistoryReportPage() {
                   <td className="px-4 py-3 font-mono text-[12px] text-midnight">{log.version}</td>
                   <td className="px-4 py-3 font-mono text-[11px] text-steel">{log.recipient}</td>
                   <td className="px-4 py-3">
-                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                    <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${
                       log.status === 'Opened' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' : 'bg-steel/10 text-steel'
                     }`}>
                       {log.status}

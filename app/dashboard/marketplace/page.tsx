@@ -81,7 +81,7 @@ export default function DashboardMarketplacePage() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-8">
       {/* Header */}
       <div>
-        <span className="font-display text-[10px] tracking-[4px] uppercase text-crimson">
+        <span className="font-display text-[12px] tracking-[4px] uppercase text-crimson">
           Marketplace
         </span>
         <h1 className="font-display font-bold text-[24px] lg:text-[32px] text-midnight mt-2">
@@ -122,7 +122,7 @@ export default function DashboardMarketplacePage() {
               <h3 className="font-display font-bold text-[15px] text-midnight mb-1">
                 {integration.name}
               </h3>
-              <span className="font-display text-[10px] tracking-[2px] uppercase text-crimson block mb-2">
+              <span className="font-display text-[12px] tracking-[2px] uppercase text-crimson block mb-2">
                 {integration.category}
               </span>
 
@@ -165,14 +165,14 @@ export default function DashboardMarketplacePage() {
                 {addon.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2">
                     <ShieldCheck size={14} className="text-[#2A7D4F] shrink-0" />
-                    <span className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <span className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       {feature}
                     </span>
                   </li>
                 ))}
               </ul>
 
-              <button disabled className="w-full font-display font-semibold text-[10px] tracking-[3px] uppercase text-brand-white/60 bg-midnight/40 py-3 cursor-not-allowed">
+              <button disabled className="w-full font-display font-semibold text-[12px] tracking-[3px] uppercase text-brand-white/60 bg-midnight/40 py-3 cursor-not-allowed">
                 Coming Soon
               </button>
             </motion.div>
@@ -222,7 +222,7 @@ export default function DashboardMarketplacePage() {
         </p>
         <a
           href="/contact"
-          className="inline-block font-display font-semibold text-[10px] tracking-[3px] uppercase text-crimson bg-brand-white px-8 py-3 rounded hover:bg-parchment transition-colors"
+          className="inline-block font-display font-semibold text-[12px] tracking-[3px] uppercase text-crimson bg-brand-white px-8 py-3 rounded hover:bg-parchment transition-colors"
         >
           Contact API Team
         </a>

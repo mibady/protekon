@@ -30,7 +30,7 @@ export default function DeliveryLogReportPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
-          <span className="font-display font-medium text-[10px] tracking-[3px] uppercase text-gold block mb-1">
+          <span className="font-display font-medium text-[12px] tracking-[3px] uppercase text-gold block mb-1">
             On Demand Report
           </span>
           <h1 className="font-display font-bold text-[28px] text-midnight">Delivery Log Report</h1>
@@ -93,7 +93,7 @@ export default function DeliveryLogReportPage() {
                 a.click()
                 URL.revokeObjectURL(url)
               }}
-              className="font-display font-medium text-[10px] tracking-[2px] uppercase text-gold hover:text-gold/80"
+              className="font-display font-medium text-[12px] tracking-[2px] uppercase text-gold hover:text-gold/80"
             >
               Export CSV
             </button>
@@ -115,7 +115,7 @@ export default function DeliveryLogReportPage() {
                   <tr key={i} className="border-b border-midnight/[0.06] last:border-0 hover:bg-parchment/30">
                     <td className="px-4 py-3 font-sans text-[12px] text-midnight">{d.date}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                      <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${
                         d.type === 'Document' ? 'bg-midnight text-white' :
                         d.type === 'Report' ? 'bg-gold/10 text-gold' :
                         'bg-crimson/10 text-crimson'
@@ -129,12 +129,12 @@ export default function DeliveryLogReportPage() {
                         {d.status === 'Opened' ? (
                           <>
                             <Eye size={12} className="text-[#2A7D4F]" />
-                            <span className="font-display font-medium text-[10px] tracking-[1px] uppercase text-[#2A7D4F]">Opened</span>
+                            <span className="font-display font-medium text-[12px] tracking-[1px] uppercase text-[#2A7D4F]">Opened</span>
                           </>
                         ) : (
                           <>
                             <EnvelopeSimple size={12} className="text-steel" />
-                            <span className="font-display font-medium text-[10px] tracking-[1px] uppercase text-steel">Sent</span>
+                            <span className="font-display font-medium text-[12px] tracking-[1px] uppercase text-steel">Sent</span>
                           </>
                         )}
                       </div>
@@ -155,18 +155,18 @@ export default function DeliveryLogReportPage() {
                     {d.status === 'Opened' ? (
                       <>
                         <Eye size={12} className="text-[#2A7D4F]" />
-                        <span className="font-display font-medium text-[10px] tracking-[1px] uppercase text-[#2A7D4F]">Opened</span>
+                        <span className="font-display font-medium text-[12px] tracking-[1px] uppercase text-[#2A7D4F]">Opened</span>
                       </>
                     ) : (
                       <>
                         <EnvelopeSimple size={12} className="text-steel" />
-                        <span className="font-display font-medium text-[10px] tracking-[1px] uppercase text-steel">Sent</span>
+                        <span className="font-display font-medium text-[12px] tracking-[1px] uppercase text-steel">Sent</span>
                       </>
                     )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                  <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${
                     d.type === 'Document' ? 'bg-midnight text-white' :
                     d.type === 'Report' ? 'bg-gold/10 text-gold' :
                     'bg-crimson/10 text-crimson'

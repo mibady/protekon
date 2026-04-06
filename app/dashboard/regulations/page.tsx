@@ -47,7 +47,7 @@ export default function RegulationsPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
+          <span className="font-display font-medium text-[12px] tracking-[2px] uppercase text-steel">
             Filter by Severity:
           </span>
           <select
@@ -93,12 +93,12 @@ export default function RegulationsPage() {
                 <span className="font-sans text-[12px] text-steel">{update.issuingBody}</span>
                 <span className="font-sans text-[12px] text-steel">{update.publishedDate}</span>
                 {update.type === 'amendment' && (
-                  <span className="px-2 py-0.5 bg-crimson text-white font-display font-bold text-[8px] tracking-[1px] uppercase">
+                  <span className="px-2 py-0.5 bg-crimson text-white font-display font-bold text-[10px] tracking-[1px] uppercase">
                     Amendment
                   </span>
                 )}
                 {update.type === 'guidance' && (
-                  <span className="px-2 py-0.5 bg-midnight text-white font-display font-bold text-[8px] tracking-[1px] uppercase">
+                  <span className="px-2 py-0.5 bg-midnight text-white font-display font-bold text-[10px] tracking-[1px] uppercase">
                     Guidance
                   </span>
                 )}
@@ -135,7 +135,7 @@ export default function RegulationsPage() {
               {/* Impact Block */}
               {update.impactText && (
                 <div className="bg-crimson/[0.04] border-l-2 border-crimson p-4 mb-4">
-                  <span className="font-display font-bold text-[10px] tracking-[2px] uppercase text-crimson block mb-1">
+                  <span className="font-display font-bold text-[12px] tracking-[2px] uppercase text-crimson block mb-1">
                     Action Required
                   </span>
                   <p className="font-sans text-[13px] text-midnight">
@@ -156,7 +156,7 @@ export default function RegulationsPage() {
             <div className="flex border-t border-midnight/[0.06]">
               <button 
                 onClick={() => handleAcknowledge(String(update.id))}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase transition-colors border-r border-midnight/[0.06] ${
+                className={`flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase transition-colors border-r border-midnight/[0.06] ${
                   update.unread 
                     ? 'text-midnight hover:bg-midnight/[0.04]' 
                     : 'text-[#2A7D4F] bg-[#2A7D4F]/[0.04]'
@@ -168,7 +168,7 @@ export default function RegulationsPage() {
               {update.actionRequired && (
                 <Link 
                   href="/dashboard/documents/request"
-                  className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-crimson hover:bg-crimson/[0.04] transition-colors border-r border-midnight/[0.06]"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase text-crimson hover:bg-crimson/[0.04] transition-colors border-r border-midnight/[0.06]"
                 >
                   Request Doc Update
                   <ArrowRight size={14} weight="bold" />
@@ -182,7 +182,7 @@ export default function RegulationsPage() {
                     toast.info("Source URL not available")
                   }
                 }}
-                className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[10px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors"
               >
                 <ArrowSquareOut size={14} />
                 View Source

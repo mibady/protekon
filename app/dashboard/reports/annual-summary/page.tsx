@@ -126,7 +126,7 @@ export default function AnnualSummaryReportPage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <ShieldCheck size={20} className="text-gold" />
-            <span className="font-display font-bold text-[10px] tracking-[3px] uppercase text-steel">
+            <span className="font-display font-bold text-[12px] tracking-[3px] uppercase text-steel">
               Executive Summary
             </span>
           </div>
@@ -142,7 +142,7 @@ export default function AnnualSummaryReportPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <span className="font-display font-bold text-[10px] tracking-[3px] uppercase text-gold block mb-4">
+          <span className="font-display font-bold text-[12px] tracking-[3px] uppercase text-gold block mb-4">
             OSHA 300 Annual Log
           </span>
           {/* Desktop Table */}
@@ -150,14 +150,14 @@ export default function AnnualSummaryReportPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-brand-white/10">
-                  <th className="text-left px-3 py-2 font-display text-[8px] tracking-[2px] uppercase text-steel">Case #</th>
-                  <th className="text-left px-3 py-2 font-display text-[8px] tracking-[2px] uppercase text-steel">Job Title</th>
-                  <th className="text-left px-3 py-2 font-display text-[8px] tracking-[2px] uppercase text-steel">Date</th>
-                  <th className="text-left px-3 py-2 font-display text-[8px] tracking-[2px] uppercase text-steel">Location</th>
-                  <th className="text-left px-3 py-2 font-display text-[8px] tracking-[2px] uppercase text-steel">Description</th>
-                  <th className="text-left px-3 py-2 font-display text-[8px] tracking-[2px] uppercase text-steel">Classification</th>
-                  <th className="text-center px-3 py-2 font-display text-[8px] tracking-[2px] uppercase text-steel">Days Away</th>
-                  <th className="text-center px-3 py-2 font-display text-[8px] tracking-[2px] uppercase text-steel">Days Restricted</th>
+                  <th className="text-left px-3 py-2 font-display text-[10px] tracking-[2px] uppercase text-steel">Case #</th>
+                  <th className="text-left px-3 py-2 font-display text-[10px] tracking-[2px] uppercase text-steel">Job Title</th>
+                  <th className="text-left px-3 py-2 font-display text-[10px] tracking-[2px] uppercase text-steel">Date</th>
+                  <th className="text-left px-3 py-2 font-display text-[10px] tracking-[2px] uppercase text-steel">Location</th>
+                  <th className="text-left px-3 py-2 font-display text-[10px] tracking-[2px] uppercase text-steel">Description</th>
+                  <th className="text-left px-3 py-2 font-display text-[10px] tracking-[2px] uppercase text-steel">Classification</th>
+                  <th className="text-center px-3 py-2 font-display text-[10px] tracking-[2px] uppercase text-steel">Days Away</th>
+                  <th className="text-center px-3 py-2 font-display text-[10px] tracking-[2px] uppercase text-steel">Days Restricted</th>
                 </tr>
               </thead>
               <tbody>
@@ -195,7 +195,7 @@ export default function AnnualSummaryReportPage() {
             </p>
             <button
               onClick={() => window.open("/api/export/report?type=annual-summary&format=pdf")}
-              className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase px-6 py-3 hover:brightness-110 transition-all"
+              className="inline-flex items-center gap-2 bg-crimson text-parchment font-display font-semibold text-[12px] tracking-[2px] uppercase px-6 py-3 hover:brightness-110 transition-all"
             >
               <Download size={14} weight="bold" />
               Download OSHA 300 Log PDF
@@ -211,7 +211,7 @@ export default function AnnualSummaryReportPage() {
           transition={{ delay: 0.25 }}
         >
           <div className="p-4 border-b border-midnight/[0.06]">
-            <span className="font-display font-bold text-[10px] tracking-[3px] uppercase text-steel">
+            <span className="font-display font-bold text-[12px] tracking-[3px] uppercase text-steel">
               AI-Generated RACI Matrix
             </span>
           </div>

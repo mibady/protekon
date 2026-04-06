@@ -33,7 +33,7 @@ export default function IncidentAnalysisReportPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
-          <span className="font-display font-medium text-[10px] tracking-[3px] uppercase text-gold block mb-1">
+          <span className="font-display font-medium text-[12px] tracking-[3px] uppercase text-gold block mb-1">
             Monthly / Quarterly Report
           </span>
           <h1 className="font-display font-bold text-[28px] text-midnight">Incident Analysis Report</h1>
@@ -223,7 +223,7 @@ export default function IncidentAnalysisReportPage() {
                   <td className="px-4 py-3 font-sans text-[12px] text-steel">{ca.assigned}</td>
                   <td className="px-4 py-3 font-sans text-[12px] text-steel">{ca.due}</td>
                   <td className="px-4 py-3">
-                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                    <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${
                       ca.status === 'Completed' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' :
                       ca.status === 'In Progress' ? 'bg-gold/10 text-gold' :
                       ca.status === 'Overdue' ? 'bg-crimson/10 text-crimson' :
@@ -243,7 +243,7 @@ export default function IncidentAnalysisReportPage() {
             <div key={ca.incident} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
               <div className="flex items-start justify-between mb-2">
                 <span className="font-mono text-[12px] text-midnight">{ca.incident}</span>
-                <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${
                   ca.status === 'Completed' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' :
                   ca.status === 'In Progress' ? 'bg-gold/10 text-gold' :
                   ca.status === 'Overdue' ? 'bg-crimson/10 text-crimson' :

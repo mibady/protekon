@@ -44,7 +44,7 @@ export default function AssessmentsPage() {
         </div>
         <button
           onClick={() => setDialogOpen(true)}
-          className="flex items-center gap-2 bg-crimson text-brand-white px-5 py-2.5 font-display font-semibold text-[10px] tracking-[2px] uppercase hover:bg-crimson/90 transition-colors"
+          className="flex items-center gap-2 bg-crimson text-brand-white px-5 py-2.5 font-display font-semibold text-[12px] tracking-[2px] uppercase hover:bg-crimson/90 transition-colors"
         >
           <PaperPlaneTilt size={14} weight="bold" />
           Send Assessment

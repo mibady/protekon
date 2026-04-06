@@ -54,7 +54,7 @@ export default function ComplianceScoreReportPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
-          <span className="font-display font-medium text-[10px] tracking-[3px] uppercase text-crimson block mb-1">
+          <span className="font-display font-medium text-[12px] tracking-[3px] uppercase text-crimson block mb-1">
             Monthly Report
           </span>
           <h1 className="font-display font-bold text-[28px] text-midnight">Compliance Score Report</h1>
@@ -116,7 +116,7 @@ export default function ComplianceScoreReportPage() {
 
           {/* Category Breakdown */}
           <div className="flex flex-col justify-center">
-            <h3 className="font-display font-bold text-[10px] tracking-[3px] uppercase text-steel mb-4">
+            <h3 className="font-display font-bold text-[12px] tracking-[3px] uppercase text-steel mb-4">
               Category Breakdown
             </h3>
             <div className="space-y-3">
@@ -132,7 +132,7 @@ export default function ComplianceScoreReportPage() {
                   <span className="font-mono text-[11px] text-brand-white w-12 text-right">
                     {cat.score}/{cat.max}
                   </span>
-                  <span className="font-mono text-[10px] text-steel w-8 text-right">
+                  <span className="font-mono text-[12px] text-steel w-8 text-right">
                     {cat.weight}
                   </span>
                 </div>
@@ -142,7 +142,7 @@ export default function ComplianceScoreReportPage() {
 
           {/* Mini Trend */}
           <div className="flex flex-col justify-center">
-            <h3 className="font-display font-bold text-[10px] tracking-[3px] uppercase text-steel mb-4">
+            <h3 className="font-display font-bold text-[12px] tracking-[3px] uppercase text-steel mb-4">
               6-Month Trend
             </h3>
             <div className="relative h-[120px]">
@@ -168,7 +168,7 @@ export default function ComplianceScoreReportPage() {
               </svg>
               <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2">
                 {monthlyScores.map((s) => (
-                  <span key={s.month} className="font-sans text-[10px] text-steel">{s.month}</span>
+                  <span key={s.month} className="font-sans text-[12px] text-steel">{s.month}</span>
                 ))}
               </div>
             </div>
@@ -225,7 +225,7 @@ export default function ComplianceScoreReportPage() {
                 <tr key={doc.name} className="border-b border-midnight/[0.06] last:border-0">
                   <td className="px-4 py-3 font-sans text-[13px] text-midnight">{doc.name}</td>
                   <td className="px-4 py-3">
-                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                    <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${
                       doc.status === 'current' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' : 'bg-gold/10 text-gold'
                     }`}>
                       {doc.status}
@@ -233,7 +233,7 @@ export default function ComplianceScoreReportPage() {
                   </td>
                   <td className="px-4 py-3 font-sans text-[12px] text-steel">{doc.updated}</td>
                   <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[8px] tracking-[1px] text-gold">
+                    <span className="px-2 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[10px] tracking-[1px] text-gold">
                       {doc.regulation}
                     </span>
                   </td>
@@ -256,12 +256,12 @@ export default function ComplianceScoreReportPage() {
                 <span className="font-mono text-[12px] text-midnight">{doc.points}</span>
               </div>
               <div className="flex items-center gap-2 mb-2">
-                <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${
                   doc.status === 'current' ? 'bg-[#2A7D4F]/10 text-[#2A7D4F]' : 'bg-gold/10 text-gold'
                 }`}>
                   {doc.status}
                 </span>
-                <span className="px-2 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[8px] tracking-[1px] text-gold">
+                <span className="px-2 py-0.5 bg-gold/10 border border-gold/30 font-display font-medium text-[10px] tracking-[1px] text-gold">
                   {doc.regulation}
                 </span>
               </div>
@@ -299,7 +299,7 @@ export default function ComplianceScoreReportPage() {
               </span>
               <Link
                 href={rec.href}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-crimson text-parchment font-display font-semibold text-[10px] tracking-[2px] uppercase hover:brightness-110 transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-crimson text-parchment font-display font-semibold text-[12px] tracking-[2px] uppercase hover:brightness-110 transition-all"
               >
                 {rec.cta}
                 <ArrowRight size={12} weight="bold" />

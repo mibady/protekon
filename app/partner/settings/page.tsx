@@ -106,7 +106,7 @@ export default function PartnerSettingsPage() {
               <h2 className="font-display font-bold text-[18px] text-midnight mb-6">Business Information</h2>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Company Name
                   </label>
                   <input
@@ -117,7 +117,7 @@ export default function PartnerSettingsPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Partner Tier
                   </label>
                   <div className="border border-ash px-4 py-3 bg-fog/30 font-sans text-[14px] text-steel">
@@ -134,7 +134,7 @@ export default function PartnerSettingsPage() {
               <h2 className="font-display font-bold text-[18px] text-midnight mb-6">Contact Information</h2>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Contact Name
                   </label>
                   <input
@@ -145,7 +145,7 @@ export default function PartnerSettingsPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Email Address
                   </label>
                   <input
@@ -156,7 +156,7 @@ export default function PartnerSettingsPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Phone Number
                   </label>
                   <input
@@ -209,7 +209,7 @@ export default function PartnerSettingsPage() {
               {profile?.tier === "professional" || profile?.tier === "enterprise" ? (
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Logo URL
                     </label>
                     <input
@@ -221,7 +221,7 @@ export default function PartnerSettingsPage() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Primary Brand Color
                     </label>
                     <div className="flex items-center gap-3">

@@ -129,7 +129,7 @@ export default function ReportsHubPage() {
               </p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {report.frequency.map((freq) => (
-                  <span key={freq} className="px-2 py-1 bg-parchment font-display font-medium text-[8px] tracking-[1px] uppercase text-midnight">
+                  <span key={freq} className="px-2 py-1 bg-parchment font-display font-medium text-[10px] tracking-[1px] uppercase text-midnight">
                     {freq}
                   </span>
                 ))}

@@ -126,12 +126,12 @@ export default function PosterCompliancePage() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h2 className="font-display font-bold text-[10px] tracking-[2px] uppercase text-steel mb-4">
+          <h2 className="font-display font-bold text-[12px] tracking-[2px] uppercase text-steel mb-4">
             New Poster Location
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
+              <label className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                 Location Name
               </label>
               <input
@@ -142,7 +142,7 @@ export default function PosterCompliancePage() {
               />
             </div>
             <div>
-              <label className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
+              <label className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                 Poster Type
               </label>
               <input
@@ -154,7 +154,7 @@ export default function PosterCompliancePage() {
               />
             </div>
             <div>
-              <label className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
+              <label className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                 Jurisdiction
               </label>
               <input
@@ -165,7 +165,7 @@ export default function PosterCompliancePage() {
               />
             </div>
             <div>
-              <label className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
+              <label className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                 Next Update Due
               </label>
               <input
@@ -227,7 +227,7 @@ export default function PosterCompliancePage() {
                 <div key={loc.id} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
                   <div className="flex items-start justify-between mb-3">
                     <span className="font-sans font-medium text-[14px] text-midnight">{loc.location_name}</span>
-                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase shrink-0 ml-2 ${statusStyles[loc.status] || "bg-steel/10 text-steel"}`}>
+                    <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase shrink-0 ml-2 ${statusStyles[loc.status] || "bg-steel/10 text-steel"}`}>
                       {statusLabels[loc.status] || loc.status}
                     </span>
                   </div>
@@ -250,7 +250,7 @@ export default function PosterCompliancePage() {
                   <div className="mt-3 pt-3 border-t border-midnight/[0.06]">
                     <button
                       onClick={() => handleVerify(loc.id)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[8px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[10px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
                     >
                       <ShieldCheck size={14} />
                       Verify
@@ -290,7 +290,7 @@ export default function PosterCompliancePage() {
                         <span className="font-sans text-[13px] text-midnight">{loc.jurisdiction}</span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${statusStyles[loc.status] || "bg-steel/10 text-steel"}`}>
+                        <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${statusStyles[loc.status] || "bg-steel/10 text-steel"}`}>
                           {statusLabels[loc.status] || loc.status}
                         </span>
                       </td>
@@ -310,7 +310,7 @@ export default function PosterCompliancePage() {
                         <div className="flex items-center justify-end">
                           <button
                             onClick={() => handleVerify(loc.id)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[8px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[10px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
                           >
                             <ShieldCheck size={14} />
                             Verify

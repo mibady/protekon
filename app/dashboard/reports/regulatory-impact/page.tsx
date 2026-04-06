@@ -35,7 +35,7 @@ export default function RegulatoryImpactReportPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>
-          <span className="font-display font-medium text-[10px] tracking-[3px] uppercase text-crimson block mb-1">
+          <span className="font-display font-medium text-[12px] tracking-[3px] uppercase text-crimson block mb-1">
             Quarterly Report
           </span>
           <h1 className="font-display font-bold text-[28px] text-midnight">Regulatory Impact Report</h1>
@@ -95,12 +95,12 @@ export default function RegulatoryImpactReportPage() {
                       <span className="px-2 py-1 bg-gold/10 border border-gold/30 font-display font-medium text-[9px] tracking-[1px] text-gold">
                         {update.code}
                       </span>
-                      <span className={`px-2 py-0.5 font-display font-bold text-[8px] tracking-[1px] uppercase ${
+                      <span className={`px-2 py-0.5 font-display font-bold text-[10px] tracking-[1px] uppercase ${
                         update.type === 'Amendment' ? 'bg-crimson text-white' : 'bg-midnight text-white'
                       }`}>
                         {update.type}
                       </span>
-                      <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${
+                      <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${
                         update.impact === 'High' ? 'bg-crimson/10 text-crimson' :
                         update.impact === 'Medium' ? 'bg-gold/10 text-gold' :
                         'bg-steel/10 text-steel'
@@ -112,7 +112,7 @@ export default function RegulatoryImpactReportPage() {
                       <span className="font-sans text-[12px] text-midnight">{update.response}</span>
                       <div className="flex items-center gap-1 text-[#2A7D4F]">
                         <Check size={14} weight="bold" />
-                        <span className="font-display font-medium text-[10px] tracking-[1px] uppercase">{update.status}</span>
+                        <span className="font-display font-medium text-[12px] tracking-[1px] uppercase">{update.status}</span>
                       </div>
                     </div>
                   </div>
@@ -152,7 +152,7 @@ export default function RegulatoryImpactReportPage() {
           ))}
         </div>
         <div className="bg-crimson p-6 text-center">
-          <span className="font-display font-medium text-[10px] tracking-[3px] uppercase text-parchment/80 block mb-2">
+          <span className="font-display font-medium text-[12px] tracking-[3px] uppercase text-parchment/80 block mb-2">
             Estimated Total Avoided
           </span>
           <span className="font-display font-black text-[48px] text-parchment">$52,000+</span>

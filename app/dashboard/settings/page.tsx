@@ -111,7 +111,7 @@ export default function SettingsPage() {
             <form ref={formRef} onSubmit={(e) => e.preventDefault()}>
               <h2 className="font-display font-bold text-[18px] text-midnight mb-6">Profile Information</h2>
               <div className="flex flex-col gap-2 mb-8">
-                <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                   Business Name
                 </label>
                 <input
@@ -122,7 +122,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div className="flex flex-col gap-2 mb-8">
-                <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                   Email Address
                 </label>
                 <input
@@ -133,7 +133,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div className="flex flex-col gap-2 mb-8">
-                <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                   Phone Number
                 </label>
                 <input
@@ -151,7 +151,7 @@ export default function SettingsPage() {
               <h2 className="font-display font-bold text-[18px] text-midnight mb-6">Company Information</h2>
               <div className="grid sm:grid-cols-2 gap-6 mb-8">
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Industry
                   </label>
                   <select
@@ -172,7 +172,7 @@ export default function SettingsPage() {
                   </select>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Plan
                   </label>
                   <select
@@ -270,7 +270,7 @@ export default function SettingsPage() {
               <div className="bg-fog/30 p-6 mb-8">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
+                    <span className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                       Current Plan
                     </span>
                     <span className="font-display font-bold text-[20px] text-midnight">

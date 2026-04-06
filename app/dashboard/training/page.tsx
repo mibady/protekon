@@ -122,7 +122,7 @@ export default function TrainingPage() {
           <h2 className="font-display font-bold text-[14px] text-midnight mb-4">Add Training Record</h2>
           <div className="grid sm:grid-cols-3 gap-4 mb-4">
             <div>
-              <label className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Employee Name</label>
+              <label className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">Employee Name</label>
               <input
                 type="text"
                 value={formData.employee_name}
@@ -131,7 +131,7 @@ export default function TrainingPage() {
               />
             </div>
             <div>
-              <label className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Training Type</label>
+              <label className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">Training Type</label>
               <select
                 value={formData.training_type}
                 onChange={(e) => setFormData({ ...formData, training_type: e.target.value })}
@@ -149,7 +149,7 @@ export default function TrainingPage() {
               </select>
             </div>
             <div>
-              <label className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">Due Date</label>
+              <label className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">Due Date</label>
               <input
                 type="date"
                 value={formData.due_date}
@@ -216,7 +216,7 @@ export default function TrainingPage() {
                         {new Date(record.due_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${statusStyles[effectiveStatus] || statusStyles.pending}`}>
+                        <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${statusStyles[effectiveStatus] || statusStyles.pending}`}>
                           {effectiveStatus}
                         </span>
                       </td>
@@ -230,7 +230,7 @@ export default function TrainingPage() {
                           {record.status !== "completed" && (
                             <button
                               onClick={() => handleComplete(record.id)}
-                              className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[8px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
+                              className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[10px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
                             >
                               Complete
                             </button>
@@ -261,7 +261,7 @@ export default function TrainingPage() {
                 >
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <span className="font-sans font-semibold text-[14px] text-midnight">{record.employee_name}</span>
-                    <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase shrink-0 ${statusStyles[effectiveStatus] || statusStyles.pending}`}>
+                    <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase shrink-0 ${statusStyles[effectiveStatus] || statusStyles.pending}`}>
                       {effectiveStatus}
                     </span>
                   </div>
@@ -273,7 +273,7 @@ export default function TrainingPage() {
                     <div className="flex gap-2 mt-3">
                       <button
                         onClick={() => handleComplete(record.id)}
-                        className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[8px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
+                        className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[10px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors"
                       >
                         Complete
                       </button>

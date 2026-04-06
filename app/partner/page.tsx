@@ -37,7 +37,7 @@ function StatCard({
     >
       <div className="flex items-center gap-2">
         <Icon size={14} className="text-steel" />
-        <span className="font-display font-medium text-[8px] tracking-[2px] uppercase text-steel">
+        <span className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
           {label}
         </span>
       </div>
@@ -97,7 +97,7 @@ export default function PartnerDashboardPage() {
         >
           <div className="flex items-center gap-2">
             <ChartLine size={14} className="text-steel" />
-            <span className="font-display font-medium text-[8px] tracking-[2px] uppercase text-steel">
+            <span className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
               Avg Compliance Score
             </span>
           </div>
@@ -144,7 +144,7 @@ export default function PartnerDashboardPage() {
         </div>
         <Link
           href="/partner/assessments"
-          className="flex-shrink-0 flex items-center gap-2 bg-crimson text-brand-white px-5 py-2.5 font-display font-semibold text-[10px] tracking-[2px] uppercase hover:bg-crimson/90 transition-colors ml-6"
+          className="flex-shrink-0 flex items-center gap-2 bg-crimson text-brand-white px-5 py-2.5 font-display font-semibold text-[12px] tracking-[2px] uppercase hover:bg-crimson/90 transition-colors ml-6"
         >
           Send Assessment
           <ArrowRight size={14} weight="bold" />

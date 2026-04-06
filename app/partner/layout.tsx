@@ -37,7 +37,7 @@ export default async function PartnerLayout({
           )}
           <Link
             href="/"
-            className="inline-flex items-center gap-2 bg-midnight text-brand-white px-6 py-2.5 font-display font-semibold text-[10px] tracking-[2px] uppercase hover:bg-midnight/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-midnight text-brand-white px-6 py-2.5 font-display font-semibold text-[12px] tracking-[2px] uppercase hover:bg-midnight/90 transition-colors"
           >
             Return Home
           </Link>
