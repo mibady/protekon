@@ -47,7 +47,7 @@ export default function DailyTimeline() {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="w-4 h-[1px] bg-gold" />
-            <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-crimson">
+            <span className="font-display font-medium text-[12px] tracking-[4px] uppercase text-crimson">
               ALWAYS ON
             </span>
             <div className="w-4 h-[1px] bg-gold" />
@@ -76,7 +76,7 @@ export default function DailyTimeline() {
               transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
             >
               {/* Time Badge */}
-              <span className="inline-block font-display font-bold text-[10px] tracking-[2px] uppercase text-brand-white bg-crimson px-3 py-1.5 mb-5">
+              <span className="inline-block font-display font-bold text-[12px] tracking-[2px] uppercase text-brand-white bg-crimson px-3 py-1.5 mb-5">
                 {card.time}
               </span>
 

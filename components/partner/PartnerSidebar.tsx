@@ -102,7 +102,7 @@ function SidebarContent({
             <span className="font-display font-bold text-[20px] tracking-[6px] text-brand-white">
               PROT<span className="text-crimson">E</span>KON
             </span>
-            <span className="font-display font-normal text-[8px] tracking-[3px] text-gold">
+            <span className="font-display font-normal text-[10px] tracking-[3px] text-gold">
               PARTNER PORTAL
             </span>
           </div>
@@ -119,7 +119,7 @@ function SidebarContent({
         </p>
         <div className="mt-3">
           <span
-            className={`inline-block px-2 py-0.5 font-display font-semibold text-[8px] tracking-[2px] uppercase ${tierBg} ${tierColor}`}
+            className={`inline-block px-2 py-0.5 font-display font-semibold text-[10px] tracking-[2px] uppercase ${tierBg} ${tierColor}`}
           >
             {profile.tier} tier
           </span>
@@ -128,7 +128,7 @@ function SidebarContent({
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-4 py-4">
-        <span className="block px-3 mb-2 font-display font-medium text-[8px] tracking-[3px] text-steel">
+        <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">
           NAVIGATION
         </span>
         <ul className="flex flex-col gap-0.5">

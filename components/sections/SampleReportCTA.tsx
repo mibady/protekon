@@ -62,7 +62,7 @@ export default function SampleReportCTA() {
               transition={{ duration: 0.5 }}
             >
               <div className="w-4 h-[1px] bg-gold" />
-              <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-crimson">
+              <span className="font-display font-medium text-[12px] tracking-[4px] uppercase text-crimson">
                 SEE YOUR COMPLIANCE RISK
               </span>
             </motion.div>
@@ -102,7 +102,7 @@ export default function SampleReportCTA() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
               {/* Email */}
               <div className="flex flex-col gap-2">
-                <label className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
+                <label className="font-display font-medium text-[12px] tracking-[2px] uppercase text-steel">
                   BUSINESS EMAIL
                 </label>
                 <input
@@ -116,7 +116,7 @@ export default function SampleReportCTA() {
 
               {/* Industry */}
               <div className="flex flex-col gap-2">
-                <label className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
+                <label className="font-display font-medium text-[12px] tracking-[2px] uppercase text-steel">
                   INDUSTRY
                 </label>
                 <select
@@ -136,7 +136,7 @@ export default function SampleReportCTA() {
 
               {/* Employee Count */}
               <div className="flex flex-col gap-2">
-                <label className="font-display font-medium text-[10px] tracking-[2px] uppercase text-steel">
+                <label className="font-display font-medium text-[12px] tracking-[2px] uppercase text-steel">
                   EMPLOYEE COUNT
                 </label>
                 <select
@@ -158,7 +158,7 @@ export default function SampleReportCTA() {
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-14 bg-crimson text-brand-white font-display font-semibold text-[10px] tracking-[3px] uppercase disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 transition-all flex items-center justify-center gap-2"
+                className="w-full h-14 bg-crimson text-brand-white font-display font-semibold text-[12px] tracking-[3px] uppercase disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 transition-all flex items-center justify-center gap-2"
                 whileHover={{ scale: isSubmitting ? 1 : 1.01 }}
                 whileTap={{ scale: isSubmitting ? 1 : 0.99 }}
               >

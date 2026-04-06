@@ -43,7 +43,7 @@ export default function ContactPage() {
           </Link>
           <Link 
             href="/"
-            className="font-display text-[10px] tracking-[2px] uppercase text-steel hover:text-brand-white transition-colors"
+            className="font-display text-[12px] tracking-[2px] uppercase text-steel hover:text-brand-white transition-colors"
           >
             Back to Home
           </Link>
@@ -59,7 +59,7 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-gold">
+              <span className="font-display font-medium text-[12px] tracking-[4px] uppercase text-gold">
                 Get in Touch
               </span>
               <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.92] text-parchment mt-4 mb-6">
@@ -83,7 +83,7 @@ export default function ContactPage() {
                   <EnvelopeSimple size={18} weight="light" className="text-gold" />
                 </div>
                 <div>
-                  <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
+                  <span className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                     Email
                   </span>
                   <a href="mailto:hello@protekon.com" className="font-sans text-[15px] text-parchment hover:text-gold transition-colors">
@@ -97,7 +97,7 @@ export default function ContactPage() {
                   <Phone size={18} weight="light" className="text-gold" />
                 </div>
                 <div>
-                  <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
+                  <span className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                     Phone
                   </span>
                   <a href="tel:+18005551234" className="font-sans text-[15px] text-parchment hover:text-gold transition-colors">
@@ -111,7 +111,7 @@ export default function ContactPage() {
                   <MapPin size={18} weight="light" className="text-gold" />
                 </div>
                 <div>
-                  <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1">
+                  <span className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                     Headquarters
                   </span>
                   <p className="font-sans text-[15px] text-parchment">
@@ -128,7 +128,7 @@ export default function ContactPage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <span className="font-display text-[10px] tracking-[2px] uppercase text-steel block mb-3">
+              <span className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-3">
                 Support Hours
               </span>
               <p className="font-sans text-[14px] text-fog">
@@ -165,7 +165,7 @@ export default function ContactPage() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Name *
                     </label>
                     <input
@@ -178,7 +178,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Email *
                     </label>
                     <input
@@ -194,7 +194,7 @@ export default function ContactPage() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Company
                     </label>
                     <input
@@ -206,7 +206,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                    <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                       Phone
                     </label>
                     <input
@@ -220,7 +220,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Subject
                   </label>
                   <select
@@ -237,7 +237,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Message *
                   </label>
                   <textarea

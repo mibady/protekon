@@ -179,7 +179,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
           {showSkip && (
             <motion.button
               onClick={handleSkip}
-              className="absolute bottom-10 right-10 font-display font-medium text-[10px] tracking-[3px] uppercase text-steel/50 hover:text-steel transition-colors px-4 py-2 border border-steel/20 hover:border-steel/40"
+              className="absolute bottom-10 right-10 font-display font-medium text-[12px] tracking-[3px] uppercase text-steel/50 hover:text-steel transition-colors px-4 py-2 border border-steel/20 hover:border-steel/40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}

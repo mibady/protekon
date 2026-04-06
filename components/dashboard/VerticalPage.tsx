@@ -38,7 +38,7 @@ interface VerticalPageConfig {
   headerExtra?: ReactNode
 }
 
-const LBL = "font-display text-[10px] tracking-[2px] uppercase text-steel block mb-1"
+const LBL = "font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1"
 const INP = "w-full border border-ash px-4 py-3 font-sans text-[14px] text-midnight focus:border-midnight focus:outline-none transition-colors"
 
 function formatDate(v: unknown): string {
@@ -64,7 +64,7 @@ function CellValue({ row, col, ss }: { row: Record<string, unknown>; col: Column
   switch (col.render) {
     case "status": {
       const s = String(value ?? "")
-      return <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase ${ss[s] || "bg-steel/10 text-steel"}`}>{s}</span>
+      return <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase ${ss[s] || "bg-steel/10 text-steel"}`}>{s}</span>
     }
     case "date":
       return <span className="font-sans text-[13px] text-midnight">{formatDate(value)}</span>
@@ -72,7 +72,7 @@ function CellValue({ row, col, ss }: { row: Record<string, unknown>; col: Column
       return value ? <ShieldCheck size={16} className="text-[#2A7D4F]" /> : <span className="font-sans text-[12px] text-steel">--</span>
     case "tags": {
       const tags = Array.isArray(value) ? value : []
-      return <div className="flex flex-wrap gap-1">{tags.map((t) => <span key={String(t)} className="px-2 py-0.5 bg-midnight/[0.06] font-display text-[8px] tracking-[1px] uppercase text-midnight">{String(t)}</span>)}</div>
+      return <div className="flex flex-wrap gap-1">{tags.map((t) => <span key={String(t)} className="px-2 py-0.5 bg-midnight/[0.06] font-display text-[10px] tracking-[1px] uppercase text-midnight">{String(t)}</span>)}</div>
     }
     default:
       return <span className="font-sans text-[13px] text-midnight">{String(value ?? "")}</span>
@@ -187,7 +187,7 @@ function VerticalPage({ config }: { config: VerticalPageConfig }): ReactNode {
       {/* Form */}
       {showForm && (
         <motion.div className="bg-brand-white border border-midnight/[0.08] p-6 mb-6" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-          <h2 className="font-display font-bold text-[10px] tracking-[2px] uppercase text-steel mb-4">New {config.title}</h2>
+          <h2 className="font-display font-bold text-[12px] tracking-[2px] uppercase text-steel mb-4">New {config.title}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {config.formFields.map((f) => (
               <FormField key={f.name} field={f} value={formData[f.name]} onChange={(v) => setFormData((p) => ({ ...p, [f.name]: v }))} />
@@ -232,7 +232,7 @@ function VerticalPage({ config }: { config: VerticalPageConfig }): ReactNode {
                     <div key={id} className="bg-midnight/50 border border-brand-white/[0.06] p-4 rounded-lg">
                       <div className="flex items-start justify-between mb-3">
                         <span className="font-sans font-medium text-[14px] text-midnight">{String(row[config.columns[0]?.key] ?? "")}</span>
-                        <span className={`px-2 py-0.5 font-display font-medium text-[8px] tracking-[1px] uppercase shrink-0 ml-2 ${config.statusStyles[sv] || "bg-steel/10 text-steel"}`}>{sv}</span>
+                        <span className={`px-2 py-0.5 font-display font-medium text-[10px] tracking-[1px] uppercase shrink-0 ml-2 ${config.statusStyles[sv] || "bg-steel/10 text-steel"}`}>{sv}</span>
                       </div>
                       <div className="space-y-2">
                         {mobileCols.slice(1).map((col) => (
@@ -245,7 +245,7 @@ function VerticalPage({ config }: { config: VerticalPageConfig }): ReactNode {
                       {hasActions && (
                         <div className="flex items-center gap-2 mt-3 pt-3 border-t border-midnight/[0.06]">
                           {config.verifyAction && !row.verified_at && (
-                            <button onClick={() => handleVerify(id)} className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[8px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors">Verify</button>
+                            <button onClick={() => handleVerify(id)} className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[10px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors">Verify</button>
                           )}
                           {config.deleteAction && (
                             <button onClick={() => handleDelete(id)} className="p-2 hover:bg-crimson/[0.04] transition-colors ml-auto">
@@ -277,7 +277,7 @@ function VerticalPage({ config }: { config: VerticalPageConfig }): ReactNode {
                             <td className="px-4 py-3">
                               <div className="flex items-center justify-end gap-2">
                                 {config.verifyAction && !row.verified_at && (
-                                  <button onClick={() => handleVerify(id)} className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[8px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors">Verify</button>
+                                  <button onClick={() => handleVerify(id)} className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[10px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors">Verify</button>
                                 )}
                                 {config.deleteAction && (
                                   <button onClick={() => handleDelete(id)} className="p-2 hover:bg-crimson/[0.04] transition-colors">

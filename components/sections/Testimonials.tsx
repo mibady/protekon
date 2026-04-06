@@ -46,7 +46,7 @@ export default function Testimonials() {
         {/* Header */}
         <div className="flex items-center gap-3 mb-12">
           <div className="w-4 h-[1px] bg-gold" />
-          <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-crimson">
+          <span className="font-display font-medium text-[12px] tracking-[4px] uppercase text-crimson">
             TESTIMONIALS
           </span>
         </div>

@@ -138,7 +138,7 @@ export default function SendAssessmentDialog({ open, onClose, onSuccess }: SendA
                   <button
                     type="submit"
                     disabled={loading || !prospectName.trim() || !prospectEmail.trim()}
-                    className="flex items-center gap-2 bg-crimson text-brand-white px-5 py-2.5 font-display font-semibold text-[10px] tracking-[2px] uppercase hover:bg-crimson/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 bg-crimson text-brand-white px-5 py-2.5 font-display font-semibold text-[12px] tracking-[2px] uppercase hover:bg-crimson/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <>
@@ -156,7 +156,7 @@ export default function SendAssessmentDialog({ open, onClose, onSuccess }: SendA
                     type="button"
                     onClick={handleClose}
                     disabled={loading}
-                    className="px-5 py-2.5 font-display font-medium text-[10px] tracking-[2px] uppercase text-steel border border-midnight/[0.12] hover:border-midnight/30 transition-colors disabled:opacity-50"
+                    className="px-5 py-2.5 font-display font-medium text-[12px] tracking-[2px] uppercase text-steel border border-midnight/[0.12] hover:border-midnight/30 transition-colors disabled:opacity-50"
                   >
                     Cancel
                   </button>

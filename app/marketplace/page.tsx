@@ -92,7 +92,7 @@ export default function MarketplacePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="font-display text-[10px] tracking-[4px] uppercase text-gold">
+            <span className="font-display text-[12px] tracking-[4px] uppercase text-gold">
               Marketplace
             </span>
             <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.92] text-parchment mt-4 mb-6">
@@ -137,7 +137,7 @@ export default function MarketplacePage() {
                 <h3 className="font-display font-bold text-[16px] text-parchment mb-1">
                   {integration.name}
                 </h3>
-                <span className="font-display text-[10px] tracking-[2px] uppercase text-crimson block mb-3">
+                <span className="font-display text-[12px] tracking-[2px] uppercase text-crimson block mb-3">
                   {integration.category}
                 </span>
 
@@ -191,7 +191,7 @@ export default function MarketplacePage() {
 
                 <Link
                   href="/signup"
-                  className="block w-full text-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-parchment border border-brand-white/20 py-3 hover:border-gold hover:text-gold transition-colors"
+                  className="block w-full text-center font-display font-semibold text-[12px] tracking-[3px] uppercase text-parchment border border-brand-white/20 py-3 hover:border-gold hover:text-gold transition-colors"
                 >
                   Add to Plan
                 </Link>
@@ -219,7 +219,7 @@ export default function MarketplacePage() {
                 <h3 className="font-display font-bold text-[14px] text-parchment mb-1">
                   {partner.name}
                 </h3>
-                <span className="font-display text-[10px] tracking-[2px] uppercase text-crimson block mb-4">
+                <span className="font-display text-[12px] tracking-[2px] uppercase text-crimson block mb-4">
                   {partner.type}
                 </span>
                 <div className="flex items-center justify-center gap-1">

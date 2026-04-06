@@ -96,7 +96,7 @@ export default function ForgotPasswordPage() {
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div className="flex flex-col gap-2">
-                  <label className="font-display text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display text-[12px] tracking-[2px] uppercase text-steel">
                     Email Address
                   </label>
                   <div className="relative">

@@ -132,7 +132,7 @@ export default function CalculatorPage() {
         <section className="bg-void text-parchment py-20 px-6">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <span className="font-display font-semibold text-[10px] tracking-[3px] uppercase text-gold mb-4 block">
+              <span className="font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold mb-4 block">
                 Compliance Risk Calculator
               </span>
               <h1 className="font-display font-black text-[44px] md:text-[52px] leading-[0.95] mb-6">
@@ -159,7 +159,7 @@ export default function CalculatorPage() {
 
                 {/* Industry */}
                 <div className="mb-5">
-                  <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel block mb-2">
+                  <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel block mb-2">
                     Industry
                   </label>
                   <select
@@ -175,7 +175,7 @@ export default function CalculatorPage() {
 
                 {/* Size */}
                 <div>
-                  <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel block mb-2">
+                  <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel block mb-2">
                     Employee Count
                   </label>
                   <div className="space-y-2">

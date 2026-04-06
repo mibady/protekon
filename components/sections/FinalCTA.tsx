@@ -44,7 +44,7 @@ export default function FinalCTA() {
           >
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center font-display font-semibold text-[10px] tracking-[3px] uppercase bg-brand-white text-crimson px-8 py-4 min-w-[280px]"
+              className="inline-flex items-center justify-center font-display font-semibold text-[12px] tracking-[3px] uppercase bg-brand-white text-crimson px-8 py-4 min-w-[280px]"
             >
               ACTIVATE YOUR AI COMPLIANCE OFFICER
             </Link>
@@ -56,7 +56,7 @@ export default function FinalCTA() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center font-display font-semibold text-[10px] tracking-[3px] uppercase border border-brand-white text-brand-white px-8 py-4 min-w-[280px] hover:bg-brand-white/10 transition-colors"
+              className="inline-flex items-center justify-center font-display font-semibold text-[12px] tracking-[3px] uppercase border border-brand-white text-brand-white px-8 py-4 min-w-[280px] hover:bg-brand-white/10 transition-colors"
             >
               SEE WHAT THE AGENT DELIVERS
             </Link>

@@ -53,7 +53,7 @@ export default function ProductOverview() {
             {/* Eyebrow */}
             <div className="flex items-center gap-3 mb-6">
               <div className="w-4 h-[1px] bg-gold" />
-              <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-crimson">
+              <span className="font-display font-medium text-[12px] tracking-[4px] uppercase text-crimson">
                 THE PROTEKON ENGINE
               </span>
             </div>
@@ -118,7 +118,7 @@ export default function ProductOverview() {
                   {feature.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="font-display font-medium text-[8px] tracking-[2px] text-gold border border-gold/30 px-3 py-1"
+                      className="font-display font-medium text-[10px] tracking-[2px] text-gold border border-gold/30 px-3 py-1"
                     >
                       {tag}
                     </span>

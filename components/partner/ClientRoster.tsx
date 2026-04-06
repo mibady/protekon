@@ -53,7 +53,7 @@ export default function ClientRoster({ clients, loading }: ClientRosterProps) {
   return (
     <div className="bg-brand-white border border-midnight/[0.08]">
       <div className="px-6 py-4 border-b border-midnight/[0.06]">
-        <h2 className="font-display font-medium text-[10px] tracking-[3px] uppercase text-steel">
+        <h2 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel">
           Client Roster
         </h2>
       </div>
@@ -66,7 +66,7 @@ export default function ClientRoster({ clients, loading }: ClientRosterProps) {
               {["Client Name", "Vertical", "Plan", "Compliance Score", "Monthly Revenue", "Status"].map((h) => (
                 <th
                   key={h}
-                  className="px-4 py-3 text-left font-display font-medium text-[8px] tracking-[2px] uppercase text-steel"
+                  className="px-4 py-3 text-left font-display font-medium text-[10px] tracking-[2px] uppercase text-steel"
                 >
                   {h}
                 </th>

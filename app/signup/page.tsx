@@ -201,7 +201,7 @@ export default function SignupPage() {
               <>
                 {/* Email */}
                 <div className="flex flex-col gap-2">
-                  <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel">
                     Work Email
                   </label>
                   <input
@@ -216,7 +216,7 @@ export default function SignupPage() {
 
                 {/* Password */}
                 <div className="flex flex-col gap-2">
-                  <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel">
                     Create Password
                   </label>
                   <div className="relative">
@@ -243,7 +243,7 @@ export default function SignupPage() {
               <>
                 {/* Business Name */}
                 <div className="flex flex-col gap-2">
-                  <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel">
                     Business Name
                   </label>
                   <input
@@ -258,7 +258,7 @@ export default function SignupPage() {
 
                 {/* Industry */}
                 <div className="flex flex-col gap-2">
-                  <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel">
                     Industry
                   </label>
                   <select
@@ -276,7 +276,7 @@ export default function SignupPage() {
 
                 {/* Employee Count */}
                 <div className="flex flex-col gap-2">
-                  <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel">
                     Employee Count
                   </label>
                   <select
@@ -296,7 +296,7 @@ export default function SignupPage() {
 
                 {/* Plan Selection */}
                 <div className="flex flex-col gap-3">
-                  <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel">
+                  <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel">
                     Select Your Plan
                   </label>
                   <div className="grid gap-3">
@@ -325,7 +325,7 @@ export default function SignupPage() {
                                 {plan.name}
                               </span>
                               {plan.popular && (
-                                <span className="font-display text-[8px] tracking-[1px] uppercase text-crimson bg-crimson/10 px-2 py-0.5">
+                                <span className="font-display text-[10px] tracking-[1px] uppercase text-crimson bg-crimson/10 px-2 py-0.5">
                                   Popular
                                 </span>
                               )}
@@ -348,7 +348,7 @@ export default function SignupPage() {
                   if (!selectedPlan || selectedPlan.maxLocations <= 1) return null
                   return (
                     <div className="flex flex-col gap-2">
-                      <label className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-steel">
+                      <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel">
                         Number of Locations
                       </label>
                       <select

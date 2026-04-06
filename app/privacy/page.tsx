@@ -16,7 +16,7 @@ export default function PrivacyPage() {
           </Link>
           <Link 
             href="/"
-            className="font-display text-[10px] tracking-[2px] uppercase text-steel hover:text-brand-white transition-colors"
+            className="font-display text-[12px] tracking-[2px] uppercase text-steel hover:text-brand-white transition-colors"
           >
             Back to Home
           </Link>
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-gold">
+          <span className="font-display font-medium text-[12px] tracking-[4px] uppercase text-gold">
             Legal
           </span>
           <h1 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-parchment mt-4 mb-4">

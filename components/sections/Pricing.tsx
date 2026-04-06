@@ -84,7 +84,7 @@ export default function Pricing() {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="w-4 h-[1px] bg-gold" />
-            <span className="font-display font-medium text-[10px] tracking-[4px] uppercase text-crimson">
+            <span className="font-display font-medium text-[12px] tracking-[4px] uppercase text-crimson">
               TRANSPARENT PRICING
             </span>
             <div className="w-4 h-[1px] bg-gold" />
@@ -132,7 +132,7 @@ export default function Pricing() {
               {/* Badge */}
               {tier.badge && (
                 <div className="absolute -top-3 right-4 bg-crimson px-3 py-1">
-                  <span className="font-display font-semibold text-[8px] tracking-[2px] text-brand-white">
+                  <span className="font-display font-semibold text-[10px] tracking-[2px] text-brand-white">
                     {tier.badge}
                   </span>
                 </div>
@@ -179,7 +179,7 @@ export default function Pricing() {
                 {/* CTA */}
                 <Link
                   href="/signup"
-                  className={`block w-full py-4 text-center font-display font-semibold text-[10px] tracking-[3px] uppercase transition-all ${
+                  className={`block w-full py-4 text-center font-display font-semibold text-[12px] tracking-[3px] uppercase transition-all ${
                     tier.ctaStyle === "filled"
                       ? "bg-crimson text-brand-white hover:brightness-110"
                       : tier.ctaStyle === "gold"

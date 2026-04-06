@@ -26,7 +26,7 @@ export default function Hero() {
           <div className="relative z-10 max-w-[560px]">
             {/* Eyebrow */}
             <motion.span
-              className="font-display font-medium text-[10px] tracking-[4px] uppercase text-crimson mb-4 block"
+              className="font-display font-medium text-[12px] tracking-[4px] uppercase text-crimson mb-4 block"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.05 }}
@@ -205,7 +205,7 @@ export default function Hero() {
                   <span className="font-display font-black text-[22px] lg:text-[26px] text-gold block leading-none">
                     {stat.value}
                   </span>
-                  <span className="font-display text-[8px] tracking-[2px] uppercase text-steel mt-2 block">
+                  <span className="font-display text-[10px] tracking-[2px] uppercase text-steel mt-2 block">
                     {stat.label}
                   </span>
                 </div>
@@ -232,7 +232,7 @@ export default function Hero() {
           </span>
           <div className="flex items-center gap-3">
             {['SOC 2', 'OSHA', 'Cal/OSHA', 'CSLB'].map((badge) => (
-              <span key={badge} className="font-display text-[8px] tracking-[2px] uppercase text-gold/60 px-3 py-1 border border-gold/20">
+              <span key={badge} className="font-display text-[10px] tracking-[2px] uppercase text-gold/60 px-3 py-1 border border-gold/20">
                 {badge}
               </span>
             ))}
