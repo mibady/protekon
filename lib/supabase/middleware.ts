@@ -34,11 +34,16 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Bypass auth redirect for Meticulous test replays
+  const isMeticulousTest = request.headers.get("meticulous-is-test") === "1"
+
   // Redirect unauthenticated users from protected routes
   if (
     !user &&
+    !isMeticulousTest &&
     (request.nextUrl.pathname.startsWith("/dashboard") ||
-     request.nextUrl.pathname.startsWith("/partner"))
+     request.nextUrl.pathname === "/partner" ||
+     request.nextUrl.pathname.startsWith("/partner/"))
   ) {
     const url = request.nextUrl.clone()
     url.pathname = "/login"

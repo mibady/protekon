@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import type { Metadata } from 'next'
 import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
@@ -12,6 +13,18 @@ import { format } from 'date-fns'
 
 interface Props {
   params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const resource = await client.fetch(resourceBySlugQuery, { slug })
+  if (!resource) {
+    return { title: 'Resource Not Found | PROTEKON' }
+  }
+  return {
+    title: `${resource.title} | PROTEKON`,
+    description: resource.excerpt || 'California compliance resource from PROTEKON.',
+  }
 }
 
 export default async function ResourcePage({ params }: Props) {

@@ -1,11 +1,19 @@
 "use server"
 
+import { headers } from "next/headers"
 import { createClient } from "@/lib/supabase/server"
+import { rateLimit } from "@/lib/rate-limit"
 import type { ActionResult } from "@/lib/types"
 import type { ContactSubmission } from "@/lib/types/partner"
 
 export async function submitContact(data: ContactSubmission): Promise<ActionResult> {
   try {
+    const hdrs = await headers()
+    const ip = hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown"
+    if (rateLimit(ip).limited) {
+      return { error: "Too many requests. Please try again later." }
+    }
+
     const supabase = await createClient()
 
     const { error } = await supabase.from("contact_submissions").insert({

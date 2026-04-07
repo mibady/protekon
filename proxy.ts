@@ -1,12 +1,7 @@
 import { updateSession } from "@/lib/supabase/middleware"
-import { NextResponse, type NextRequest } from "next/server"
+import { type NextRequest } from "next/server"
 
 export async function proxy(request: NextRequest) {
-  // Bypass auth for Meticulous test replays
-  if (request.headers.get("x-meticulous-worker") === "true") {
-    return NextResponse.next()
-  }
-
   return await updateSession(request)
 }
 
