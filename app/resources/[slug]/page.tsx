@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: 'Resource Not Found | PROTEKON' }
   }
   return {
-    title: `${resource.title} | PROTEKON`,
+    title: resource.title,
     description: resource.excerpt || 'California compliance resource from PROTEKON.',
   }
 }
