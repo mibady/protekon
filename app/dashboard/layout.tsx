@@ -105,7 +105,7 @@ export default function DashboardLayout({
 
   // Get current page name for breadcrumb
   const getPageName = () => {
-    const segments = pathname.split('/').filter(Boolean)
+    const segments = (pathname ?? '').split('/').filter(Boolean)
     if (segments.length === 1) return "DASHBOARD"
     return segments[segments.length - 1].toUpperCase().replace(/-/g, ' ')
   }
