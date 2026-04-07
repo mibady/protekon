@@ -10,7 +10,17 @@ export async function POST(req: Request) {
     return new Response("Unauthorized", { status: 401 })
   }
 
-  const { messages } = await req.json()
+  let messages: unknown
+  try {
+    const body = await req.json()
+    messages = body.messages
+  } catch {
+    return new Response("Invalid JSON", { status: 400 })
+  }
+
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return new Response("Messages array is required", { status: 400 })
+  }
 
   // Gather client context for RAG
   const [clientResult, docsResult, incidentsResult, regsResult] = await Promise.all([

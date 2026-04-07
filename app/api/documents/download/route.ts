@@ -2,12 +2,6 @@ import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 
 export async function GET(request: NextRequest) {
-  const documentId = request.nextUrl.searchParams.get("id")
-
-  if (!documentId) {
-    return NextResponse.json({ error: "Missing document ID" }, { status: 400 })
-  }
-
   const supabase = await createClient()
   const {
     data: { user },
@@ -15,6 +9,12 @@ export async function GET(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
+  const documentId = request.nextUrl.searchParams.get("id")
+
+  if (!documentId) {
+    return NextResponse.json({ error: "Missing document ID" }, { status: 400 })
   }
 
   // Get document and verify ownership via client_id -> user_id
@@ -29,14 +29,8 @@ export async function GET(request: NextRequest) {
   }
 
   // Verify the requesting user owns this document's client
-  const { data: client } = await supabase
-    .from("clients")
-    .select("id")
-    .eq("id", doc.client_id)
-    .eq("id", user.id)
-    .single()
-
-  if (!client) {
+  // clients.id = auth.uid(), so doc.client_id must match user.id
+  if (doc.client_id !== user.id) {
     return NextResponse.json({ error: "Document not found" }, { status: 404 })
   }
 

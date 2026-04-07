@@ -1,26 +1,15 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
-
-// In-memory rate limiter: 5 requests per minute per IP
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+import { rateLimit, getClientIp } from "@/lib/rate-limit"
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    // Rate limit by IP
-    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown"
-    const now = Date.now()
-    const entry = rateLimitMap.get(ip)
-
-    if (entry && entry.resetAt > now) {
-      if (entry.count >= 5) {
-        return NextResponse.json(
-          { error: "Too many requests. Please try again later." },
-          { status: 429 }
-        )
-      }
-      entry.count++
-    } else {
-      rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 })
+    const ip = getClientIp(request.headers)
+    if (rateLimit(ip).limited) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      )
     }
 
     const body = (await request.json()) as {

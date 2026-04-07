@@ -12,7 +12,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  const { planId } = (await request.json()) as { planId: string }
+  let planId: string
+  try {
+    const body = await request.json()
+    planId = body.planId
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 })
+  }
   const priceId = PRICE_IDS[planId]
 
   if (priceId === undefined) {

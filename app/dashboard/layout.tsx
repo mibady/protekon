@@ -19,8 +19,6 @@ import {
   Clipboard,
   Buildings,
   Storefront,
-  CreditCard,
-  Users,
   MagnifyingGlass,
   Question,
   ShieldCheck,
@@ -78,8 +76,6 @@ const navGroups = [
     label: "ACCOUNT",
     items: [
       { name: "Account Settings", href: "/dashboard/settings", icon: Gear },
-      { name: "Billing", href: "/dashboard/billing", icon: CreditCard },
-      { name: "Team", href: "/dashboard/team", icon: Users },
     ]
   },
 ]
@@ -576,13 +572,6 @@ export default function DashboardLayout({
                   onClick={() => setUserMenuOpen(false)}
                 >
                   Account Settings
-                </Link>
-                <Link
-                  href="/dashboard/billing"
-                  className="block px-4 py-3 font-display text-[11px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors"
-                  onClick={() => setUserMenuOpen(false)}
-                >
-                  Billing
                 </Link>
                 <form action={signOut}>
                   <button

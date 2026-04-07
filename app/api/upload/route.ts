@@ -12,7 +12,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  const formData = await request.formData()
+  let formData: FormData
+  try {
+    formData = await request.formData()
+  } catch {
+    return NextResponse.json({ error: "Invalid multipart request" }, { status: 400 })
+  }
   const file = formData.get("file") as File | null
 
   if (!file) {
