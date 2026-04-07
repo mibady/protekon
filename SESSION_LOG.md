@@ -822,3 +822,46 @@ Must replicate the following from the previous project:
 
 ### Linear
 - Not connected — tracking via SESSION_LOG.md
+
+## Session 14 — 2026-04-07 — Audit Remediation Round 2 (82→91→97%+ target)
+
+### Completed
+- **Re-audit scored 82→91%**, exposed 5 residual findings. Verified each with HTTP probes against production before fixing — learned from Session 13 where I assumed code was correct without testing.
+- **`/partners/*` middleware bug (CRITICAL, and real this time).** HEAD's `lib/supabase/middleware.ts` used `startsWith("/partner")` with no trailing slash — matching `/partners`, `/partners/pricing`, `/partners/apply`, `/partners/boot-camp` and 307-redirecting all 4 public marketing pages to `/login`. Previous sessions' "verified fine" readings were on the working tree, not HEAD. Split into `=== "/partner" || startsWith("/partner/")`. Production: 307 → 200 on all 4 URLs.
+- **Meticulous bypass header was wrong.** Previous session put `x-meticulous-worker === "true"` in `proxy.ts`, but the actual header Meticulous sends is `meticulous-is-test: 1`. Moved bypass into `updateSession` using the correct header and removed the dead one from `proxy.ts`.
+- **Sitemap `<loc>` newlines.** `NEXT_PUBLIC_SITE_URL` env var on Vercel had a trailing newline, causing every `<loc>https://protekon.vercel.app\n/pricing</loc>` tag to wrap. Fixed with `.trim().replace(/\/$/, "")`. Verified single-line post-deploy.
+- **Resource page metadata.** `app/resources/[slug]/page.tsx` had no `generateMetadata`, so all 9 Sanity-driven pages inherited the root template title. Added async `generateMetadata` that fetches title + excerpt from `resourceBySlugQuery`. First version double-suffixed ("Title | PROTEKON | PROTEKON") because root layout already uses `title.template: "%s | PROTEKON"` — fixed in follow-up commit to return bare title.
+- **Contact form rate limiter.** `submitContact` server action was the only unthrottled public intake. Added `rateLimit()` via `headers()` at the top — returns 429-equivalent error when exceeded.
+
+### Audit Snapshot
+- Pages: 63
+- API routes: 16
+- Components: 78
+- Server actions: 26
+- Migrations: 9 (all applied, `compliance_score_leads` live — verified via Supabase MCP)
+- Inngest functions: 10
+- Sanity schemas: 10
+- Tests: 42
+- Build: PASS (production on `5295c9f`)
+
+### Decisions Made
+- **Always verify with HTTP before declaring bugs stale.** Session 13's /partners "fine, audit is wrong" verdict was a HEAD-vs-working-tree mix-up. Cost a full audit cycle. Policy: curl the live URL before refuting an audit finding.
+- Kept the Meticulous bypass in middleware.ts rather than proxy.ts because it needs access to the same `isMeticulousTest` context as the redirect check. Simpler than passing a flag between files.
+- Did not add `generateStaticParams` to resource slug pages — full dynamic rendering is fine and lets new Sanity content appear without rebuilds. Revisit if TTFB becomes an issue.
+
+### Known Issues
+- `score_leads table missing` remains in the audit report but is a **false positive** — the real table is `compliance_score_leads` (migration 005, live, verified via Supabase MCP against project `yfkledwhwsembikpjynu`). The audit tool is looking for the wrong name. Not fixing in code; flag for audit tool update.
+- `/marketplace` "coming soon" placeholder — content/design work, not a code issue.
+- Phase 10 rate-limit write tests still self-block because the tool's probe is faster than the limiter's 1-minute window. Audit tool config, not code. Needs IP whitelist or slower probe cadence.
+
+### Next Session Should
+- Re-run 18-phase audit against `5295c9f` (expect **91% → 97%+**; main remaining items are audit-tool false positives).
+- Audit the working tree's pre-session uncommitted files (`next.config.mjs`, `opensrc/`, `scripts/meticulous-crawl.ts`, `docs/architecture.md`, `specs/crawl-fixes-plan.md`) to decide what to ship vs discard.
+- Consider a codemod/lint rule to catch `usePathname()` null access — caused a whole deploy cycle in Session 13.
+
+### Git
+- 2 commits pushed to main this round: `b1fb664`, `5295c9f` (after Session 13's 8)
+- Production deployment: `5295c9f` READY
+
+### Linear
+- Not connected — tracking via SESSION_LOG.md
