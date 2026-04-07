@@ -779,3 +779,46 @@ Must replicate the following from the previous project:
 ### Git
 - 2 commits: 16bff37, 8230c70
 - All pushed to origin/main
+
+## Session 13 — 2026-04-07 — Audit Fix Sweep + Sanity CMS Unblock
+
+### Completed
+- **Audit fixes (18-phase server audit at 186/227):** Wrapped JSON/formData parsing in try/catch on /api/chat, /api/upload, /api/stripe/checkout — return 400 instead of 500 on malformed input. Removed dead `/dashboard/billing` + `/dashboard/team` nav links (sidebar + user dropdown). Added 3 missing industry slug pages: real-estate, logistics, auto-services. Reordered /api/documents/download to check auth before param validation. Extracted shared rate limiter to `lib/rate-limit.ts`, applied to /api/partners/apply. Added metadata layouts for score, privacy, terms, industries, marketplace, resources.
+- **Sanity CMS finally connected to production.** The entire Sanity integration (27 files: schemas, client, queries, `/resources/[slug]`, `/blog`, `/studio`) had been sitting uncommitted in the working tree since Session 9. Shipped in two commits (`9046857` infra + `55e60e0` routes) then chased down four build failures in sequence.
+- **Three build errors debugged and fixed:** (1) `app/studio/[[...tool]]/layout.tsx` had a nested `<html>`/`<body>` conflicting with the root layout. (2) `app/dashboard/layout.tsx:108` accessed `pathname.split()` without null guard — `usePathname()` returns `string | null` in Next 16, caught by tsc after cache invalidation. (3) **Root cause**: `package.json` + `package-lock.json` with the Sanity deps were never committed; Vercel's `npm ci` kept resolving against the old lockfile (93 packages "up to date in 1s") so `node_modules` had no Sanity packages. (4) `SanityImageSource` import path was wrong — user caught and fixed as `732d94e`.
+- **Ground-truth verification:** `/resources/sb-553-guide`, `/resources/iipp-template`, `/resources/articles` all return 200 in production. 9 resources + 4 categories already live in Sanity dataset `82om29g9/production`.
+
+### Audit Snapshot
+- Pages: 63 total
+- API routes: 16
+- Components: 78
+- Server actions: 26 files
+- Migrations: 9
+- Inngest functions: 10
+- Sanity schemas: 10
+- Tests: 42
+- Build: PASS (`732d94e` READY on Vercel)
+
+### Decisions Made
+- Middleware `startsWith("/partner")` was NOT a bug as the audit claimed — actual code uses `=== "/partner" || startsWith("/partner/")` which correctly excludes `/partners/*`. Audit was stale/wrong.
+- `/api/contact` does not exist — contact form uses server action. No rate limiting needed there.
+- `score_leads` table "missing" was also wrong — real table is `compliance_score_leads` (migration 005), verified live via Supabase MCP.
+- Refactored `/api/samples/gate` to use the new shared `lib/rate-limit.ts` helper so the in-memory limiter isn't duplicated.
+- Left pre-existing working-tree changes (`proxy.ts`, `lib/supabase/middleware.ts`, `next.config.mjs`, `.claude/settings.local.json`, `opensrc/`, `scripts/meticulous-crawl.ts`, `specs/crawl-fixes-plan.md`, `docs/architecture.md`) uncommitted — those are out of scope for this session.
+
+### Known Issues
+- Several "still open" audit findings were stale/wrong (middleware, api/contact, score_leads) — audit tool likely ran against an old deployed build before the Sanity integration landed. Worth re-running the 18-phase audit against `732d94e` for a clean baseline.
+- Rate-limit phase-10 audit test was self-blocked by the limiter (429 on its own rapid-fire probe). Tune the audit tool or whitelist its IP.
+
+### Next Session Should
+- Re-run the 18-phase audit against the now-live Sanity integration — expect the "broken resources" flag to clear and the score to jump from 82% toward 95%+.
+- Investigate the pre-existing uncommitted work (proxy.ts, middleware, next.config, opensrc dir) to decide what to ship vs discard.
+- Optional: add `generateStaticParams` to `app/resources/[slug]/page.tsx` for ISR instead of full dynamic (minor TTFB win).
+- Optional: filter `app/resources/articles/page.tsx` to `resourceType == "article"` — currently shows all resource types despite the route name.
+
+### Git
+- 7 commits pushed to main: `186d715`, `cd2faa5`, `9046857`, `55e60e0`, `54ca848`, `686a91b`, `c0d91cc` (+ user's fix `732d94e`)
+- All on `origin/main`, production deployment green on `732d94e`
+
+### Linear
+- Not connected — tracking via SESSION_LOG.md
