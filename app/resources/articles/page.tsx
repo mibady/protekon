@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, Calendar } from 'lucide-react'
@@ -7,6 +8,20 @@ import { client } from '@/lib/sanity/client'
 import { allResourcesQuery } from '@/lib/sanity/queries'
 import { urlFor } from '@/lib/sanity/image'
 import { format } from 'date-fns'
+
+export const metadata: Metadata = {
+  title: 'Compliance Articles, Guides & Templates',
+  description:
+    'Browse the full PROTEKON resource library — SB 553 guides, Cal/OSHA templates, incident response checklists, and compliance articles for California employers.',
+  alternates: { canonical: '/resources/articles' },
+  openGraph: {
+    title: 'Compliance Articles, Guides & Templates | PROTEKON',
+    description:
+      'Browse the full PROTEKON resource library — compliance guides, templates, and articles for California employers.',
+    url: '/resources/articles',
+    type: 'website',
+  },
+}
 
 export default async function ArticlesPage() {
   const resources = await client.fetch(allResourcesQuery)
