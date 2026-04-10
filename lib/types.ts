@@ -50,6 +50,63 @@ export type ClientProfile = {
   notification_preferences?: Record<string, boolean>
 }
 
+// --- Alerts (Phase 0: NGE-359) ---
+export type AlertType = "regulatory" | "certification" | "incident" | "compliance" | "system"
+export type AlertSeverity = "critical" | "high" | "medium" | "low" | "info"
+
+export interface Alert {
+  id: string
+  client_id: string
+  type: AlertType
+  title: string
+  message: string
+  severity: AlertSeverity
+  read: boolean
+  action_url: string | null
+  created_at: string
+}
+
+// --- SB 553 Violence Classification (Phase 0: NGE-361) ---
+export type ViolenceType = 1 | 2 | 3 | 4
+export type PerpRelationship = "stranger" | "client-customer" | "worker" | "personal"
+
+export interface IncidentClassification {
+  category: string
+  severity: string
+  oshaCode: string
+  osha300Recordable: boolean
+  violenceType: ViolenceType | null
+  perpetratorRelationship: PerpRelationship | null
+  piiDetected: boolean
+  recommendation: string
+  followUpTimeline: string
+}
+
+// --- OSHA Data API (Phase 0: NGE-360) ---
+export interface OshaIndustryProfile {
+  naicsCode: string
+  industryName: string
+  avgPenalty: number
+  violationRate: number
+  totalViolations: number
+  topStandards: { code: string; description: string; count: number }[]
+}
+
+export interface OshaNearbyEnforcement {
+  activityNr: string
+  estabName: string
+  city: string
+  violationType: string
+  penalty: number
+  issuanceDate: string
+}
+
+export interface OshaBenchmarks {
+  industry: string
+  penaltyPercentiles: { p25: number; p50: number; p75: number; p90: number }
+  clientPercentile: number
+}
+
 export type DashboardData = {
   client: ClientProfile | null
   recentDocuments: Document[]

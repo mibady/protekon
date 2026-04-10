@@ -7,6 +7,7 @@ import { incidentReport } from "@/inngest/functions/incident-report"
 import { monthlyAudit, clientMonthlyAudit } from "@/inngest/functions/monthly-audit"
 import { trainingReminders } from "@/inngest/functions/training-reminders"
 import { regulatoryScan } from "@/inngest/functions/regulatory-scan"
+import { regulatorySyncBridge } from "@/inngest/functions/regulatory-sync-bridge"
 import { paymentFailed } from "@/inngest/functions/payment-failed"
 import { scheduledDelivery } from "@/inngest/functions/scheduled-delivery"
 import { scoreDrip } from "@/inngest/functions/score-drip"
@@ -24,6 +25,7 @@ export const { GET, POST, PUT } = serve({
     clientMonthlyAudit,
     trainingReminders,
     regulatoryScan,
+    regulatorySyncBridge,
     paymentFailed,
     scheduledDelivery,
     scoreDrip,

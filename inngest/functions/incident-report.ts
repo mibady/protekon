@@ -74,6 +74,16 @@ export const incidentReport = inngest.createFunction(
           location: sanitized.location,
           incident_date: sanitized.date,
           severity: sanitized.severity,
+          metadata: aiClassification ? {
+            category: aiClassification.category,
+            oshaCode: aiClassification.oshaCode,
+            osha300Recordable: aiClassification.osha300Recordable,
+            violenceType: aiClassification.violenceType ?? null,
+            perpetratorRelationship: aiClassification.perpetratorRelationship ?? null,
+            piiDetected: aiClassification.piiDetected,
+            recommendation: aiClassification.recommendation,
+            followUpDays: aiClassification.followUpDays,
+          } : null,
         })
         .select("id, incident_id")
         .single()

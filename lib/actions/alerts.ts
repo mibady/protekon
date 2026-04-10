@@ -64,7 +64,7 @@ export async function getAlerts(
     id: a.id,
     type: a.type || "info",
     title: a.title || "Alert",
-    description: a.description || "",
+    description: a.message || "",
     date: new Date(a.created_at).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
@@ -75,4 +75,83 @@ export async function getAlerts(
   }))
 
   return { data: alerts }
+}
+
+export async function markAlertRead(
+  alertId: string
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { success: false, error: "You must be logged in." }
+  }
+
+  const { error } = await supabase
+    .from("alerts")
+    .update({ read: true })
+    .eq("id", alertId)
+    .eq("client_id", user.id)
+
+  if (error) {
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+export async function dismissAlert(
+  alertId: string
+): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { success: false, error: "You must be logged in." }
+  }
+
+  const { error } = await supabase
+    .from("alerts")
+    .delete()
+    .eq("id", alertId)
+    .eq("client_id", user.id)
+
+  if (error) {
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
+export async function getUnreadCount(): Promise<{
+  count: number
+  error?: string
+}> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { count: 0, error: "Not authenticated" }
+  }
+
+  const { count, error } = await supabase
+    .from("alerts")
+    .select("*", { count: "exact", head: true })
+    .eq("client_id", user.id)
+    .eq("read", false)
+
+  if (error) {
+    return { count: 0, error: error.message }
+  }
+
+  return { count: count ?? 0 }
 }
