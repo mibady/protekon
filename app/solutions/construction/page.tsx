@@ -63,10 +63,10 @@ export default function ConstructionPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/signup"
+                href="/score"
                 className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-parchment bg-crimson px-8 py-4 hover:brightness-110 transition-all"
               >
-                Get Started
+                Check Your Compliance Score &rarr;
               </Link>
               <Link
                 href="/contact"
@@ -211,10 +211,10 @@ export default function ConstructionPage() {
             Don&apos;t risk your CSLB license over a compliance violation. Start with Construction Shield.
           </p>
           <Link
-            href="/signup"
+            href="/score"
             className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-parchment bg-crimson px-8 py-4 hover:brightness-110 transition-all"
           >
-            Get Started
+            Check Your Compliance Score &rarr;
           </Link>
         </div>
       </section>

@@ -55,10 +55,10 @@ export default function HealthcarePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/signup"
+                href="/score"
                 className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-parchment bg-crimson px-8 py-4 hover:brightness-110 transition-all"
               >
-                Get Started
+                Check Your Compliance Score &rarr;
               </Link>
               <Link
                 href="/contact"
@@ -181,10 +181,10 @@ export default function HealthcarePage() {
             Healthcare compliance is complex. Let PROTEKON manage it for you.
           </p>
           <Link
-            href="/signup"
+            href="/score"
             className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-parchment bg-crimson px-8 py-4 hover:brightness-110 transition-all"
           >
-            Get Started
+            Check Your Compliance Score &rarr;
           </Link>
         </div>
       </section>
