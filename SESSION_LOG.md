@@ -919,3 +919,149 @@ User asked about lead funnels during session. Findings:
 
 ### Linear
 - Not connected — tracking via SESSION_LOG.md
+
+## Session 16 — 2026-04-09 — Phase 0: Critical Infrastructure
+
+### Completed
+- **Auth middleware (NGE-358).** Updated `proxy.ts` with specific route matchers for `/dashboard/*`, `/partner/*`, and `/api/*` (excluding 6 public API routes). Initially created `middleware.ts` but Next.js 16.2 requires `proxy.ts` — deleted middleware.ts and merged auth matchers into existing proxy.
+- **Alerts table + RLS (NGE-359).** Created `supabase/migrations/010_alerts.sql` with alerts table, client/unread indexes, and 3 RLS policies (select/update for clients, insert for system). Updated `lib/actions/alerts.ts` with `markAlertRead`, `dismissAlert`, `getUnreadCount` functions. Fixed existing `getAlerts` mapping (`a.description` → `a.message` to match column name).
+- **OSHA Data API client (NGE-360).** Created `lib/osha-api.ts` with 3 typed functions (`getIndustryProfile`, `getNearbyEnforcement`, `getBenchmarks`). Bearer auth, 10s timeout, 1-hour in-memory cache, graceful null returns on failure.
+- **SB 553 classifier + metadata (NGE-361).** Added `violenceType` (Type 1-4) and `perpetratorRelationship` to incident classifier Zod schema + system prompt. Created `supabase/migrations/011_incidents_metadata.sql` (JSONB column). Updated `inngest/functions/incident-report.ts` to store full AI classification in metadata column.
+- **Regulatory sync bridge (NGE-362).** Created `inngest/functions/regulatory-sync-bridge.ts` — weekly cron (Sunday 5am) or manual event trigger. Fetches OSHA industry profiles for 6 verticals, upserts into `regulatory_updates` table. Registered in Inngest route handler.
+- **Contract types.** Added Alert, AlertType, AlertSeverity, IncidentClassification, ViolenceType, PerpRelationship, OshaIndustryProfile, OshaNearbyEnforcement, OshaBenchmarks to `lib/types.ts`.
+
+### Audit Snapshot
+- Pages: 63
+- API routes: 17
+- Components: 78
+- Server actions: 26
+- Inngest functions: 11 (+1 regulatory-sync-bridge)
+- Migrations: 11 (+2: 010_alerts, 011_incidents_metadata)
+- Tests: 42
+- Build: PASS (Next.js 16.2 Turbopack)
+
+### Decisions Made
+- **proxy.ts not middleware.ts for Next.js 16.2.** Build fails if both exist. The spec said middleware.ts but Next.js 16 renamed it to proxy.ts. Existing proxy.ts already calls `updateSession()` — just needed auth matchers added.
+- **Scoped proxy matcher instead of catch-all.** Previous proxy used a catch-all regex matching every request. Updated to only match `/dashboard/*`, `/partner/*`, and `/api/*` (minus public routes). Reduces unnecessary session refreshes on marketing pages.
+- **OSHA API as thin client.** The OSHA database lives on a separate Supabase project. This client just wraps HTTP calls — no direct DB access. Env vars `OSHA_API_URL` + `OSHA_API_KEY` needed before first use.
+
+### Known Issues
+- 6 pre-existing test failures (contact, settings, documents-download) — not from Phase 0 changes
+- ESLint fails when `opensrc/` is in scope — needs `.eslintignore` entry
+- `opensrc/` still untracked — needs decision on gitignore
+- Pre-existing uncommitted files: `lib/ai/document-generator.ts`, `next.config.mjs`, `playwright.config.ts`, `docs/architecture.md`, `lib/document-templates.ts`, `scripts/meticulous-crawl.ts`, `specs/crawl-fixes-plan.md`
+- `OSHA_API_URL` and `OSHA_API_KEY` env vars not yet configured in Vercel
+
+### Next Session Should
+- Apply migrations 010 + 011 to Supabase (`supabase db push` or dashboard)
+- Set `OSHA_API_URL` and `OSHA_API_KEY` env vars in Vercel
+- Triage pre-existing uncommitted files (ship or discard)
+- Fix 6 pre-existing test failures (contact, settings, documents-download)
+- Add `opensrc/` to `.eslintignore` and `.gitignore`
+- Consider building the score lead drip/conversion workflow (from Session 15 recommendation)
+- Plan Phase 1 features
+
+### Git
+- 1 commit pushed: `949300d` (`feat(infra): Phase 0 critical infrastructure`)
+- Production deployment: auto on push to main via Vercel
+
+### Linear
+- Not connected — tracking via SESSION_LOG.md
+
+## Session 16b — 2026-04-09 — Phase 1: Cleanup + Score Lead Drip Conversion
+
+### Completed
+- **Fixed 6 pre-existing test failures (all 42/42 passing now).**
+  - `contact.test.ts` (4 failures): Added `vi.mock("next/headers")` + `vi.mock("@/lib/rate-limit")` — source calls `headers()` for IP extraction but tests never mocked it.
+  - `documents-download.test.ts` (1 failure): Restructured mock — route makes 1 `.single()` query and checks `doc.client_id !== user.id` inline, test was mocking 2 queries.
+  - `settings.test.ts` (1 failure): Real bug — `updateCompany()` never read `plan` from formData. Added `formData.get("plan")` extraction and `updates.plan` assignment.
+- **Score drip DB writes (B1).** Updated `inngest/functions/score-drip.ts`: stamps `report_sent_at`, `drip_day3/7/14/21_sent_at` columns after each email send. Added unsubscribe check before day 3/7/14/21 sends.
+- **Intake conversion tracking (B2).** Updated `inngest/functions/intake-pipeline.ts`: new `mark-score-lead-converted` step after client upsert — sets `converted_to_intake = true, converted_at = now()` on matching score lead by email.
+- **ESLint config.** Added `opensrc/` to flat config `ignores` array in `eslint.config.mjs`.
+- **Gitignore fix.** Split concatenated line `tsconfig.tsbuildinfoopensrc/` into `opensrc/` (tsbuildinfo already on next line).
+- **Committed pre-existing artifacts.** 7 files from prior sessions: next.config.mjs (Sanity CDN), playwright.config.ts (e2e projects), docs/architecture.md, lib/ai/document-generator.ts (v2 templates), lib/document-templates.ts, scripts/meticulous-crawl.ts, specs/crawl-fixes-plan.md.
+
+### Audit Snapshot
+- Pages: 63
+- API routes: 17
+- Components: 78
+- Server actions: 26
+- Inngest functions: 11
+- Migrations: 11
+- Tests: 42 (244 assertions, ALL PASSING)
+- Build: PASS (Next.js 16.2 Turbopack)
+
+### Decisions Made
+- **Score drip uses event-driven pattern, not cron.** Existing `score-drip.ts` fires on `score/lead.created` event with `step.sleep` delays. This is better than a daily cron — Inngest handles scheduling durably. No trigger change needed.
+- **Flat ESLint config, not .eslintignore.** Project uses `eslint.config.mjs` (flat config) where ignores go in the config file's `ignores` array. A separate `.eslintignore` would be silently ignored.
+- **Conversion tracking is fire-and-forget.** The `mark-score-lead-converted` step in intake-pipeline uses `.is("converted_to_intake", false)` guard — if no matching score lead exists, 0 rows updated (no error).
+
+### Known Issues
+- ESLint still reports 1 error in `scripts/meticulous-crawl.ts` (empty catch block) and 87 warnings across scripts — pre-existing, not Phase 1 scope.
+- `OSHA_API_URL` and `OSHA_API_KEY` env vars still not configured in Vercel (from Phase 0).
+- Remaining uncommitted: `.claude/settings.local.json`, `.linear_project.json`, `next-env.d.ts`, `SESSION_LOG.md`.
+
+### Next Session Should
+- Apply Supabase migrations 010 + 011 (`supabase db push` or dashboard)
+- Set `OSHA_API_URL` and `OSHA_API_KEY` env vars in Vercel
+- Plan Phase 2 features (Stripe integration, dashboard data wiring, or vertical-specific features)
+- Consider fixing the 1 ESLint error + warnings in `scripts/` directory
+
+### Git
+- 2 commits pushed: `c048d10` (Phase 1 fixes) + `9f9a396` (pre-existing artifacts)
+- Production deployment: auto on push to main via Vercel
+
+### Linear
+- Not connected — tracking via SESSION_LOG.md
+
+## Session 17 — 2026-04-09 — Phase 2: Standalone Compliance Score Funnel
+
+### Completed
+- **Rebuilt `/score` page as ungated lead-gen funnel.** Complete rewrite from 3-step gated form to 7-section standalone assessment. Hero → industry/employee selectors → 6 SB 553 toggle questions with live ScoreRing → ungated results (gap cards, fine exposure, cost comparison, industry benchmark) → PDF email gate → post-download CTAs → retake/legal. No email required to see score — email gate only on PDF download.
+- **SB 553 question set.** Replaced IIPP-focused questions with WVPP/SB 553-specific set: written WVPP, site-specific WVPP, violent incident log, PII stripped, interactive training, audit-ready package. Each gap now includes real Cal/OSHA citation and per-gap fine amount.
+- **Two-phase submit.** Split score submission into anonymous save (returns lead_id, no email) and email capture (updates row, triggers drip). Enables ungated assessment with deferred email collection.
+- **Enhanced PDF scorecard.** 2-page branded report via pdf-lib: gap analysis table with citations/fines, total fine exposure, remediation checklist, cost comparison (risk vs $597/mo), CTA to /contact.
+- **3-email drip sequence.** Replaced 5-email drip (day 0/3/7/14/21) with 3 targeted emails at 24h/72h/7d. Includes unsubscribe + conversion checks. Reuses existing drip timestamp columns.
+- **Migration 012.** Added SB 553 posture booleans, pdf_downloaded, referrer_url to compliance_score_leads.
+- **Score components.** New GapCards (staggered entrance, citation + fine per gap), PdfGateForm (loading/success/error states), enhanced ScoreRing (animated SVG arc, tier colors).
+- **Solutions CTAs.** Updated construction, healthcare, real-estate solutions pages — primary CTA now links to /score.
+- **.env.example.** Documented all 44 env vars with categories.
+
+### Audit Snapshot
+- Pages: 63
+- API routes: 17
+- Components: 80 (+2: GapCards, PdfGateForm)
+- Server actions: 26
+- Inngest functions: 11
+- Migrations: 12 (+1: 012_score_leads_enhance)
+- Tests: 42 (249 assertions, ALL PASSING)
+- Build: PASS (Next.js 16.2 Turbopack)
+
+### Decisions Made
+- **Adapt Stitch prompt to PROTEKON design system.** Spec used Geist + blue primary. Adapted to Barlow Condensed/DM Sans + crimson/midnight/void/gold. UX flow and copy preserved; visual identity matches existing site.
+- **Reuse existing table.** Kept `compliance_score_leads` instead of creating new `score_leads` table. Added columns via ALTER TABLE migration.
+- **Two-phase submit over single gated form.** Anonymous score save enables ungated results. Email capture is a separate API call triggered by PDF gate form.
+- **3-email drip replaces 5-email.** Spec called for 3 focused emails (24h/72h/7d) vs existing 5 (0/3/7/14/21). More targeted, less unsubscribe risk.
+- **Vertical features already complete.** Discovered during planning: all 11 vertical tables, actions, and dashboard pages were already built. Phase 2 scope collapsed from "vertical wiring" to "score funnel rebuild."
+
+### Known Issues
+- ESLint still reports 1 error in `scripts/meticulous-crawl.ts` + 87 warnings — pre-existing
+- `OSHA_API_URL` and `OSHA_API_KEY` env vars still not configured in Vercel
+- Industry benchmark section on /score uses placeholder percentages — needs wiring to real OSHA data
+- PDF scorecard design is text-only (pdf-lib) — could be enhanced with branded graphics later
+- Remaining uncommitted: `.claude/settings.local.json`, `.linear_project.json`, `next-env.d.ts`
+
+### Next Session Should
+- Apply migrations 010, 011, 012 to Supabase (`supabase db push` or dashboard)
+- Set OSHA_API_URL + OSHA_API_KEY env vars in Vercel
+- Wire industry benchmark section to real OSHA violation data via `lib/osha-api.ts`
+- Visual QA on /score page — test full flow on mobile + desktop
+- Consider Phase 3: embed version of /score for partner sites (`/score/embed`)
+- Plan Stripe checkout wiring (pricing page → checkout → onboarding)
+
+### Git
+- 4 commits pushed: `949300d` (Phase 0) + `c048d10` (Phase 1 fixes) + `9f9a396` (artifacts) + `bba5162` + `f54a7a0` (Phase 2 score funnel)
+- Production deployment: auto on push to main via Vercel
+
+### Linear
+- Not connected — tracking via SESSION_LOG.md
