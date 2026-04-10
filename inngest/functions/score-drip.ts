@@ -21,33 +21,21 @@ export const scoreDrip = inngest.createFunction(
 
     const supabase = createAdminClient()
 
-    // Day 0 — Score Report Delivery
-    await step.run("send-day0-report", async () => {
-      await sendEmail({
-        to: email,
-        subject: `Your compliance score: ${score}/6 — here's what it means`,
-        html: buildDay0Email(name, score, gaps, industry, fine_low, fine_high, lead_id),
-      })
-      await supabase
-        .from("compliance_score_leads")
-        .update({ report_sent_at: new Date().toISOString() })
-        .eq("id", lead_id)
-    })
-
-    // Day 3 — The Inspection Scenario
-    await step.sleep("wait-day3", "3 days")
-    await step.run("send-day3-inspection", async () => {
+    // Email 1 — 24 hours: "Your compliance gaps are still open"
+    await step.sleep("wait-24h", "1 day")
+    await step.run("send-24h-gaps-open", async () => {
       const { data: lead } = await supabase
         .from("compliance_score_leads")
-        .select("unsubscribed_at")
+        .select("unsubscribed_at, converted_to_intake")
         .eq("id", lead_id)
         .single()
       if (lead?.unsubscribed_at) return { skipped: true, reason: "unsubscribed" }
+      if (lead?.converted_to_intake) return { skipped: true, reason: "converted" }
 
       await sendEmail({
         to: email,
-        subject: `What a Cal/OSHA inspection looks like for a ${industry} business with your score`,
-        html: buildDay3Email(name, score, gaps, industry, lead_id),
+        subject: "Your compliance gaps are still open",
+        html: buildEmail1(name, score, gaps, industry, fine_low, fine_high, lead_id),
       })
       await supabase
         .from("compliance_score_leads")
@@ -55,20 +43,21 @@ export const scoreDrip = inngest.createFunction(
         .eq("id", lead_id)
     })
 
-    // Day 7 — The Sample Deliverable
-    await step.sleep("wait-day7", "4 days")
-    await step.run("send-day7-sample", async () => {
+    // Email 2 — 72 hours: "What a Cal/OSHA citation actually costs"
+    await step.sleep("wait-72h", "2 days")
+    await step.run("send-72h-citation-cost", async () => {
       const { data: lead } = await supabase
         .from("compliance_score_leads")
-        .select("unsubscribed_at")
+        .select("unsubscribed_at, converted_to_intake")
         .eq("id", lead_id)
         .single()
       if (lead?.unsubscribed_at) return { skipped: true, reason: "unsubscribed" }
+      if (lead?.converted_to_intake) return { skipped: true, reason: "converted" }
 
       await sendEmail({
         to: email,
-        subject: `Here's the exact compliance plan we'd generate for a ${industry} business like yours`,
-        html: buildDay7Email(name, industry, lead_id),
+        subject: "What a Cal/OSHA citation actually costs",
+        html: buildEmail2(name, gaps, industry, fine_low, fine_high, lead_id),
       })
       await supabase
         .from("compliance_score_leads")
@@ -76,20 +65,21 @@ export const scoreDrip = inngest.createFunction(
         .eq("id", lead_id)
     })
 
-    // Day 14 — The Cost Comparison
-    await step.sleep("wait-day14", "7 days")
-    await step.run("send-day14-cost", async () => {
+    // Email 3 — 7 days: "Close [N] compliance gaps in 48 hours"
+    await step.sleep("wait-7d", "4 days")
+    await step.run("send-7d-close-gaps", async () => {
       const { data: lead } = await supabase
         .from("compliance_score_leads")
-        .select("unsubscribed_at")
+        .select("unsubscribed_at, converted_to_intake")
         .eq("id", lead_id)
         .single()
       if (lead?.unsubscribed_at) return { skipped: true, reason: "unsubscribed" }
+      if (lead?.converted_to_intake) return { skipped: true, reason: "converted" }
 
       await sendEmail({
         to: email,
-        subject: `You're spending more than $597/month on compliance — you just don't see the invoice`,
-        html: buildDay14Email(name, fine_low, fine_high, industry, lead_id),
+        subject: `Close ${gaps.length} compliance gap${gaps.length !== 1 ? "s" : ""} in 48 hours`,
+        html: buildEmail3(name, score, gaps, industry, fine_low, fine_high, lead_id),
       })
       await supabase
         .from("compliance_score_leads")
@@ -97,28 +87,7 @@ export const scoreDrip = inngest.createFunction(
         .eq("id", lead_id)
     })
 
-    // Day 21 — Direct CTA
-    await step.sleep("wait-day21", "7 days")
-    await step.run("send-day21-cta", async () => {
-      const { data: lead } = await supabase
-        .from("compliance_score_leads")
-        .select("unsubscribed_at")
-        .eq("id", lead_id)
-        .single()
-      if (lead?.unsubscribed_at) return { skipped: true, reason: "unsubscribed" }
-
-      await sendEmail({
-        to: email,
-        subject: `Your compliance score hasn't changed in 3 weeks`,
-        html: buildDay21Email(name, score, gaps.length, industry, lead_id),
-      })
-      await supabase
-        .from("compliance_score_leads")
-        .update({ drip_day21_sent_at: new Date().toISOString() })
-        .eq("id", lead_id)
-    })
-
-    return { sent: 5, email, lead_id }
+    return { sent: 3, email, lead_id }
   }
 )
 
@@ -126,7 +95,7 @@ export const scoreDrip = inngest.createFunction(
 // Email builders — inline-styled HTML, no external CSS
 // ---------------------------------------------------------------------------
 
-type Gap = { key: string; label: string; description: string }
+type Gap = { key: string; label: string; description: string; citation?: string; fine?: number }
 
 function wrapper(lead_id: string, content: string): string {
   return `<!DOCTYPE html>
@@ -166,8 +135,102 @@ function ctaButton(text: string, href: string): string {
 </table>`
 }
 
-// Day 0 — Score Report Delivery
-function buildDay0Email(
+function getTopGap(gaps: Gap[]): Gap | null {
+  if (gaps.length === 0) return null
+  // Sort by fine descending, pick the highest
+  const sorted = [...gaps].sort((a, b) => (b.fine ?? 25000) - (a.fine ?? 25000))
+  return sorted[0]
+}
+
+// Email 1 — 24 hours: Recap score, highlight #1 gap, fine exposure
+function buildEmail1(
+  name: string,
+  score: number,
+  gaps: Gap[],
+  industry: string,
+  fine_low: number,
+  fine_high: number,
+  lead_id: string,
+): string {
+  const topGap = getTopGap(gaps)
+
+  const topGapBlock = topGap
+    ? `<p style="font-size:15px;color:#3f3f46;line-height:1.8;background:#fef2f2;padding:16px;border-radius:6px;border-left:4px solid #dc2626;">
+  <strong style="color:#dc2626;">Your #1 gap: ${topGap.label}</strong><br><br>
+  ${topGap.description}${topGap.citation ? `<br><br><span style="font-size:13px;color:#71717a;">${topGap.citation} — up to $${(topGap.fine ?? 25000).toLocaleString()} per citation</span>` : ""}
+</p>`
+    : ""
+
+  const content = `
+<h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">Your compliance gaps are still open.</h1>
+<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
+  Hi ${name},
+</p>
+<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
+  Yesterday you scored <strong style="font-size:18px;color:${score <= 2 ? "#dc2626" : score <= 4 ? "#ca8a04" : "#16a34a"};">${score}/6</strong> on your SB 553 compliance assessment. That means ${gaps.length} open gap${gaps.length !== 1 ? "s" : ""} that a Cal/OSHA inspector would cite on a walkthrough.
+</p>
+
+${topGapBlock}
+
+<h2 style="font-size:16px;color:#18181b;margin:24px 0 8px;">Your fine exposure</h2>
+<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
+  Based on your ${industry} business with ${gaps.length} gap${gaps.length !== 1 ? "s" : ""}, a single inspection could result in
+  <strong style="color:#dc2626;">$${fine_low.toLocaleString()} — $${fine_high.toLocaleString()}</strong> in citations.
+  That's not a worst case — it's the published penalty schedule for what you're missing.
+</p>
+
+<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
+  Every day these gaps stay open is another day you're exposed. We close them in 48 hours.
+</p>
+
+${ctaButton("Start Intake &rarr;", `${appUrl}/contact`)}
+`
+
+  return wrapper(lead_id, content)
+}
+
+// Email 2 — 72 hours: Real citation example in their industry
+function buildEmail2(
+  name: string,
+  gaps: Gap[],
+  industry: string,
+  fine_low: number,
+  fine_high: number,
+  lead_id: string,
+): string {
+  const topGap = getTopGap(gaps)
+  const gapLabel = topGap?.label ?? "missing compliance documentation"
+
+  const content = `
+<h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">What a Cal/OSHA citation actually costs.</h1>
+<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
+  Hi ${name},
+</p>
+<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
+  Here's a real scenario. A ${industry} employer in California was cited for ${gapLabel.toLowerCase()}. The inspector arrived unannounced on a Tuesday morning. The owner thought they were compliant.
+</p>
+
+<p style="font-size:15px;color:#3f3f46;line-height:1.8;background:#fef9c3;padding:16px;border-radius:6px;border-left:4px solid #ca8a04;">
+  <strong>The result:</strong> $25,000 initial citation. The employer contested it, which triggered a full-scope inspection. Two additional violations were found. Total: $57,000 in penalties, plus $12,000 in legal fees to negotiate down to $38,000.<br><br>
+  The compliance program that would have prevented all of it? Less than $600/month.
+</p>
+
+<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
+  Your assessment showed ${gaps.length} gap${gaps.length !== 1 ? "s" : ""} with an estimated exposure of <strong>$${fine_low.toLocaleString()} — $${fine_high.toLocaleString()}</strong>. Citations don't come with payment plans, and they're public record — which means your clients, partners, and insurers can see them.
+</p>
+
+<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
+  The math is simple: fix it now for $597/month, or wait for the knock on the door.
+</p>
+
+${ctaButton("Start Intake &rarr;", `${appUrl}/contact`)}
+`
+
+  return wrapper(lead_id, content)
+}
+
+// Email 3 — 7 days: Final push, score recap, $597/mo value prop
+function buildEmail3(
   name: string,
   score: number,
   gaps: Gap[],
@@ -179,211 +242,42 @@ function buildDay0Email(
   const gapListHtml = gaps
     .map(
       (g) =>
-        `<li style="margin-bottom:8px;"><strong>${g.label}</strong> — ${g.description}</li>`
+        `<li style="margin-bottom:6px;"><strong>${g.label}</strong> — ${g.citation ?? ""} (up to $${(g.fine ?? 25000).toLocaleString()})</li>`
     )
     .join("")
 
   const content = `
-<h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">Hi ${name},</h1>
+<h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">${name}, close ${gaps.length} gap${gaps.length !== 1 ? "s" : ""} in 48 hours.</h1>
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Your AI compliance officer just finished scanning California workplace regulations against your ${industry} business. Your compliance score is <strong style="font-size:18px;color:${score <= 2 ? "#dc2626" : score <= 4 ? "#ca8a04" : "#16a34a"};">${score}/6</strong>.
-  Here's what that means.
+  A week ago, you scored <strong>${score}/6</strong> on your SB 553 compliance assessment. Those gaps are still open:
 </p>
 
-<h2 style="font-size:16px;color:#18181b;margin:24px 0 8px;">Open gaps</h2>
-<ul style="font-size:14px;color:#3f3f46;line-height:1.7;padding-left:20px;">
-${gapListHtml || "<li>None — you're in great shape.</li>"}
+<ul style="font-size:14px;color:#3f3f46;line-height:1.8;padding-left:20px;">
+${gapListHtml}
 </ul>
 
-<h2 style="font-size:16px;color:#18181b;margin:24px 0 8px;">Fine exposure</h2>
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Based on your gaps, a single Cal/OSHA inspection could cost between
-  <strong>$${fine_low.toLocaleString()}</strong> and <strong>$${fine_high.toLocaleString()}</strong>.
-  That's not a worst case — it's the standard penalty schedule for what you're missing.
+  Total exposure: <strong style="color:#dc2626;">$${fine_low.toLocaleString()} — $${fine_high.toLocaleString()}</strong>
 </p>
 
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Your AI compliance officer put together a detailed report with specifics on each gap, the regulation behind it, and what "fixed" looks like.
-</p>
-
-${ctaButton("View your full report &rarr;", `${appUrl}/api/score/report?id=${lead_id}`)}
-
-<p style="font-size:13px;color:#71717a;line-height:1.6;">
-  No pitch. Just data. Over the next few weeks we'll send a few more emails with context on what these gaps mean in practice.
-</p>`
-
-  return wrapper(lead_id, content)
-}
-
-// Day 3 — The Inspection Scenario
-function buildDay3Email(
-  name: string,
-  score: number,
-  gaps: Gap[],
-  industry: string,
-  lead_id: string,
-): string {
-  const hasIipp = !gaps.some((g) => g.key === "has_iipp")
-  const hasIncidentLog = !gaps.some((g) => g.key === "has_incident_log")
-  const hasTraining = !gaps.some((g) => g.key === "training_current")
-
-  const iippLine = hasIipp
-    ? "They ask for your Injury and Illness Prevention Program. You hand it over — good start."
-    : "They ask for your Injury and Illness Prevention Program. You don't have one. That's an automatic citation — typically $3,000 to $7,000."
-  const logLine = hasIncidentLog
-    ? "They check your 300 log. It's current. No issues there."
-    : "They check your 300 log. It's incomplete or missing. Another citation."
-  const trainingLine = hasTraining
-    ? "They ask about your training records. Everything checks out."
-    : "They ask for training documentation. You can't produce records showing employees were trained. That's a per-employee violation."
-
-  const content = `
-<h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">${name}, picture this.</h1>
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  It's a Tuesday morning. A Cal/OSHA inspector walks into your ${industry} business at 9am. No warning — that's how it works. Here's what happens next.
-</p>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.8;background:#fef9c3;padding:16px;border-radius:6px;border-left:4px solid #ca8a04;">
-  ${iippLine}<br><br>
-  ${logLine}<br><br>
-  ${trainingLine}
-</p>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  You scored ${score}/6. That means ${gaps.length} gap${gaps.length !== 1 ? "s" : ""} an inspector would find. Not "might find" — <em>would</em> find. These aren't obscure regulations. They're the first things on the checklist.
-</p>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  The good news: every one of those gaps is fixable. Most take less than a week when someone knows what they're doing.
-</p>
-
-${ctaButton("Close your gaps before that scenario becomes real &rarr;", `${appUrl}/pricing`)}
-`
-
-  return wrapper(lead_id, content)
-}
-
-// Day 7 — The Sample Deliverable
-function buildDay7Email(name: string, industry: string, lead_id: string): string {
-  const content = `
-<h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">What "done-for-you" actually looks like</h1>
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Hi ${name},
-</p>
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Most ${industry} business owners know they have compliance gaps. The problem isn't awareness — it's bandwidth. You don't have time to research Cal/OSHA regulations, draft programs, train your team, and maintain documentation.
-</p>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  That's what your AI compliance officer handles. Here's a sample of what a Protekon client in your space receives:
-</p>
-
+<h2 style="font-size:16px;color:#18181b;margin:24px 0 8px;">What $597/month gets you</h2>
 <ul style="font-size:14px;color:#3f3f46;line-height:2;padding-left:20px;">
-  <li><strong>Custom IIPP</strong> — tailored to your industry, locations, and hazards</li>
-  <li><strong>Training schedule</strong> — mapped to your team size with completion tracking</li>
-  <li><strong>Incident log system</strong> — pre-configured 300/300A with auto-reminders</li>
-  <li><strong>Inspection prep binder</strong> — everything an inspector asks for, organized</li>
-  <li><strong>Monthly compliance report</strong> — so you always know where you stand</li>
+  <li><strong>Site-specific WVPP</strong> written for your ${industry} business</li>
+  <li><strong>PII-scrubbed incident log</strong> that meets SB 553 requirements</li>
+  <li><strong>Annual training program</strong> with completion tracking</li>
+  <li><strong>Audit-ready compliance package</strong> available on demand</li>
+  <li><strong>Regulatory monitoring</strong> — we track changes so you don't have to</li>
+  <li><strong>AI Compliance Officer</strong> — your dedicated compliance dashboard</li>
 </ul>
 
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  We generate the first draft of your compliance program within 48 hours of signup. Not a template — a real program built from your assessment answers.
+  No long-term contract. No setup meetings. Fill out the intake form, and we generate your complete compliance program in 48 hours.
 </p>
 
-${ctaButton("Get yours in 48 hours &rarr;", `${appUrl}/signup`)}
-`
-
-  return wrapper(lead_id, content)
-}
-
-// Day 14 — The Cost Comparison
-function buildDay14Email(
-  name: string,
-  fine_low: number,
-  fine_high: number,
-  industry: string,
-  lead_id: string,
-): string {
-  const content = `
-<h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">The compliance bill you're already paying</h1>
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Hi ${name},
-</p>
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Most ${industry} business owners think compliance costs start when they hire someone. In reality, you're already paying — you just don't see the invoice.
-</p>
-
-<table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;font-size:14px;">
-  <tr style="background:#f4f4f5;">
-    <td style="padding:12px 16px;font-weight:600;color:#18181b;">Approach</td>
-    <td style="padding:12px 16px;font-weight:600;color:#18181b;">Annual Cost</td>
-  </tr>
-  <tr>
-    <td style="padding:12px 16px;border-bottom:1px solid #e4e4e7;color:#3f3f46;">DIY (your time)</td>
-    <td style="padding:12px 16px;border-bottom:1px solid #e4e4e7;color:#3f3f46;">8-12 hrs/month &times; your rate</td>
-  </tr>
-  <tr>
-    <td style="padding:12px 16px;border-bottom:1px solid #e4e4e7;color:#3f3f46;">Safety consultant</td>
-    <td style="padding:12px 16px;border-bottom:1px solid #e4e4e7;color:#3f3f46;">$2,000-$5,000/month</td>
-  </tr>
-  <tr>
-    <td style="padding:12px 16px;border-bottom:1px solid #e4e4e7;color:#3f3f46;">One Cal/OSHA citation</td>
-    <td style="padding:12px 16px;border-bottom:1px solid #e4e4e7;color:#3f3f46;">$${fine_low.toLocaleString()}-$${fine_high.toLocaleString()}</td>
-  </tr>
-  <tr style="background:#fef2f2;">
-    <td style="padding:12px 16px;font-weight:600;color:#dc2626;">Doing nothing</td>
-    <td style="padding:12px 16px;font-weight:600;color:#dc2626;">All of the above, eventually</td>
-  </tr>
-  <tr style="background:#f0fdf4;">
-    <td style="padding:12px 16px;font-weight:600;color:#16a34a;">Protekon</td>
-    <td style="padding:12px 16px;font-weight:600;color:#16a34a;">$597/month</td>
-  </tr>
-</table>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  $597 per month gets you an AI compliance officer that manages your entire program — documents, training tracking, incident management, and a dedicated compliance dashboard. Cancel anytime.
-</p>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Compare that to your fine exposure of <strong>$${fine_low.toLocaleString()}-$${fine_high.toLocaleString()}</strong> from a single inspection. The math isn't close.
-</p>
-
-${ctaButton("See what $597/month actually buys &rarr;", `${appUrl}/pricing`)}
-`
-
-  return wrapper(lead_id, content)
-}
-
-// Day 21 — Direct CTA
-function buildDay21Email(
-  name: string,
-  score: number,
-  gapCount: number,
-  industry: string,
-  lead_id: string,
-): string {
-  const content = `
-<h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">${name}, a straight question.</h1>
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Three weeks ago, you scored <strong>${score}/6</strong> on your California compliance assessment. That means ${gapCount} open gap${gapCount !== 1 ? "s" : ""} that would show up on an inspection.
-</p>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Those gaps are still open. Nothing has changed unless you've taken action.
-</p>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  We work with ${industry} businesses across California. The ones who sign up fix their gaps within the first two weeks. The ones who don't eventually get that knock on the door.
-</p>
-
-<p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  There's no long-term contract. No setup meeting that wastes your morning. You fill out the intake, we generate your compliance program in 48 hours, and you get back to running your business.
-</p>
-
-${ctaButton("Start your intake now &rarr;", `${appUrl}/signup`)}
+${ctaButton("Start Intake &rarr;", `${appUrl}/contact`)}
 
 <p style="font-size:13px;color:#71717a;line-height:1.6;margin-top:16px;">
-  This is the last email in this sequence. If now isn't the right time, no hard feelings. Your score report stays available if you need it later.
+  This is the last email in this sequence. Your score report stays available if you need it later.
 </p>
 `
 

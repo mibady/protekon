@@ -1,56 +1,66 @@
 import type { ScoreAnswers, ScoreGap, ScoreResult } from "@/lib/types/score"
 
-const GAP_DEFINITIONS: Record<string, { label: string; description: string }> = {
-  has_iipp: {
-    label: "No site-specific IIPP",
+const GAP_DEFINITIONS: Record<string, { label: string; description: string; citation: string; fine: number }> = {
+  has_wvpp: {
+    label: "No Written WVPP",
     description:
-      "Cal/OSHA can cite you for not having a written plan specific to your worksite. Average citation: $16,131.",
+      "Without a written plan, you have no documentation to show an inspector. This is the most commonly cited SB 553 violation.",
+    citation: "Cal. Labor Code §6401.9(b)",
+    fine: 25000,
   },
-  iipp_site_specific: {
-    label: "IIPP doesn't address specific hazards",
+  wvpp_site_specific: {
+    label: "WVPP Not Site-Specific",
     description:
-      "A generic plan doesn't satisfy the site-specific requirement. This is the most common reason IIPPs fail inspection.",
+      "A generic template with your name pasted in doesn't meet the requirement. Your plan must reference your actual address, layout, and industry-specific hazards.",
+    citation: "Cal. Labor Code §6401.9(b)(1)",
+    fine: 25000,
   },
   has_incident_log: {
-    label: "No compliant incident log",
+    label: "No Violent Incident Log",
     description:
-      "Without a PII-scrubbed incident log, you're exposed to OSHA citations and employee records requests you can't fulfill.",
+      "Every workplace violence incident must be logged with specific data fields. A spreadsheet of notes doesn't qualify.",
+    citation: "Cal. Labor Code §6401.9(d)",
+    fine: 25000,
+  },
+  pii_stripped: {
+    label: "PII in Incident Log",
+    description:
+      "Your incident log must be free of names, addresses, and other identifying details. Any employee can legally request to see this log at any time.",
+    citation: "Cal. Labor Code §6401.9(d)(2)",
+    fine: 25000,
   },
   training_current: {
-    label: "Training not current",
+    label: "Training Not Current",
     description:
-      "Annual interactive training is required. Expired training records are a separate citation from a missing IIPP.",
-  },
-  has_industry_programs: {
-    label: "No industry-specific programs",
-    description:
-      "Your industry requires specific compliance programs. Missing documentation is a citable gap.",
+      "Annual interactive training is mandatory — not a one-time video. Training must be specific to your worksite plan and documented with sign-off sheets.",
+    citation: "Cal. Labor Code §6401.9(e)",
+    fine: 7000,
   },
   audit_ready: {
-    label: "Not audit-ready",
+    label: "Can't Produce Audit Package",
     description:
-      "If Cal/OSHA arrived today, you couldn't produce your compliance package.",
+      "If you can't hand an inspector a complete package today, every other gap becomes harder to contest. This is the gap that makes fines stick.",
+    citation: "Cal. Labor Code §6401.9(a)",
+    fine: 25000,
   },
 }
 
 const BOOLEAN_KEYS = [
-  "has_iipp",
-  "iipp_site_specific",
+  "has_wvpp",
+  "wvpp_site_specific",
   "has_incident_log",
+  "pii_stripped",
   "training_current",
-  "has_industry_programs",
   "audit_ready",
 ] as const satisfies readonly (keyof ScoreAnswers)[]
 
 const EMPLOYEE_MULTIPLIERS: Record<string, number> = {
-  "10-25": 0.8,
-  "26-50": 1.0,
-  "51-100": 1.2,
-  "101-250": 1.5,
+  "10-25": 1.0,
+  "26-50": 1.2,
+  "51-100": 1.5,
+  "101-250": 1.8,
   "251+": 2.0,
 }
-
-const CITATION_AMOUNT = 16_131
 
 export function calculateScore(answers: ScoreAnswers): ScoreResult {
   const gaps: ScoreGap[] = []
@@ -62,7 +72,9 @@ export function calculateScore(answers: ScoreAnswers): ScoreResult {
         key,
         label: def.label,
         description: def.description,
-        citation_amount: CITATION_AMOUNT,
+        citation: def.citation,
+        fine: def.fine,
+        citation_amount: def.fine,
       })
     }
   }
@@ -72,9 +84,9 @@ export function calculateScore(answers: ScoreAnswers): ScoreResult {
     score === 6 ? "green" : score >= 4 ? "yellow" : "red"
 
   const employeeMultiplier = EMPLOYEE_MULTIPLIERS[answers.employee_count] ?? 1.0
-  const base = gaps.length * CITATION_AMOUNT * employeeMultiplier
-  const fine_low = Math.round(base * 0.7)
-  const fine_high = Math.round(base * 1.3)
+  const baseFine = gaps.reduce((sum, g) => sum + g.fine, 0) * employeeMultiplier
+  const fine_low = Math.round(baseFine * 0.7)
+  const fine_high = Math.round(baseFine * 1.3)
 
   return { score, tier, gaps, fine_low, fine_high }
 }

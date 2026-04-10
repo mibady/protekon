@@ -14,7 +14,19 @@ const BRAND = {
   gold: rgb(0.835, 0.686, 0.322),
   steel: rgb(0.5, 0.5, 0.55),
   parchment: rgb(0.96, 0.953, 0.937),
+  white: rgb(1, 1, 1),
+  green: rgb(0.16, 0.64, 0.29),
+  yellow: rgb(0.79, 0.54, 0.02),
 }
+
+const ALL_REQUIREMENTS = [
+  { key: "has_wvpp", label: "Written Workplace Violence Prevention Plan (WVPP)", citation: "Cal. Labor Code §6401.9(b)", fine: 25000 },
+  { key: "wvpp_site_specific", label: "Site-Specific WVPP", citation: "Cal. Labor Code §6401.9(b)(1)", fine: 25000 },
+  { key: "has_incident_log", label: "Violent Incident Log", citation: "Cal. Labor Code §6401.9(d)", fine: 25000 },
+  { key: "pii_stripped", label: "PII Stripped from Incident Log", citation: "Cal. Labor Code §6401.9(d)(2)", fine: 25000 },
+  { key: "training_current", label: "Annual Interactive Training", citation: "Cal. Labor Code §6401.9(e)", fine: 7000 },
+  { key: "audit_ready", label: "Audit-Ready Compliance Package", citation: "Cal. Labor Code §6401.9(a)", fine: 25000 },
+]
 
 function wrapText(
   text: string,
@@ -46,24 +58,39 @@ function addFooter(
   pageNum: number,
   totalPages: number
 ) {
-  const text = `Protekon Compliance Score Report  |  Page ${pageNum} of ${totalPages}`
-  const width = font.widthOfTextAtSize(text, 8)
+  const text = `PROTEKON Compliance Scorecard  |  Page ${pageNum} of ${totalPages}  |  protekon.vercel.app`
+  const width = font.widthOfTextAtSize(text, 7)
   page.drawText(text, {
     x: (PAGE_WIDTH - width) / 2,
-    y: 25,
-    size: 8,
+    y: 20,
+    size: 7,
     font,
     color: BRAND.steel,
   })
 }
 
+function drawSectionHeader(
+  page: ReturnType<PDFDocument["addPage"]>,
+  fontBold: Awaited<ReturnType<PDFDocument["embedFont"]>>,
+  title: string,
+  y: number
+): number {
+  page.drawText(title, {
+    x: MARGIN,
+    y,
+    size: 13,
+    font: fontBold,
+    color: BRAND.midnight,
+  })
+  y -= 6
+  page.drawRectangle({ x: MARGIN, y, width: 40, height: 2, color: BRAND.crimson })
+  return y - 18
+}
+
 async function generateScoreReportPDF(row: {
-  name: string
+  name: string | null
   industry: string
   employee_count: string
-  location_count: string
-  city: string
-  state: string
   score: number
   score_tier: string
   gaps: ScoreGap[]
@@ -79,248 +106,241 @@ async function generateScoreReportPDF(row: {
     day: "numeric",
   })
 
-  // --- Page 1: Cover + Score + Gaps ---
+  const gapKeys = new Set(row.gaps.map((g) => g.key))
+  const totalFineExposure = row.gaps.reduce((sum, g) => sum + (g.fine ?? g.citation_amount ?? 25000), 0)
+
+  // --- Page 1: Header + Score + Gap Table ---
   const page1 = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+
   // Crimson header bar
   page1.drawRectangle({
     x: 0,
-    y: PAGE_HEIGHT - 80,
+    y: PAGE_HEIGHT - 70,
     width: PAGE_WIDTH,
-    height: 80,
+    height: 70,
     color: BRAND.crimson,
   })
-  page1.drawText("PROTEKON", {
+  page1.drawText("COMPLIANCE SCORECARD", {
     x: MARGIN,
-    y: PAGE_HEIGHT - 35,
-    size: 24,
+    y: PAGE_HEIGHT - 32,
+    size: 22,
     font: fontBold,
-    color: rgb(1, 1, 1),
+    color: BRAND.white,
   })
-  page1.drawText("Compliance Score Report", {
+  page1.drawText(`PROTEKON  |  ${generatedDate}`, {
     x: MARGIN,
-    y: PAGE_HEIGHT - 58,
-    size: 12,
+    y: PAGE_HEIGHT - 50,
+    size: 10,
     font,
     color: rgb(1, 0.85, 0.85),
   })
 
-  let y = PAGE_HEIGHT - 110
+  let y = PAGE_HEIGHT - 95
 
-  // Business info section
-  page1.drawText("Business Information", {
-    x: MARGIN,
-    y,
-    size: 14,
-    font: fontBold,
-    color: BRAND.midnight,
-  })
-  y -= 8
-  page1.drawRectangle({ x: MARGIN, y, width: 50, height: 2, color: BRAND.crimson })
-  y -= 22
+  // Business info
+  y = drawSectionHeader(page1, fontBold, "Business Profile", y)
 
   const infoLines = [
-    ["Name", row.name],
     ["Industry", row.industry],
     ["Employees", row.employee_count],
-    ["Locations", row.location_count],
-    ["Location", `${row.city}, ${row.state}`],
-    ["Report Date", generatedDate],
   ]
+  if (row.name) {
+    infoLines.unshift(["Business", row.name])
+  }
   for (const [label, value] of infoLines) {
     page1.drawText(`${label}:`, { x: MARGIN, y, size: 10, font: fontBold, color: BRAND.steel })
-    page1.drawText(value, { x: MARGIN + 100, y, size: 10, font, color: BRAND.midnight })
-    y -= 18
+    page1.drawText(value, { x: MARGIN + 80, y, size: 10, font, color: BRAND.midnight })
+    y -= 16
   }
 
-  y -= 15
+  y -= 12
 
-  // Score section
-  page1.drawText("Compliance Score", {
-    x: MARGIN,
-    y,
-    size: 14,
-    font: fontBold,
-    color: BRAND.midnight,
-  })
-  y -= 8
-  page1.drawRectangle({ x: MARGIN, y, width: 50, height: 2, color: BRAND.crimson })
-  y -= 30
+  // Score display
+  y = drawSectionHeader(page1, fontBold, "SB 553 Compliance Score", y)
 
   const tierColor =
-    row.score_tier === "green"
-      ? rgb(0.16, 0.64, 0.29)
-      : row.score_tier === "yellow"
-        ? rgb(0.79, 0.54, 0.02)
+    row.score_tier === "green" ? BRAND.green
+      : row.score_tier === "yellow" ? BRAND.yellow
         : BRAND.crimson
+
+  const tierLabel =
+    row.score === 6 ? "COMPLIANT"
+      : row.score >= 4 ? "AT RISK"
+        : "NON-COMPLIANT"
 
   // Score box
   page1.drawRectangle({
     x: MARGIN,
-    y: y - 40,
+    y: y - 38,
     width: CONTENT_WIDTH,
-    height: 55,
+    height: 50,
     color: BRAND.parchment,
   })
   page1.drawText(`${row.score} / 6`, {
     x: MARGIN + 20,
-    y: y - 10,
-    size: 32,
+    y: y - 8,
+    size: 30,
     font: fontBold,
     color: tierColor,
   })
-  const tierLabel = row.score_tier.toUpperCase()
   page1.drawText(tierLabel, {
-    x: MARGIN + 140,
-    y: y - 5,
-    size: 14,
+    x: MARGIN + 130,
+    y: y - 3,
+    size: 13,
     font: fontBold,
     color: tierColor,
   })
-  page1.drawText("Compliance Tier", {
-    x: MARGIN + 140,
-    y: y - 22,
-    size: 10,
+  page1.drawText("SB 553 Requirements Met", {
+    x: MARGIN + 130,
+    y: y - 20,
+    size: 9,
     font,
     color: BRAND.steel,
   })
-  y -= 65
+  y -= 60
 
-  // Gap analysis section
-  if (row.gaps.length > 0) {
-    y -= 10
-    page1.drawText("Gap Analysis", {
-      x: MARGIN,
+  // Gap table
+  y -= 8
+  y = drawSectionHeader(page1, fontBold, "Requirement Status", y)
+
+  // Table header
+  const colX = { status: MARGIN, requirement: MARGIN + 28, citation: MARGIN + 280, fine: MARGIN + 430 }
+  page1.drawRectangle({ x: MARGIN, y: y - 2, width: CONTENT_WIDTH, height: 16, color: BRAND.parchment })
+  page1.drawText("", { x: colX.status, y: y + 2, size: 8, font: fontBold, color: BRAND.midnight })
+  page1.drawText("Requirement", { x: colX.requirement, y: y + 2, size: 8, font: fontBold, color: BRAND.midnight })
+  page1.drawText("Citation", { x: colX.citation, y: y + 2, size: 8, font: fontBold, color: BRAND.midnight })
+  page1.drawText("Fine", { x: colX.fine, y: y + 2, size: 8, font: fontBold, color: BRAND.midnight })
+  y -= 18
+
+  for (const req of ALL_REQUIREMENTS) {
+    const isGap = gapKeys.has(req.key)
+    const statusSymbol = isGap ? "\u2717" : "\u2713"
+    const statusColor = isGap ? BRAND.crimson : BRAND.green
+
+    page1.drawText(statusSymbol, { x: colX.status + 8, y, size: 12, font: fontBold, color: statusColor })
+    page1.drawText(req.label, { x: colX.requirement, y, size: 9, font, color: BRAND.midnight })
+    page1.drawText(req.citation, { x: colX.citation, y, size: 8, font, color: BRAND.steel })
+    page1.drawText(isGap ? `$${req.fine.toLocaleString("en-US")}` : "$0", {
+      x: colX.fine,
       y,
-      size: 14,
-      font: fontBold,
-      color: BRAND.midnight,
+      size: 9,
+      font: isGap ? fontBold : font,
+      color: isGap ? BRAND.crimson : BRAND.green,
     })
-    y -= 8
-    page1.drawRectangle({ x: MARGIN, y, width: 50, height: 2, color: BRAND.crimson })
-    y -= 22
+
+    y -= 16
+    // Separator line
+    page1.drawRectangle({ x: MARGIN, y: y + 10, width: CONTENT_WIDTH, height: 0.5, color: BRAND.parchment })
+  }
+
+  // Total fine exposure
+  y -= 10
+  page1.drawRectangle({ x: MARGIN, y: y - 6, width: CONTENT_WIDTH, height: 28, color: BRAND.parchment })
+  page1.drawText("Total Fine Exposure (single inspection):", {
+    x: MARGIN + 10,
+    y: y + 2,
+    size: 10,
+    font: fontBold,
+    color: BRAND.midnight,
+  })
+
+  if (totalFineExposure > 0) {
+    const fineRange = `$${row.estimated_fine_low.toLocaleString("en-US")} — $${row.estimated_fine_high.toLocaleString("en-US")}`
+    page1.drawText(fineRange, {
+      x: colX.fine - 50,
+      y: y + 2,
+      size: 11,
+      font: fontBold,
+      color: BRAND.crimson,
+    })
+  } else {
+    page1.drawText("$0", {
+      x: colX.fine,
+      y: y + 2,
+      size: 11,
+      font: fontBold,
+      color: BRAND.green,
+    })
+  }
+
+  // --- Page 2: Remediation + Cost Comparison + CTA ---
+  const page2 = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
+  y = PAGE_HEIGHT - MARGIN - 20
+
+  // Remediation checklist
+  if (row.gaps.length > 0) {
+    y = drawSectionHeader(page2, fontBold, "Remediation Checklist", y)
 
     for (const gap of row.gaps) {
-      if (y < 80) break // leave room for footer
+      if (y < 120) break
 
-      page1.drawText(`\u2022  ${gap.label}`, {
+      page2.drawText(`\u25A1  ${gap.label}`, {
         x: MARGIN + 5,
         y,
         size: 10,
         font: fontBold,
-        color: BRAND.midnight,
+        color: BRAND.crimson,
       })
-      y -= 16
+      y -= 14
 
-      const descLines = wrapText(gap.description, font, 9, CONTENT_WIDTH - 20)
+      const descLines = wrapText(gap.description, font, 9, CONTENT_WIDTH - 25)
       for (const line of descLines) {
-        if (y < 80) break
-        page1.drawText(line, {
-          x: MARGIN + 15,
+        if (y < 120) break
+        page2.drawText(line, {
+          x: MARGIN + 20,
           y,
           size: 9,
           font,
           color: BRAND.steel,
         })
-        y -= 14
+        y -= 13
       }
-      y -= 8
+
+      // Citation reference
+      const citationText = gap.citation ?? ""
+      if (citationText) {
+        page2.drawText(citationText, {
+          x: MARGIN + 20,
+          y,
+          size: 8,
+          font,
+          color: BRAND.gold,
+        })
+        y -= 13
+      }
+      y -= 6
     }
   } else {
-    y -= 10
-    page1.drawText("No compliance gaps identified. Your programs are current.", {
+    y = drawSectionHeader(page2, fontBold, "Status", y)
+    page2.drawText("All SB 553 requirements met. No remediation needed.", {
       x: MARGIN,
       y,
       size: 11,
       font,
-      color: rgb(0.16, 0.64, 0.29),
-    })
-  }
-
-  // --- Page 2: Fine Exposure + CTA ---
-  const page2 = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
-  y = PAGE_HEIGHT - MARGIN - 30
-
-  // Fine exposure
-  page2.drawText("Estimated Fine Exposure", {
-    x: MARGIN,
-    y,
-    size: 14,
-    font: fontBold,
-    color: BRAND.midnight,
-  })
-  y -= 8
-  page2.drawRectangle({ x: MARGIN, y, width: 50, height: 2, color: BRAND.crimson })
-  y -= 30
-
-  if (row.estimated_fine_low > 0) {
-    const fineRange = `$${row.estimated_fine_low.toLocaleString("en-US")} — $${row.estimated_fine_high.toLocaleString("en-US")}`
-    page2.drawRectangle({
-      x: MARGIN,
-      y: y - 30,
-      width: CONTENT_WIDTH,
-      height: 45,
-      color: BRAND.parchment,
-    })
-    page2.drawText(fineRange, {
-      x: MARGIN + 20,
-      y: y - 8,
-      size: 20,
-      font: fontBold,
-      color: BRAND.crimson,
-    })
-    page2.drawText("Potential Cal/OSHA citation range based on your gap count and employee size", {
-      x: MARGIN + 20,
-      y: y - 25,
-      size: 9,
-      font,
-      color: BRAND.steel,
-    })
-    y -= 55
-  } else {
-    page2.drawText("$0 estimated exposure — no gaps identified.", {
-      x: MARGIN,
-      y,
-      size: 12,
-      font,
-      color: rgb(0.16, 0.64, 0.29),
+      color: BRAND.green,
     })
     y -= 25
   }
 
-  // How PROTEKON closes these gaps
-  y -= 20
-  page2.drawText("How PROTEKON Closes These Gaps", {
-    x: MARGIN,
-    y,
-    size: 14,
-    font: fontBold,
-    color: BRAND.midnight,
-  })
-  y -= 8
-  page2.drawRectangle({ x: MARGIN, y, width: 50, height: 2, color: BRAND.crimson })
-  y -= 25
+  // Cost comparison
+  y -= 15
+  y = drawSectionHeader(page2, fontBold, "Cost Comparison", y)
 
-  const ctaItems = [
-    "Site-specific IIPP written and maintained by compliance professionals",
-    "PII-scrubbed incident logging that meets Cal/OSHA and SB 553 requirements",
-    "Annual interactive training tracked with completion certificates",
-    "Industry-specific compliance programs tailored to your vertical",
-    "Audit-ready document packages available on demand",
-    "Monthly compliance monitoring with regulatory change alerts",
-  ]
-  for (const item of ctaItems) {
-    const lines = wrapText(`\u2022  ${item}`, font, 10, CONTENT_WIDTH - 15)
-    for (const line of lines) {
-      page2.drawText(line, {
-        x: MARGIN + 10,
-        y,
-        size: 10,
-        font,
-        color: BRAND.midnight,
-      })
-      y -= 16
-    }
-    y -= 4
+  const annualRisk = row.estimated_fine_high > 0
+    ? `$${row.estimated_fine_high.toLocaleString("en-US")}`
+    : "$0"
+
+  const comparisonRows = [
+    ["Annual Risk (citation exposure)", annualRisk, BRAND.crimson],
+    ["Safety Consultant (12 months)", "$24,000 - $60,000", BRAND.steel],
+    ["PROTEKON AI Compliance Officer", "$7,164/year ($597/mo)", BRAND.green],
+  ] as const
+
+  for (const [label, value, color] of comparisonRows) {
+    page2.drawRectangle({ x: MARGIN, y: y - 4, width: CONTENT_WIDTH, height: 20, color: BRAND.parchment })
+    page2.drawText(label, { x: MARGIN + 10, y, size: 9, font, color: BRAND.midnight })
+    page2.drawText(value, { x: MARGIN + 320, y, size: 9, font: fontBold, color })
+    y -= 24
   }
 
   // CTA
@@ -329,44 +349,46 @@ async function generateScoreReportPDF(row: {
     x: MARGIN,
     y: y - 30,
     width: CONTENT_WIDTH,
-    height: 40,
+    height: 50,
     color: BRAND.crimson,
   })
-  page2.drawText("Start your managed compliance program", {
+  page2.drawText("Close every gap in 48 hours", {
     x: MARGIN + 20,
-    y: y - 8,
-    size: 12,
+    y: y - 5,
+    size: 14,
     font: fontBold,
-    color: rgb(1, 1, 1),
+    color: BRAND.white,
   })
-  page2.drawText("protekon.vercel.app/intake", {
+  page2.drawText("protekon.vercel.app/contact", {
     x: MARGIN + 20,
-    y: y - 24,
+    y: y - 22,
     size: 10,
     font,
     color: rgb(1, 0.85, 0.85),
   })
 
   // Disclaimer
-  y -= 60
+  y -= 55
   const disclaimerLines = wrapText(
-    "This assessment is for informational purposes only and does not constitute legal advice.",
+    "This assessment is generated by PROTEKON's AI Compliance Officer and is for informational purposes only. " +
+    "It does not constitute legal advice. Fine amounts are based on published Cal/OSHA penalty schedules and may vary. " +
+    "Consult a qualified compliance professional for formal legal guidance.",
     font,
-    8,
+    7,
     CONTENT_WIDTH
   )
   for (const line of disclaimerLines) {
     page2.drawText(line, {
       x: MARGIN,
       y,
-      size: 8,
+      size: 7,
       font,
       color: BRAND.steel,
     })
-    y -= 12
+    y -= 10
   }
 
-  // Add footers
+  // Add footers to all pages
   const totalPages = doc.getPageCount()
   const pages = doc.getPages()
   for (let i = 0; i < totalPages; i++) {
@@ -397,12 +419,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     const pdfBytes = await generateScoreReportPDF({
-      name: row.name,
+      name: row.name ?? null,
       industry: row.industry,
       employee_count: row.employee_count,
-      location_count: row.location_count,
-      city: row.city,
-      state: row.state,
       score: row.score,
       score_tier: row.score_tier,
       gaps: (row.gaps ?? []) as ScoreGap[],
@@ -410,7 +429,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       estimated_fine_high: row.estimated_fine_high,
     })
 
-    const filename = `protekon-score-report-${id}.pdf`
+    const filename = `protekon-scorecard-${id}.pdf`
     return new NextResponse(pdfBytes, {
       status: 200,
       headers: {
