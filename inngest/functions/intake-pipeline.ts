@@ -43,6 +43,18 @@ export const intakePipeline = inngest.createFunction(
       return data
     })
 
+    // Step 2b: Mark score lead as converted (if one exists)
+    await step.run("mark-score-lead-converted", async () => {
+      await supabase
+        .from("compliance_score_leads")
+        .update({
+          converted_to_intake: true,
+          converted_at: new Date().toISOString(),
+        })
+        .eq("email", email)
+        .is("converted_to_intake", false)
+    })
+
     const plan = client.plan || "core"
 
     // Step 3: Generate starter documents (tier-aware)

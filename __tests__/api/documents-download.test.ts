@@ -70,11 +70,10 @@ describe("GET /api/documents/download", () => {
   })
 
   it("verifies document ownership and returns 404 for non-owned doc", async () => {
-    // First call: document query returns a doc
-    // Second call: client ownership check returns null
-    mockSingle
-      .mockResolvedValueOnce({ data: { storage_url: "https://example.com/file.pdf", client_id: "client-1" } })
-      .mockResolvedValueOnce({ data: null })
+    // Route does a single query; ownership check is doc.client_id !== user.id
+    mockSingle.mockResolvedValueOnce({
+      data: { storage_url: "https://example.com/file.pdf", client_id: "other-user" },
+    })
 
     const { GET } = await import("@/app/api/documents/download/route")
     const res = await GET(makeRequest({ id: "doc-1" }) as never)
@@ -84,9 +83,10 @@ describe("GET /api/documents/download", () => {
 
   it("redirects to storage_url on success", async () => {
     const storageUrl = "https://blob.vercel-storage.com/uploads/file.pdf"
-    mockSingle
-      .mockResolvedValueOnce({ data: { storage_url: storageUrl, client_id: "client-1" } })
-      .mockResolvedValueOnce({ data: { id: "client-1" } })
+    // client_id matches mockUser.id so ownership check passes
+    mockSingle.mockResolvedValueOnce({
+      data: { storage_url: storageUrl, client_id: "user-1" },
+    })
 
     const { GET } = await import("@/app/api/documents/download/route")
     const res = await GET(makeRequest({ id: "doc-1" }) as never)

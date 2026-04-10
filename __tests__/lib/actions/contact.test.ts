@@ -1,5 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
+// Mock next/headers
+vi.mock("next/headers", () => ({
+  headers: vi.fn().mockResolvedValue({
+    get: vi.fn().mockReturnValue("127.0.0.1"),
+  }),
+}))
+
+// Mock rate-limit
+vi.mock("@/lib/rate-limit", () => ({
+  rateLimit: vi.fn().mockReturnValue({ limited: false }),
+}))
+
 // Mock Supabase
 const mockInsert = vi.fn()
 

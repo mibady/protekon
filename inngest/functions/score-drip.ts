@@ -1,4 +1,5 @@
 import { inngest } from "../client"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { sendEmail } from "@/lib/resend"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://protekon.vercel.app"
@@ -18,6 +19,8 @@ export const scoreDrip = inngest.createFunction(
       lead_id,
     } = event.data
 
+    const supabase = createAdminClient()
+
     // Day 0 — Score Report Delivery
     await step.run("send-day0-report", async () => {
       await sendEmail({
@@ -25,46 +28,94 @@ export const scoreDrip = inngest.createFunction(
         subject: `Your compliance score: ${score}/6 — here's what it means`,
         html: buildDay0Email(name, score, gaps, industry, fine_low, fine_high, lead_id),
       })
+      await supabase
+        .from("compliance_score_leads")
+        .update({ report_sent_at: new Date().toISOString() })
+        .eq("id", lead_id)
     })
 
     // Day 3 — The Inspection Scenario
     await step.sleep("wait-day3", "3 days")
     await step.run("send-day3-inspection", async () => {
+      const { data: lead } = await supabase
+        .from("compliance_score_leads")
+        .select("unsubscribed_at")
+        .eq("id", lead_id)
+        .single()
+      if (lead?.unsubscribed_at) return { skipped: true, reason: "unsubscribed" }
+
       await sendEmail({
         to: email,
         subject: `What a Cal/OSHA inspection looks like for a ${industry} business with your score`,
         html: buildDay3Email(name, score, gaps, industry, lead_id),
       })
+      await supabase
+        .from("compliance_score_leads")
+        .update({ drip_day3_sent_at: new Date().toISOString() })
+        .eq("id", lead_id)
     })
 
     // Day 7 — The Sample Deliverable
     await step.sleep("wait-day7", "4 days")
     await step.run("send-day7-sample", async () => {
+      const { data: lead } = await supabase
+        .from("compliance_score_leads")
+        .select("unsubscribed_at")
+        .eq("id", lead_id)
+        .single()
+      if (lead?.unsubscribed_at) return { skipped: true, reason: "unsubscribed" }
+
       await sendEmail({
         to: email,
         subject: `Here's the exact compliance plan we'd generate for a ${industry} business like yours`,
         html: buildDay7Email(name, industry, lead_id),
       })
+      await supabase
+        .from("compliance_score_leads")
+        .update({ drip_day7_sent_at: new Date().toISOString() })
+        .eq("id", lead_id)
     })
 
     // Day 14 — The Cost Comparison
     await step.sleep("wait-day14", "7 days")
     await step.run("send-day14-cost", async () => {
+      const { data: lead } = await supabase
+        .from("compliance_score_leads")
+        .select("unsubscribed_at")
+        .eq("id", lead_id)
+        .single()
+      if (lead?.unsubscribed_at) return { skipped: true, reason: "unsubscribed" }
+
       await sendEmail({
         to: email,
         subject: `You're spending more than $597/month on compliance — you just don't see the invoice`,
         html: buildDay14Email(name, fine_low, fine_high, industry, lead_id),
       })
+      await supabase
+        .from("compliance_score_leads")
+        .update({ drip_day14_sent_at: new Date().toISOString() })
+        .eq("id", lead_id)
     })
 
     // Day 21 — Direct CTA
     await step.sleep("wait-day21", "7 days")
     await step.run("send-day21-cta", async () => {
+      const { data: lead } = await supabase
+        .from("compliance_score_leads")
+        .select("unsubscribed_at")
+        .eq("id", lead_id)
+        .single()
+      if (lead?.unsubscribed_at) return { skipped: true, reason: "unsubscribed" }
+
       await sendEmail({
         to: email,
         subject: `Your compliance score hasn't changed in 3 weeks`,
         html: buildDay21Email(name, score, gaps.length, industry, lead_id),
       })
+      await supabase
+        .from("compliance_score_leads")
+        .update({ drip_day21_sent_at: new Date().toISOString() })
+        .eq("id", lead_id)
     })
 
     return { sent: 5, email, lead_id }

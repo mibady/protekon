@@ -84,6 +84,9 @@ export async function updateCompany(formData: FormData): Promise<ActionResult> {
 
   if (vertical) updates.vertical = vertical
 
+  const plan = formData.get("plan") as string | null
+  if (plan) updates.plan = plan
+
   const { error } = await supabase
     .from("clients")
     .update(updates)

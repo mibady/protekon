@@ -40,6 +40,7 @@ export default tseslint.config(
       "node_modules/",
       "out/",
       "coverage/",
+      "opensrc/",
       "*.config.js",
       "*.config.mjs",
       "*.config.ts",
