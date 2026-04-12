@@ -11,6 +11,7 @@ import { regulatorySyncBridge } from "@/inngest/functions/regulatory-sync-bridge
 import { paymentFailed } from "@/inngest/functions/payment-failed"
 import { scheduledDelivery } from "@/inngest/functions/scheduled-delivery"
 import { scoreDrip } from "@/inngest/functions/score-drip"
+import { certExpirationAlerting } from "@/inngest/functions/cert-expiration-alerting"
 
 export const maxDuration = 300
 
@@ -29,5 +30,6 @@ export const { GET, POST, PUT } = serve({
     paymentFailed,
     scheduledDelivery,
     scoreDrip,
+    certExpirationAlerting,
   ],
 })
