@@ -1,0 +1,258 @@
+# Cal/OSHA Title 8, Section 5199 — Aerosol Transmissible Diseases Standard
+# Source: https://www.dir.ca.gov/title8/5199.html
+# California Department of Industrial Relations
+# Subchapter 7. General Industry Safety Orders
+# Group 16. Control of Hazardous Substances
+# Article 109. Hazardous Substances and Processes
+
+§5199. Aerosol Transmissible Diseases.
+
+## Contents
+- (a) Scope and Application
+- (b) Definitions
+- (c) Referring Employers
+- (d) Aerosol Transmissible Diseases Exposure Control Plan
+- (e) Engineering and Work Practice Controls and Personal Protective Equipment
+- (f) Laboratories
+- (g) Respiratory Protection
+- (h) Medical Services
+- (i) Training
+- (j) Recordkeeping
+
+---
+
+## (a) Scope and Application.
+
+(1) Scope. This section applies to work in the following facilities, service categories, or operations:
+
+(A) Each of the following health care facilities, services, or operations:
+1. Hospitals
+2. Skilled nursing facilities
+3. Clinics, medical offices, and other outpatient medical facilities
+4. Facilities where high hazard procedures, as defined in subsection (b), are performed
+5. Home health care
+6. Long term health care facilities and hospices
+7. Medical outreach services
+8. Paramedic and emergency medical services including these services when provided by firefighters and other emergency responders
+9. Medical transport
+
+(B) Facilities, services, or operations that are designated to receive persons arriving from the scene of an uncontrolled release of hazardous substances involving biological agents.
+
+(C) Police services, provided during transport or detention of persons reasonably anticipated to be cases or suspected cases of aerosol transmissible diseases.
+
+(D) Public health services, such as communicable disease contact tracing or screening programs.
+
+(E) The following facilities, services or operations that are identified as being at increased risk for transmission of ATD infection:
+1. Correctional facilities and other facilities that house inmates or detainees
+2. Homeless shelters
+3. Drug treatment programs
+
+(F) Facilities, services or operations that perform aerosol-generating procedures on cadavers.
+
+(G) Laboratories that perform procedures with materials that contain or are reasonably anticipated to contain ATP-L or zoonotic ATPs.
+
+(H) Any other facility determined in writing by the Chief of DOSH through an Order to Take Special Action.
+
+(I) Maintenance, renovation, service, or repair operations involving air handling systems or equipment or building areas that may reasonably be anticipated to be contaminated with ATPs.
+
+(2) The following are not covered by this standard:
+(A) Outpatient dental clinics or offices (if conditions met)
+(B) Outpatient medical specialty practices (if conditions met)
+
+(3) Application.
+(A) Referring Employers — reduced requirements (screening, referral, source control)
+(B) Laboratories — comply with subsections (a), (f), (i) and (j)
+(C) All other covered employers — comply with subsections (a), (d), (e), (f), (g), (h), (i), and (j)
+
+---
+
+## (b) Key Definitions
+
+- Aerosol transmissible disease (ATD): A disease for which droplet or airborne precautions are required, as listed in Appendix A.
+- Aerosol transmissible pathogen (ATP): A pathogen for which droplet or airborne precautions are required.
+- ATP-L (Laboratory): A pathogen listed in Appendix D or requiring BSL-3+.
+- Airborne infection isolation (AII): Procedures to reduce risk of airborne pathogen transmission.
+- AIIR: Room maintained at negative pressure to contain airborne pathogens.
+- AirID: Aerosol transmissible disease transmitted via airborne droplet nuclei.
+- Biological safety officer: Qualified person authorized to implement biosafety controls.
+- Case: Person diagnosed by health care provider or meeting CDC case definitions.
+- Exposure incident: Event with exposure to RATD case without required controls.
+- High hazard procedures: Sputum induction, bronchoscopy, aerosolized medications, PFT, autopsy, etc.
+- Novel or unknown ATP: Newly recognized pathogen capable of serious disease via aerosol.
+- Occupational exposure: Work exposure creating elevated risk of ATD infection.
+- Referring employer: Employer that screens and refers AirID cases, does not treat/house them.
+- Suspected case: Person believed to probably have a disease listed in Appendix A.
+
+---
+
+## (c) Referring Employers
+
+Referring employers must:
+1. Designate infection control administrator
+2. Implement source control procedures (Respiratory Hygiene/Cough Etiquette)
+3. Establish screening and referral procedures (transfer within 5 hours)
+4. Communicate with employees and other employers regarding disease status
+5. Implement risk reduction measures during referral period
+6. Provide medical services (vaccinations, TB surveillance, exposure incident procedures, seasonal flu)
+7. Train all employees with occupational exposure
+8. Annual review of infection control procedures
+9. Maintain records
+
+---
+
+## (d) ATD Exposure Control Plan
+
+Required elements:
+(A) Named administrator(s) knowledgeable in infection control
+(B) Job classifications with occupational exposure
+(C) High hazard procedures list
+(D) Tasks requiring PPE/respiratory protection
+(E) Implementation methods for engineering controls, PPE, decontamination
+(F) Source control measures
+(G) Procedures for identifying, isolating, and referring/transferring AirID cases
+(H) Medical services procedures including vaccinations
+(I) Exposure incident procedures
+(J) Exposure incident evaluation and corrective action
+(K) Communication procedures with employees and other employers
+(L) Inter-employer communication for exposure incidents
+(M) Adequate PPE supply procedures
+(N) Training procedures
+(O) Recordkeeping procedures
+(P) Employee involvement in plan review
+(Q) Surge procedures for epidemics/emergencies
+
+Plan must be reviewed annually with employee involvement.
+
+---
+
+## (e) Engineering and Work Practice Controls, and PPE
+
+Key requirements:
+- Use feasible engineering and work practice controls to minimize ATP exposure
+- Implement source control procedures (Respiratory Hygiene/Cough Etiquette)
+- Develop vehicle transport controls with barriers and air handling
+- Written decontamination procedures
+- Inform contractors about infectious disease hazards
+- AirID cases must be identified, masked, and placed in AII within 5 hours
+
+### AIIR Requirements:
+- Negative pressure maintained
+- 12+ ACH (minimum 6 ACH outdoor air)
+- Daily smoke trail verification while in use
+- Annual inspection and performance monitoring
+- Air exhausted directly outside or HEPA filtered before recirculation
+- Ducts under negative pressure before HEPA filtration
+- Doors/windows kept closed
+- Room ventilated per CDC Table 1 (99.9% removal) before unprotected entry
+
+---
+
+## (f) Laboratories
+
+- Biological safety officer performs risk assessment per BMBL methodology
+- Written Biosafety Plan (BSP) required
+- BSP elements: safety officer, job classifications, ATP-L list, containment equipment, safe handling, decontamination, PPE, respiratory protection, emergency procedures, medical services, training, annual inspections
+
+---
+
+## (g) Respiratory Protection
+
+- NIOSH-approved respirators required
+- Written respiratory protection program per Section 5144
+- Minimum N95 for airborne precautions
+- PAPR with HEPA for high hazard procedures (effective 9/1/2010)
+- Medical evaluation before fit testing
+- Annual fit testing required
+- Annual training per Section 5144
+
+Required use situations:
+- Entering AIIR in use
+- Present during AirID case procedures
+- Repairing air systems that may contain ATPs
+- Working in area after AirID case leaves (per decontamination requirements)
+- Working in residence with known AirID case
+- Aerosol-generating procedures on infected cadavers
+- Tasks specified in Biosafety Plan
+- Transporting unmasked AirID case in enclosed vehicle
+
+---
+
+## (h) Medical Services
+
+Key requirements:
+- TB surveillance: Annual TB testing for all employees with occupational exposure
+- TB conversions: Referral to knowledgeable PLHCP, diagnostic testing, treatment options
+- Vaccinations: All vaccines in Appendix E for susceptible healthcare workers (within 10 days of assignment)
+- Seasonal influenza vaccine for all employees with occupational exposure
+- Exposure incident procedures:
+  - Report RATD cases to local health officer
+  - Notify other employers within 72 hours
+  - Conduct exposure analysis within 72 hours
+  - Notify exposed employees within 96 hours
+  - Provide post-exposure medical evaluation
+- Precautionary removal with full pay/benefits if PLHCP recommends
+- Written PLHCP opinion within 15 working days
+
+---
+
+## (i) Training
+
+Required for all employees with occupational exposure:
+- At initial assignment and annually thereafter
+- Content must be appropriate to education level, literacy, and language
+
+Minimum training elements:
+(A) General explanation of ATDs and signs/symptoms
+(B) Modes of transmission and source control
+(C) ATD Exposure Control Plan / Biosafety Plan
+(D) Recognizing exposure tasks
+(E) Engineering controls, work practices, decontamination, PPE
+(F) PPE selection, use, limitations
+(G) TB surveillance procedures
+(H) Respirator training per Section 5144
+(I) Vaccine information
+(J) Exposure incident procedures
+(K) Surge plan information
+(L) Interactive Q&A opportunity (within 24 hours if not in-person)
+
+---
+
+## (j) Recordkeeping
+
+### Medical Records:
+- Employee name/identifier
+- Vaccination status and declination forms
+- Written PLHCP opinions and TB assessments
+- Exposure incident information
+- Kept confidential, maintained employment + 30 years
+
+### Training Records:
+- Dates, contents/summary, trainer names/qualifications, attendee names/titles
+- Maintained 3 years
+
+### Implementation Records:
+- Annual plan review records (3 years)
+- Exposure incident records (per Section 3204)
+- Vaccine unavailability records (3 years)
+- AII room unavailability records (3 years)
+- Patient transfer decision records (3 years)
+- Engineering control inspection/testing/maintenance (5 years)
+- Respiratory protection program records (per Section 5144)
+
+---
+
+## Appendices (Referenced)
+- Appendix A: ATD/ATP listings with required precautions
+- Appendix B: Alternate respirator medical questionnaire
+- Appendix C1: Vaccine declination statement
+- Appendix C2: Influenza vaccine declination statement
+- Appendix D: ATP-L listings
+- Appendix E: Recommended vaccinations for healthcare workers
+- Appendix F: Sample screening criteria for non-medical settings
+- Appendix G: Fit-test screening questionnaire
+
+---
+
+## History
+1. New section filed 7-6-2009; operative 8-5-2009 (Register 2009, No. 28).
+2. Amendment of subsection (g)(3)(B) - EXCEPTION 2 filed 8-1-2013; operative 10-1-2013 (Register 2013, No. 31).
