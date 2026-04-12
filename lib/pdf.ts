@@ -61,6 +61,35 @@ const verticalSections: Record<string, { title: string; items: string[] }[]> = {
   ],
 }
 
+// Document-type-specific templates with legally mandated sections
+const documentTemplateSections: Record<string, { title: string; items: string[] }[]> = {
+  "bbp-exposure-control": [
+    { title: "Exposure Determination (§5193(c))", items: ["Job classifications with occupational exposure", "Tasks and procedures where exposure occurs", "List of employees in each classification"] },
+    { title: "Schedule & Methods of Implementation (§5193(d))", items: ["Hepatitis B vaccination program", "Post-exposure evaluation and follow-up procedures", "Communication of hazards to employees", "Engineering and work practice controls", "Housekeeping procedures"] },
+    { title: "Hepatitis B Vaccination (§5193(f))", items: ["Vaccination offered within 10 working days of assignment", "Post-exposure prophylaxis procedures", "Declination form documentation", "Booster dose procedures"] },
+    { title: "Post-Exposure Evaluation (§5193(g))", items: ["Source individual testing and identification", "Exposed employee blood collection and testing", "Healthcare professional evaluation", "Written opinion within 15 days"] },
+    { title: "Recordkeeping (§5193(j))", items: ["Medical records — employee + 30 years", "Training records — 3 years", "Sharps injury log maintenance", "Annual review of exposure control plan"] },
+  ],
+  "habitability-report": [
+    { title: "Building Systems Compliance", items: ["Plumbing — hot/cold water, drainage, sewage (Civil Code §1941.1)", "Heating — adequate heating facilities", "Electrical — lighting and wiring in good working order", "Weatherproofing — roof, walls, windows, doors"] },
+    { title: "Health & Safety Standards", items: ["Smoke detectors — operable in each unit (HSC §13113.8)", "Carbon monoxide detectors — required per HSC §17926", "Lead-based paint disclosure (units pre-1978)", "Mold remediation per HSC §26147-26148"] },
+    { title: "Tenant Protection (AB 1482)", items: ["Rent cap compliance — 5% + CPI (max 10%)", "Just cause eviction documentation", "Relocation assistance when required", "Anti-retaliation protections (Civil Code §1942.5)"] },
+    { title: "ADA & Accessibility", items: ["Common area accessibility assessment", "Reasonable modification request procedures", "Fair housing accommodation log", "Annual accessibility review schedule"] },
+  ],
+  "fleet-safety-program": [
+    { title: "Driver Qualification (49 CFR 391)", items: ["CDL status verification and monitoring", "Medical certificate tracking (24-month cycle)", "Motor Vehicle Record (MVR) annual review", "Pre-employment drug/alcohol testing (49 CFR 382)"] },
+    { title: "Vehicle Maintenance (49 CFR 396)", items: ["Systematic inspection, repair, and maintenance program", "Pre-trip and post-trip inspection procedures (49 CFR 396.13)", "Vehicle condition report documentation", "Brake inspector qualifications (49 CFR 396.25)"] },
+    { title: "Hours of Service (49 CFR 395)", items: ["ELD compliance and monitoring", "11-hour driving / 14-hour on-duty limits", "30-minute break requirement", "Sleeper berth provisions (if applicable)"] },
+    { title: "Accident & Incident Management", items: ["DOT-reportable accident procedures", "Post-accident drug/alcohol testing (49 CFR 382.303)", "Accident register maintenance (49 CFR 390.15)", "Corrective action and root cause analysis"] },
+  ],
+  "loto-procedures": [
+    { title: "Energy Control Program (8 CCR 3314)", items: ["Written energy control procedures per machine/equipment", "Lockout/tagout device specifications", "Authorized vs affected employee identification", "Exclusive control provisions"] },
+    { title: "Lockout/Tagout Sequence", items: ["Step 1: Notify affected employees", "Step 2: Shut down equipment using normal procedures", "Step 3: Isolate energy sources (electrical, hydraulic, pneumatic, thermal, chemical)", "Step 4: Apply lockout/tagout devices", "Step 5: Verify isolation — attempt restart", "Step 6: Perform maintenance/service"] },
+    { title: "Restoration Procedures", items: ["Inspect work area — tools/items removed", "Verify all employees clear of equipment", "Remove lockout/tagout devices (only by authorized installer)", "Notify affected employees of restoration", "Re-energize and test equipment"] },
+    { title: "Periodic Inspection & Training", items: ["Annual inspection of energy control procedures", "Inspector must not be the authorized employee being inspected", "Retraining when procedures change or deficiencies found", "Certification records — inspector name, date, employees, machine"] },
+  ],
+}
+
 const defaultSections = [
   { title: "Workplace Safety", items: ["Injury & Illness Prevention Program (IIPP)", "SB 553 Workplace Violence Prevention Plan", "Emergency Action Plan", "Hazard Communication Program"] },
   { title: "Regulatory Compliance", items: ["Cal/OSHA standards adherence", "Regulatory change monitoring", "Document version control", "Annual compliance review"] },
@@ -184,7 +213,7 @@ export async function generateCompliancePDF(options: {
   const content = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT])
   y = PAGE_HEIGHT - MARGIN - 30
 
-  const sections = verticalSections[options.vertical] ?? defaultSections
+  const sections = documentTemplateSections[options.documentType] ?? verticalSections[options.vertical] ?? defaultSections
   content.drawText("Compliance Requirements", { x: MARGIN, y, size: 20, font: fontBold, color: BRAND.midnight })
   y -= 10
 
