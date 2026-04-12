@@ -1065,3 +1065,55 @@ User asked about lead funnels during session. Findings:
 
 ### Linear
 - Not connected — tracking via SESSION_LOG.md
+
+## Session 18 — 2026-04-12 — OSHA Bridge + Phase 0-3 Sprint
+
+### Completed
+- **OSHA Knowledge Base gap analysis.** Audited 9 document templates missing non-OSHA source material. User sourced all 9. All saved to `docs/OSHA Publications/` with structured extractions.
+- **Root middleware.** Created `middleware.ts` for Supabase session refresh via `updateSession()`.
+- **Stripe webhook fix.** Added missing `invoice.payment_succeeded` event via Stripe CLI.
+- **Migrations 010-016 applied.** Alerts, incidents metadata, score leads, forklift operators, auto services, partner_id, last_login_at.
+- **OSHA data API edge function deployed.** `protekon-api` on OSHA Supabase project with 4 endpoints serving 435K violations, 115K employer profiles, 3.2K benchmarks.
+- **3 OSHA dashboard widgets.** Industry Benchmark, Nearby Enforcement, Score Comparison — integrated into dashboard.
+- **Knowledge base page.** `/dashboard/knowledge` — 85 articles with search and category filter.
+- **Compliance calendar.** `/dashboard/calendar` — shadcn Calendar with dot indicators and event list.
+- **Audit package ZIP generator.** `/api/export/audit-package` — streams ZIP of all client PDFs.
+- **Certification expiration alerting.** Daily Inngest cron scanning 8 date columns across 8 tables.
+- **Forklift operator tracking.** Table, CRUD actions, dashboard page with cert status badges.
+- **Auto services vertical.** Table, actions, dashboard page using VerticalPage component.
+- **Multi-site document generation.** Per-location Inngest doc gen with location context.
+- **4 vertical PDF templates.** BBP (§5193), Habitability (§1941.1/AB 1482), Fleet Safety (49 CFR 391), LOTO (8 CCR 3314).
+- **Partner schema.** partner_id FK on clients table.
+- **Per-client regulatory alert routing.** Extends regulatory-scan to create alerts filtered by vertical.
+- **3 email lifecycle sequences.** Onboarding (5 emails/14d), re-engagement (14d/30d cron), sample nurture (3 emails with conversion checks).
+- **Automated plan update pipeline.** Reg change → find affected clients → mark docs outdated → queue regeneration.
+
+### Audit Snapshot
+| Metric | Count | Change |
+|--------|-------|--------|
+| Pages | 67 | +4 |
+| API routes | 18 | +1 |
+| Components | 83 | +3 |
+| Server actions | 30 | +6 |
+| Inngest functions | 18 | +6 |
+| Migrations | 16 | +4 |
+| Edge functions | 1 | +1 (OSHA project) |
+| Build | PASS | tsc 0 errors, lint 0 warnings |
+
+### Linear: 29/31 Issues Resolved (94%)
+- Phase 0: 5/5 COMPLETE
+- Phase 1: 9/9 COMPLETE
+- Phase 2: 8/9 (NGE-372 CSLB scraper remaining)
+- Phase 3: 7/8 (NGE-385 RAG pipeline remaining)
+
+### Next Session Should
+- Build NGE-372: CSLB license verification scraper
+- Build NGE-385: RAG pipeline for compliance chat
+- Wire `last_login_at` update in auth callback
+- Add RLS policies to `intake_submissions` and `sample_report_leads`
+- Write tests for new server actions and Inngest functions
+- Visual QA on all new dashboard pages
+
+### Git
+- 15 commits pushed: `e721539` through `f58d897`
+- Production deployment: auto on push to main via Vercel
