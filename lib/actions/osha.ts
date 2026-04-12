@@ -39,14 +39,8 @@ export async function getOshaNearbyData(): Promise<OshaNearbyEnforcement[]> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return []
 
-  // Use client's city if available, default to Riverside CA
-  const { data: client } = await supabase
-    .from("clients")
-    .select("business_name")
-    .eq("id", user.id)
-    .single()
-
   // Default to Riverside for South LA County / IE territory
+  // TODO: use client's city once address column is added to clients table
   return getNearbyEnforcement("Riverside", "CA", 10)
 }
 

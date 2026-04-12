@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { MapPin, Warning } from "@phosphor-icons/react"
+import { MapPin } from "@phosphor-icons/react"
 import { getOshaNearbyData } from "@/lib/actions/osha"
 import type { OshaNearbyEnforcement } from "@/lib/types"
 

@@ -11,8 +11,6 @@ import {
   Warning,
   Check,
   Clock,
-  CaretLeft,
-  CaretRight,
 } from "@phosphor-icons/react"
 import { Calendar } from "@/components/ui/calendar"
 import { Badge } from "@/components/ui/badge"
