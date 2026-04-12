@@ -160,6 +160,56 @@ export const regulatoryScan = inngest.createFunction(
       })
     }
 
+    // Step 3: Route alerts to affected clients by vertical
+    if (totalNew > 0) {
+      await step.run("route-client-alerts", async () => {
+        // Get today's new regulatory updates
+        const today = new Date().toISOString().slice(0, 10)
+        const { data: newRegs } = await supabase
+          .from("regulatory_updates")
+          .select("id, title, severity, category, jurisdiction")
+          .gte("created_at", `${today}T00:00:00`)
+
+        if (!newRegs?.length) return
+
+        // Map categories to verticals they affect
+        const CATEGORY_VERTICALS: Record<string, string[]> = {
+          "workplace-safety": ["construction", "manufacturing", "wholesale", "agriculture", "auto-services"],
+          "wage-labor": ["retail", "hospitality", "agriculture", "construction"],
+          "osha-federal": ["construction", "manufacturing", "healthcare", "wholesale", "transportation"],
+          "osha-industry-intel": ["construction", "manufacturing", "healthcare", "wholesale", "retail", "hospitality", "agriculture", "transportation", "auto-services", "real-estate"],
+        }
+
+        // Get all active clients
+        const { data: clients } = await supabase
+          .from("clients")
+          .select("id, vertical")
+          .eq("status", "active")
+
+        if (!clients?.length) return
+
+        let alertCount = 0
+        for (const reg of newRegs) {
+          const affectedVerticals = CATEGORY_VERTICALS[reg.category] || []
+          const affectedClients = clients.filter((c) => affectedVerticals.includes(c.vertical))
+
+          for (const client of affectedClients) {
+            await supabase.from("alerts").insert({
+              client_id: client.id,
+              type: "regulatory",
+              title: `Regulatory Update: ${reg.title}`.slice(0, 200),
+              message: `A ${reg.severity}-severity ${reg.jurisdiction} regulatory change may affect your ${client.vertical} business. Review the update in your regulations feed.`,
+              severity: reg.severity === "high" ? "high" : "medium",
+              action_url: "/dashboard/regulations",
+            })
+            alertCount++
+          }
+        }
+
+        return alertCount
+      })
+    }
+
     return { success: true, newUpdates: totalNew, scannedAt: new Date().toISOString() }
   }
 )

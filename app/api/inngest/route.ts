@@ -12,6 +12,10 @@ import { paymentFailed } from "@/inngest/functions/payment-failed"
 import { scheduledDelivery } from "@/inngest/functions/scheduled-delivery"
 import { scoreDrip } from "@/inngest/functions/score-drip"
 import { certExpirationAlerting } from "@/inngest/functions/cert-expiration-alerting"
+import { onboardingSequence } from "@/inngest/functions/onboarding-sequence"
+import { reEngagement } from "@/inngest/functions/re-engagement"
+import { sampleNurtureDrip } from "@/inngest/functions/sample-nurture-drip"
+import { planUpdatePipeline } from "@/inngest/functions/plan-update-pipeline"
 
 export const maxDuration = 300
 
@@ -31,5 +35,9 @@ export const { GET, POST, PUT } = serve({
     scheduledDelivery,
     scoreDrip,
     certExpirationAlerting,
+    onboardingSequence,
+    reEngagement,
+    sampleNurtureDrip,
+    planUpdatePipeline,
   ],
 })
