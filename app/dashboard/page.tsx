@@ -17,6 +17,9 @@ import { getSubcontractors } from "@/lib/actions/construction"
 import { getPhiAssets, getBaaAgreements } from "@/lib/actions/healthcare"
 import { getProperties } from "@/lib/actions/real-estate"
 import { getPosterLocations } from "@/lib/actions/poster-compliance"
+import { OshaIndustryBenchmark } from "@/components/dashboard/OshaIndustryBenchmark"
+import { OshaNearbyEnforcementWidget } from "@/components/dashboard/OshaNearbyEnforcement"
+import { OshaScoreComparison } from "@/components/dashboard/OshaScoreComparison"
 import type { DashboardData } from "@/lib/types"
 
 // Animated counter hook
@@ -438,6 +441,13 @@ export default function DashboardPage() {
             <ArrowRight size={14} weight="bold" />
           </Link>
         </motion.div>
+      </div>
+
+      {/* OSHA Intelligence Widgets */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        <OshaIndustryBenchmark />
+        <OshaNearbyEnforcementWidget />
+        <OshaScoreComparison />
       </div>
 
       {/* BENTO ROW 3 - Delivery Timeline */}

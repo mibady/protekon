@@ -89,22 +89,27 @@ export interface OshaIndustryProfile {
   avgPenalty: number
   violationRate: number
   totalViolations: number
-  topStandards: { code: string; description: string; count: number }[]
+  topStandards: { code: string; description: string; count: number; avgPenalty?: number }[]
+  yearOverYear?: { year: number; violations: number; avgPenalty: number }[]
 }
 
 export interface OshaNearbyEnforcement {
-  activityNr: string
-  estabName: string
+  establishment: string
   city: string
+  state: string
   violationType: string
-  penalty: number
-  issuanceDate: string
+  penaltyAmount: number
+  inspectionDate: string
+  standardCited?: string
+  industry?: string
 }
 
 export interface OshaBenchmarks {
-  industry: string
-  penaltyPercentiles: { p25: number; p50: number; p75: number; p90: number }
-  clientPercentile: number
+  vertical: string
+  nationalAvg: { score: number; penalty: number; violationRate: number }
+  californiaAvg: { score: number; penalty: number; violationRate: number }
+  percentiles: { p25: number; p50: number; p75: number; p90: number }
+  topCitedStandards: { code: string; count: number; avgPenalty: number }[]
 }
 
 export type DashboardData = {

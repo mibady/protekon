@@ -68,16 +68,16 @@ export async function getIndustryProfile(
 }
 
 export async function getNearbyEnforcement(
-  lat: number,
-  lng: number,
-  radiusMiles: number = 25
+  city: string,
+  state: string = "CA",
+  limit: number = 20
 ): Promise<OshaNearbyEnforcement[]> {
-  const cacheKey = `enforcement:${lat}:${lng}:${radiusMiles}`
+  const cacheKey = `enforcement:${city}:${state}:${limit}`
   const cached = getCached<OshaNearbyEnforcement[]>(cacheKey)
   if (cached) return cached
 
   const data = await oshaFetch<OshaNearbyEnforcement[]>(
-    `/enforcement/nearby?lat=${lat}&lng=${lng}&radius=${radiusMiles}`
+    `/enforcement/nearby?city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}&limit=${limit}`
   )
   const result = data ?? []
   if (result.length > 0) setCache(cacheKey, result)
