@@ -1,11 +1,35 @@
 "use client"
-// Hero Component - Last updated: 2026-03-31T12:00:00Z
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
+import { getFormattedStats } from "@/lib/actions/public-stats"
+
+// Fallback values used during SSR and before live data loads
+const FALLBACK_STATS = [
+  { value: "$1.04B", label: "Penalties Exposed" },
+  { value: "431K+", label: "Citations Analyzed" },
+  { value: "48hrs", label: "First Delivery" },
+  { value: "116K+", label: "Employers Cited" },
+]
 
 export default function Hero() {
+  const [stats, setStats] = useState(FALLBACK_STATS)
+
+  useEffect(() => {
+    getFormattedStats().then((live) => {
+      if (live) {
+        setStats([
+          { value: live.penalties, label: "Penalties Exposed" },
+          { value: live.citations, label: "Citations Analyzed" },
+          { value: "48hrs", label: "First Delivery" },
+          { value: live.employers, label: "Employers Cited" },
+        ])
+      }
+    })
+  }, [])
+
   return (
     <section className="relative min-h-screen bg-void">
       {/* 55/45 Grid Split */}
@@ -203,12 +227,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 1.5 }}
           >
             <div className="grid grid-cols-2 lg:grid-cols-4">
-              {[
-                { value: '$1.04B', label: 'Penalties Exposed' },
-                { value: '431K+', label: 'Citations Analyzed' },
-                { value: '48hrs', label: 'First Delivery' },
-                { value: '116K+', label: 'Employers Cited' },
-              ].map((stat, i) => (
+              {stats.map((stat, i) => (
                 <div 
                   key={stat.label}
                   className={`p-5 lg:p-6 ${i < 3 ? 'border-r border-brand-white/[0.06]' : ''} ${i < 2 ? 'border-b lg:border-b-0 border-brand-white/[0.06]' : ''}`}

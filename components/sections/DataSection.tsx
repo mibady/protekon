@@ -1,9 +1,11 @@
 "use client"
 
 import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
+import { getPublicEnforcementStats } from "@/lib/actions/public-stats"
 
-const industryData = [
+// Fallback values — replaced by live data on mount
+const FALLBACK_INDUSTRY = [
   { name: "Construction", percentage: 25.8, color: "#C41230" },
   { name: "Manufacturing", percentage: 20.2, color: "#C41230" },
   { name: "Agriculture", percentage: 7.3, color: "#7A8FA5" },
@@ -11,16 +13,45 @@ const industryData = [
   { name: "Hospitality", percentage: 6.7, color: "#7A8FA5" },
 ]
 
-const donutData = [
-  { label: "Serious", percentage: 70.1, color: "#C41230" },
-  { label: "Willful", percentage: 4.8, color: "#C9A84C" },
-  { label: "Repeat", percentage: 3.9, color: "#7A8FA5" },
-  { label: "Other", percentage: 21.1, color: "#E8E2D8" },
+const FALLBACK_DONUT = [
+  { label: "Serious", percentage: 56.4, color: "#C41230" },
+  { label: "Other", percentage: 43.6, color: "#E8E2D8" },
 ]
 
 export default function DataSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [industryData, setIndustryData] = useState(FALLBACK_INDUSTRY)
+  const [donutData, setDonutData] = useState(FALLBACK_DONUT)
+  const [avgFine, setAvgFine] = useState("$16,131")
+
+  useEffect(() => {
+    getPublicEnforcementStats().then((stats) => {
+      if (!stats) return
+      if (stats.industryBreakdown.length > 0) {
+        setIndustryData(
+          stats.industryBreakdown.slice(0, 5).map((b, i) => ({
+            name: b.name,
+            percentage: b.percentage,
+            color: i < 2 ? "#C41230" : "#7A8FA5",
+          }))
+        )
+      }
+      if (stats.violationTypeBreakdown.length > 0) {
+        setDonutData(
+          stats.violationTypeBreakdown.map((v) => ({
+            label: v.label,
+            percentage: v.percentage,
+            color: v.label === "Serious" ? "#C41230" : "#E8E2D8",
+          }))
+        )
+      }
+      if (stats.totalPenalties > 0 && stats.seriousCount > 0) {
+        const avg = Math.round(stats.totalPenalties / stats.seriousCount)
+        setAvgFine(`$${avg.toLocaleString()}`)
+      }
+    })
+  }, [])
 
   return (
     <section className="bg-parchment py-24" ref={ref}>
@@ -180,7 +211,7 @@ export default function DataSection() {
                     animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
                   >
-                    $7,229
+                    {avgFine}
                   </motion.span>
                   <span className="font-display font-light text-[9px] tracking-[2px] text-steel uppercase text-center px-4">
                     AVG SERIOUS VIOLATION

@@ -71,7 +71,7 @@ export default function Footer() {
             {/* Social Icons */}
             <div className="flex items-center gap-4">
               <Link 
-                href="https://linkedin.com" 
+                href="https://linkedin.com/company/protekon"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-steel hover:text-brand-white transition-colors"
@@ -79,7 +79,7 @@ export default function Footer() {
                 <LinkedinLogo size={18} weight="fill" />
               </Link>
               <Link 
-                href="https://x.com" 
+                href="https://x.com/protekon"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-steel hover:text-brand-white transition-colors"

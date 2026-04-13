@@ -2,6 +2,7 @@ import { streamText } from "ai"
 import { anthropic } from "@ai-sdk/anthropic"
 import { createClient } from "@/lib/supabase/server"
 import { retrieveContext } from "@/lib/rag/retrieval"
+import { rateLimit, getClientIp } from "@/lib/rate-limit"
 
 export async function POST(req: Request) {
   const supabase = await createClient()
@@ -9,6 +10,13 @@ export async function POST(req: Request) {
 
   if (!user) {
     return new Response("Unauthorized", { status: 401 })
+  }
+
+  // Rate limit per user — LLM endpoint costs money per token
+  const ip = getClientIp(req.headers instanceof Headers ? req.headers : new Headers())
+  const limiter = rateLimit(`chat:${user.id}:${ip}`, { maxRequests: 20, windowMs: 60_000 })
+  if (limiter.limited) {
+    return new Response("Rate limit exceeded. Please wait before sending more messages.", { status: 429 })
   }
 
   let messages: unknown
@@ -58,8 +66,8 @@ export async function POST(req: Request) {
           )
           .join("\n\n")}`
       }
-    } catch {
-      // RAG retrieval failed — continue without it
+    } catch (err) {
+      console.warn("[api/chat] RAG retrieval failed, continuing without context:", err instanceof Error ? err.message : err)
     }
   }
 

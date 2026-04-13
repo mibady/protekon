@@ -44,8 +44,7 @@ export function getComplianceOfficerEmail(): string {
     if (process.env.NODE_ENV === "production") {
       throw new Error("COMPLIANCE_OFFICER_EMAIL env var is required in production")
     }
-    console.warn("[email-dev] COMPLIANCE_OFFICER_EMAIL not set, using fallback")
-    return "compliance-dev@example.com"
+    throw new Error("COMPLIANCE_OFFICER_EMAIL env var is required")
   }
   return email
 }

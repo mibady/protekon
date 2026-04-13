@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
 import { createClient } from "@/lib/supabase/server"
+import { rateLimit, getClientIp } from "@/lib/rate-limit"
 import type { ScoreGap } from "@/lib/types/score"
 
 const PAGE_WIDTH = 612
@@ -418,10 +419,22 @@ async function generateScoreReportPDF(row: {
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  // Rate limit — public endpoint, prevent enumeration
+  const ip = getClientIp(request.headers)
+  if (rateLimit(ip, { maxRequests: 10, windowMs: 60_000 }).limited) {
+    return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 })
+  }
+
   const id = request.nextUrl.searchParams.get("id")
 
   if (!id) {
     return NextResponse.json({ error: "Missing id parameter" }, { status: 400 })
+  }
+
+  // Validate UUID format to prevent enumeration
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  if (!UUID_RE.test(id)) {
+    return NextResponse.json({ error: "Invalid id format" }, { status: 400 })
   }
 
   const supabase = await createClient()

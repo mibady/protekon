@@ -74,21 +74,29 @@ export async function GET() {
   archive.append(manifest, { name: "MANIFEST.txt" })
   archive.finalize()
 
-  // Stream the ZIP response
-  const chunks: Uint8Array[] = []
-  for await (const chunk of passthrough) {
-    chunks.push(chunk as Uint8Array)
-  }
-  const zipBuffer = Buffer.concat(chunks)
-
+  // Stream the ZIP response directly — no buffering in memory
   const slug = client.business_name.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase()
   const date = new Date().toISOString().slice(0, 10)
 
-  return new Response(zipBuffer, {
+  const stream = new ReadableStream({
+    start(controller) {
+      passthrough.on("data", (chunk: Buffer) => {
+        controller.enqueue(new Uint8Array(chunk))
+      })
+      passthrough.on("end", () => {
+        controller.close()
+      })
+      passthrough.on("error", (err) => {
+        controller.error(err)
+      })
+    },
+  })
+
+  return new Response(stream, {
     headers: {
       "Content-Type": "application/zip",
       "Content-Disposition": `attachment; filename="protekon-audit-${slug}-${date}.zip"`,
-      "Content-Length": String(zipBuffer.length),
+      "Transfer-Encoding": "chunked",
     },
   })
 }
