@@ -55,13 +55,13 @@ export default function HealthcarePage() {
             className="max-w-[700px]"
           >
             <span className="font-display text-[12px] tracking-[4px] uppercase text-crimson">
-              Healthcare Shield
+              Protekon for Healthcare
             </span>
             <h1 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-parchment mt-4 mb-6">
               CAL/OSHA HEALTHCARE COMPLIANCE
             </h1>
             <p className="font-sans text-[16px] text-steel leading-relaxed mb-8">
-              Healthcare facilities face unique Cal/OSHA requirements. Healthcare Shield covers aerosol 
+              Healthcare facilities face unique Cal/OSHA requirements. Protekon for Healthcare covers aerosol 
               transmissible disease plans, bloodborne pathogen programs, patient handling, and sharps safety.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">

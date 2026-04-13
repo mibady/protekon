@@ -4,15 +4,15 @@ import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { Check, X, Minus } from "@phosphor-icons/react"
 
-const capabilities: { name: string; training: boolean | "partial"; diy: boolean | "partial"; enterprise: boolean | "partial"; consultant: boolean | "partial"; shield: boolean | "partial" }[] = [
-  { name: "Runs autonomously 24/7", training: false, diy: false, enterprise: false, consultant: false, shield: true },
-  { name: "Writes your plan autonomously", training: false, diy: false, enterprise: true, consultant: true, shield: true },
-  { name: "Classifies + logs incidents via AI", training: false, diy: false, enterprise: true, consultant: "partial", shield: true },
-  { name: "Scans regulations daily at 6am", training: false, diy: false, enterprise: true, consultant: false, shield: true },
-  { name: "AI strips PII + assigns OSHA codes", training: false, diy: false, enterprise: false, consultant: false, shield: true },
-  { name: "Delivers proof on schedule", training: false, diy: false, enterprise: false, consultant: false, shield: true },
-  { name: "Zero software. Zero staff.", training: true, diy: true, enterprise: false, consultant: true, shield: true },
-  { name: "Always-on AI agent", training: false, diy: false, enterprise: false, consultant: false, shield: true },
+const capabilities: { name: string; training: boolean | "partial"; diy: boolean | "partial"; enterprise: boolean | "partial"; consultant: boolean | "partial"; protekon: boolean | "partial" }[] = [
+  { name: "Runs autonomously 24/7", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
+  { name: "Writes your plan autonomously", training: false, diy: false, enterprise: true, consultant: true, protekon: true },
+  { name: "Classifies + logs incidents via AI", training: false, diy: false, enterprise: true, consultant: "partial", protekon: true },
+  { name: "Scans regulations daily at 6am", training: false, diy: false, enterprise: true, consultant: false, protekon: true },
+  { name: "AI strips PII + assigns OSHA codes", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
+  { name: "Delivers proof on schedule", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
+  { name: "Zero software. Zero staff.", training: true, diy: true, enterprise: false, consultant: true, protekon: true },
+  { name: "Always-on AI agent", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
 ]
 
 const pricing = {
@@ -20,7 +20,7 @@ const pricing = {
   diy: "$1,300 one-time",
   enterprise: "$800–$2,000+/mo",
   consultant: "$150–$300/hr",
-  shield: "$597–$1,297/mo",
+  protekon: "$597–$1,297/mo",
 }
 
 function StatusIcon({ status }: { status: boolean | "partial" }) {
@@ -111,7 +111,7 @@ export default function Comparison() {
                   </td>
                   <td className="p-4 text-center bg-crimson/[0.06] border-l-[3px] border-crimson">
                     <div className="flex justify-center">
-                      <StatusIcon status={cap.shield} />
+                      <StatusIcon status={cap.protekon} />
                     </div>
                   </td>
                 </tr>
@@ -136,7 +136,7 @@ export default function Comparison() {
                 </td>
                 <td className="p-4 text-center bg-crimson/[0.06] border-l-[3px] border-crimson">
                   <span className="font-display font-bold text-[16px] text-crimson">
-                    {pricing.shield}
+                    {pricing.protekon}
                   </span>
                 </td>
               </tr>

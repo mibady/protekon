@@ -19,7 +19,7 @@ const solutions = [
   },
   {
     icon: HardHat,
-    title: "Construction Shield",
+    title: "Protekon for Construction",
     subtitle: "CSLB + Site Safety",
     description: "Specialized compliance for California construction. CSLB licensing compliance, site safety plans, toolbox talks, and subcontractor documentation.",
     features: ["CSLB Compliance", "Site Safety Plans", "Toolbox Talks", "Sub Documentation"],
@@ -28,7 +28,7 @@ const solutions = [
   },
   {
     icon: FirstAid,
-    title: "Healthcare Shield",
+    title: "Protekon for Healthcare",
     subtitle: "Cal/OSHA Healthcare",
     description: "Healthcare-specific compliance solutions. Aerosol transmissible disease plans, bloodborne pathogen programs, and patient handling protocols.",
     features: ["ATD Plans", "BBP Programs", "Patient Handling", "Sharps Safety"],
@@ -37,7 +37,7 @@ const solutions = [
   },
   {
     icon: Buildings,
-    title: "Real Estate Shield",
+    title: "Protekon for Real Estate",
     subtitle: "Habitability Compliance",
     description: "Property management compliance. Habitability certifications, lead paint disclosures, mold remediation protocols, and tenant safety programs.",
     features: ["Hab Certifications", "Lead Disclosures", "Mold Protocols", "Tenant Safety"],

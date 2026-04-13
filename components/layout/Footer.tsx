@@ -8,9 +8,9 @@ const footerLinks = {
     title: "SOLUTIONS",
     links: [
       { name: "Compliance Suite", href: "/solutions/compliance-suite" },
-      { name: "Construction Shield", href: "/solutions/construction" },
-      { name: "Healthcare Shield", href: "/solutions/healthcare" },
-      { name: "Real Estate Shield", href: "/solutions/real-estate" },
+      { name: "Protekon for Construction", href: "/solutions/construction" },
+      { name: "Protekon for Healthcare", href: "/solutions/healthcare" },
+      { name: "Protekon for Real Estate", href: "/solutions/real-estate" },
     ],
   },
   company: {

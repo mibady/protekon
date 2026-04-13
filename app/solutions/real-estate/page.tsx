@@ -55,13 +55,13 @@ export default function RealEstatePage() {
             className="max-w-[700px]"
           >
             <span className="font-display text-[12px] tracking-[4px] uppercase text-gold">
-              Real Estate Shield
+              Protekon for Real Estate
             </span>
             <h1 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-parchment mt-4 mb-6">
               HABITABILITY COMPLIANCE
             </h1>
             <p className="font-sans text-[16px] text-steel leading-relaxed mb-8">
-              Property management compliance made simple. Real Estate Shield covers habitability certifications, 
+              Property management compliance made simple. Protekon for Real Estate covers habitability certifications, 
               lead paint disclosures, mold remediation protocols, and tenant safety programs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -189,7 +189,7 @@ export default function RealEstatePage() {
             PROTECT YOUR PROPERTIES
           </h2>
           <p className="font-sans text-[16px] text-steel mb-8">
-            Don&apos;t risk tenant lawsuits over compliance issues. Start with Real Estate Shield.
+            Don&apos;t risk tenant lawsuits over compliance issues. Start with Protekon for Real Estate.
           </p>
           <Link
             href="/score"

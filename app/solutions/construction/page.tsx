@@ -64,14 +64,14 @@ export default function ConstructionPage() {
             className="max-w-[700px]"
           >
             <span className="font-display text-[12px] tracking-[4px] uppercase text-gold">
-              Construction Shield
+              Protekon for Construction
             </span>
             <h1 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-parchment mt-4 mb-6">
               CSLB + SITE SAFETY COMPLIANCE
             </h1>
             <p className="font-sans text-[16px] text-steel leading-relaxed mb-8">
               California construction faces the highest enforcement rates of any industry. 
-              Construction Shield covers CSLB licensing, Cal/OSHA site safety, subcontractor documentation, 
+              Protekon for Construction covers CSLB licensing, Cal/OSHA site safety, subcontractor documentation, 
               and project-specific safety plans.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -221,7 +221,7 @@ export default function ConstructionPage() {
             PROTECT YOUR CONTRACTOR LICENSE
           </h2>
           <p className="font-sans text-[16px] text-steel mb-8">
-            Don&apos;t risk your CSLB license over a compliance violation. Start with Construction Shield.
+            Don&apos;t risk your CSLB license over a compliance violation. Start with Protekon for Construction.
           </p>
           <Link
             href="/score"

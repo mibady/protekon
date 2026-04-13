@@ -19,9 +19,9 @@ const solutionsMegaMenu = {
     label: "COMPLIANCE VERTICALS",
     items: [
       { name: "Compliance Suite — SB 553 + Cal/OSHA", href: "/solutions/compliance-suite" },
-      { name: "Construction Shield — CSLB + Site Safety", href: "/solutions/construction" },
-      { name: "Healthcare Shield — Cal/OSHA Healthcare", href: "/solutions/healthcare" },
-      { name: "Real Estate Shield — Hab Compliance", href: "/solutions/real-estate" },
+      { name: "Protekon for Construction — CSLB + Site Safety", href: "/solutions/construction" },
+      { name: "Protekon for Healthcare — Cal/OSHA Healthcare", href: "/solutions/healthcare" },
+      { name: "Protekon for Real Estate — Hab Compliance", href: "/solutions/real-estate" },
     ],
   },
   right: {
