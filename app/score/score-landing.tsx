@@ -38,7 +38,7 @@ export default function ScoreLanding() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            11 baseline questions plus industry-specific checks. Real enforcement
+            A few straightforward questions plus industry-specific checks. Real enforcement
             data from Cal/OSHA and federal OSHA. Instant gap analysis with per-violation
             fine amounts. No login required.
           </motion.p>
@@ -86,7 +86,7 @@ export default function ScoreLanding() {
                   <p className="font-sans text-[14px] text-fog leading-relaxed mb-6">
                     Cal/OSHA enforcement data, SB 553 Workplace Violence Prevention,
                     IIPP requirements, and California-specific citations. Covers
-                    $164M+ in penalties and 73,960+ enforcement records.
+                    $164M+ in penalties from real Cal/OSHA enforcement data.
                   </p>
 
                   <div className="flex flex-col gap-2 mb-8">

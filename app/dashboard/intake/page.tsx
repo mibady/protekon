@@ -303,7 +303,7 @@ export default function IntakePage() {
           Compliance Posture Assessment
         </h1>
         <p className="font-sans text-[15px] text-steel max-w-xl">
-          Answer 6 questions about your current compliance status. This assessment determines
+          A few questions about your current compliance status. This assessment determines
           your Compliance Posture Score and customizes your compliance package.
         </p>
       </motion.div>
@@ -438,7 +438,7 @@ export default function IntakePage() {
                   Fine Exposure
                 </h4>
                 <p className="font-sans text-[13px] text-steel mt-1">
-                  Your AI compliance officer has identified{" "}
+                  PROTEKON has identified{" "}
                   <span className="font-bold text-crimson">{totalQuestions - yesCount}</span> compliance
                   gaps. Average serious violation:{" "}
                   <span className="font-bold text-crimson">$7,229</span>. Submit your assessment and the

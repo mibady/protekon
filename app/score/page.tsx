@@ -8,7 +8,7 @@ import ScoreLanding from "./score-landing"
 export const metadata: Metadata = {
   title: "Free Compliance Score | PROTEKON",
   description:
-    "Answer 11 baseline questions plus industry-specific checks to get your compliance score. See exactly where your gaps are, what fines you face, and how to fix them — free, instant, no login required.",
+    "Take a quick assessment plus industry-specific checks to get your compliance score. See exactly where your gaps are, what fines you face, and how to fix them — free, instant, no login required.",
   openGraph: {
     title: "Free Compliance Score | PROTEKON",
     description:

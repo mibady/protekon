@@ -49,7 +49,7 @@ export default function IncidentsPage() {
         <div>
           <h1 className="font-display font-bold text-[28px] text-midnight">Incident Log</h1>
           <p className="font-sans text-[14px] text-steel mt-1">
-            Track and manage workplace incidents with AI-powered classification
+            Track and manage workplace incidents with automated classification
           </p>
         </div>
         <div className="flex gap-3">

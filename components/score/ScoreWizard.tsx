@@ -430,8 +430,8 @@ function ScoreWizardInner() {
           </h1>
 
           <p className="font-sans text-[17px] text-steel leading-relaxed max-w-[600px] mt-4">
-            Answer {hasVerticalPhase ? `${maxScore}` : "11"} compliance questions. Your score calculated in real
-            time against {benchmark ? formatNumber(benchmark.national_violations) : "435,000+"} real enforcement records. No email required.
+            Take a quick compliance assessment. Your score calculated in real
+            time against {benchmark ? formatNumber(benchmark.national_violations) : "real"} enforcement records. Your scorecard in minutes.
           </p>
 
           <p className="font-sans text-[13px] text-steel/60 mt-3">
@@ -887,7 +887,7 @@ function ScoreWizardInner() {
               <p className="font-sans text-[13px] text-steel/60 text-center max-w-[640px] mx-auto mt-6">
                 This assessment is for informational purposes only and does not constitute legal advice.
                 Results are based on self-reported answers and{" "}
-                {benchmark ? formatNumber(benchmark.national_violations) : "435,000+"} real Cal/OSHA
+                {benchmark ? formatNumber(benchmark.national_violations) : "real"} Cal/OSHA
                 enforcement records. Fine estimates represent actual citation amounts per standard and
                 actual penalties may vary. Consult a qualified compliance professional for specific guidance.
                 PROTEKON is not a law firm.

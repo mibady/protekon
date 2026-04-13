@@ -328,7 +328,7 @@ export default function NewIncidentPage() {
           <p className="font-sans text-[12px] text-steel">
             <strong className="text-midnight">Privacy Notice:</strong> All personally identifiable information (PII) 
             including names and identifying details will be automatically stripped from this report before storage. 
-            The incident will be classified by our AI system for OSHA 300 compliance.
+            The incident will be classified by PROTEKON for OSHA 300 compliance.
           </p>
         </div>
 

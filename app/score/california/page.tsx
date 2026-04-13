@@ -486,7 +486,7 @@ export default function ScoreLandingPage() {
                 color: B.gold,
               }}
             >
-              Free compliance assessment — no email required
+              Free compliance assessment — your scorecard in minutes
             </span>
           </div>
 
@@ -543,9 +543,9 @@ export default function ScoreLandingPage() {
                   marginBottom: 40,
                 }}
               >
-                Answer 11 questions. Get your compliance score calculated against{" "}
+                Take a quick assessment. Get your compliance score calculated against{" "}
                 <strong style={{ color: B.white, fontWeight: 500 }}>
-                  73,960 real enforcement records
+                  real Cal/OSHA enforcement data
                 </strong>{" "}
                 — and see exactly what an inspector would cite you for. Today.
               </p>
@@ -590,7 +590,7 @@ export default function ScoreLandingPage() {
               {/* Trust line */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 24 }}>
                 {[
-                  "73,960 enforcement records",
+                  "Real Cal/OSHA data",
                   "All 10 industries",
                   "Takes 2 minutes",
                 ].map((t) => (
@@ -809,7 +809,7 @@ export default function ScoreLandingPage() {
           {[
             { n: 164, p: "$", s: "M", l: "in Cal/OSHA penalties" },
             { n: 21020, p: "", s: "", l: "California employers fined" },
-            { n: 73960, p: "", s: "", l: "enforcement records analyzed" },
+            { n: 73960, p: "", s: "+", l: "Cal/OSHA records analyzed" },
             { n: 3430, p: "", s: "", l: "cited since January 2025" },
           ].map(({ n, p, s, l }) => (
             <div
@@ -901,14 +901,14 @@ export default function ScoreLandingPage() {
           {[
             {
               n: "01",
-              t: "Answer 11 questions",
-              d: "Simple yes/no questions about your compliance documentation. Industry-specific questions adapt to your vertical. Takes 2 minutes.",
+              t: "Take a quick assessment",
+              d: "Simple yes/no questions about your compliance documentation. Industry-specific questions adapt to your vertical. Takes about two minutes.",
               c: B.crimson,
             },
             {
               n: "02",
               t: "See your score instantly",
-              d: "Compliance score, gap analysis, and fine exposure — calculated against 73,960 real Cal/OSHA enforcement records. No email required.",
+              d: "Compliance score, gap analysis, and fine exposure — calculated against real Cal/OSHA enforcement data. Your personalized gap analysis in minutes.",
               c: B.gold,
             },
             {
@@ -1031,7 +1031,7 @@ export default function ScoreLandingPage() {
             {[
               {
                 t: "Your exact compliance score",
-                d: "Not a generic checklist. Weighted against real enforcement data for your specific industry. 73,960 Cal/OSHA records. Your number.",
+                d: "Not a generic checklist. Weighted against real enforcement data for your specific industry. Real Cal/OSHA records. Your number.",
                 tag: "Benefit",
               },
               {
@@ -1055,8 +1055,8 @@ export default function ScoreLandingPage() {
                 tag: "Feature",
               },
               {
-                t: "No email wall. No sales call.",
-                d: "Take the full assessment anonymously. Score and gaps shown immediately. The PDF download is the only thing that asks for an email.",
+                t: "No sales call. No pressure.",
+                d: "Take the full assessment privately. Score and gaps shown immediately. The PDF download is the only thing that asks for an email.",
                 tag: "Feature",
               },
             ].map((b, i) => (
@@ -1665,7 +1665,7 @@ export default function ScoreLandingPage() {
                 fontWeight: 300,
               }}
             >
-              2 minutes. 11 questions. Your compliance score and fine exposure —
+              About two minutes. Real results. Your compliance score and fine exposure —
               calculated against the same enforcement data Cal/OSHA uses to
               decide who to inspect next.
             </p>
@@ -1711,7 +1711,7 @@ export default function ScoreLandingPage() {
               }}
             >
               {[
-                "No email required",
+                "Your scorecard in minutes",
                 "No sales call",
                 "Results in 2 minutes",
                 "Real enforcement data",
@@ -1760,7 +1760,7 @@ export default function ScoreLandingPage() {
             >
               This assessment is for informational purposes only and does not
               constitute legal advice. Results are based on self-reported answers
-              and 73,960+ real Cal/OSHA enforcement records. PROTEKON is not a
+              and real Cal/OSHA enforcement data. PROTEKON is not a
               law firm.
             </p>
           </Reveal>

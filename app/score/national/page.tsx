@@ -491,7 +491,7 @@ export default function ScoreNationalPage() {
                 color: B.gold,
               }}
             >
-              Free compliance assessment — all 50 states — no email required
+              Free compliance assessment — all 50 states — your scorecard in minutes
             </span>
           </div>
 
@@ -546,9 +546,9 @@ export default function ScoreNationalPage() {
                   marginBottom: 40,
                 }}
               >
-                Answer 11 questions. Get your compliance score calculated against{" "}
+                Take a quick assessment. Get your compliance score calculated against{" "}
                 <strong style={{ color: B.white, fontWeight: 500 }}>
-                  431,000+ real OSHA enforcement records
+                  real OSHA enforcement data
                 </strong>{" "}
                 across every state and territory — and see exactly what an
                 inspector would cite you for. Whether you&apos;re in a federal
@@ -594,7 +594,7 @@ export default function ScoreNationalPage() {
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: 24 }}>
                 {[
-                  "431,000+ enforcement records",
+                  "Real OSHA enforcement data",
                   "All 50 states + DC",
                   "27 industries",
                   "2 minutes",
@@ -815,7 +815,7 @@ export default function ScoreNationalPage() {
           {[
             { n: 1040, p: "$", s: "M", l: "in OSHA penalties since 2020" },
             { n: 116000, p: "", s: "+", l: "employers cited nationwide" },
-            { n: 431000, p: "", s: "+", l: "enforcement records analyzed" },
+            { n: 431000, p: "", s: "+", l: "OSHA records analyzed" },
             { n: 243000, p: "", s: "+", l: "serious violations (56%)" },
           ].map(({ n, p, s, l }) => (
             <div
@@ -916,14 +916,14 @@ export default function ScoreNationalPage() {
             },
             {
               n: "02",
-              t: "Answer 11 core questions",
+              t: "Answer a few core questions",
               d: "Yes/no questions mapped to the exact standards OSHA inspectors check during a walkaround. HazCom. Emergency plans. Training records. Safety programs. OSHA 300.",
               c: B.gold,
             },
             {
               n: "03",
               t: "See your score + close the gaps",
-              d: "Compliance score, gap analysis, and fine exposure \u2014 benchmarked against 431,000+ real violations. Download your scorecard. Fix the gaps yourself or let PROTEKON close them in 48 hours.",
+              d: "Compliance score, gap analysis, and fine exposure \u2014 benchmarked against real OSHA enforcement data. Download your scorecard. Fix the gaps yourself or let PROTEKON close them in 48 hours.",
               c: B.green,
             },
           ].map((s, i) => (
@@ -1102,7 +1102,7 @@ export default function ScoreNationalPage() {
             {[
               {
                 t: "Your exact compliance score",
-                d: "Weighted against real OSHA enforcement data for your industry in your state. Not a generic risk quiz \u2014 a score benchmarked against 431,000+ actual citations.",
+                d: "Weighted against real OSHA enforcement data for your industry in your state. Not a generic risk quiz \u2014 a score benchmarked against actual citations.",
                 tag: "Benefit",
               },
               {
@@ -1126,8 +1126,8 @@ export default function ScoreNationalPage() {
                 tag: "Feature",
               },
               {
-                t: "No email wall. No sales call.",
-                d: "Full score, gap analysis, and fine exposure shown immediately. No email required. The downloadable PDF scorecard is the only thing gated.",
+                t: "No sales call. No pressure.",
+                d: "Full score, gap analysis, and fine exposure shown immediately. Your personalized gap analysis in minutes. The downloadable PDF scorecard is the only thing gated.",
                 tag: "Feature",
               },
             ].map((b, i) => (
@@ -1703,7 +1703,7 @@ export default function ScoreNationalPage() {
               },
               {
                 q: "How accurate is the fine exposure estimate?",
-                a: "We use actual OSHA penalty amounts per standard from 431,000+ real citations. Current federal penalty maximums: $16,131 per serious violation, $161,323 per willful or repeat violation, and $16,131 per day for failure to abate. State-plan states may exceed these. We show a range because final amounts depend on employer size, good faith, and violation history.",
+                a: "We use actual OSHA penalty amounts per standard from real enforcement citations. Current federal penalty maximums: $16,131 per serious violation, $161,323 per willful or repeat violation, and $16,131 per day for failure to abate. State-plan states may exceed these. We show a range because final amounts depend on employer size, good faith, and violation history.",
               },
               {
                 q: "Do I need to give my email?",
@@ -1711,7 +1711,7 @@ export default function ScoreNationalPage() {
               },
               {
                 q: "Is this just a marketing gimmick?",
-                a: "The 11 questions map directly to what an OSHA compliance officer checks during a programmed or complaint-driven inspection. If your score is green, you probably don\u2019t need us. If it\u2019s red, you need somebody \u2014 we happen to close every gap within 48 hours.",
+                a: "The questions map directly to what an OSHA compliance officer checks during a programmed or complaint-driven inspection. If your score is green, you probably don\u2019t need us. If it\u2019s red, you need somebody \u2014 we happen to close every gap within 48 hours.",
               },
               {
                 q: "I have locations in multiple states. Can I assess each one?",
@@ -1723,7 +1723,7 @@ export default function ScoreNationalPage() {
               },
               {
                 q: "How long does it take?",
-                a: "2 minutes. 11 yes-or-no baseline questions plus a handful of industry-specific questions for your vertical.",
+                a: "About two minutes. A few yes-or-no baseline questions plus a handful of industry-specific questions for your vertical.",
               },
             ].map((item) => (
               <FAQItem key={item.q} q={item.q} a={item.a} />
@@ -1833,8 +1833,8 @@ export default function ScoreNationalPage() {
                 fontWeight: 300,
               }}
             >
-              2 minutes. 11 questions. Your compliance score and fine exposure —
-              calculated against 431,000+ real OSHA enforcement records across
+              About two minutes. Real results. Your compliance score and fine exposure —
+              calculated against real OSHA enforcement data across
               every US state, territory, and industry.
             </p>
 
@@ -1879,7 +1879,7 @@ export default function ScoreNationalPage() {
               }}
             >
               {[
-                "No email required",
+                "Your scorecard in minutes",
                 "All 50 states",
                 "27 industries",
                 "Real enforcement data",
@@ -1928,7 +1928,7 @@ export default function ScoreNationalPage() {
             >
               This assessment is for informational purposes only and does not
               constitute legal advice. Results are based on self-reported answers
-              and 431,000+ real OSHA enforcement records from January 2020
+              and real OSHA enforcement data from January 2020
               through March 2026. Fine estimates reflect current federal OSHA
               penalty maximums; state-plan states may differ. PROTEKON is not a
               law firm.
