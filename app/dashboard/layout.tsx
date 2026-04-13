@@ -86,6 +86,38 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
+
+  // Dynamic page titles
+  useEffect(() => {
+    const TITLE_MAP: Record<string, string> = {
+      "/dashboard": "Dashboard",
+      "/dashboard/documents": "Documents",
+      "/dashboard/documents/request": "Request Document",
+      "/dashboard/incidents": "Incidents",
+      "/dashboard/incidents/new": "Report Incident",
+      "/dashboard/regulations": "Regulatory Updates",
+      "/dashboard/reports": "Reports",
+      "/dashboard/training": "Training",
+      "/dashboard/alerts": "Alerts",
+      "/dashboard/settings": "Settings",
+      "/dashboard/chat": "AI Compliance Officer",
+      "/dashboard/calendar": "Compliance Calendar",
+      "/dashboard/knowledge": "Knowledge Base",
+      "/dashboard/intake": "Intake",
+      "/dashboard/marketplace": "Marketplace",
+      "/dashboard/poster-compliance": "Poster Compliance",
+      "/dashboard/auto-services": "Auto Services",
+      "/dashboard/reports/compliance-score": "Compliance Score",
+      "/dashboard/reports/annual-summary": "Annual Summary",
+      "/dashboard/reports/incident-analysis": "Incident Analysis",
+      "/dashboard/reports/document-history": "Document History",
+      "/dashboard/reports/regulatory-impact": "Regulatory Impact",
+      "/dashboard/reports/delivery-log": "Delivery Log",
+    }
+    const title = TITLE_MAP[pathname] ?? pathname.split("/").pop()?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) ?? "Dashboard"
+    document.title = `${title} | PROTEKON`
+  }, [pathname])
+
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
