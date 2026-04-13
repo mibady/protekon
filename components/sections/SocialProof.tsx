@@ -1,17 +1,19 @@
 "use client"
 
-const industries = [
-  "CONSTRUCTION",
-  "MANUFACTURING",
-  "AGRICULTURE",
-  "HOSPITALITY",
-  "RETAIL",
-  "HEALTHCARE",
-  "WHOLESALE",
-  "TRANSPORTATION",
-]
+import { useState, useEffect } from "react"
+import { getVerticals } from "@/lib/actions/score"
 
 export default function SocialProof() {
+  const [industries, setIndustries] = useState<string[]>([])
+
+  useEffect(() => {
+    getVerticals().then((verts) => {
+      setIndustries(verts.map((v) => v.display_name.toUpperCase()))
+    })
+  }, [])
+
+  if (industries.length === 0) return null
+
   return (
     <section className="bg-parchment py-12 border-t border-b border-midnight/[0.08]">
       <div className="max-w-[1400px] mx-auto px-8 flex flex-col md:flex-row items-center gap-8">
@@ -25,7 +27,7 @@ export default function SocialProof() {
           {/* Gradient Fades */}
           <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-parchment to-transparent z-10" />
           <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-parchment to-transparent z-10" />
-          
+
           {/* Scrolling Content */}
           <div className="flex animate-marquee gap-12">
             {/* First copy */}

@@ -1,19 +1,9 @@
 "use client"
 
 import { motion, useInView } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { submitSampleGate } from "@/lib/actions/samples"
-
-const industries = [
-  "Construction",
-  "Manufacturing", 
-  "Agriculture",
-  "Hospitality",
-  "Retail",
-  "Healthcare",
-  "Wholesale",
-  "Transportation",
-]
+import { getVerticals } from "@/lib/actions/score"
 
 const employeeRanges = [
   "1-10 employees",
@@ -29,6 +19,11 @@ export default function SampleReportCTA() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [industries, setIndustries] = useState<{ slug: string; display_name: string }[]>([])
+
+  useEffect(() => {
+    getVerticals().then((verts) => setIndustries(verts.map((v) => ({ slug: v.slug, display_name: v.display_name }))))
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -126,9 +121,9 @@ export default function SampleReportCTA() {
                   style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237A8FA5' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
                 >
                   <option value="" className="bg-midnight">Select your industry</option>
-                  {industries.map((industry) => (
-                    <option key={industry} value={industry} className="bg-midnight">
-                      {industry}
+                  {industries.map((v) => (
+                    <option key={v.slug} value={v.display_name} className="bg-midnight">
+                      {v.display_name}
                     </option>
                   ))}
                 </select>

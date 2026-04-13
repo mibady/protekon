@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Eye, EyeSlash, ArrowRight, Check } from "@phosphor-icons/react"
 import { signUp } from "@/lib/actions/auth"
+import { getVerticals } from "@/lib/actions/score"
 
 const plans = [
   { id: "core", name: "Core", price: "$597", period: "/mo", employees: "1 location · up to 50 emp", maxLocations: 1, setupFee: 297 },
@@ -12,24 +13,16 @@ const plans = [
   { id: "multi-site", name: "Multi-Site", price: "$1,297", period: "/mo", employees: "Up to 3 locations · 150+ emp", maxLocations: 3, setupFee: 797 },
 ]
 
-const industries = [
-  "Agriculture",
-  "Construction",
-  "Healthcare",
-  "Hospitality",
-  "Manufacturing",
-  "Real Estate",
-  "Retail",
-  "Transportation",
-  "Wholesale",
-  "Other",
-]
-
 export default function SignupPage() {
   const [step, setStep] = useState(1)
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [verticals, setVerticals] = useState<{ slug: string; display_name: string; tier: string }[]>([])
+
+  useEffect(() => {
+    getVerticals().then(setVerticals)
+  }, [])
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -268,8 +261,8 @@ export default function SignupPage() {
                     className="w-full bg-midnight/50 border border-brand-white/[0.1] px-4 py-3.5 font-sans text-[15px] text-parchment focus:outline-none focus:border-gold/50 transition-colors appearance-none cursor-pointer"
                   >
                     <option value="" disabled>Select your industry</option>
-                    {industries.map((ind) => (
-                      <option key={ind} value={ind.toLowerCase().replace(/\s+/g, "-")}>{ind}</option>
+                    {verticals.map((v) => (
+                      <option key={v.slug} value={v.slug}>{v.display_name}</option>
                     ))}
                   </select>
                 </div>

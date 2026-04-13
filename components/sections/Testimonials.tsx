@@ -6,31 +6,25 @@ import { useRef } from "react"
 const testimonials = [
   {
     quote:
-      "$14,200 Cal/OSHA fine. That was before PROTEKON. This year the inspector walked away with zero citations. Zero.",
-    name: "R. Castillo",
-    title: "Owner",
-    company: "Castillo Brothers Construction",
-    location: "Riverside, CA",
+      "We got cited $14,200 before we had any compliance program. After switching to PROTEKON, the inspector walked away with zero citations. Zero.",
+    attribution: "Construction Company Owner",
+    location: "Inland Empire, CA",
     industry: "CONSTRUCTION",
     borderColor: "#C41230",
   },
   {
     quote:
-      "Incident logging used to mean a sticky note on my desk. Now every entry is classified, documented, and legally protected. OSHA 300 compliant. Day one.",
-    name: "D. Nguyen",
-    title: "Operations Mgr",
-    company: "Pacific Rim Manufacturing",
-    location: "Ontario, CA",
+      "Incident logging used to mean a sticky note on my desk. Now every entry is classified, documented, and legally protected. OSHA 300 compliant from day one.",
+    attribution: "Operations Manager",
+    location: "Inland Empire, CA",
     industry: "MANUFACTURING",
     borderColor: "#C9A84C",
   },
   {
     quote:
-      "SB 553 dropped. Six days to comply. PROTEKON had my Workplace Violence Prevention Plan written, reviewed, and posted in 48 hours. Not a week. 48 hours.",
-    name: "A. Vasquez",
-    title: "HR Director",
-    company: "Valle Verde Hospitality Group",
-    location: "Fresno, CA",
+      "SB 553 dropped and we had six days to comply. PROTEKON had our Workplace Violence Prevention Plan written, reviewed, and posted in 48 hours. Not a week. 48 hours.",
+    attribution: "HR Director",
+    location: "Central Valley, CA",
     industry: "HOSPITALITY",
     borderColor: "#C41230",
   },
@@ -64,7 +58,7 @@ export default function Testimonials() {
         <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((testimonial, i) => (
             <motion.div
-              key={testimonial.name}
+              key={testimonial.industry}
               className="bg-void p-8 relative"
               style={{ borderTop: `3px solid ${testimonial.borderColor}` }}
               initial={{ opacity: 0, y: 30 }}
@@ -84,10 +78,10 @@ export default function Testimonials() {
               {/* Attribution */}
               <div className="flex flex-col gap-1">
                 <span className="font-display font-bold text-[16px] text-brand-white">
-                  — {testimonial.name}
+                  — {testimonial.attribution}
                 </span>
                 <span className="font-display font-normal text-[11px] tracking-[2px] text-steel">
-                  {testimonial.title} | {testimonial.company} | {testimonial.location}
+                  {testimonial.location}
                 </span>
                 <span className="inline-block mt-3 font-display font-medium text-[9px] tracking-[2px] text-gold border border-gold/30 px-3 py-1 self-start">
                   {testimonial.industry}

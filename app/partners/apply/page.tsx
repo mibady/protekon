@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { ArrowRight, Check, Clock, Rocket, ChartLineUp } from "@phosphor-icons/react"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
 import type { PartnerApplication } from "@/lib/types/partner"
+import { getVerticals } from "@/lib/actions/score"
 
 /* ─── Constants ─── */
 
@@ -23,35 +24,9 @@ const BUSINESS_TYPES = [
 
 const CLIENT_COUNTS = ["1-10", "11-25", "26-50", "51-100", "100+"]
 
-const CLIENT_INDUSTRIES = [
-  "Warehousing/Logistics",
-  "Retail",
-  "Auto dealer/repair",
-  "Construction/trades",
-  "Restaurant/food service",
-  "Healthcare/dental",
-  "Property management",
-  "Manufacturing",
-  "Transportation",
-  "Agriculture",
-  "Hospitality",
-  "Multiple/mixed",
-]
-
-const COMPLIANCE_VERTICALS = [
-  "SB 553 Workplace Violence",
-  "Construction Subcontractor",
-  "Healthcare (HIPAA)",
-  "Manufacturing Safety",
-  "Retail Safety",
-  "Transportation/Fleet Safety",
-  "Wholesale/Warehouse Safety",
-  "Hospitality Safety",
-  "Agricultural Safety",
-  "Real Estate/Property Mgmt",
-  "All of them",
-  "Not sure yet",
-]
+// Loaded dynamically from verticals table — see useEffect below
+const STATIC_CLIENT_INDUSTRIES = ["Multiple/mixed"]
+const STATIC_COMPLIANCE_EXTRAS = ["All of them", "Not sure yet"]
 
 const EXPERIENCE_OPTIONS = [
   { value: "yes_currently", label: "Yes, currently offering" },
@@ -111,6 +86,16 @@ export default function PartnerApplyPage() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [industryOptions, setIndustryOptions] = useState<string[]>(STATIC_CLIENT_INDUSTRIES)
+  const [verticalOptions, setVerticalOptions] = useState<string[]>(STATIC_COMPLIANCE_EXTRAS)
+
+  useEffect(() => {
+    getVerticals().then((verts) => {
+      const names = verts.map((v) => v.display_name)
+      setIndustryOptions([...names, ...STATIC_CLIENT_INDUSTRIES])
+      setVerticalOptions([...names.map((n) => `${n} Safety`), ...STATIC_COMPLIANCE_EXTRAS])
+    })
+  }, [])
 
   /* Form state */
   const [name, setName] = useState("")
@@ -505,7 +490,7 @@ export default function PartnerApplyPage() {
                   Select all that apply.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {CLIENT_INDUSTRIES.map((industry) => {
+                  {industryOptions.map((industry) => {
                     const selected = clientIndustries.includes(industry)
                     return (
                       <button
@@ -539,7 +524,7 @@ export default function PartnerApplyPage() {
                   Select all that apply.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {COMPLIANCE_VERTICALS.map((v) => {
+                  {verticalOptions.map((v) => {
                     const selected = verticals.includes(v)
                     return (
                       <button
