@@ -8,6 +8,8 @@
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import Nav from "@/components/layout/Nav"
+import Footer from "@/components/layout/Footer"
 
 /* ─── Brand Tokens ─── */
 
@@ -236,8 +238,8 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 /* ─── Font Aliases ─── */
-const bc = "'Barlow Condensed',sans-serif"
-const dm = "'DM Sans',sans-serif"
+const bc = "var(--font-display)"
+const dm = "var(--font-sans)"
 
 function eyebrow(text: string, gold?: boolean) {
   return (
@@ -271,14 +273,9 @@ export default function ScoreNationalPage() {
         overflowX: "hidden",
       }}
     >
+      <Nav />
       {/* eslint-disable-next-line react/no-unknown-property */}
       <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap");
-        *,
-        *::before,
-        *::after {
-          box-sizing: border-box;
-        }
         .cta-cmd {
           display: inline-flex;
           align-items: center;
@@ -1939,6 +1936,8 @@ export default function ScoreNationalPage() {
           </Reveal>
         </div>
       </section>
+
+      <Footer />
     </div>
   )
 }
