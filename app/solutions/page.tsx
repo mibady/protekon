@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
 import { ShieldCheck, HardHat, FirstAid, Buildings, FileText, Bell, ClipboardText, ChartLine } from "@phosphor-icons/react"
@@ -74,8 +75,18 @@ export default function SolutionsPage() {
       <Nav />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-8 border-b border-brand-white/[0.06]">
-        <div className="max-w-[1200px] mx-auto">
+      <section className="pt-32 pb-20 px-8 border-b border-brand-white/[0.06] relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/hero/compliance-night.jpg"
+            alt="Business owner managing compliance"
+            fill
+            className="object-cover opacity-10"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-void via-void/90 to-void" />
+        </div>
+        <div className="max-w-[1200px] mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

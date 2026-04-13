@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight } from "@phosphor-icons/react"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
@@ -71,11 +72,11 @@ export default function AboutPage() {
                   About Protekon
                 </span>
               </div>
-              
+
               <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.95] text-parchment mb-8">
                 We Built the AI That Runs Your Compliance Department.
               </h1>
-              
+
               <p className="font-sans text-[17px] leading-[1.8] text-fog max-w-[520px]">
                 PROTEKON is the AI compliance officer for California businesses. It
                 monitors every regulation. Writes every document. Classifies every
@@ -85,6 +86,27 @@ export default function AboutPage() {
                 aren&apos;t reckless. They just don&apos;t have the infrastructure to keep up.
                 Now they do.
               </p>
+            </motion.div>
+
+            <motion.div
+              className="hidden lg:block relative"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/images/about/office.jpg"
+                  alt="PROTEKON headquarters"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-void/40 to-transparent" />
+                {/* Gold corner accent */}
+                <div className="absolute top-4 left-4 w-10 h-10 border-t-2 border-l-2 border-gold/40" />
+                <div className="absolute bottom-4 right-4 w-10 h-10 border-b-2 border-r-2 border-gold/40" />
+              </div>
             </motion.div>
           </div>
         </div>

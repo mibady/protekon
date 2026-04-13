@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import type { Metadata } from "next"
 import { ShieldAlert, ArrowRight, Check } from "lucide-react"
 import Nav from "@/components/layout/Nav"
@@ -205,6 +206,21 @@ const industries: Record<string, {
   },
 }
 
+const INDUSTRY_IMAGES: Record<string, string> = {
+  construction: "/images/industries/construction.jpg",
+  manufacturing: "/images/industries/manufacturing.jpg",
+  healthcare: "/images/industries/healthcare.jpg",
+  hospitality: "/images/industries/hospitality.jpg",
+  retail: "/images/industries/retail.jpg",
+  warehouse: "/images/industries/warehouse.jpg",
+  wholesale: "/images/industries/warehouse.jpg",
+  agriculture: "/images/industries/agriculture.jpg",
+  transportation: "/images/industries/transportation.jpg",
+  logistics: "/images/industries/warehouse.jpg",
+  "auto-services": "/images/industries/manufacturing.jpg",
+  "real-estate": "/images/industries/real-estate.jpg",
+}
+
 const slugs = Object.keys(industries)
 
 export function generateStaticParams() {
@@ -233,25 +249,41 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
       <Nav />
       <main className="min-h-screen bg-parchment">
         {/* Hero */}
-        <section className="bg-void text-parchment pt-28 pb-20 px-6">
-          <div className="max-w-5xl mx-auto">
-            <span className="font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold mb-4 block">
-              {data.label} Compliance
-            </span>
-            <h1 className="font-display font-black text-[44px] md:text-[56px] leading-[0.95] mb-6">
-              {data.riskLevel} Risk.
-              <br />
-              <span className="text-crimson">We Handle It.</span>
-            </h1>
-            <p className="font-sans text-[16px] text-fog max-w-xl leading-relaxed mb-10">
-              {data.description}
-            </p>
+        <section className="bg-void text-parchment relative overflow-hidden">
+          {/* Background image */}
+          {INDUSTRY_IMAGES[slug] && (
+            <div className="absolute inset-0">
+              <Image
+                src={INDUSTRY_IMAGES[slug]}
+                alt={`${data.label} industry compliance`}
+                fill
+                className="object-cover opacity-20"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-void via-void/95 to-void/70" />
+            </div>
+          )}
 
-            {/* Info bar */}
-            <div className="bg-midnight/50 border border-brand-white/[0.06] p-6">
-              <p className="font-sans text-[14px] text-fog leading-relaxed">
-                {data.enforcement}
+          <div className="relative z-10 pt-28 pb-20 px-6">
+            <div className="max-w-5xl mx-auto">
+              <span className="font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold mb-4 block">
+                {data.label} Compliance
+              </span>
+              <h1 className="font-display font-black text-[44px] md:text-[56px] leading-[0.95] mb-6">
+                {data.riskLevel} Risk.
+                <br />
+                <span className="text-crimson">We Handle It.</span>
+              </h1>
+              <p className="font-sans text-[16px] text-fog max-w-xl leading-relaxed mb-10">
+                {data.description}
               </p>
+
+              {/* Info bar */}
+              <div className="bg-midnight/50 border border-brand-white/[0.06] p-6 backdrop-blur-sm">
+                <p className="font-sans text-[14px] text-fog leading-relaxed">
+                  {data.enforcement}
+                </p>
+              </div>
             </div>
           </div>
         </section>

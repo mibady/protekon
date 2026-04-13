@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
 import {
@@ -43,6 +44,19 @@ const ICON_MAP: Record<string, IconComponent> = {
   facilities_mgmt: Gear,
   business_support: Briefcase,
   wholesale: Warehouse,
+}
+
+const INDUSTRY_IMAGES: Record<string, string> = {
+  construction: "/images/industries/construction.jpg",
+  manufacturing: "/images/industries/manufacturing.jpg",
+  healthcare: "/images/industries/healthcare.jpg",
+  hospitality: "/images/industries/hospitality.jpg",
+  retail: "/images/industries/retail.jpg",
+  warehouse: "/images/industries/warehouse.jpg",
+  wholesale: "/images/industries/warehouse.jpg",
+  agriculture: "/images/industries/agriculture.jpg",
+  transportation: "/images/industries/transportation.jpg",
+  real_estate: "/images/industries/real-estate.jpg",
 }
 
 function formatCurrency(n: number): string {
@@ -151,55 +165,70 @@ export default function IndustriesPage() {
                 return (
                   <motion.div
                     key={industry.slug}
-                    className="group bg-midnight border border-brand-white/[0.06] p-8 hover:border-gold/30 transition-colors"
+                    className="group relative bg-midnight border border-brand-white/[0.06] overflow-hidden hover:border-gold/30 transition-colors"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.03 }}
                   >
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 flex items-center justify-center bg-gold/10">
-                          <Icon size={24} weight="bold" className="text-gold" />
-                        </div>
-                        <div>
-                          <h3 className="font-display font-bold text-[18px] text-parchment">
-                            {industry.display_name}
-                          </h3>
-                          <span className={`font-display text-[12px] tracking-[2px] uppercase ${
-                            riskLevel === "Very High" ? "text-crimson" : riskLevel === "High" ? "text-gold" : "text-steel"
-                          }`}>
-                            {riskLevel} Risk
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {industry.national_violations > 0 && (
-                      <div className="flex gap-6 mb-6">
-                        <div>
-                          <span className="font-mono text-[16px] font-bold text-crimson">{formatNumber(industry.national_violations)}</span>
-                          <span className="font-sans text-[11px] text-steel block">violations</span>
-                        </div>
-                        <div>
-                          <span className="font-mono text-[16px] font-bold text-crimson">{formatCurrency(industry.national_penalties_usd)}</span>
-                          <span className="font-sans text-[11px] text-steel block">in penalties</span>
-                        </div>
-                        <div>
-                          <span className="font-mono text-[16px] font-bold text-gold">{industry.serious_pct}%</span>
-                          <span className="font-sans text-[11px] text-steel block">serious</span>
-                        </div>
+                    {/* Background image */}
+                    {INDUSTRY_IMAGES[industry.slug] && (
+                      <div className="absolute inset-0">
+                        <Image
+                          src={INDUSTRY_IMAGES[industry.slug]}
+                          alt={industry.display_name}
+                          fill
+                          className="object-cover opacity-15 group-hover:opacity-25 transition-opacity duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/90 to-midnight/60" />
                       </div>
                     )}
 
-                    <Link
-                      href="/score"
-                      className="inline-flex items-center font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors"
-                    >
-                      Check Your Score
-                      <svg className="ml-2 w-4 h-4" viewBox="0 0 16 16" fill="none">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </Link>
+                    <div className="relative z-10 p-8">
+                      <div className="flex items-start justify-between mb-6">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 flex items-center justify-center bg-gold/10 backdrop-blur-sm">
+                            <Icon size={24} weight="bold" className="text-gold" />
+                          </div>
+                          <div>
+                            <h3 className="font-display font-bold text-[18px] text-parchment">
+                              {industry.display_name}
+                            </h3>
+                            <span className={`font-display text-[12px] tracking-[2px] uppercase ${
+                              riskLevel === "Very High" ? "text-crimson" : riskLevel === "High" ? "text-gold" : "text-steel"
+                            }`}>
+                              {riskLevel} Risk
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {industry.national_violations > 0 && (
+                        <div className="flex gap-6 mb-6">
+                          <div>
+                            <span className="font-mono text-[16px] font-bold text-crimson">{formatNumber(industry.national_violations)}</span>
+                            <span className="font-sans text-[11px] text-steel block">violations</span>
+                          </div>
+                          <div>
+                            <span className="font-mono text-[16px] font-bold text-crimson">{formatCurrency(industry.national_penalties_usd)}</span>
+                            <span className="font-sans text-[11px] text-steel block">in penalties</span>
+                          </div>
+                          <div>
+                            <span className="font-mono text-[16px] font-bold text-gold">{industry.serious_pct}%</span>
+                            <span className="font-sans text-[11px] text-steel block">serious</span>
+                          </div>
+                        </div>
+                      )}
+
+                      <Link
+                        href="/score"
+                        className="inline-flex items-center font-display font-semibold text-[12px] tracking-[3px] uppercase text-gold hover:text-parchment transition-colors"
+                      >
+                        Check Your Score
+                        <svg className="ml-2 w-4 h-4" viewBox="0 0 16 16" fill="none">
+                          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </Link>
+                    </div>
                   </motion.div>
                 )
               })}

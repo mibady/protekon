@@ -3,6 +3,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function Hero() {
   return (
@@ -94,6 +95,16 @@ export default function Hero() {
 
         {/* RIGHT PANEL - Visual */}
         <div className="relative bg-midnight flex flex-col overflow-hidden min-h-[50vh] lg:min-h-0">
+          {/* Background image */}
+          <Image
+            src="/images/hero/dashboard-glow.jpg"
+            alt="Compliance command dashboard"
+            fill
+            className="object-cover opacity-30"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/60 to-midnight/40" />
+
           {/* Grid lines */}
           <div className="absolute inset-0">
             {[...Array(6)].map((_, i) => (
@@ -119,7 +130,7 @@ export default function Hero() {
           </div>
 
           {/* Radial glow */}
-          <div 
+          <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background: `radial-gradient(ellipse 70% 60% at 50% 40%, rgba(196,18,48,0.06) 0%, transparent 60%)`
@@ -135,12 +146,12 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.5 }}
             >
               {/* Pulsing rings */}
-              <motion.div 
+              <motion.div
                 className="absolute -inset-10 border border-crimson/20 rounded-full"
                 animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
                 transition={{ duration: 4, repeat: Infinity }}
               />
-              <motion.div 
+              <motion.div
                 className="absolute -inset-16 border border-gold/10 rounded-full"
                 animate={{ scale: [1, 1.08, 1], opacity: [0.2, 0.05, 0.2] }}
                 transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
@@ -148,32 +159,32 @@ export default function Hero() {
 
               {/* P-mark */}
               <svg viewBox="0 0 48 84" className="w-[80px] h-[140px]">
-                <motion.rect 
-                  x="0" y="0" width="13" height="84" 
+                <motion.rect
+                  x="0" y="0" width="13" height="84"
                   fill="#FAFAF8"
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
                   transition={{ duration: 0.5, delay: 0.7 }}
                   style={{ transformOrigin: "top" }}
                 />
-                <motion.rect 
-                  x="13" y="0" width="35" height="13" 
+                <motion.rect
+                  x="13" y="0" width="35" height="13"
                   fill="#FAFAF8"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 0.4, delay: 0.9 }}
                   style={{ transformOrigin: "left" }}
                 />
-                <motion.rect 
-                  x="35" y="13" width="13" height="27" 
+                <motion.rect
+                  x="35" y="13" width="13" height="27"
                   fill="#FAFAF8"
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
                   transition={{ duration: 0.3, delay: 1.1 }}
                   style={{ transformOrigin: "top" }}
                 />
-                <motion.rect 
-                  x="0" y="40" width="48" height="10" 
+                <motion.rect
+                  x="0" y="40" width="48" height="10"
                   fill="#C41230"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}

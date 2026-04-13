@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
 import { Buildings, FileText, Drop, Warning, Check, ArrowRight } from "@phosphor-icons/react"
@@ -35,8 +36,18 @@ export default function RealEstatePage() {
       <Nav />
       
       {/* Hero */}
-      <section className="pt-32 pb-20 px-8">
-        <div className="max-w-[1200px] mx-auto">
+      <section className="pt-32 pb-20 px-8 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/industries/real-estate.jpg"
+            alt="Real estate property compliance"
+            fill
+            className="object-cover opacity-15"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-void via-void/95 to-void/70" />
+        </div>
+        <div className="max-w-[1200px] mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
