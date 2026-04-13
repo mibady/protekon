@@ -4,32 +4,56 @@ import Link from "next/link"
 import { LinkedinLogo, XLogo, ShieldCheck } from "@phosphor-icons/react"
 
 const footerLinks = {
-  solutions: {
-    title: "SOLUTIONS",
+  industries: {
+    title: "INDUSTRIES",
+    links: [
+      { name: "Construction", href: "/industries/construction" },
+      { name: "Manufacturing", href: "/industries/manufacturing" },
+      { name: "Healthcare", href: "/industries/healthcare" },
+      { name: "Hospitality", href: "/industries/hospitality" },
+      { name: "Warehouse & Logistics", href: "/industries/warehouse" },
+      { name: "Agriculture", href: "/industries/agriculture" },
+      { name: "Retail", href: "/industries/retail" },
+      { name: "Transportation", href: "/industries/transportation" },
+      { name: "Real Estate", href: "/industries/real_estate" },
+      { name: "Automotive Services", href: "/industries/automotive" },
+    ],
+    cta: { name: "All 27 Industries", href: "/industries" },
+  },
+  platform: {
+    title: "PLATFORM",
     links: [
       { name: "Compliance Suite", href: "/solutions/compliance-suite" },
       { name: "Protekon for Construction", href: "/solutions/construction" },
       { name: "Protekon for Healthcare", href: "/solutions/healthcare" },
       { name: "Protekon for Real Estate", href: "/solutions/real-estate" },
+      { name: "Pricing", href: "/pricing" },
     ],
   },
-  company: {
-    title: "COMPANY",
+  partners: {
+    title: "PARTNERS",
     links: [
-      { name: "About", href: "/about" },
-      { name: "Industries", href: "/industries" },
-      { name: "Partners", href: "/partners" },
-      { name: "Contact", href: "/contact" },
+      { name: "Partner Program", href: "/partners" },
+      { name: "Partner Pricing", href: "/partners/pricing" },
+      { name: "Compliance Boot Camp", href: "/partners/boot-camp" },
+      { name: "Apply", href: "/partners/apply" },
     ],
   },
   resources: {
     title: "RESOURCES",
     links: [
       { name: "Blog", href: "/blog" },
-      { name: "Resources", href: "/resources" },
+      { name: "Resource Library", href: "/resources" },
+      { name: "Compliance Score", href: "/score" },
       { name: "Compliance Calculator", href: "/calculator" },
-      { name: "Free Compliance Score", href: "/score" },
       { name: "Sample Reports", href: "/samples" },
+    ],
+  },
+  company: {
+    title: "COMPANY",
+    links: [
+      { name: "About", href: "/about" },
+      { name: "Contact", href: "/contact" },
       { name: "Privacy Policy", href: "/privacy" },
       { name: "Terms of Service", href: "/terms" },
     ],
@@ -44,9 +68,9 @@ export default function Footer() {
 
       <div className="max-w-[1400px] mx-auto px-8">
         {/* Main Footer Content */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand Column */}
-          <div className="lg:col-span-1">
+        <div className="py-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-12">
+          {/* Brand Column — spans 2 on large */}
+          <div className="col-span-2">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 mb-6">
               <svg viewBox="0 0 48 84" className="w-9 h-16">
@@ -65,39 +89,98 @@ export default function Footer() {
               AI COMPLIANCE OFFICER
             </p>
 
-            {/* Description */}
-            <p className="font-sans font-light text-[12px] leading-[1.75] text-steel max-w-[240px] mb-6">
-              PROTEKON is the AI compliance officer for California businesses. It monitors every regulation, writes every document, and runs your compliance department — so you never have to.
+            {/* Description — national positioning */}
+            <p className="font-sans font-light text-[12px] leading-[1.75] text-steel max-w-[280px] mb-6">
+              PROTEKON is the compliance officer for American businesses.
+              It runs your entire compliance department — every document, every
+              deadline, every regulation — so a citation never catches you off guard.
             </p>
+
+            {/* CTA */}
+            <Link
+              href="/score"
+              className="inline-flex items-center font-display font-semibold text-[10px] tracking-[3px] uppercase text-void bg-gold px-6 py-3 hover:bg-parchment transition-colors mb-8"
+            >
+              Get Your Compliance Score
+              <svg className="ml-2 w-4 h-4" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
 
             {/* Social Icons */}
             <div className="flex items-center gap-4">
-              <Link 
+              <Link
                 href="https://linkedin.com/company/protekon"
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-steel hover:text-brand-white transition-colors"
+                className="text-steel hover:text-gold transition-colors"
               >
                 <LinkedinLogo size={18} weight="fill" />
               </Link>
-              <Link 
+              <Link
                 href="https://x.com/protekon"
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-steel hover:text-brand-white transition-colors"
+                className="text-steel hover:text-gold transition-colors"
               >
                 <XLogo size={18} weight="fill" />
               </Link>
             </div>
           </div>
 
-          {/* Solutions Column */}
+          {/* Industries Column */}
           <div>
             <h4 className="font-display font-semibold text-[9px] tracking-[3px] uppercase text-steel mb-6">
-              {footerLinks.solutions.title}
+              {footerLinks.industries.title}
+            </h4>
+            <ul className="flex flex-col gap-2.5">
+              {footerLinks.industries.links.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="font-sans font-light text-[13px] text-steel hover:text-gold transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+              <li className="mt-1.5 pt-2 border-t border-brand-white/[0.04]">
+                <Link
+                  href={footerLinks.industries.cta.href}
+                  className="font-display font-semibold text-[10px] tracking-[2px] uppercase text-gold hover:text-parchment transition-colors inline-flex items-center gap-1.5"
+                >
+                  {footerLinks.industries.cta.name}
+                  <svg className="w-3 h-3" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Platform + Partners stacked */}
+          <div>
+            <h4 className="font-display font-semibold text-[9px] tracking-[3px] uppercase text-steel mb-6">
+              {footerLinks.platform.title}
             </h4>
             <ul className="flex flex-col gap-3">
-              {footerLinks.solutions.links.map((link) => (
+              {footerLinks.platform.links.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="font-sans font-light text-[13px] text-steel hover:text-gold transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h4 className="font-display font-semibold text-[9px] tracking-[3px] uppercase text-steel mb-6 mt-10">
+              {footerLinks.partners.title}
+            </h4>
+            <ul className="flex flex-col gap-3">
+              {footerLinks.partners.links.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
@@ -110,32 +193,29 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company Column */}
-          <div>
-            <h4 className="font-display font-semibold text-[9px] tracking-[3px] uppercase text-steel mb-6">
-              {footerLinks.company.title}
-            </h4>
-            <ul className="flex flex-col gap-3">
-              {footerLinks.company.links.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="font-sans font-light text-[13px] text-steel hover:text-gold transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources Column */}
+          {/* Resources + Company stacked */}
           <div>
             <h4 className="font-display font-semibold text-[9px] tracking-[3px] uppercase text-steel mb-6">
               {footerLinks.resources.title}
             </h4>
             <ul className="flex flex-col gap-3">
               {footerLinks.resources.links.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="font-sans font-light text-[13px] text-steel hover:text-gold transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h4 className="font-display font-semibold text-[9px] tracking-[3px] uppercase text-steel mb-6 mt-10">
+              {footerLinks.company.title}
+            </h4>
+            <ul className="flex flex-col gap-3">
+              {footerLinks.company.links.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
@@ -156,27 +236,27 @@ export default function Footer() {
             © 2026 PROTEKON. All rights reserved.
           </p>
 
-          {/* Center: Security badges */}
+          {/* Center: Security badges — only claims we can back */}
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <ShieldCheck size={12} weight="fill" className="text-gold" />
               <span className="font-display font-normal text-[9px] tracking-[2px] text-steel">
-                SOC 2 Compliant Storage
+                Encrypted in Transit
               </span>
             </div>
             <span className="text-brand-white/10">|</span>
             <span className="font-display font-normal text-[9px] tracking-[2px] text-steel">
-              TLS 1.3 Encrypted
+              Encrypted at Rest
             </span>
             <span className="text-brand-white/10">|</span>
             <span className="font-display font-normal text-[9px] tracking-[2px] text-steel">
-              AES-256 at Rest
+              Row-Level Security
             </span>
           </div>
 
-          {/* Right: Location */}
+          {/* Right: National positioning */}
           <p className="font-display font-medium text-[9px] tracking-[3px] text-crimson">
-            INLAND EMPIRE, CALIFORNIA
+            NATIONWIDE COMPLIANCE
           </p>
         </div>
       </div>
