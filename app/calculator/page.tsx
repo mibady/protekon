@@ -7,7 +7,7 @@ import { ShieldWarning, ArrowRight, CurrencyDollar, Buildings, UsersThree } from
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
 
-// OSHA violation data from 73,960 record dataset (business plan Section 4)
+// OSHA violation data from Cal/OSHA enforcement dataset (business plan Section 4)
 const industryData: Record<string, {
   label: string
   violations: number
@@ -140,7 +140,7 @@ export default function CalculatorPage() {
                 <br />Cost Your Business?
               </h1>
               <p className="font-sans text-[16px] text-fog max-w-lg mx-auto leading-relaxed">
-                Based on 73,960 real Cal/OSHA violation records across California.
+                Based on real Cal/OSHA enforcement data across California.
                 Select your industry and size to see your estimated exposure.
               </p>
             </motion.div>
@@ -323,7 +323,7 @@ export default function CalculatorPage() {
 
               {/* Fine print */}
               <p className="font-sans text-[11px] text-steel/60 leading-relaxed">
-                Estimates based on analysis of 73,960 Cal/OSHA violation records (2020-2026).
+                Estimates based on analysis of real Cal/OSHA enforcement data (2020-2026).
                 Actual fines vary by inspection findings, employer history, and compliance cooperation.
                 Serious violation minimum: $18,000 (Cal/OSHA 2024 schedule). Willful violations
                 average $72,988. Data source: Cal/OSHA public enforcement records.

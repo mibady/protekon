@@ -8,7 +8,7 @@ const timelineCards = [
     time: "6:00 AM",
     title: "Regulatory Scan",
     description:
-      "Your AI compliance officer scans Cal/OSHA, OSHSB, and CSLB feeds. Deduplicates updates. Runs impact analysis against your active documents. Alerts you before breakfast.",
+      "PROTEKON scans Cal/OSHA, OSHSB, and CSLB feeds. Deduplicates updates. Runs impact analysis against your active documents. Alerts you before breakfast.",
   },
   {
     time: "7:00 AM",
@@ -20,7 +20,7 @@ const timelineCards = [
     time: "Any Time",
     title: "Incident Response",
     description:
-      "When an incident is reported, the agent classifies severity, assigns the OSHA code, strips PII, creates an OSHA 300-compliant log entry, and schedules follow-ups based on severity.",
+      "When an incident is reported, PROTEKON classifies severity, assigns the OSHA code, strips PII, creates an OSHA 300-compliant log entry, and schedules follow-ups based on severity.",
   },
   {
     time: "1st of Month",
@@ -59,7 +59,7 @@ export default function DailyTimeline() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.5 }}
           >
-            WHAT YOUR AI COMPLIANCE OFFICER DOES EVERY DAY
+            WHAT PROTEKON DOES EVERY DAY
           </motion.h2>
         </div>
 

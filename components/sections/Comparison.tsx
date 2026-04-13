@@ -7,12 +7,12 @@ import { Check, X, Minus } from "@phosphor-icons/react"
 const capabilities: { name: string; training: boolean | "partial"; diy: boolean | "partial"; enterprise: boolean | "partial"; consultant: boolean | "partial"; protekon: boolean | "partial" }[] = [
   { name: "Runs autonomously 24/7", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
   { name: "Writes your plan autonomously", training: false, diy: false, enterprise: true, consultant: true, protekon: true },
-  { name: "Classifies + logs incidents via AI", training: false, diy: false, enterprise: true, consultant: "partial", protekon: true },
+  { name: "Classifies + logs incidents automatically", training: false, diy: false, enterprise: true, consultant: "partial", protekon: true },
   { name: "Scans regulations daily at 6am", training: false, diy: false, enterprise: true, consultant: false, protekon: true },
-  { name: "AI strips PII + assigns OSHA codes", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
+  { name: "Strips PII + assigns OSHA codes", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
   { name: "Delivers proof on schedule", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
   { name: "Zero software. Zero staff.", training: true, diy: true, enterprise: false, consultant: true, protekon: true },
-  { name: "Always-on AI agent", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
+  { name: "Always-on compliance officer", training: false, diy: false, enterprise: false, consultant: false, protekon: true },
 ]
 
 const pricing = {
@@ -151,7 +151,7 @@ export default function Comparison() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          Every other option on this table requires you to do the compliance work. PROTEKON is the only AI agent that does it for you.
+          Every other option on this table requires you to do the compliance work. PROTEKON is the only option that does it for you.
         </motion.p>
       </div>
     </section>

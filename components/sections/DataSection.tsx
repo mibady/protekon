@@ -62,7 +62,7 @@ export default function DataSection() {
             THE ENFORCEMENT DATA BEHIND PROTEKON
           </h2>
           <p className="font-sans font-light text-[16px] leading-[1.75] text-steel">
-            431,000+ OSHA violations across all 50 states. Scraped. Analyzed. Translated into the exact
+            Real OSHA enforcement data across all 50 states. Monitored. Analyzed. Translated into the exact
             compliance architecture that protects your business. These are not estimates. This is enforcement reality.
           </p>
         </div>

@@ -6,15 +6,15 @@ import { useRef } from "react"
 const rows = [
   {
     before: "You track compliance in a spreadsheet",
-    after: "Your AI compliance officer tracks everything automatically",
+    after: "PROTEKON tracks everything automatically",
   },
   {
     before: "You find out about regulation changes from a fine notice",
-    after: "The agent scans feeds at 6am and alerts you same-day",
+    after: "PROTEKON scans feeds at 6am and alerts you same-day",
   },
   {
     before: "Incident reports sit in an email thread",
-    after: "AI classifies, strips PII, and logs OSHA 300 entries in minutes",
+    after: "Classified, PII stripped, and OSHA 300 entries logged in minutes",
   },
   {
     before: "Your compliance plan is a 3-year-old template",

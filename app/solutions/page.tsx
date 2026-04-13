@@ -50,7 +50,7 @@ const howItWorks = [
   {
     icon: ChartLine,
     title: "The Protekon Engine",
-    description: "Our AI-powered compliance engine analyzes 73,960+ Cal/OSHA citations to identify your specific risk profile and generate tailored compliance documentation.",
+    description: "PROTEKON analyzes real Cal/OSHA enforcement data to identify your specific risk profile and generate tailored compliance documentation.",
   },
   {
     icon: FileText,

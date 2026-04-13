@@ -28,7 +28,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          A compliance officer costs $80K. An OSHA serious citation costs $16,131. Your AI compliance officer costs $597/month. The math is not complicated.
+          A compliance officer costs $80K. An OSHA serious citation costs $16,131. PROTEKON costs $597/month. The math is not complicated.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -46,7 +46,7 @@ export default function FinalCTA() {
               href="/signup"
               className="inline-flex items-center justify-center font-display font-semibold text-[12px] tracking-[3px] uppercase bg-brand-white text-crimson px-8 py-4 min-w-[280px]"
             >
-              ACTIVATE YOUR AI COMPLIANCE OFFICER
+              ACTIVATE YOUR COMPLIANCE OFFICER
             </Link>
           </motion.div>
 
@@ -58,7 +58,7 @@ export default function FinalCTA() {
               href="/contact"
               className="inline-flex items-center justify-center font-display font-semibold text-[12px] tracking-[3px] uppercase border border-brand-white text-brand-white px-8 py-4 min-w-[280px] hover:bg-brand-white/10 transition-colors"
             >
-              SEE WHAT THE AGENT DELIVERS
+              SEE WHAT PROTEKON DELIVERS
             </Link>
           </motion.div>
         </motion.div>

@@ -12,6 +12,7 @@ const stats = [
   { value: "$1.04B", label: "Total Penalties Exposed" },
   { value: "243K+", label: "Serious Violations" },
   { value: "116K+", label: "Employers Cited" },
+
 ]
 
 const values = [
@@ -23,7 +24,7 @@ const values = [
   {
     number: "02",
     title: "Agent, Not Software",
-    description: "We don't sell dashboards. We don't sell templates. Your AI compliance officer does the work — autonomously, on schedule, without being prompted. Your compliance posture improves while you run your business."
+    description: "We don't sell dashboards. We don't sell templates. PROTEKON does the work — autonomously, on schedule, without being prompted. Your compliance posture improves while you run your business."
   },
   {
     number: "03",
@@ -78,7 +79,7 @@ export default function AboutPage() {
               </h1>
 
               <p className="font-sans text-[17px] leading-[1.8] text-fog max-w-[520px]">
-                PROTEKON is the AI compliance officer for American businesses. It
+                PROTEKON is the compliance officer for American businesses. It
                 monitors every regulation. Writes every document. Classifies every
                 incident. Delivers audit-ready proof to your inbox — automatically, on
                 schedule, without being asked. We built it because 116,000+ employers

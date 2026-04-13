@@ -11,16 +11,16 @@ const tiers = [
     price: "$597",
     borderColor: "#7A8FA5",
     nameColor: "#7A8FA5",
-    vertical: "AI Compliance Officer — 1 Location",
+    vertical: "Compliance Officer — 1 Location",
     features: [
       { text: "1 business location", included: true },
-      { text: "Complete IIPP (AI-generated + updated)", included: true },
+      { text: "Complete IIPP (auto-generated + updated)", included: true },
       { text: "SB 553 Workplace Violence Prevention Plan", included: true },
       { text: "Incident logging with PII stripping", included: true },
       { text: "Weekly regulatory monitoring", included: true },
       { text: "Monthly compliance report to inbox", included: true },
       { text: "2-day document delivery", included: true },
-      { text: "AI compliance chat assistant", included: true },
+      { text: "Compliance chat assistant", included: true },
       { text: "Quarterly audit package", included: false },
       { text: "Priority support", included: false },
     ],
@@ -33,13 +33,13 @@ const tiers = [
     price: "$897",
     borderColor: "#C41230",
     nameColor: "#C41230",
-    vertical: "AI Compliance Officer — Up to 2 Locations",
+    vertical: "Compliance Officer — Up to 2 Locations",
     badge: "MOST POPULAR",
     features: [
       { text: "Up to 2 locations (+$197/location)", included: true },
       { text: "Complete IIPP + SB 553 + Emergency Action Plan", included: true },
-      { text: "Unlimited incident logging + AI classification", included: true },
-      { text: "Daily regulatory monitoring + AI impact analysis", included: true },
+      { text: "Unlimited incident logging + auto-classification", included: true },
+      { text: "Daily regulatory monitoring + impact analysis", included: true },
       { text: "Weekly + Monthly reports delivered to inbox", included: true },
       { text: "Quarterly compliance reviews", included: true },
       { text: "24-hour document delivery", included: true },
@@ -56,7 +56,7 @@ const tiers = [
     price: "$1,297",
     borderColor: "#C9A84C",
     nameColor: "#C9A84C",
-    vertical: "AI Compliance Officer — Multi-Location",
+    vertical: "Compliance Officer — Multi-Location",
     features: [
       { text: "Up to 3 locations (+$147/location)", included: true },
       { text: "Full vertical stack (OSHA + CSLB + Real Estate + Healthcare)", included: true },
@@ -96,11 +96,11 @@ export default function Pricing() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.5 }}
           >
-            YOUR AI COMPLIANCE OFFICER. ONE FLAT FEE.
+            YOUR COMPLIANCE OFFICER. ONE FLAT FEE.
           </motion.h2>
 
           <p className="font-sans font-light text-[16px] leading-[1.75] text-steel max-w-[600px] mx-auto">
-            A compliance officer costs $60–80K a year. Your AI compliance officer costs
+            A compliance officer costs $60–80K a year. PROTEKON costs
             $597–$1,297 a month. Same job. No PTO. No turnover. No benefits package.
             And it works nights, weekends, and holidays.
           </p>
@@ -114,7 +114,7 @@ export default function Pricing() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <p className="font-display font-semibold text-[18px] text-gold">
-            A single serious Cal/OSHA violation: $7,229. A full year of your AI compliance officer: $7,164. One prevented citation pays for itself.
+            A single serious Cal/OSHA violation: $7,229. A full year of PROTEKON: $7,164. One prevented citation pays for itself.
           </p>
         </motion.div>
 

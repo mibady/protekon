@@ -9,7 +9,7 @@ import { getFormattedStats } from "@/lib/actions/public-stats"
 // Fallback values used during SSR and before live data loads
 const FALLBACK_STATS = [
   { value: "$1.04B", label: "Penalties Exposed" },
-  { value: "431K+", label: "Citations Analyzed" },
+  { value: "—", label: "Citations Analyzed" },
   { value: "48hrs", label: "First Delivery" },
   { value: "116K+", label: "Employers Cited" },
 ]
@@ -56,7 +56,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.05 }}
             >
-              THE AI COMPLIANCE OFFICER FOR AMERICAN BUSINESS
+              THE COMPLIANCE OFFICER FOR AMERICAN BUSINESS
             </motion.span>
 
             {/* Headline */}
@@ -77,11 +77,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              PROTEKON is the AI compliance officer that runs your entire compliance department.
+              PROTEKON is the compliance officer that runs your entire compliance department.
               It writes your safety plans. Classifies every incident. Strips PII automatically.
               Monitors federal OSHA and your state plan at 6am every morning. Updates your
-              documents before you know the law changed. You answer 6 questions. The agent
-              handles everything else — 24 hours a day, 365 days a year.
+              documents before you know the law changed. A few questions about your business.
+              PROTEKON handles everything else — 24 hours a day, 365 days a year.
             </motion.p>
 
             {/* CTAs */}
@@ -95,13 +95,13 @@ export default function Hero() {
                 href="/signup"
                 className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-brand-white bg-crimson px-8 py-4 border-l-[3px] border-brand-white/30 hover:brightness-110 transition-all"
               >
-                Activate Your AI Compliance Officer
+                Activate Your Compliance Officer
               </Link>
               <Link
                 href="#sample"
                 className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-brand-white/70 px-8 py-4 border border-brand-white/15 hover:border-gold hover:text-gold transition-colors"
               >
-                See What The Agent Delivers
+                See What PROTEKON Delivers
               </Link>
             </motion.div>
 

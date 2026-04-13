@@ -123,7 +123,7 @@ const faqs = [
   {
     question: "What if my client has a compliance question I can't answer?",
     answer:
-      "The platform includes an AI-powered compliance assistant that handles most day-to-day questions. For complex or edge-case scenarios, you have a dedicated support channel staffed by compliance professionals who respond within 4 business hours.",
+      "The platform includes an automated compliance assistant that handles most day-to-day questions. For complex or edge-case scenarios, you have a dedicated support channel staffed by compliance professionals who respond within 4 business hours.",
   },
   {
     question: "What verticals can I sell?",

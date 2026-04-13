@@ -148,7 +148,7 @@ const faqs = [
   {
     question: "Do I need to install any software or manage anything?",
     answer:
-      "No. Your AI compliance officer runs autonomously. Compliance documents are delivered to your inbox on schedule. Your dashboard shows real-time compliance status, but you never have to log in for the agent to do its job. It monitors regulations, processes incidents, updates documents, and sends you proof \u2014 whether you check the dashboard or not.",
+      "No. PROTEKON runs autonomously. Compliance documents are delivered to your inbox on schedule. Your dashboard shows real-time compliance status, but you never have to log in for the system to do its job. It monitors regulations, processes incidents, updates documents, and sends you proof \u2014 whether you check the dashboard or not.",
   },
   {
     question: "How is this different from compliance software like NAVEX or FaceUp?",
@@ -226,8 +226,8 @@ export default function PricingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            A full-time compliance officer costs $60–80K a year. Your AI
-            compliance officer costs $7,164–$15,564 a year — and it works 24
+            A full-time compliance officer costs $60–80K a year. PROTEKON
+            costs $7,164–$15,564 a year — and it works 24
             hours a day, 365 days a year. Every plan includes full document
             generation, incident classification, regulatory monitoring, PII
             stripping, and scheduled delivery. No incomplete tiers. No add-on
@@ -246,7 +246,7 @@ export default function PricingPage() {
           variants={sectionVariants}
         >
           <p className="font-sans text-[15px] text-steel leading-relaxed border border-brand-white/[0.06] bg-midnight/50 px-8 py-6">
-            Your AI compliance officer costs less than one serious violation.
+            PROTEKON costs less than one serious violation.
             Average serious OSHA fine: $16,131. Protekon Core annual cost: $7,164.
             The agent pays for itself the first time an inspector walks away
             with zero citations.
@@ -579,7 +579,7 @@ export default function PricingPage() {
             viewport={{ once: true }}
             variants={sectionVariants}
           >
-            Your AI Compliance Officer Is Ready.
+            Your Compliance Officer Is Ready.
           </motion.h2>
 
           <motion.p
@@ -607,7 +607,7 @@ export default function PricingPage() {
               href="/signup"
               className="inline-flex items-center justify-center gap-2 bg-parchment text-crimson font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-parchment/90 transition-colors"
             >
-              Activate Your AI Compliance Officer
+              Activate Your Compliance Officer
               <ArrowRight size={16} weight="bold" />
             </Link>
             <Link
