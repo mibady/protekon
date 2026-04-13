@@ -27,10 +27,10 @@ const solutionsMegaMenu = {
   right: {
     label: "HOW IT WORKS",
     items: [
+      { name: "Free Compliance Score", href: "/score" },
+      { name: "Partner Program", href: "/partners" },
       { name: "The Protekon Engine", href: "/about#engine" },
-      { name: "Delivery Model", href: "/about#delivery" },
       { name: "Security & Data", href: "/about#security" },
-      { name: "API & Integrations", href: "/marketplace" },
     ],
   },
 }

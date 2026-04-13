@@ -78,7 +78,7 @@ export default function SignupPage() {
               PROT<span className="text-crimson">E</span>KON
             </span>
             <span className="font-display font-normal text-[9px] tracking-[2px] text-gold">
-              MANAGED COMPLIANCE
+              AI COMPLIANCE OFFICER
             </span>
           </div>
         </Link>
@@ -126,7 +126,7 @@ export default function SignupPage() {
 
         {/* Bottom */}
         <p className="font-sans text-[12px] text-steel/50">
-          © 2025 PROTEKON. All rights reserved.
+          © 2026 PROTEKON. All rights reserved.
         </p>
       </div>
 

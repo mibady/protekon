@@ -103,11 +103,12 @@ export default function ComplianceSuitePage() {
               Starting at
             </span>
             <div className="flex items-baseline gap-2 mb-6">
-              <span className="font-display font-black text-[48px] text-parchment">$299</span>
+              <span className="font-display font-black text-[48px] text-parchment">$597</span>
               <span className="font-display text-[14px] text-steel">/month</span>
             </div>
+            <p className="font-sans text-[12px] text-steel/70 mb-6">+ $297 one-time setup</p>
             <ul className="space-y-3 mb-8">
-              {["Up to 25 employees", "All compliance documents", "Incident logging", "Reg monitoring"].map((item) => (
+              {["Single location, up to 50 employees", "All compliance documents", "Incident logging", "Reg monitoring"].map((item) => (
                 <li key={item} className="flex items-center gap-3">
                   <Check size={16} className="text-gold" />
                   <span className="font-sans text-[14px] text-steel">{item}</span>

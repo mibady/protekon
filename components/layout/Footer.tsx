@@ -18,6 +18,7 @@ const footerLinks = {
     links: [
       { name: "About", href: "/about" },
       { name: "Industries", href: "/industries" },
+      { name: "Partners", href: "/partners" },
       { name: "Contact", href: "/contact" },
     ],
   },
@@ -27,6 +28,7 @@ const footerLinks = {
       { name: "Blog", href: "/blog" },
       { name: "Resources", href: "/resources" },
       { name: "Compliance Calculator", href: "/calculator" },
+      { name: "Free Compliance Score", href: "/score" },
       { name: "Sample Reports", href: "/samples" },
       { name: "Privacy Policy", href: "/privacy" },
       { name: "Terms of Service", href: "/terms" },

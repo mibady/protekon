@@ -20,6 +20,29 @@ export async function getVerticals(): Promise<{ slug: string; display_name: stri
   }))
 }
 
+/** Fetch all verticals with full benchmark data (single query, no N+1) */
+export async function getAllVerticalBenchmarks(): Promise<VerticalBenchmark[]> {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from("verticals")
+    .select("slug, display_name, tier, national_violations, national_penalties_usd, serious_pct, top_hazcats, compliance_stack")
+    .order("tier")
+    .order("display_name")
+
+  return (data ?? []).map((v) => ({
+    slug: v.slug,
+    display_name: v.display_name,
+    tier: v.tier,
+    national_violations: v.national_violations ?? 0,
+    national_penalties_usd: Number(v.national_penalties_usd ?? 0),
+    serious_pct: Number(v.serious_pct ?? 0),
+    top_hazcats: v.top_hazcats ?? [],
+    compliance_stack: typeof v.compliance_stack === "string"
+      ? (v.compliance_stack as string).split(",").map((s: string) => s.trim())
+      : v.compliance_stack ?? [],
+  }))
+}
+
 /** Fetch enforcement benchmark data for a specific vertical */
 export async function getVerticalBenchmark(slug: string): Promise<VerticalBenchmark | null> {
   const supabase = await createClient()

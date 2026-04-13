@@ -100,9 +100,9 @@ export default function ContactPage() {
                   <span className="font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1">
                     Phone
                   </span>
-                  <a href="tel:+18005551234" className="font-sans text-[15px] text-parchment hover:text-gold transition-colors">
-                    1-800-555-1234
-                  </a>
+                  <p className="font-sans text-[15px] text-parchment">
+                    Available upon request
+                  </p>
                 </div>
               </div>
 
@@ -115,7 +115,7 @@ export default function ContactPage() {
                     Headquarters
                   </span>
                   <p className="font-sans text-[15px] text-parchment">
-                    Los Angeles, California
+                    Inland Empire, California
                   </p>
                 </div>
               </div>

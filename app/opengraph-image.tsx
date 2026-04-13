@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
-export const alt = "PROTEKON — Managed Compliance. Delivered."
+export const alt = "PROTEKON — AI Compliance Officer"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -55,7 +55,7 @@ export default async function Image() {
             marginTop: 16,
           }}
         >
-          MANAGED COMPLIANCE. DELIVERED.
+          AI COMPLIANCE OFFICER
         </div>
 
         {/* Description */}
@@ -69,7 +69,7 @@ export default async function Image() {
             lineHeight: 1.5,
           }}
         >
-          California workplace compliance as a service — IIPP, SB 553, incident logging, and regulatory monitoring.
+          Workplace compliance as a service — IIPP, SB 553, incident logging, and regulatory monitoring.
         </div>
       </div>
     ),
