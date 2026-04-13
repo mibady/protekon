@@ -38,23 +38,45 @@ export default async function ArticlesPage() {
   return (
     <>
       <Nav />
-      <main className="min-h-screen bg-parchment">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          {/* Header */}
-          <Link
-            href="/resources"
-            className="mb-8 inline-flex items-center gap-2 text-sm text-steel hover:text-void transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Resources
-          </Link>
+      <main className="min-h-screen">
+        {/* Hero */}
+        <section className="relative bg-void pt-32 pb-16 overflow-hidden">
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(201,168,76,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.02) 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }}
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(196,18,48,0.06) 0%, transparent 60%)',
+            }}
+          />
 
-          <h1 className="mb-2 text-4xl font-bold tracking-tight text-void">All Resources</h1>
-          <p className="mb-12 text-lg text-steel">
-            Compliance guides, templates, and articles to keep your business safe and compliant.
-          </p>
+          <div className="relative mx-auto max-w-6xl px-6">
+            <Link
+              href="/resources"
+              className="mb-6 inline-flex items-center gap-2 text-sm text-steel hover:text-brand-white transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Resources
+            </Link>
 
-          {/* Resource Grid */}
+            <h1 className="font-display text-4xl font-bold tracking-tight text-brand-white lg:text-5xl">
+              All Resources
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg text-steel">
+              Compliance guides, templates, and articles to keep your business safe and compliant.
+            </p>
+          </div>
+        </section>
+
+        {/* Grid */}
+        <section className="bg-parchment py-16">
+          <div className="mx-auto max-w-6xl px-6">
+            {/* Resource Grid */}
           {resources && resources.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {resources.map((resource: any) => (
@@ -95,11 +117,12 @@ export default async function ArticlesPage() {
               ))}
             </div>
           ) : (
-            <div className="rounded-xl border border-fog bg-white p-12 text-center">
-              <p className="text-lg text-steel">No resources published yet. Check back soon.</p>
-            </div>
-          )}
-        </div>
+              <div className="rounded-xl border border-fog bg-white p-12 text-center">
+                <p className="text-lg text-steel">No resources published yet. Check back soon.</p>
+              </div>
+            )}
+          </div>
+        </section>
       </main>
       <Footer />
     </>

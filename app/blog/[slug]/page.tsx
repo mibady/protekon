@@ -28,32 +28,45 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <Nav />
-      <main className="min-h-screen bg-parchment">
-        <div className="mx-auto max-w-3xl px-6 py-24">
-          {/* Breadcrumb */}
-          <Link
-            href="/blog"
-            className="mb-8 inline-flex items-center gap-2 text-sm text-steel hover:text-void transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
+      <main className="min-h-screen">
+        {/* Hero */}
+        <section className="relative bg-void pt-32 pb-16 overflow-hidden">
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(201,168,76,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.02) 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }}
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(196,18,48,0.06) 0%, transparent 60%)',
+            }}
+          />
 
-          {/* Header */}
-          <div className="mb-8">
+          <div className="relative mx-auto max-w-3xl px-6">
+            <Link
+              href="/blog"
+              className="mb-6 inline-flex items-center gap-2 text-sm text-steel hover:text-brand-white transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Blog
+            </Link>
+
             {post.categories && post.categories.length > 0 && (
-              <div className="mb-3 flex flex-wrap gap-2">
+              <div className="mb-4 flex flex-wrap gap-2">
                 {post.categories.map((cat: any) => (
                   <span
                     key={cat.slug?.current || cat.title}
-                    className="rounded-full bg-crimson/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-crimson"
+                    className="border border-crimson/40 bg-crimson/10 px-3 py-1 font-display text-[10px] font-semibold uppercase tracking-[2px] text-crimson"
                   >
                     {cat.title}
                   </span>
                 ))}
               </div>
             )}
-            <h1 className="text-4xl font-bold tracking-tight text-void lg:text-5xl">
+            <h1 className="font-display text-4xl font-bold tracking-tight text-brand-white lg:text-5xl">
               {post.title}
             </h1>
             {post.excerpt && (
@@ -71,7 +84,7 @@ export default async function BlogPostPage({ params }: Props) {
               )}
               <div>
                 {post.author && (
-                  <p className="font-medium text-void">{post.author.name}</p>
+                  <p className="font-medium text-brand-white">{post.author.name}</p>
                 )}
                 {post.publishedAt && (
                   <p className="text-sm text-ash flex items-center gap-1.5">
@@ -82,35 +95,40 @@ export default async function BlogPostPage({ params }: Props) {
               </div>
             </div>
           </div>
+        </section>
 
-          {/* Cover Image */}
-          {post.coverImage && (
-            <div className="mb-10 overflow-hidden rounded-xl">
-              <Image
-                src={urlFor(post.coverImage).width(1200).height(630).url()}
-                alt={post.title}
-                width={1200}
-                height={630}
-                className="w-full object-cover"
-                priority
-              />
-            </div>
-          )}
+        {/* Article body */}
+        <section className="bg-parchment py-16">
+          <div className="mx-auto max-w-3xl px-6">
+            {/* Cover Image */}
+            {post.coverImage && (
+              <div className="mb-10 overflow-hidden rounded-xl">
+                <Image
+                  src={urlFor(post.coverImage).width(1200).height(630).url()}
+                  alt={post.title}
+                  width={1200}
+                  height={630}
+                  className="w-full object-cover"
+                  priority
+                />
+              </div>
+            )}
 
-          {/* Body Content */}
-          {post.body && (
-            <article className="prose prose-lg max-w-none text-void/90">
-              <PortableText value={post.body} />
-            </article>
-          )}
+            {/* Body Content */}
+            {post.body && (
+              <article className="prose prose-lg max-w-none text-void/90">
+                <PortableText value={post.body} />
+              </article>
+            )}
 
-          {/* Related Posts */}
-          <RelatedPosts
-            currentId={post._id}
-            domain={post.regulatoryDomain}
-            categoryIds={post.categories?.map((c: any) => c._id) || []}
-          />
-        </div>
+            {/* Related Posts */}
+            <RelatedPosts
+              currentId={post._id}
+              domain={post.regulatoryDomain}
+              categoryIds={post.categories?.map((c: any) => c._id) || []}
+            />
+          </div>
+        </section>
       </main>
       <Footer />
     </>
