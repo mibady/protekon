@@ -87,8 +87,8 @@ async function scraperIndustryProfile(
     // Get violations matching this NAICS prefix (first 2-3 digits)
     const prefix = naicsCode.slice(0, 2)
     const { data: violations, count } = await scraper
-      .from("shield_osha_violations")
-      .select("standard_cited, penalty_amount, violation_type, establishment_name", { count: "exact" })
+      .from("protekon_osha_violations")
+      .select("standard_cited, penalty_amount, violation_type, employer_name", { count: "exact" })
       .like("naics_code", `${prefix}%`)
       .limit(5000)
 
@@ -147,8 +147,8 @@ async function scraperNearbyEnforcement(
 
   try {
     const { data } = await scraper
-      .from("shield_osha_violations")
-      .select("establishment_name, city, state, violation_type, penalty_amount, inspection_date, standard_cited, naics_code")
+      .from("protekon_osha_violations")
+      .select("employer_name, city, state, violation_type, penalty_amount, inspection_date, standard_cited, naics_code")
       .ilike("city", city)
       .eq("state", state)
       .order("inspection_date", { ascending: false })
@@ -157,7 +157,7 @@ async function scraperNearbyEnforcement(
     if (!data) return []
 
     return data.map((v) => ({
-      establishment: v.establishment_name || "Unknown",
+      establishment: v.employer_name || "Unknown",
       city: v.city || city,
       state: v.state || state,
       violationType: v.violation_type || "Serious",
@@ -195,7 +195,7 @@ async function scraperBenchmarks(
 
   try {
     const { data: violations } = await scraper
-      .from("shield_osha_violations")
+      .from("protekon_osha_violations")
       .select("penalty_amount, standard_cited")
       .like("naics_code", `${prefix}%`)
       .not("penalty_amount", "is", null)
