@@ -16,6 +16,7 @@ import { onboardingSequence } from "@/inngest/functions/onboarding-sequence"
 import { reEngagement } from "@/inngest/functions/re-engagement"
 import { sampleNurtureDrip } from "@/inngest/functions/sample-nurture-drip"
 import { planUpdatePipeline } from "@/inngest/functions/plan-update-pipeline"
+import { ragIndexer } from "@/inngest/functions/rag-indexer"
 
 export const maxDuration = 300
 
@@ -39,5 +40,6 @@ export const { GET, POST, PUT } = serve({
     reEngagement,
     sampleNurtureDrip,
     planUpdatePipeline,
+    ragIndexer,
   ],
 })

@@ -1,6 +1,7 @@
 import { streamText } from "ai"
 import { anthropic } from "@ai-sdk/anthropic"
 import { createClient } from "@/lib/supabase/server"
+import { retrieveContext } from "@/lib/rag/retrieval"
 
 export async function POST(req: Request) {
   const supabase = await createClient()
@@ -22,7 +23,7 @@ export async function POST(req: Request) {
     return new Response("Messages array is required", { status: 400 })
   }
 
-  // Gather client context for RAG
+  // Gather client context from database
   const [clientResult, docsResult, incidentsResult, regsResult] = await Promise.all([
     supabase.from("clients").select("business_name, vertical, compliance_score, risk_level, plan").eq("id", user.id).single(),
     supabase.from("documents").select("type, status, created_at").eq("client_id", user.id).order("created_at", { ascending: false }).limit(10),
@@ -34,6 +35,33 @@ export async function POST(req: Request) {
   const docs = docsResult.data ?? []
   const incidents = incidentsResult.data ?? []
   const regs = regsResult.data ?? []
+
+  // RAG: retrieve relevant compliance knowledge based on the latest user message
+  const lastUserMessage = [...messages].reverse().find((m: { role: string }) => m.role === "user")
+  const userQuery = typeof lastUserMessage?.content === "string"
+    ? lastUserMessage.content
+    : Array.isArray(lastUserMessage?.content)
+      ? lastUserMessage.content.map((p: { text?: string }) => p.text ?? "").join(" ")
+      : ""
+
+  let ragBlock = ""
+  if (userQuery) {
+    try {
+      const chunks = await retrieveContext(userQuery, {
+        vertical: client?.vertical ?? undefined,
+      })
+      if (chunks.length > 0) {
+        ragBlock = `\n\nCOMPLIANCE KNOWLEDGE (retrieved from knowledge base — cite these when relevant):\n${chunks
+          .map(
+            (c, i) =>
+              `[${i + 1}] ${c.metadata.title ?? "Untitled"}${c.metadata.standardCode ? ` (${c.metadata.standardCode})` : ""}\n${c.content.slice(0, 500)}`
+          )
+          .join("\n\n")}`
+      }
+    } catch {
+      // RAG retrieval failed — continue without it
+    }
+  }
 
   const contextBlock = `
 CLIENT PROFILE:
@@ -50,14 +78,14 @@ RECENT INCIDENTS (${incidents.length}):
 ${incidents.map((i) => `- [${i.severity}] ${i.description?.slice(0, 100)} (${i.incident_date}, ${i.location})`).join("\n")}
 
 LATEST REGULATORY UPDATES (${regs.length}):
-${regs.map((r) => `- [${r.severity}] ${r.title} (effective: ${r.effective_date ?? "TBD"}) — ${r.summary?.slice(0, 150)}`).join("\n")}
+${regs.map((r) => `- [${r.severity}] ${r.title} (effective: ${r.effective_date ?? "TBD"}) — ${r.summary?.slice(0, 150)}`).join("\n")}${ragBlock}
 `.trim()
 
   const result = streamText({
     model: anthropic("claude-sonnet-4-6"),
     system: `You are the Protekon Compliance Assistant — an AI compliance advisor for California small and mid-sized businesses. You help clients understand their compliance obligations, interpret regulations, and take action on their compliance posture.
 
-You have access to the client's profile, recent documents, incidents, and regulatory updates below. Use this context to provide personalized, actionable advice.
+You have access to the client's profile, recent documents, incidents, regulatory updates, and compliance knowledge base below. Use this context to provide personalized, actionable advice. When citing compliance knowledge, reference the specific standard codes.
 
 ${contextBlock}
 
@@ -68,7 +96,8 @@ Rules:
 - If the client asks about something outside their current documents, recommend requesting the relevant document type
 - Keep responses concise and actionable — these are busy business owners, not compliance experts
 - Never provide legal advice — always recommend consulting with a compliance specialist for legal questions
-- Use the client's industry context to tailor recommendations`,
+- Use the client's industry context to tailor recommendations
+- When compliance knowledge chunks are provided, cite the specific standard codes and section numbers from them`,
     messages,
     maxOutputTokens: 2000,
   })

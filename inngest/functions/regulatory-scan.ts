@@ -210,6 +210,36 @@ export const regulatoryScan = inngest.createFunction(
       })
     }
 
+    // Step 4: Index new regulatory updates into RAG vector store
+    if (totalNew > 0) {
+      await step.run("index-for-rag", async () => {
+        const today = new Date().toISOString().slice(0, 10)
+        const { data: newRegs } = await supabase
+          .from("regulatory_updates")
+          .select("id, title, summary, jurisdiction, severity, effective_date")
+          .gte("created_at", `${today}T00:00:00`)
+
+        if (!newRegs?.length) return
+
+        for (const reg of newRegs) {
+          await inngest.send({
+            name: "rag/document.index",
+            data: {
+              id: reg.id,
+              title: reg.title,
+              content: `${reg.summary ?? ""}${reg.jurisdiction ? `\nJurisdiction: ${reg.jurisdiction}` : ""}${reg.effective_date ? `\nEffective: ${reg.effective_date}` : ""}`,
+              metadata: {
+                type: "regulatory",
+                source: reg.jurisdiction ?? undefined,
+                severity: reg.severity ?? undefined,
+                title: reg.title,
+              },
+            },
+          })
+        }
+      })
+    }
+
     return { success: true, newUpdates: totalNew, scannedAt: new Date().toISOString() }
   }
 )

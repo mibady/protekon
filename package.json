@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.64",
+    "@ai-sdk/openai": "^3.0.52",
     "@ai-sdk/react": "^3.0.144",
     "@hookform/resolvers": "^3.9.1",
     "@phosphor-icons/react": "^2.1.10",
@@ -56,6 +57,7 @@
     "@supabase/ssr": "^0.10.0",
     "@supabase/supabase-js": "^2.101.1",
     "@types/archiver": "^7.0.0",
+    "@upstash/vector": "^1.2.3",
     "@vercel/analytics": "1.6.1",
     "@vercel/blob": "^2.3.2",
     "ai": "^6.0.142",
