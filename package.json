@@ -54,6 +54,7 @@
     "@radix-ui/react-tooltip": "1.2.8",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.19.0",
+    "@sentry/nextjs": "^10.48.0",
     "@supabase/ssr": "^0.10.0",
     "@supabase/supabase-js": "^2.101.1",
     "@types/archiver": "^7.0.0",
