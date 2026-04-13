@@ -1707,7 +1707,7 @@ export default function ScoreNationalPage() {
               },
               {
                 q: "Do I need to give my email?",
-                a: "No. The full assessment \u2014 score, gap analysis, fine exposure \u2014 is shown immediately with zero email required. The downloadable PDF scorecard is the only thing that asks.",
+                a: "No. The full assessment \u2014 score, gap analysis, fine exposure \u2014 is shown immediately. The downloadable PDF scorecard is the only step that asks for your email.",
               },
               {
                 q: "Is this just a marketing gimmick?",

@@ -460,51 +460,6 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* ───── SOCIAL PROOF ───── */}
-      <section className="py-24 px-6 lg:px-8">
-        <div className="max-w-[1000px] mx-auto">
-          <motion.div
-            className="text-center mb-14"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={sectionVariants}
-          >
-            <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-crimson">
-              Partner Voices
-            </span>
-            <h2 className="font-display font-black text-[clamp(28px,4vw,42px)] text-parchment mt-4">
-              What partners are saying.
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((n) => (
-              <motion.div
-                key={n}
-                className="bg-midnight border border-brand-white/[0.06] p-8"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 * n }}
-              >
-                <p className="font-sans text-[15px] text-fog italic leading-relaxed mb-6">
-                  &ldquo;[Partner testimonial coming soon]&rdquo;
-                </p>
-                <div className="border-t border-brand-white/[0.06] pt-4">
-                  <p className="font-display font-bold text-[14px] text-parchment">
-                    Partner Name
-                  </p>
-                  <p className="font-sans text-[12px] text-steel">
-                    Company &middot; Role
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ───── FAQ ───── */}
       <section className="py-24 px-6 lg:px-8 bg-parchment">
         <div className="max-w-[800px] mx-auto">

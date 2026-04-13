@@ -9,9 +9,9 @@ import { getFormattedStats } from "@/lib/actions/public-stats"
 // Fallback values used during SSR and before live data loads
 const FALLBACK_STATS = [
   { value: "$1.04B", label: "Penalties Exposed" },
-  { value: "—", label: "Citations Analyzed" },
+  { value: "$16,131", label: "Max Per Violation" },
   { value: "48hrs", label: "First Delivery" },
-  { value: "116K+", label: "Employers Cited" },
+  { value: "56%", label: "Classified Serious" },
 ]
 
 export default function Hero() {
@@ -22,9 +22,9 @@ export default function Hero() {
       if (live) {
         setStats([
           { value: live.penalties, label: "Penalties Exposed" },
-          { value: live.citations, label: "Citations Analyzed" },
+          { value: "$16,131", label: "Max Per Violation" },
           { value: "48hrs", label: "First Delivery" },
-          { value: live.employers, label: "Employers Cited" },
+          { value: "56%", label: "Classified Serious" },
         ])
       }
     })

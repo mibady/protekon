@@ -48,7 +48,6 @@ export default function DashboardPage() {
   const [regulatoryUpdates, setRegulatoryUpdates] = useState<{ severity: string; code: string; title: string; publishedDate: string; unread: boolean }[]>([])
   const [deliveryTimeline, setDeliveryTimeline] = useState<{ date: string; label: string; status: string }[]>([])
   const [verticalCards, setVerticalCards] = useState<{ label: string; value: number; alert: string; href: string; color: string }[]>([])
-  const [chartView, setChartView] = useState<"monthly" | "quarterly">("monthly")
 
   useEffect(() => {
     getDashboardData().then(setData)
@@ -325,20 +324,6 @@ export default function DashboardPage() {
             <h3 className="font-display font-medium text-[12px] tracking-[3px] uppercase text-steel">
               Incident Trend — 24 Month
             </h3>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setChartView("monthly")}
-                className={`px-3 py-1 font-display font-medium text-[9px] tracking-[2px] uppercase ${chartView === "monthly" ? "bg-midnight text-brand-white" : "border border-midnight/20 text-midnight hover:bg-midnight/[0.04]"}`}
-              >
-                Monthly
-              </button>
-              <button
-                onClick={() => setChartView("quarterly")}
-                className={`px-3 py-1 font-display font-medium text-[9px] tracking-[2px] uppercase ${chartView === "quarterly" ? "bg-midnight text-brand-white" : "border border-midnight/20 text-midnight hover:bg-midnight/[0.04]"}`}
-              >
-                Quarterly
-              </button>
-            </div>
           </div>
 
           {/* Area Chart */}

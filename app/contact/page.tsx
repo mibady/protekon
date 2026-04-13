@@ -66,7 +66,7 @@ export default function ContactPage() {
                 CONTACT US
               </h1>
               <p className="font-sans text-[16px] leading-[1.75] text-fog max-w-[400px] mb-12">
-                Have questions about PROTEKON? Need help with California compliance? 
+                Have questions about PROTEKON? Need help with workplace compliance? 
                 Our team is ready to help you protect your business.
               </p>
             </motion.div>

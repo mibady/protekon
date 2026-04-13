@@ -7,7 +7,7 @@ export const revalidate = 60
 
 export const metadata: Metadata = {
   title: "Compliance Resources & Guides | PROTEKON",
-  description: "Free California compliance guides, SB 553 templates, Cal/OSHA checklists, and IIPP resources for small and mid-sized businesses.",
+  description: "Free workplace compliance guides, SB 553 templates, Cal/OSHA checklists, and IIPP resources for small and mid-sized businesses.",
 }
 
 const downloads = [

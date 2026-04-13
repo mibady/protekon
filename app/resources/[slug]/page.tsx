@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
   return {
     title: resource.title,
-    description: resource.excerpt || 'California compliance resource from PROTEKON.',
+    description: resource.excerpt || 'Workplace compliance resource from PROTEKON.',
   }
 }
 

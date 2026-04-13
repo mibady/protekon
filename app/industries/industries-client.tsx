@@ -89,7 +89,7 @@ export default function IndustriesClient({ industries }: { industries: VerticalB
             </h1>
             <p className="font-sans text-[16px] text-steel max-w-[600px] leading-relaxed">
               Every industry has unique compliance requirements. PROTEKON&apos;s engine analyzes
-              431,000+ federal and state enforcement records across 27 verticals to understand the specific risks that affect your business.
+              Real federal and state enforcement data across 27 verticals to understand the specific risks that affect your business.
             </p>
           </motion.div>
         </div>
