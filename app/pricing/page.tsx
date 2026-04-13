@@ -247,7 +247,7 @@ export default function PricingPage() {
         >
           <p className="font-sans text-[15px] text-steel leading-relaxed border border-brand-white/[0.06] bg-midnight/50 px-8 py-6">
             Your AI compliance officer costs less than one serious violation.
-            Average serious fine: $7,229. Protekon Core annual cost: $7,164.
+            Average serious OSHA fine: $16,131. Protekon Core annual cost: $7,164.
             The agent pays for itself the first time an inspector walks away
             with zero citations.
           </p>

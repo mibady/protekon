@@ -123,7 +123,7 @@ export default function IndustriesPage() {
             </h1>
             <p className="font-sans text-[16px] text-steel max-w-[600px] leading-relaxed">
               Every industry has unique compliance requirements. PROTEKON&apos;s engine analyzes
-              California enforcement patterns across 27 verticals to understand the specific risks that affect your business.
+              431,000+ federal and state enforcement records across 27 verticals to understand the specific risks that affect your business.
             </p>
           </motion.div>
         </div>
@@ -135,7 +135,7 @@ export default function IndustriesPage() {
           {[
             { value: "27", label: "Industry Verticals" },
             { value: "24/7", label: "Regulatory Monitoring" },
-            { value: "100%", label: "Cal/OSHA Coverage" },
+            { value: "100%", label: "Federal + State OSHA" },
             { value: "48hr", label: "First Delivery" },
           ].map((stat, i) => (
             <div
@@ -287,7 +287,7 @@ export default function IndustriesPage() {
             27 INDUSTRIES. ONE PLATFORM.
           </h2>
           <p className="font-sans text-[16px] text-parchment/80 mb-8">
-            Every California business faces unique compliance requirements. Get your free score now.
+            Every business faces unique compliance requirements. Get your free score now.
           </p>
           <Link
             href="/score"

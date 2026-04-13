@@ -8,10 +8,10 @@ import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
 
 const stats = [
-  { value: "73,960+", label: "Citations Issued Annually" },
-  { value: "$164M+", label: "In Annual Penalties" },
-  { value: "14,443", label: "Serious Violations Per Year" },
-  { value: "68.7%", label: "Construction + Manufacturing" },
+  { value: "431K+", label: "Violations Analyzed" },
+  { value: "$1.04B", label: "Total Penalties Exposed" },
+  { value: "243K+", label: "Serious Violations" },
+  { value: "116K+", label: "Employers Cited" },
 ]
 
 const values = [
@@ -78,13 +78,12 @@ export default function AboutPage() {
               </h1>
 
               <p className="font-sans text-[17px] leading-[1.8] text-fog max-w-[520px]">
-                PROTEKON is the AI compliance officer for California businesses. It
+                PROTEKON is the AI compliance officer for American businesses. It
                 monitors every regulation. Writes every document. Classifies every
                 incident. Delivers audit-ready proof to your inbox — automatically, on
-                schedule, without being asked. We built it because 14,443 California
-                businesses receive serious OSHA violations every year. Most of them
-                aren&apos;t reckless. They just don&apos;t have the infrastructure to keep up.
-                Now they do.
+                schedule, without being asked. We built it because 116,000+ employers
+                have been cited by OSHA since 2020. Most of them aren&apos;t reckless.
+                They just don&apos;t have the infrastructure to keep up. Now they do.
               </p>
             </motion.div>
 
@@ -139,7 +138,7 @@ export default function AboutPage() {
             >
               A full-time compliance officer costs $60,000–$80,000 a year. Enterprise
               GRC software costs $800–$2,000/month and still requires a team to operate.
-              Meanwhile, a 30-person warehouse in Fresno faces the same Cal/OSHA regulations
+              Meanwhile, a 30-person warehouse in Texas faces the same OSHA regulations
               as a Fortune 500 company — but has none of the infrastructure to stay compliant.
             </motion.p>
             <motion.p
@@ -149,10 +148,11 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              The average serious Cal/OSHA fine is $7,229. Protekon Core costs $597/month.
-              We built an AI agent that does the work of a compliance officer — writing plans,
-              classifying incidents, stripping PII, scanning regulations, and delivering
-              audit-ready documents — for less than 1% of the cost of hiring one.
+              The average serious OSHA fine is $16,131 — and willful violations can exceed
+              $161,000. Protekon Core costs $597/month. We built an AI agent that does
+              the work of a compliance officer — writing plans, classifying incidents,
+              stripping PII, scanning regulations, and delivering audit-ready documents —
+              for less than 1% of the cost of hiring one.
             </motion.p>
           </div>
 
@@ -240,7 +240,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Join California businesses who trust Protekon for their
+            Join thousands of businesses who trust Protekon for their
             workplace compliance.
           </motion.p>
           <motion.div

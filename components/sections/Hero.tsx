@@ -32,7 +32,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.05 }}
             >
-              THE AI COMPLIANCE OFFICER FOR CALIFORNIA SMBS
+              THE AI COMPLIANCE OFFICER FOR AMERICAN BUSINESS
             </motion.span>
 
             {/* Headline */}
@@ -54,8 +54,8 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               PROTEKON is the AI compliance officer that runs your entire compliance department.
-              It writes your IIPP. Builds your SB 553 plan. Classifies every incident.
-              Strips PII automatically. Monitors Cal/OSHA at 6am every morning. Updates your
+              It writes your safety plans. Classifies every incident. Strips PII automatically.
+              Monitors federal OSHA and your state plan at 6am every morning. Updates your
               documents before you know the law changed. You answer 6 questions. The agent
               handles everything else — 24 hours a day, 365 days a year.
             </motion.p>
@@ -204,10 +204,10 @@ export default function Hero() {
           >
             <div className="grid grid-cols-2 lg:grid-cols-4">
               {[
-                { value: '$109.6M', label: 'CA SMB Penalties' },
-                { value: '73,960', label: 'Citations Analyzed' },
+                { value: '$1.04B', label: 'Penalties Exposed' },
+                { value: '431K+', label: 'Citations Analyzed' },
                 { value: '48hrs', label: 'First Delivery' },
-                { value: '$7,229', label: 'Avg Serious Fine' },
+                { value: '116K+', label: 'Employers Cited' },
               ].map((stat, i) => (
                 <div 
                   key={stat.label}
@@ -239,10 +239,10 @@ export default function Hero() {
       >
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
           <span className="font-display text-[9px] tracking-[3px] uppercase text-steel">
-            Trusted by 500+ California businesses
+            Trusted by businesses across all 50 states
           </span>
           <div className="flex items-center gap-3">
-            {['SOC 2', 'OSHA', 'Cal/OSHA', 'CSLB'].map((badge) => (
+            {['SOC 2', 'Federal OSHA', '28 State Plans', 'All 50 States'].map((badge) => (
               <span key={badge} className="font-display text-[10px] tracking-[2px] uppercase text-gold/60 px-3 py-1 border border-gold/20">
                 {badge}
               </span>

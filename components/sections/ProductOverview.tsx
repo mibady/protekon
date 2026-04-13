@@ -9,10 +9,10 @@ const features = [
     icon: FileText,
     iconColor: "#C9A84C",
     borderColor: "#C41230",
-    title: "IIPP + SB 553 DOCUMENTS",
+    title: "COMPLIANCE DOCUMENTS",
     description:
-      "8 CCR 3203 requires a written IIPP. SB 553 demands a Workplace Violence Prevention Plan. Your AI compliance officer writes both — generated from your actual business address, worksite layout, and employee count. Not a template. A site-specific plan, ready to post before the inspector arrives.",
-    tags: ["IIPP", "SB 553", "WVPP", "8 CCR 3203"],
+      "Federal OSHA and state plans require written safety programs — IIPP, WVPP, HazCom, EAP, and more. Your AI compliance officer writes them all, generated from your actual business address, worksite layout, and employee count. Not a template. A site-specific plan, ready to post before the inspector arrives.",
+    tags: ["IIPP", "WVPP", "HAZCOM", "EAP", "OSHA 300"],
   },
   {
     icon: ClipboardText,
@@ -29,8 +29,8 @@ const features = [
     borderColor: "#C41230",
     title: "REGULATORY MONITORING",
     description:
-      "Every morning at 6am, your AI compliance officer scans Cal/OSHA, OSHSB, and CSLB feeds. When a regulation changes, it determines which of your documents are affected, assesses the penalty risk, generates a plain-English impact summary, and alerts you with a compliance deadline. Before you pour your first coffee.",
-    tags: ["Cal/OSHA", "SB 553", "REAL-TIME"],
+      "Every morning at 6am, your AI compliance officer scans federal OSHA, your state plan, and industry-specific feeds. When a regulation changes, it determines which of your documents are affected, assesses the penalty risk, generates a plain-English impact summary, and alerts you with a compliance deadline. Before you pour your first coffee.",
+    tags: ["FEDERAL OSHA", "STATE PLANS", "REAL-TIME"],
   },
   {
     icon: EnvelopeSimple,

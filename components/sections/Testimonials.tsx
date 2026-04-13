@@ -16,15 +16,15 @@ const testimonials = [
     quote:
       "Incident logging used to mean a sticky note on my desk. Now every entry is classified, documented, and legally protected. OSHA 300 compliant from day one.",
     attribution: "Operations Manager",
-    location: "Inland Empire, CA",
+    location: "Houston, TX",
     industry: "MANUFACTURING",
     borderColor: "#C9A84C",
   },
   {
     quote:
-      "SB 553 dropped and we had six days to comply. PROTEKON had our Workplace Violence Prevention Plan written, reviewed, and posted in 48 hours. Not a week. 48 hours.",
+      "A new OSHA emphasis program hit our industry and we had no idea. PROTEKON flagged it, updated our safety plan, and had the revised documents in our inbox before our next shift started.",
     attribution: "HR Director",
-    location: "Central Valley, CA",
+    location: "Atlanta, GA",
     industry: "HOSPITALITY",
     borderColor: "#C41230",
   },

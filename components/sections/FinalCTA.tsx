@@ -28,7 +28,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          A compliance officer costs $80K. A Cal/OSHA citation costs $7,229. Your AI compliance officer costs $597/month. The math is not complicated.
+          A compliance officer costs $80K. An OSHA serious citation costs $16,131. Your AI compliance officer costs $597/month. The math is not complicated.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -70,7 +70,7 @@ export default function FinalCTA() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          $597/month. $80K/year compliance officer. $7,229 per citation. Pick your math.
+          $597/month. $80K/year compliance officer. $16,131 per serious citation. Pick your math.
         </motion.p>
       </div>
     </section>
