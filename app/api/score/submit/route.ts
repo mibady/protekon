@@ -8,12 +8,21 @@ import type { ScoreLead } from "@/lib/types/score"
 const AnswersSchema = z.object({
   industry: z.string().min(1),
   employee_count: z.string().min(1),
+  // Phase 1: SB 553
   has_wvpp: z.boolean(),
   wvpp_site_specific: z.boolean(),
   has_incident_log: z.boolean(),
   pii_stripped: z.boolean(),
   training_current: z.boolean(),
   audit_ready: z.boolean(),
+  // Phase 1: Platform-wide
+  has_iipp: z.boolean(),
+  iipp_current: z.boolean(),
+  has_eap: z.boolean(),
+  has_hazcom: z.boolean(),
+  osha_300_current: z.boolean(),
+  // Phase 2: Vertical-specific
+  vertical_answers: z.record(z.boolean()).optional(),
 })
 
 const AnonymousSubmitSchema = z.object({

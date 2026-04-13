@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 interface ScoreRingProps {
   score: number
   total?: number
+  max?: number
   size?: number
   fineExposure?: { low: number; high: number } | null
 }
@@ -19,32 +20,36 @@ function formatCurrency(amount: number): string {
 
 export default function ScoreRing({
   score,
-  total = 6,
+  total,
+  max,
   size = 160,
   fineExposure = null,
 }: ScoreRingProps) {
+  const maxScore = max ?? total ?? 11
   const center = size / 2
   const radius = size / 2 - 12
   const circumference = 2 * Math.PI * radius
   const strokeWidth = 8
 
+  const ratio = maxScore > 0 ? score / maxScore : 0
+
   const tierLabel =
-    score === total
+    ratio >= 0.9
       ? "Fully Compliant"
-      : score >= 4
+      : ratio >= 0.6
         ? "Gaps Detected"
         : score >= 1
           ? "At Risk"
           : "Not Compliant"
 
   const tierColor =
-    score === total
+    ratio >= 0.9
       ? "#10B981"
-      : score >= 4
+      : ratio >= 0.6
         ? "#C9A84C"
         : "#C41230"
 
-  const filledFraction = score / total
+  const filledFraction = ratio
   const dashArray = `${circumference * filledFraction} ${circumference * (1 - filledFraction)}`
 
   return (
@@ -55,7 +60,6 @@ export default function ScoreRing({
         viewBox={`0 0 ${size} ${size}`}
         className="transform -rotate-90"
       >
-        {/* Background track */}
         <circle
           cx={center}
           cy={center}
@@ -64,7 +68,6 @@ export default function ScoreRing({
           stroke="rgba(122, 143, 165, 0.15)"
           strokeWidth={strokeWidth}
         />
-        {/* Filled arc */}
         <motion.circle
           cx={center}
           cy={center}
@@ -80,7 +83,6 @@ export default function ScoreRing({
           transition={{ duration: 0.8, ease: "easeOut" }}
         />
       </svg>
-      {/* Center text overlay */}
       <div
         className="absolute flex flex-col items-center justify-center"
         style={{ width: size, height: size }}
@@ -89,7 +91,7 @@ export default function ScoreRing({
           className="font-mono font-bold"
           style={{ fontSize: size * 0.175, color: tierColor }}
         >
-          {score}/{total}
+          {score}/{maxScore}
         </span>
       </div>
       <span

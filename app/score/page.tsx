@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback, Suspense } from "react"
+import { useState, useMemo, useCallback, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, Question, CaretUp } from "@phosphor-icons/react"
@@ -10,44 +10,66 @@ import Footer from "@/components/layout/Footer"
 import ScoreRing from "@/components/score/ScoreRing"
 import GapCards from "@/components/score/GapCards"
 import PdfGateForm from "@/components/score/PdfGateForm"
-import { calculateScore } from "@/lib/score-calculator"
-import type { ScoreAnswers, ScoreResult } from "@/lib/types/score"
+import { calculateScore, getVerticalQuestions } from "@/lib/score-calculator"
+import { getVerticals, getVerticalBenchmark } from "@/lib/actions/score"
+import type { ScoreAnswers, ScoreResult, VerticalBenchmark, VerticalQuestion } from "@/lib/types/score"
 
 /* ─── Constants ─── */
 
-const INDUSTRIES = [
-  "Construction",
-  "Manufacturing",
-  "Agriculture",
-  "Hospitality",
-  "Retail",
-  "Healthcare",
-  "Wholesale",
-  "Transportation",
-  "Automotive Services",
-  "Other",
-]
+const EMPLOYEE_COUNTS = ["1-9", "10-25", "26-50", "51-100", "101-250", "251+"]
 
-const EMPLOYEE_COUNTS = ["10-25", "26-50", "51-100", "101-250", "251+"]
+type BaselineKey =
+  | "has_wvpp"
+  | "wvpp_site_specific"
+  | "has_incident_log"
+  | "pii_stripped"
+  | "training_current"
+  | "audit_ready"
+  | "has_iipp"
+  | "iipp_current"
+  | "has_eap"
+  | "has_hazcom"
+  | "osha_300_current"
 
-type AnswerKey = "has_wvpp" | "wvpp_site_specific" | "has_incident_log" | "pii_stripped" | "training_current" | "audit_ready"
-
-const COMPLIANCE_QUESTIONS: {
-  key: AnswerKey
+const BASELINE_QUESTIONS: {
+  key: BaselineKey
   question: string
   help: string
 }[] = [
   {
+    key: "has_iipp",
+    question: "Do you have a written Injury and Illness Prevention Program (IIPP)?",
+    help: "The most fundamental Cal/OSHA requirement — cited more than SB 553. Every California employer must have one.",
+  },
+  {
+    key: "iipp_current",
+    question: "Has your IIPP been reviewed in the last 12 months?",
+    help: "Stale IIPPs are citable even if you have one. Your program must be reviewed and updated at least annually.",
+  },
+  {
+    key: "has_eap",
+    question: "Do you have a written Emergency Action Plan?",
+    help: "Required for every workplace with 10+ employees. Must cover evacuation routes, alarm systems, and emergency contacts.",
+  },
+  {
+    key: "has_hazcom",
+    question: "Do you maintain a HazCom program with accessible Safety Data Sheets?",
+    help: "The #1 most-cited OSHA standard nationally. You must maintain a written HazCom program with accessible SDSs for all hazardous chemicals.",
+  },
+  {
+    key: "osha_300_current",
+    question: "Are your OSHA 300/300A records current and posted?",
+    help: "Auto-citation if an inspector visits Feb–Apr and your 300A isn't posted. Records must be maintained for 5 years.",
+  },
+  {
     key: "has_wvpp",
-    question:
-      "Do you have a written Workplace Violence Prevention Plan (WVPP)?",
-    help: "A formal written document — not a general safety policy or employee handbook section.",
+    question: "Do you have a written Workplace Violence Prevention Plan (WVPP)?",
+    help: "A formal written document — not a general safety policy or employee handbook section. Required under SB 553.",
   },
   {
     key: "wvpp_site_specific",
-    question:
-      "Is your WVPP specific to your actual worksite address and layout?",
-    help: "A site-specific plan references your real address, physical layout, and industry-specific risks. A generic template doesn\u2019t count.",
+    question: "Is your WVPP specific to your actual worksite address and layout?",
+    help: "A site-specific plan references your real address, physical layout, and industry-specific risks. A generic template doesn't count.",
   },
   {
     key: "has_incident_log",
@@ -56,21 +78,18 @@ const COMPLIANCE_QUESTIONS: {
   },
   {
     key: "pii_stripped",
-    question:
-      "Is your incident log free of personally identifying information (PII)?",
-    help: "Under California Labor Code \u00A76401.9, your log must not contain employee names or other identifying details. Employees can legally request this log at any time.",
+    question: "Is your incident log free of personally identifying information (PII)?",
+    help: "Under California Labor Code §6401.9, your log must not contain employee names or other identifying details.",
   },
   {
     key: "training_current",
-    question:
-      "Have all employees received interactive workplace violence prevention training in the last 12 months?",
+    question: "Have all employees received interactive workplace violence prevention training in the last 12 months?",
     help: "SB 553 requires annual interactive training — not a one-time video or handout. Must be specific to your worksite plan.",
   },
   {
     key: "audit_ready",
-    question:
-      "Can you produce an audit-ready compliance package right now if Cal/OSHA showed up today?",
-    help: "A complete package includes your current WVPP, incident log, training records, and employee sign-off sheets — ready to hand to an inspector.",
+    question: "Can you produce an audit-ready compliance package right now if Cal/OSHA showed up today?",
+    help: "A complete package includes your IIPP, WVPP, incident log, training records, SDSs, and employee sign-off sheets — ready to hand to an inspector.",
   },
 ]
 
@@ -84,60 +103,108 @@ function formatCurrency(amount: number): string {
   }).format(amount)
 }
 
+function formatNumber(n: number): string {
+  return new Intl.NumberFormat("en-US").format(n)
+}
+
 /* ─── Inner component (uses useSearchParams) ─── */
 
 function ScorePageInner() {
   const searchParams = useSearchParams()
 
   /* ─── State ─── */
-  const [step, setStep] = useState<"hero" | "assessment" | "results">("hero")
+  const [step, setStep] = useState<"hero" | "baseline" | "vertical" | "results">("hero")
   const [industry, setIndustry] = useState("")
   const [employeeCount, setEmployeeCount] = useState("")
-  const [answers, setAnswers] = useState<Record<AnswerKey, boolean | null>>({
+  const [verticals, setVerticals] = useState<{ slug: string; display_name: string; tier: string; compliance_stack: string[] }[]>([])
+  const [benchmark, setBenchmark] = useState<VerticalBenchmark | null>(null)
+  const [verticalQuestions, setVerticalQuestions] = useState<VerticalQuestion[]>([])
+
+  const [baselineAnswers, setBaselineAnswers] = useState<Record<BaselineKey, boolean | null>>({
     has_wvpp: null,
     wvpp_site_specific: null,
     has_incident_log: null,
     pii_stripped: null,
     training_current: null,
     audit_ready: null,
+    has_iipp: null,
+    iipp_current: null,
+    has_eap: null,
+    has_hazcom: null,
+    osha_300_current: null,
   })
-  const [expandedHelp, setExpandedHelp] = useState<AnswerKey | null>(null)
+  const [verticalAnswers, setVerticalAnswers] = useState<Record<string, boolean | null>>({})
+  const [expandedHelp, setExpandedHelp] = useState<string | null>(null)
   const [leadId, setLeadId] = useState<string | null>(null)
   const [result, setResult] = useState<ScoreResult | null>(null)
   const [, setSavingAnonymous] = useState(false)
 
+  /* ─── Load verticals on mount ─── */
+  useEffect(() => {
+    getVerticals().then(setVerticals)
+  }, [])
+
+  /* ─── When industry changes, load benchmark + vertical questions ─── */
+  useEffect(() => {
+    if (!industry) return
+    const v = verticals.find((vt) => vt.slug === industry)
+    if (!v) return
+
+    getVerticalBenchmark(industry).then(setBenchmark)
+    const vqs = getVerticalQuestions(v.compliance_stack)
+    setVerticalQuestions(vqs)
+
+    // Initialize vertical answer state
+    const initial: Record<string, boolean | null> = {}
+    vqs.forEach((q) => { initial[q.key] = null })
+    setVerticalAnswers(initial)
+  }, [industry, verticals])
+
   /* ─── Derived ─── */
-  const allAnswered = Object.values(answers).every((v) => v !== null)
-  const yesCount = Object.values(answers).filter((v) => v === true).length
+  const allBaselineAnswered = Object.values(baselineAnswers).every((v) => v !== null)
+  const allVerticalAnswered = verticalQuestions.length === 0 || Object.values(verticalAnswers).every((v) => v !== null)
+  const hasVerticalPhase = verticalQuestions.length > 0
+
+  const baselineYesCount = Object.values(baselineAnswers).filter((v) => v === true).length
+  const verticalYesCount = Object.values(verticalAnswers).filter((v) => v === true).length
+  const maxScore = 11 + verticalQuestions.length
 
   const liveResult = useMemo(() => {
-    if (!allAnswered) return null
+    if (!allBaselineAnswered || (hasVerticalPhase && !allVerticalAnswered)) return null
+
     const full: ScoreAnswers = {
       industry,
       employee_count: employeeCount,
-      has_wvpp: !!answers.has_wvpp,
-      wvpp_site_specific: !!answers.wvpp_site_specific,
-      has_incident_log: !!answers.has_incident_log,
-      pii_stripped: !!answers.pii_stripped,
-      training_current: !!answers.training_current,
-      audit_ready: !!answers.audit_ready,
+      has_wvpp: !!baselineAnswers.has_wvpp,
+      wvpp_site_specific: !!baselineAnswers.wvpp_site_specific,
+      has_incident_log: !!baselineAnswers.has_incident_log,
+      pii_stripped: !!baselineAnswers.pii_stripped,
+      training_current: !!baselineAnswers.training_current,
+      audit_ready: !!baselineAnswers.audit_ready,
+      has_iipp: !!baselineAnswers.has_iipp,
+      iipp_current: !!baselineAnswers.iipp_current,
+      has_eap: !!baselineAnswers.has_eap,
+      has_hazcom: !!baselineAnswers.has_hazcom,
+      osha_300_current: !!baselineAnswers.osha_300_current,
+      vertical_answers: hasVerticalPhase
+        ? Object.fromEntries(Object.entries(verticalAnswers).map(([k, v]) => [k, !!v]))
+        : undefined,
     }
     return calculateScore(full)
-  }, [allAnswered, answers, industry, employeeCount])
-
-  /* ─── Partial score for live ring ─── */
-  const partialScore = useMemo(() => {
-    return yesCount
-  }, [yesCount])
+  }, [allBaselineAnswered, allVerticalAnswered, hasVerticalPhase, baselineAnswers, verticalAnswers, industry, employeeCount])
 
   /* ─── Handlers ─── */
-  function toggleAnswer(key: AnswerKey, value: boolean) {
-    setAnswers((prev) => ({ ...prev, [key]: value }))
+  function toggleBaseline(key: BaselineKey, value: boolean) {
+    setBaselineAnswers((prev) => ({ ...prev, [key]: value }))
+  }
+
+  function toggleVertical(key: string, value: boolean) {
+    setVerticalAnswers((prev) => ({ ...prev, [key]: value }))
   }
 
   function handleStartAssessment() {
     if (!industry || !employeeCount) return
-    setStep("assessment")
+    setStep("baseline")
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
@@ -146,13 +213,25 @@ function ScorePageInner() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  const handleShowResults = useCallback(async () => {
+  function handleBaselineDone() {
+    if (hasVerticalPhase) {
+      setStep("vertical")
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    } else {
+      submitAndShowResults()
+    }
+  }
+
+  function handleVerticalDone() {
+    submitAndShowResults()
+  }
+
+  const submitAndShowResults = useCallback(async () => {
     if (!liveResult) return
     setResult(liveResult)
     setStep("results")
     window.scrollTo({ top: 0, behavior: "smooth" })
 
-    // Fire anonymous save in background
     setSavingAnonymous(true)
     try {
       const res = await fetch("/api/score/submit", {
@@ -163,12 +242,20 @@ function ScorePageInner() {
           answers: {
             industry,
             employee_count: employeeCount,
-            has_wvpp: !!answers.has_wvpp,
-            wvpp_site_specific: !!answers.wvpp_site_specific,
-            has_incident_log: !!answers.has_incident_log,
-            pii_stripped: !!answers.pii_stripped,
-            training_current: !!answers.training_current,
-            audit_ready: !!answers.audit_ready,
+            has_wvpp: !!baselineAnswers.has_wvpp,
+            wvpp_site_specific: !!baselineAnswers.wvpp_site_specific,
+            has_incident_log: !!baselineAnswers.has_incident_log,
+            pii_stripped: !!baselineAnswers.pii_stripped,
+            training_current: !!baselineAnswers.training_current,
+            audit_ready: !!baselineAnswers.audit_ready,
+            has_iipp: !!baselineAnswers.has_iipp,
+            iipp_current: !!baselineAnswers.iipp_current,
+            has_eap: !!baselineAnswers.has_eap,
+            has_hazcom: !!baselineAnswers.has_hazcom,
+            osha_300_current: !!baselineAnswers.osha_300_current,
+            vertical_answers: hasVerticalPhase
+              ? Object.fromEntries(Object.entries(verticalAnswers).map(([k, v]) => [k, !!v]))
+              : undefined,
           },
           utm_source: searchParams.get("utm_source") || undefined,
           utm_medium: searchParams.get("utm_medium") || undefined,
@@ -184,7 +271,7 @@ function ScorePageInner() {
     } finally {
       setSavingAnonymous(false)
     }
-  }, [liveResult, industry, employeeCount, answers, searchParams])
+  }, [liveResult, industry, employeeCount, baselineAnswers, verticalAnswers, hasVerticalPhase, searchParams])
 
   async function handlePdfCapture(email: string, businessName: string) {
     if (!leadId) throw new Error("No lead ID")
@@ -205,36 +292,84 @@ function ScorePageInner() {
     setStep("hero")
     setIndustry("")
     setEmployeeCount("")
-    setAnswers({
-      has_wvpp: null,
-      wvpp_site_specific: null,
-      has_incident_log: null,
-      pii_stripped: null,
-      training_current: null,
-      audit_ready: null,
+    setBaselineAnswers({
+      has_wvpp: null, wvpp_site_specific: null, has_incident_log: null,
+      pii_stripped: null, training_current: null, audit_ready: null,
+      has_iipp: null, iipp_current: null, has_eap: null,
+      has_hazcom: null, osha_300_current: null,
     })
+    setVerticalAnswers({})
     setExpandedHelp(null)
     setLeadId(null)
     setResult(null)
+    setBenchmark(null)
+    setVerticalQuestions([])
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  /* Benchmark placeholder percentages by industry */
-  const benchmarkPct = useMemo(() => {
-    const map: Record<string, number> = {
-      Construction: 34,
-      Manufacturing: 41,
-      Agriculture: 28,
-      Hospitality: 38,
-      Retail: 45,
-      Healthcare: 52,
-      Wholesale: 43,
-      Transportation: 37,
-      "Automotive Services": 39,
-      Other: 40,
-    }
-    return map[industry] ?? 40
-  }, [industry])
+  const selectedVertical = verticals.find((v) => v.slug === industry)
+
+  /* ─── Shared question card renderer ─── */
+  function renderQuestionCard(
+    q: { key: string; question: string; help?: string },
+    val: boolean | null,
+    toggle: (key: string, value: boolean) => void
+  ) {
+    const isYes = val === true
+    const isNo = val === false
+    const helpOpen = expandedHelp === q.key
+    return (
+      <div
+        key={q.key}
+        className={`bg-brand-white border border-midnight/[0.08] p-4 flex flex-col transition-all ${
+          isYes ? "border-l-[3px] border-l-[#10B981]" : isNo ? "border-l-[3px] border-l-crimson" : ""
+        }`}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <p className="font-sans text-[14px] font-medium text-midnight leading-snug flex-1">
+            {q.question}
+          </p>
+          <div className="flex items-center gap-3 shrink-0">
+            {q.help && (
+              <button
+                onClick={() => setExpandedHelp(helpOpen ? null : q.key)}
+                className="text-steel hover:text-midnight transition-colors"
+                aria-label="Toggle help"
+              >
+                <Question size={18} weight="bold" />
+              </button>
+            )}
+            <button
+              onClick={() => toggle(q.key, val === true ? false : true)}
+              className={`relative w-12 h-6 rounded-full transition-colors ${
+                isYes ? "bg-[#10B981]" : isNo ? "bg-crimson" : "bg-ash"
+              }`}
+              aria-label={`Toggle ${q.key}`}
+            >
+              <span
+                className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                  isYes ? "translate-x-[26px]" : isNo ? "translate-x-[2px]" : "translate-x-[14px]"
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+        <AnimatePresence>
+          {helpOpen && q.help && (
+            <motion.p
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="font-sans text-[13px] text-steel mt-2 overflow-hidden"
+            >
+              {q.help}
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </div>
+    )
+  }
 
   /* ─── RENDER ─── */
   return (
@@ -243,7 +378,7 @@ function ScorePageInner() {
 
       <AnimatePresence mode="wait">
         {/* ═══════════════════════════════════════════════ */}
-        {/* SECTION 1 — HERO                               */}
+        {/* HERO                                            */}
         {/* ═══════════════════════════════════════════════ */}
         {step === "hero" && (
           <motion.section
@@ -255,37 +390,29 @@ function ScorePageInner() {
             className="pt-32 pb-20 px-6 lg:px-8"
           >
             <div className="max-w-3xl mx-auto">
-              {/* Eyebrow */}
               <span className="font-display text-[13px] font-semibold uppercase tracking-[0.1em] text-crimson">
                 Free Compliance Assessment
               </span>
 
-              {/* H1 */}
-              <h1 className="font-display text-[44px] md:text-[44px] text-[30px] font-bold text-midnight tracking-tight mt-4 leading-[1.05]">
+              <h1 className="font-display text-[30px] md:text-[44px] font-bold text-midnight tracking-tight mt-4 leading-[1.05]">
                 Would you pass a Cal/OSHA inspection today?
               </h1>
 
-              {/* Subhead */}
               <p className="font-sans text-[17px] text-steel leading-relaxed max-w-[600px] mt-4">
-                Six yes-or-no questions. Your compliance score calculated in real
-                time. No email required, no sales pitch — just an honest picture
-                of where your business stands.
+                Answer {hasVerticalPhase ? `${maxScore}` : "11"} compliance questions. Your score calculated in real
+                time against {benchmark ? formatNumber(benchmark.national_violations) : "435,000+"} real enforcement records. No email required.
               </p>
 
-              {/* Trust */}
               <p className="font-sans text-[13px] text-steel/60 mt-3">
-                Takes 90 seconds. Based on California Labor Code &sect;6401.9
-                and SB 553 requirements.
+                Takes 2 minutes. Based on Cal/OSHA Title 8, SB 553, and federal OSHA standards.
               </p>
 
-              {/* ─── Section 2: Pre-Assessment Selectors ─── */}
               <div className="mt-12">
                 <h3 className="font-display text-[18px] font-semibold text-midnight mb-6">
                   Tell us about your business
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Industry */}
                   <div>
                     <label className="font-display font-semibold text-[13px] text-midnight block mb-1.5">
                       Industry
@@ -295,18 +422,31 @@ function ScorePageInner() {
                       onChange={(e) => setIndustry(e.target.value)}
                       className="w-full bg-brand-white border border-midnight/[0.15] text-midnight font-sans text-[15px] px-4 py-3 focus:outline-none focus:border-crimson/50 transition-colors"
                     >
-                      <option value="" disabled>
-                        Select your industry
-                      </option>
-                      {INDUSTRIES.map((ind) => (
-                        <option key={ind} value={ind}>
-                          {ind}
-                        </option>
-                      ))}
+                      <option value="" disabled>Select your industry</option>
+                      {verticals.length > 0 ? (
+                        <>
+                          <optgroup label="Primary Markets">
+                            {verticals.filter((v) => v.tier === "tier_1").map((v) => (
+                              <option key={v.slug} value={v.slug}>{v.display_name}</option>
+                            ))}
+                          </optgroup>
+                          <optgroup label="Secondary Markets">
+                            {verticals.filter((v) => v.tier === "tier_2").map((v) => (
+                              <option key={v.slug} value={v.slug}>{v.display_name}</option>
+                            ))}
+                          </optgroup>
+                          <optgroup label="Emerging Markets">
+                            {verticals.filter((v) => v.tier === "tier_3").map((v) => (
+                              <option key={v.slug} value={v.slug}>{v.display_name}</option>
+                            ))}
+                          </optgroup>
+                        </>
+                      ) : (
+                        <option disabled>Loading industries...</option>
+                      )}
                     </select>
                   </div>
 
-                  {/* Employee Count */}
                   <div>
                     <label className="font-display font-semibold text-[13px] text-midnight block mb-1.5">
                       Employee Count
@@ -316,19 +456,32 @@ function ScorePageInner() {
                       onChange={(e) => setEmployeeCount(e.target.value)}
                       className="w-full bg-brand-white border border-midnight/[0.15] text-midnight font-sans text-[15px] px-4 py-3 focus:outline-none focus:border-crimson/50 transition-colors"
                     >
-                      <option value="" disabled>
-                        Select employee count
-                      </option>
+                      <option value="" disabled>Select employee count</option>
                       {EMPLOYEE_COUNTS.map((ec) => (
-                        <option key={ec} value={ec}>
-                          {ec} employees
-                        </option>
+                        <option key={ec} value={ec}>{ec} employees</option>
                       ))}
                     </select>
                   </div>
                 </div>
 
-                {/* CTA */}
+                {/* Enforcement data preview */}
+                {benchmark && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 bg-parchment border border-midnight/[0.06] p-4"
+                  >
+                    <p className="font-sans text-[14px] text-midnight leading-relaxed">
+                      <strong className="font-semibold">{benchmark.display_name}</strong> has{" "}
+                      <strong className="font-semibold text-crimson">{formatNumber(benchmark.national_violations)}</strong>{" "}
+                      recorded violations and{" "}
+                      <strong className="font-semibold text-crimson">{formatCurrency(benchmark.national_penalties_usd)}</strong>{" "}
+                      in penalties.{" "}
+                      <strong className="font-semibold">{benchmark.serious_pct}%</strong> were serious violations.
+                    </p>
+                  </motion.div>
+                )}
+
                 <button
                   onClick={handleStartAssessment}
                   disabled={!industry || !employeeCount}
@@ -343,11 +496,11 @@ function ScorePageInner() {
         )}
 
         {/* ═══════════════════════════════════════════════ */}
-        {/* SECTION 3 — ASSESSMENT + LIVE SCORE             */}
+        {/* PHASE 1 — BASELINE QUESTIONS (11)               */}
         {/* ═══════════════════════════════════════════════ */}
-        {step === "assessment" && (
+        {step === "baseline" && (
           <motion.section
-            key="assessment"
+            key="baseline"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -355,10 +508,9 @@ function ScorePageInner() {
             className="pt-32 pb-20 px-6 lg:px-8"
           >
             <div className="max-w-3xl mx-auto">
-              {/* Context summary bar */}
               <div className="flex items-center justify-between bg-parchment border border-midnight/[0.08] px-4 py-3 mb-8">
                 <span className="font-sans text-[14px] text-midnight">
-                  {industry} &middot; {employeeCount} employees
+                  {selectedVertical?.display_name ?? industry} &middot; {employeeCount} employees
                 </span>
                 <button
                   onClick={handleChangeContext}
@@ -368,94 +520,105 @@ function ScorePageInner() {
                 </button>
               </div>
 
-              {/* Desktop: grid with sticky ring */}
+              <h2 className="font-display text-[22px] font-bold text-midnight mb-2">
+                Platform-Wide Compliance
+              </h2>
+              <p className="font-sans text-[14px] text-steel mb-6">
+                11 requirements that apply to every California employer.
+                {hasVerticalPhase && ` You'll also answer ${verticalQuestions.length} ${selectedVertical?.display_name}-specific question${verticalQuestions.length === 1 ? "" : "s"} next.`}
+              </p>
+
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-10">
-                {/* Questions */}
                 <div className="flex flex-col gap-4">
-                  {COMPLIANCE_QUESTIONS.map((q) => {
-                    const val = answers[q.key]
-                    const isYes = val === true
-                    const isNo = val === false
-                    const helpOpen = expandedHelp === q.key
+                  {BASELINE_QUESTIONS.map((q) =>
+                    renderQuestionCard(q, baselineAnswers[q.key], (key, val) => toggleBaseline(key as BaselineKey, val))
+                  )}
 
-                    return (
-                      <div
-                        key={q.key}
-                        className={`bg-brand-white border border-midnight/[0.08] p-4 flex flex-col transition-all ${
-                          isYes
-                            ? "border-l-[3px] border-l-[#10B981]"
-                            : isNo
-                              ? "border-l-[3px] border-l-crimson"
-                              : ""
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          <p className="font-sans text-[14px] font-medium text-midnight leading-snug flex-1">
-                            {q.question}
-                          </p>
-                          <div className="flex items-center gap-3 shrink-0">
-                            {/* Help toggle */}
-                            <button
-                              onClick={() =>
-                                setExpandedHelp(helpOpen ? null : q.key)
-                              }
-                              className="text-steel hover:text-midnight transition-colors"
-                              aria-label="Toggle help"
-                            >
-                              <Question size={18} weight="bold" />
-                            </button>
-                            {/* Toggle pill */}
-                            <button
-                              onClick={() => toggleAnswer(q.key, val === true ? false : true)}
-                              className={`relative w-12 h-6 rounded-full transition-colors ${
-                                isYes
-                                  ? "bg-[#10B981]"
-                                  : isNo
-                                    ? "bg-crimson"
-                                    : "bg-ash"
-                              }`}
-                              aria-label={`Toggle ${q.key}`}
-                            >
-                              <span
-                                className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
-                                  isYes
-                                    ? "translate-x-[26px]"
-                                    : isNo
-                                      ? "translate-x-[2px]"
-                                      : "translate-x-[14px]"
-                                }`}
-                              />
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Help text */}
-                        <AnimatePresence>
-                          {helpOpen && (
-                            <motion.p
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="font-sans text-[13px] text-steel mt-2 overflow-hidden"
-                            >
-                              {q.help}
-                            </motion.p>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    )
-                  })}
-
-                  {/* Show Results CTA */}
-                  {allAnswered && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-4"
-                    >
+                  {allBaselineAnswered && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
                       <button
-                        onClick={handleShowResults}
+                        onClick={handleBaselineDone}
+                        className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[15px] uppercase tracking-[2px] w-full py-4 hover:bg-crimson/90 transition-colors"
+                      >
+                        {hasVerticalPhase ? `Next: ${selectedVertical?.display_name} Questions` : "See My Results"}
+                        <ArrowRight size={16} weight="bold" />
+                      </button>
+                    </motion.div>
+                  )}
+                </div>
+
+                <div className="hidden lg:block">
+                  <div className="sticky top-24">
+                    <div className="flex justify-center">
+                      <ScoreRing score={baselineYesCount + verticalYesCount} max={maxScore} size={160} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile score bar */}
+              <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-brand-white border-b border-midnight/[0.08] h-16 flex items-center justify-between px-6">
+                <span className="font-sans text-[13px] text-steel">Compliance Score</span>
+                <span
+                  className="font-mono text-[22px] font-bold"
+                  style={{
+                    color: baselineYesCount >= 10 ? "#10B981" : baselineYesCount >= 7 ? "#C9A84C" : "#C41230",
+                  }}
+                >
+                  {baselineYesCount}/{11}
+                </span>
+              </div>
+            </div>
+          </motion.section>
+        )}
+
+        {/* ═══════════════════════════════════════════════ */}
+        {/* PHASE 2 — VERTICAL QUESTIONS                    */}
+        {/* ═══════════════════════════════════════════════ */}
+        {step === "vertical" && (
+          <motion.section
+            key="vertical"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.35 }}
+            className="pt-32 pb-20 px-6 lg:px-8"
+          >
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center justify-between bg-parchment border border-midnight/[0.08] px-4 py-3 mb-8">
+                <span className="font-sans text-[14px] text-midnight">
+                  {selectedVertical?.display_name ?? industry} &middot; {employeeCount} employees
+                  &middot; Baseline: {baselineYesCount}/11
+                </span>
+                <button
+                  onClick={() => { setStep("baseline"); window.scrollTo({ top: 0, behavior: "smooth" }) }}
+                  className="font-sans text-[13px] text-crimson hover:text-crimson/80 transition-colors underline underline-offset-2"
+                >
+                  Back
+                </button>
+              </div>
+
+              <h2 className="font-display text-[22px] font-bold text-midnight mb-2">
+                {selectedVertical?.display_name} Requirements
+              </h2>
+              <p className="font-sans text-[14px] text-steel mb-6">
+                {verticalQuestions.length} additional requirement{verticalQuestions.length === 1 ? "" : "s"} specific to your industry.
+              </p>
+
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-10">
+                <div className="flex flex-col gap-4">
+                  {verticalQuestions.map((q) =>
+                    renderQuestionCard(
+                      { key: q.key, question: q.question, help: q.help },
+                      verticalAnswers[q.key] ?? null,
+                      (key, val) => toggleVertical(key, val)
+                    )
+                  )}
+
+                  {allVerticalAnswered && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
+                      <button
+                        onClick={handleVerticalDone}
                         className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[15px] uppercase tracking-[2px] w-full py-4 hover:bg-crimson/90 transition-colors"
                       >
                         See My Results
@@ -465,41 +628,20 @@ function ScorePageInner() {
                   )}
                 </div>
 
-                {/* Score Ring — sticky on desktop */}
                 <div className="hidden lg:block">
                   <div className="sticky top-24">
                     <div className="flex justify-center">
-                      <ScoreRing score={partialScore} size={160} />
+                      <ScoreRing score={baselineYesCount + verticalYesCount} max={maxScore} size={160} />
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Mobile: compact fixed bar */}
-              <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-brand-white border-b border-midnight/[0.08] h-16 flex items-center justify-between px-6">
-                <span className="font-sans text-[13px] text-steel">
-                  Compliance Score
-                </span>
-                <span
-                  className="font-mono text-[22px] font-bold"
-                  style={{
-                    color:
-                      partialScore === 6
-                        ? "#10B981"
-                        : partialScore >= 4
-                          ? "#C9A84C"
-                          : "#C41230",
-                  }}
-                >
-                  {partialScore}/6
-                </span>
               </div>
             </div>
           </motion.section>
         )}
 
         {/* ═══════════════════════════════════════════════ */}
-        {/* SECTION 4-7 — RESULTS                          */}
+        {/* RESULTS                                         */}
         {/* ═══════════════════════════════════════════════ */}
         {step === "results" && result && (
           <motion.section
@@ -511,7 +653,7 @@ function ScorePageInner() {
             className="pt-32 pb-20 px-6 lg:px-8"
           >
             <div className="max-w-3xl mx-auto">
-              {/* ─── Score Result Card ─── */}
+              {/* Score Result Card */}
               <div
                 className={`p-6 ${
                   result.tier === "green"
@@ -525,6 +667,7 @@ function ScorePageInner() {
                   <div className="flex justify-center">
                     <ScoreRing
                       score={result.score}
+                      max={result.max_score}
                       size={160}
                       fineExposure={
                         result.gaps.length > 0
@@ -536,26 +679,20 @@ function ScorePageInner() {
                   <div className="flex-1">
                     {result.tier === "green" && (
                       <>
-                        <h2 className="font-display text-[28px] font-bold text-[#10B981]">
-                          Fully Compliant
-                        </h2>
+                        <h2 className="font-display text-[28px] font-bold text-[#10B981]">Fully Compliant</h2>
                         <p className="font-sans text-[15px] text-steel leading-relaxed mt-2">
-                          You passed all six checks. Your compliance posture is
-                          strong. Stay current with annual refreshes and
-                          regulatory monitoring to maintain your position.
+                          You passed all {result.max_score} checks. Your compliance posture is
+                          strong. Stay current with annual refreshes and regulatory monitoring.
                         </p>
                       </>
                     )}
                     {result.tier === "yellow" && (
                       <>
-                        <h2 className="font-display text-[28px] font-bold text-[#C9A84C]">
-                          Gaps Detected
-                        </h2>
+                        <h2 className="font-display text-[28px] font-bold text-[#C9A84C]">Gaps Detected</h2>
                         <p className="font-sans text-[15px] text-steel leading-relaxed mt-2">
                           You have {result.gaps.length} compliance{" "}
                           {result.gaps.length === 1 ? "gap" : "gaps"} that could
-                          result in citations. Each gap is a separate violation
-                          with its own fine schedule.
+                          result in citations. Each gap is a separate violation with its own fine.
                         </p>
                       </>
                     )}
@@ -566,9 +703,7 @@ function ScorePageInner() {
                         </h2>
                         <p className="font-sans text-[15px] text-steel leading-relaxed mt-2">
                           Your business has significant compliance exposure.{" "}
-                          {result.gaps.length} open gaps mean multiple citable
-                          violations if inspected. Immediate action is
-                          recommended.
+                          {result.gaps.length} open gaps mean multiple citable violations if inspected.
                         </p>
                       </>
                     )}
@@ -576,7 +711,7 @@ function ScorePageInner() {
                 </div>
               </div>
 
-              {/* ─── Gap Analysis Cards ─── */}
+              {/* Gap Analysis Cards */}
               {result.gaps.length > 0 && (
                 <div className="mt-10">
                   <h3 className="font-display text-[18px] font-semibold text-midnight mb-4">
@@ -586,160 +721,102 @@ function ScorePageInner() {
                 </div>
               )}
 
-              {/* ─── Fine Exposure Summary ─── */}
+              {/* Fine Exposure Summary */}
               {result.gaps.length > 0 && (
-                <div
-                  className={`mt-10 p-6 border ${
-                    result.tier === "yellow"
-                      ? "border-[#C9A84C]/30"
-                      : "border-crimson/30"
-                  }`}
-                >
-                  <p className="font-sans text-[13px] text-steel mb-1">
-                    Total estimated fine exposure
-                  </p>
+                <div className={`mt-10 p-6 border ${result.tier === "yellow" ? "border-[#C9A84C]/30" : "border-crimson/30"}`}>
+                  <p className="font-sans text-[13px] text-steel mb-1">Total estimated fine exposure</p>
                   <p className="font-mono text-[32px] font-bold text-crimson">
-                    {formatCurrency(result.fine_low)}&ndash;
-                    {formatCurrency(result.fine_high)}
+                    {formatCurrency(result.fine_low)}&ndash;{formatCurrency(result.fine_high)}
                   </p>
 
-                  {/* Cost comparison bars */}
                   <div className="mt-6 space-y-3">
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-sans text-[13px] text-steel">
-                          Cal/OSHA fine exposure
-                        </span>
-                        <span className="font-mono text-[13px] text-crimson font-semibold">
-                          {formatCurrency(result.fine_high)}
-                        </span>
+                        <span className="font-sans text-[13px] text-steel">Cal/OSHA fine exposure</span>
+                        <span className="font-mono text-[13px] text-crimson font-semibold">{formatCurrency(result.fine_high)}</span>
                       </div>
-                      <div className="h-3 bg-crimson/20 w-full">
-                        <div className="h-full bg-crimson w-full" />
-                      </div>
+                      <div className="h-3 bg-crimson/20 w-full"><div className="h-full bg-crimson w-full" /></div>
                     </div>
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-sans text-[13px] text-steel">
-                          PROTEKON annual cost
-                        </span>
-                        <span className="font-mono text-[13px] text-[#10B981] font-semibold">
-                          $7,164/yr
-                        </span>
+                        <span className="font-sans text-[13px] text-steel">PROTEKON annual cost</span>
+                        <span className="font-mono text-[13px] text-[#10B981] font-semibold">$7,164/yr</span>
                       </div>
                       <div className="h-3 bg-[#10B981]/20 w-full">
-                        <div
-                          className="h-full bg-[#10B981]"
-                          style={{
-                            width: `${Math.min(
-                              100,
-                              (7164 / result.fine_high) * 100
-                            )}%`,
-                          }}
-                        />
+                        <div className="h-full bg-[#10B981]" style={{ width: `${Math.min(100, (7164 / result.fine_high) * 100)}%` }} />
                       </div>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* ─── Industry Benchmark ─── */}
-              <div className="bg-parchment p-5 mt-10">
-                <p className="font-sans text-[14px] text-midnight leading-relaxed">
-                  Based on Cal/OSHA enforcement data,{" "}
-                  <strong className="font-semibold">
-                    only {benchmarkPct}% of {industry.toLowerCase()} businesses
-                  </strong>{" "}
-                  in California can produce a complete compliance package on
-                  demand. The rest are operating with at least one citable gap.
-                </p>
-              </div>
+              {/* Real Enforcement Data Benchmark */}
+              {benchmark && (
+                <div className="bg-parchment p-5 mt-10">
+                  <p className="font-sans text-[14px] text-midnight leading-relaxed">
+                    Your score is measured against{" "}
+                    <strong className="font-semibold text-crimson">{formatNumber(benchmark.national_violations)}</strong>{" "}
+                    real {benchmark.display_name.toLowerCase()} violations and{" "}
+                    <strong className="font-semibold text-crimson">{formatCurrency(benchmark.national_penalties_usd)}</strong>{" "}
+                    in real penalties.{" "}
+                    <strong className="font-semibold">{benchmark.serious_pct}%</strong> of violations in your industry
+                    are classified as serious — each carrying penalties of $18,000+.
+                  </p>
+                </div>
+              )}
 
-              {/* ─── Cost Comparison Table ─── */}
+              {/* Cost Comparison Table */}
               {result.gaps.length > 0 && (
                 <div className="mt-10 overflow-x-auto">
                   <table className="w-full border border-midnight/[0.08]">
                     <thead>
                       <tr className="bg-parchment">
-                        <th className="text-left font-display text-[13px] font-semibold text-midnight p-3 border-b border-midnight/[0.08]">
-                          Compliance Area
-                        </th>
-                        <th className="text-right font-display text-[13px] font-semibold text-midnight p-3 border-b border-midnight/[0.08]">
-                          Cal/OSHA Fine
-                        </th>
-                        <th className="text-right font-display text-[13px] font-semibold text-midnight p-3 border-b border-midnight/[0.08]">
-                          PROTEKON Cost
-                        </th>
+                        <th className="text-left font-display text-[13px] font-semibold text-midnight p-3 border-b border-midnight/[0.08]">Compliance Area</th>
+                        <th className="text-right font-display text-[13px] font-semibold text-midnight p-3 border-b border-midnight/[0.08]">Cal/OSHA Fine</th>
+                        <th className="text-right font-display text-[13px] font-semibold text-midnight p-3 border-b border-midnight/[0.08]">PROTEKON Cost</th>
                       </tr>
                     </thead>
                     <tbody>
                       {result.gaps.map((gap) => (
-                        <tr
-                          key={gap.key}
-                          className="border-b border-midnight/[0.06]"
-                        >
-                          <td className="font-sans text-[14px] text-midnight p-3">
-                            {gap.label}
-                          </td>
-                          <td className="font-mono text-[14px] text-crimson text-right p-3">
-                            {formatCurrency(gap.citation_amount)}
-                          </td>
-                          <td className="font-mono text-[14px] text-[#10B981] text-right p-3">
-                            Included
-                          </td>
+                        <tr key={gap.key} className="border-b border-midnight/[0.06]">
+                          <td className="font-sans text-[14px] text-midnight p-3">{gap.label}</td>
+                          <td className="font-mono text-[14px] text-crimson text-right p-3">{formatCurrency(gap.citation_amount)}</td>
+                          <td className="font-mono text-[14px] text-[#10B981] text-right p-3">Included</td>
                         </tr>
                       ))}
                       <tr className="bg-parchment/50">
-                        <td className="font-display text-[14px] font-semibold text-midnight p-3">
-                          Total
-                        </td>
-                        <td className="font-mono text-[14px] font-bold text-crimson text-right p-3">
-                          {formatCurrency(result.fine_high)}
-                        </td>
-                        <td className="font-mono text-[14px] font-bold text-[#10B981] text-right p-3">
-                          $597/mo
-                        </td>
+                        <td className="font-display text-[14px] font-semibold text-midnight p-3">Total</td>
+                        <td className="font-mono text-[14px] font-bold text-crimson text-right p-3">{formatCurrency(result.fine_high)}</td>
+                        <td className="font-mono text-[14px] font-bold text-[#10B981] text-right p-3">$597/mo</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
               )}
 
-              {/* ─── Section 5: PDF Gate ─── */}
+              {/* PDF Gate */}
               <PdfGateForm leadId={leadId} onCapture={handlePdfCapture} />
 
-              {/* ─── Section 6: Post-Download CTAs ─── */}
+              {/* Post-Download CTAs */}
               <div className="mt-16">
                 <h2 className="font-display text-[32px] font-bold text-midnight mb-6">
                   Ready to close these gaps in 48 hours?
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {/* Primary */}
-                  <Link
-                    href="/contact"
-                    className="flex flex-col items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:bg-crimson/90 transition-colors"
-                  >
+                  <Link href="/contact" className="flex flex-col items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:bg-crimson/90 transition-colors">
                     Start My Intake
                     <ArrowRight size={16} weight="bold" />
                   </Link>
-                  {/* Secondary */}
-                  <Link
-                    href="/sample-reports"
-                    className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors"
-                  >
+                  <Link href="/sample-reports" className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors">
                     See a Sample Plan
                   </Link>
-                  {/* Tertiary */}
-                  <a
-                    href="#"
-                    className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors"
-                  >
+                  <a href="#" className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors">
                     Book a 15-Minute Call
                   </a>
                 </div>
               </div>
 
-              {/* ─── Section 7: Retake + Legal ─── */}
+              {/* Retake + Legal */}
               <div className="mt-16 flex flex-col items-center">
                 <button
                   onClick={handleRetake}
@@ -749,13 +826,12 @@ function ScorePageInner() {
                   Retake Assessment
                 </button>
                 <p className="font-sans text-[13px] text-steel/60 text-center max-w-[640px] mx-auto mt-6">
-                  This assessment is for informational purposes only and does
-                  not constitute legal advice. Results are based on
-                  self-reported answers and publicly available Cal/OSHA
-                  enforcement data. Fine estimates represent average citation
-                  amounts and actual penalties may vary. Consult a qualified
-                  compliance professional for specific guidance. PROTEKON is not
-                  a law firm.
+                  This assessment is for informational purposes only and does not constitute legal advice.
+                  Results are based on self-reported answers and{" "}
+                  {benchmark ? formatNumber(benchmark.national_violations) : "435,000+"} real Cal/OSHA
+                  enforcement records. Fine estimates represent actual citation amounts per standard and
+                  actual penalties may vary. Consult a qualified compliance professional for specific guidance.
+                  PROTEKON is not a law firm.
                 </p>
               </div>
             </div>
