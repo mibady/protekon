@@ -1198,3 +1198,59 @@ User asked about lead funnels during session. Findings:
 
 ### Git
 - 1 commit: `fa4c9f6` (document RAG indexing)
+
+## Session 22 — 2026-04-13
+
+### Completed
+- **NGE-407: Three-phase compliance score rewrite**
+  - 11 baseline questions (5 new: IIPP, IIPP review, EAP, HazCom, OSHA 300) + vertical-specific questions
+  - 27 verticals from DB replace hardcoded 10-industry dropdowns
+  - Per-gap fines with real citation amounts replace flat $25K
+  - Score display X/maxScore with ratio-based tiers
+  - Results show real enforcement data (violations, penalties, serious %) per vertical
+- **PDF report aligned** — 11 baseline + vertical gaps, X/maxScore, "Cal/OSHA + Federal"
+- **Drip emails aligned** — dynamic max_score, removed "SB 553" qualifier
+- **Code-level audit (56 findings → 0)**
+  - 5 hardcoded industry lists → fetch from verticals table
+  - Fabricated testimonials → anonymized with role-based attribution
+  - Settings forms: confirmed all functional (false positive)
+- **Server-side audit (132/146 → 135/146)**
+  - CRITICAL: contact_submissions RLS INSERT policy added (migration 018)
+  - Security headers: X-Content-Type-Options, X-Frame-Options, Referrer-Policy
+  - Dashboard page titles: dynamic document.title per route
+  - Remaining findings: all by-design or auditor assumptions
+- **Dead link audit** — confirmed zero broken internal links
+
+### Audit Snapshot
+- Pages: 68
+- API routes: 19 (18 api + 1 auth callback)
+- Server actions: 32 files
+- Components: 84
+- Inngest functions: 17 files (19 exports)
+- RAG modules: 4 files
+- Migrations: 18
+- Tests: 60
+- Build: PASS (Vercel ● Ready)
+
+### Decisions Made
+- NGE-372 (CSLB scraper) confirmed out of scope — belongs in cli-ai-scraper
+- OpenAI text-embedding-3-small for RAG embeddings (AI SDK native, cost-effective)
+- regulatory_updates anon SELECT is by design (public feed page)
+- /partner is auth portal (correct), /partners is public marketing (correct)
+- Supabase project ref is yfkledwhwsembikpjynu (not wfcnqiczsfzxopmlofsq)
+
+### Known Issues
+- RAG not active — needs Upstash Vector index + 3 env vars (UPSTASH_VECTOR_REST_URL, UPSTASH_VECTOR_REST_TOKEN, OPENAI_API_KEY)
+- Run `npx tsx scripts/index-knowledge.ts` to seed vectors after env vars set
+- Stripe test keys need swapping to production for launch
+
+### Next Session Should
+- Create Upstash Vector index (1536d, cosine) and set env vars
+- Run indexing script to seed ~276 vectors
+- Swap Stripe test → production keys
+- Visual QA pass on score funnel (27 verticals, vertical questions flow)
+- Visual QA on industries page (real enforcement data)
+
+### Git
+- 8 commits pushed: `6b54736` through `5e02a19`
+- Production deployment: ● Ready on Vercel
