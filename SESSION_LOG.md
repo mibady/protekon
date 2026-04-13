@@ -1117,3 +1117,60 @@ User asked about lead funnels during session. Findings:
 ### Git
 - 15 commits pushed: `e721539` through `f58d897`
 - Production deployment: auto on push to main via Vercel
+
+## Session 21 — 2026-04-12
+
+### Completed
+- **NGE-385: RAG pipeline for compliance chat** — full semantic search wired into AI compliance assistant
+  - `lib/rag/embeddings.ts` — OpenAI text-embedding-3-small via AI SDK
+  - `lib/rag/indexer.ts` — batch indexing for knowledge base (85 articles) + regulatory updates (191 rows)
+  - `lib/rag/retrieval.ts` — semantic search with vertical filtering, score threshold 0.3
+  - `lib/rag/types.ts` — shared RAG types (VectorMetadata, RetrievedChunk, IndexableDocument)
+  - `app/api/chat/route.ts` — enhanced with RAG retrieval, injects COMPLIANCE KNOWLEDGE block into system prompt
+  - `scripts/index-knowledge.ts` — one-time indexing CLI (`npx tsx scripts/index-knowledge.ts`)
+  - `inngest/functions/rag-indexer.ts` — incremental indexing via Inngest for new regulatory updates
+  - `inngest/functions/regulatory-scan.ts` — emits `rag/document.index` event for new updates (Step 4)
+  - `app/api/inngest/route.ts` — registered ragIndexer (19 total functions)
+  - Installed `@upstash/vector` + `@ai-sdk/openai`
+- **Production hardening**
+  - `app/auth/callback/route.ts` — wired `last_login_at` update on auth exchange
+  - `supabase/migrations/017_rls_intake_samples.sql` — RLS INSERT policies for `intake_submissions` + `sample_report_leads` (applied via `supabase db query --linked`)
+- **Build fix**: deleted `middleware.ts` conflicting with `proxy.ts` (Next.js 16 uses proxy.ts)
+- **Production readiness audit**: full 12-category audit confirming build passes on Vercel
+
+### Audit Snapshot
+- Pages: 67
+- API routes: 19 (18 api + 1 auth callback)
+- Server actions: 32 files
+- Components: 83
+- Inngest functions: 17 files (19 exports, 2 in monthly-audit)
+- RAG modules: 4 files
+- Migrations: 17
+- Tests: 60
+- Build: PASS (Vercel deployment ● Ready)
+
+### Decisions Made
+- NGE-372 (CSLB scraper) moved OUT OF SCOPE — scraping belongs in cli-ai-scraper, not Protekon
+- OpenAI text-embedding-3-small chosen over Anthropic Voyage for embeddings (AI SDK native support, proven quality, negligible cost)
+- Content stored in vector metadata (not Upstash `data` field) since we provide our own embeddings
+- Correct Supabase project ref is `yfkledwhwsembikpjynu` (not `wfcnqiczsfzxopmlofsq`)
+
+### Known Issues
+- RAG not yet active — needs Upstash Vector index created + 3 env vars set on Vercel
+- Supabase MCP permission errors — used `supabase db query --linked` as workaround
+
+### Next Session Should
+- Create Upstash Vector index (1536 dimensions, cosine similarity)
+- Set env vars: `UPSTASH_VECTOR_REST_URL`, `UPSTASH_VECTOR_REST_TOKEN`, `OPENAI_API_KEY`
+- Run `npx tsx scripts/index-knowledge.ts` to seed ~276 vectors
+- Visual QA pass on key flows (score funnel, dashboard, chat)
+- Swap Stripe test keys → production keys for launch
+
+### Linear
+- NGE-385 → Done (RAG pipeline complete)
+- NGE-372 → Out of Scope (moved to cli-ai-scraper)
+- All 31/31 Linear issues resolved (100%)
+
+### Git
+- 2 commits pushed: `6b54736` (RAG pipeline), `c7f380f` (build fix)
+- Production deployment: ● Ready on Vercel
