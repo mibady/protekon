@@ -3,6 +3,8 @@ import { client } from "@/lib/sanity/client"
 import { featuredResourcesQuery, latestArticlesQuery } from "@/lib/sanity/queries"
 import ResourcesClient from "./resources-client"
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: "Compliance Resources & Guides | PROTEKON",
   description: "Free California compliance guides, SB 553 templates, Cal/OSHA checklists, and IIPP resources for small and mid-sized businesses.",

@@ -1,3 +1,5 @@
+export const revalidate = 60
+
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -6,6 +8,7 @@ import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import { client } from '@/lib/sanity/client'
 import { blogPostBySlugQuery } from '@/lib/sanity/queries'
+import RelatedPosts from '@/components/blog/related-posts'
 import { urlFor } from '@/lib/sanity/image'
 import { PortableText } from '@/lib/sanity/portable-text'
 import { format } from 'date-fns'
@@ -100,6 +103,13 @@ export default async function BlogPostPage({ params }: Props) {
               <PortableText value={post.body} />
             </article>
           )}
+
+          {/* Related Posts */}
+          <RelatedPosts
+            currentId={post._id}
+            domain={post.regulatoryDomain}
+            categoryIds={post.categories?.map((c: any) => c._id) || []}
+          />
         </div>
       </main>
       <Footer />

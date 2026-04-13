@@ -1,0 +1,51 @@
+{
+  "project": "protekon",
+  "created": "2026-04-12",
+  "source": "cli-content work packages via cli-marketing orchestration",
+  "status": "work_packages_created",
+  "next_step": "produce_content for each ID, then import to Sanity",
+  "tiers": {
+    "pillar": { "count": 8, "ids": [108, 109, 110, 111, 112, 113, 114, 115], "type": "blogPost" },
+    "domain_deep_dives": { "count": 7, "ids": [116, 117, 118, 119, 120, 121, 122], "type": "blogPost" },
+    "vertical_compliance_guides": { "count": 27, "ids": [123, 125, 127, 129, 131, 133, 135, 137, 139, 141, 143, 145, 147, 149, 151, 153, 155, 157, 159, 161, 163, 165, 167, 169, 171, 173, 175], "type": "blogPost" },
+    "vertical_enforcement_briefings": { "count": 27, "ids": [124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176], "type": "blogPost" },
+    "extras_deep_dives": { "count": 17, "ids": [177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193], "type": "blogPost" },
+    "state_guides": { "count": 10, "ids": [194, 195, 196, 197, 198, 199, 200, 201, 202, 203], "type": "blogPost" },
+    "comparisons": { "count": 5, "ids": [204, 205, 206, 207, 208], "type": "blogPost" },
+    "keyword_clusters": { "count": 15, "ids": [209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223], "type": "blogPost" },
+    "resources_guides": { "count": 6, "ids": [224, 225, 226, 227, 228, 229], "type": "resource", "resourceType": "guide" },
+    "resources_checklists": { "count": 6, "ids": [230, 231, 232, 233, 234, 235], "type": "resource", "resourceType": "checklist" },
+    "resources_templates": { "count": 5, "ids": [236, 237, 238, 239, 240], "type": "resource", "resourceType": "template" },
+    "resources_whitepapers": { "count": 5, "ids": [241, 242, 243, 244, 245], "type": "resource", "resourceType": "whitepaper" },
+    "resources_playbooks": { "count": 8, "ids": [246, 247, 248, 249, 250, 251, 252, 253], "type": "resource", "resourceType": "playbook" },
+    "resources_briefings": { "count": 5, "ids": [254, 255, 256, 257, 258], "type": "resource", "resourceType": "briefing" }
+  },
+  "faqs": {
+    "sb553": { "count": 6, "ids": [259, 260, 261, 262, 263, 264], "type": "faq" },
+    "cal_osha": { "count": 6, "ids": [265, 266, 267, 268, 269, 270], "type": "faq" },
+    "federal_osha": { "count": 4, "ids": [271, 272, 273, 274], "type": "faq" },
+    "hipaa": { "count": 4, "ids": [275, 276, 277, 278], "type": "faq" },
+    "training": { "count": 4, "ids": [279, 280, 281, 282], "type": "faq" },
+    "incidents": { "count": 4, "ids": [283, 284, 285, 286], "type": "faq" },
+    "enforcement": { "count": 4, "ids": [287, 288, 289, 290], "type": "faq" },
+    "wvpp": { "count": 4, "ids": [291, 292, 293, 294], "type": "faq" },
+    "general": { "count": 4, "ids": [295, 296, 297, 298], "type": "faq" }
+  },
+  "regulatory_updates": { "count": 12, "ids": [299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310], "type": "regulatoryUpdate" },
+  "help_articles": {
+    "getting_started": { "count": 3, "ids": [311, 312, 313], "type": "helpArticle" },
+    "compliance_plans": { "count": 3, "ids": [314, 315, 316], "type": "helpArticle" },
+    "training": { "count": 3, "ids": [317, 318, 319], "type": "helpArticle" },
+    "incidents": { "count": 3, "ids": [320, 321, 322], "type": "helpArticle" },
+    "documents": { "count": 3, "ids": [323, 324, 325], "type": "helpArticle" }
+  },
+  "totals": {
+    "blog_posts": 116,
+    "resources": 35,
+    "faqs": 40,
+    "regulatory_updates": 12,
+    "help_articles": 15,
+    "grand_total": 218,
+    "cli_content_id_range": "108-325"
+  }
+}
