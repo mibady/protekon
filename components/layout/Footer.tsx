@@ -24,6 +24,7 @@ const footerLinks = {
   resources: {
     title: "RESOURCES",
     links: [
+      { name: "Blog", href: "/blog" },
       { name: "Resources", href: "/resources" },
       { name: "Compliance Calculator", href: "/calculator" },
       { name: "Sample Reports", href: "/samples" },
