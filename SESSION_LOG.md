@@ -1174,3 +1174,27 @@ User asked about lead funnels during session. Findings:
 ### Git
 - 2 commits pushed: `6b54736` (RAG pipeline), `c7f380f` (build fix)
 - Production deployment: ● Ready on Vercel
+
+## Session 21b — 2026-04-12
+
+### Completed
+- Wired document generation pipeline into RAG vector store
+  - `inngest/functions/document-generation.ts` — added Step 5: serialize AI-generated content and emit `rag/document.index` event
+  - Client-generated documents (IIPPs, SB 553 plans, etc.) now searchable in compliance chat
+- Confirmed Vercel deployment passing after middleware.ts removal
+
+### Decisions Made
+- Store document text in vector store via existing ragIndexer — no new DB column needed
+- Guard for null aiContent (AI generation can fail, falls back to static templates)
+
+### Known Issues
+- None
+
+### Next Session Should
+- Create Upstash Vector index (1536d, cosine) + set env vars
+- Run `npx tsx scripts/index-knowledge.ts` to seed vectors
+- Visual QA on chat with RAG active
+- Swap Stripe test → production keys for launch
+
+### Git
+- 1 commit: `fa4c9f6` (document RAG indexing)
