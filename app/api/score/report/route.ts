@@ -19,7 +19,13 @@ const BRAND = {
   yellow: rgb(0.79, 0.54, 0.02),
 }
 
+// All 11 baseline requirements — matches lib/score-calculator.ts
 const ALL_REQUIREMENTS = [
+  { key: "has_iipp", label: "Written Injury & Illness Prevention Program (IIPP)", citation: "T8 CCR §3203", fine: 18000 },
+  { key: "iipp_current", label: "IIPP Reviewed in Last 12 Months", citation: "T8 CCR §3203(a)(1)", fine: 7000 },
+  { key: "has_eap", label: "Written Emergency Action Plan", citation: "29 CFR 1910.38", fine: 16131 },
+  { key: "has_hazcom", label: "HazCom Program with Accessible SDSs", citation: "29 CFR 1910.1200", fine: 16131 },
+  { key: "osha_300_current", label: "OSHA 300/300A Records Current & Posted", citation: "29 CFR 1904", fine: 16131 },
   { key: "has_wvpp", label: "Written Workplace Violence Prevention Plan (WVPP)", citation: "Cal. Labor Code §6401.9(b)", fine: 25000 },
   { key: "wvpp_site_specific", label: "Site-Specific WVPP", citation: "Cal. Labor Code §6401.9(b)(1)", fine: 25000 },
   { key: "has_incident_log", label: "Violent Incident Log", citation: "Cal. Labor Code §6401.9(d)", fine: 25000 },
@@ -92,6 +98,7 @@ async function generateScoreReportPDF(row: {
   industry: string
   employee_count: string
   score: number
+  max_score: number
   score_tier: string
   gaps: ScoreGap[]
   estimated_fine_low: number
@@ -156,16 +163,17 @@ async function generateScoreReportPDF(row: {
   y -= 12
 
   // Score display
-  y = drawSectionHeader(page1, fontBold, "SB 553 Compliance Score", y)
+  y = drawSectionHeader(page1, fontBold, "Compliance Score", y)
 
   const tierColor =
     row.score_tier === "green" ? BRAND.green
       : row.score_tier === "yellow" ? BRAND.yellow
         : BRAND.crimson
 
+  const ratio = row.max_score > 0 ? row.score / row.max_score : 0
   const tierLabel =
-    row.score === 6 ? "COMPLIANT"
-      : row.score >= 4 ? "AT RISK"
+    ratio >= 0.9 ? "COMPLIANT"
+      : ratio >= 0.6 ? "AT RISK"
         : "NON-COMPLIANT"
 
   // Score box
@@ -176,7 +184,7 @@ async function generateScoreReportPDF(row: {
     height: 50,
     color: BRAND.parchment,
   })
-  page1.drawText(`${row.score} / 6`, {
+  page1.drawText(`${row.score} / ${row.max_score}`, {
     x: MARGIN + 20,
     y: y - 8,
     size: 30,
@@ -190,7 +198,7 @@ async function generateScoreReportPDF(row: {
     font: fontBold,
     color: tierColor,
   })
-  page1.drawText("SB 553 Requirements Met", {
+  page1.drawText("Cal/OSHA + Federal Requirements Met", {
     x: MARGIN + 130,
     y: y - 20,
     size: 9,
@@ -212,13 +220,25 @@ async function generateScoreReportPDF(row: {
   page1.drawText("Fine", { x: colX.fine, y: y + 2, size: 8, font: fontBold, color: BRAND.midnight })
   y -= 18
 
-  for (const req of ALL_REQUIREMENTS) {
+  // Combine baseline requirements with any vertical-specific gaps
+  const allRows = [
+    ...ALL_REQUIREMENTS,
+    ...row.gaps
+      .filter((g) => g.phase === "vertical")
+      .map((g) => ({ key: g.key, label: g.label, citation: g.citation, fine: g.fine })),
+  ]
+
+  for (const req of allRows) {
+    if (y < 80) break // Prevent overflow
     const isGap = gapKeys.has(req.key)
     const statusSymbol = isGap ? "\u2717" : "\u2713"
     const statusColor = isGap ? BRAND.crimson : BRAND.green
 
     page1.drawText(statusSymbol, { x: colX.status + 8, y, size: 12, font: fontBold, color: statusColor })
-    page1.drawText(req.label, { x: colX.requirement, y, size: 9, font, color: BRAND.midnight })
+
+    // Truncate long labels to fit
+    const label = req.label.length > 45 ? req.label.slice(0, 42) + "..." : req.label
+    page1.drawText(label, { x: colX.requirement, y, size: 9, font, color: BRAND.midnight })
     page1.drawText(req.citation, { x: colX.citation, y, size: 8, font, color: BRAND.steel })
     page1.drawText(isGap ? `$${req.fine.toLocaleString("en-US")}` : "$0", {
       x: colX.fine,
@@ -229,7 +249,6 @@ async function generateScoreReportPDF(row: {
     })
 
     y -= 16
-    // Separator line
     page1.drawRectangle({ x: MARGIN, y: y + 10, width: CONTENT_WIDTH, height: 0.5, color: BRAND.parchment })
   }
 
@@ -312,7 +331,7 @@ async function generateScoreReportPDF(row: {
     }
   } else {
     y = drawSectionHeader(page2, fontBold, "Status", y)
-    page2.drawText("All SB 553 requirements met. No remediation needed.", {
+    page2.drawText("All compliance requirements met. No remediation needed.", {
       x: MARGIN,
       y,
       size: 11,
@@ -423,6 +442,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       industry: row.industry,
       employee_count: row.employee_count,
       score: row.score,
+      max_score: row.max_score ?? 11,
       score_tier: row.score_tier,
       gaps: (row.gaps ?? []) as ScoreGap[],
       estimated_fine_low: row.estimated_fine_low,

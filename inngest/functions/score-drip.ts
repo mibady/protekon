@@ -12,6 +12,7 @@ export const scoreDrip = inngest.createFunction(
       email,
       name,
       score,
+      max_score = 11,
       gaps,
       industry,
       fine_low,
@@ -35,7 +36,7 @@ export const scoreDrip = inngest.createFunction(
       await sendEmail({
         to: email,
         subject: "Your compliance gaps are still open",
-        html: buildEmail1(name, score, gaps, industry, fine_low, fine_high, lead_id),
+        html: buildEmail1(name, score, max_score, gaps, industry, fine_low, fine_high, lead_id),
       })
       await supabase
         .from("compliance_score_leads")
@@ -79,7 +80,7 @@ export const scoreDrip = inngest.createFunction(
       await sendEmail({
         to: email,
         subject: `Close ${gaps.length} compliance gap${gaps.length !== 1 ? "s" : ""} in 48 hours`,
-        html: buildEmail3(name, score, gaps, industry, fine_low, fine_high, lead_id),
+        html: buildEmail3(name, score, max_score, gaps, industry, fine_low, fine_high, lead_id),
       })
       await supabase
         .from("compliance_score_leads")
@@ -146,6 +147,7 @@ function getTopGap(gaps: Gap[]): Gap | null {
 function buildEmail1(
   name: string,
   score: number,
+  max_score: number,
   gaps: Gap[],
   industry: string,
   fine_low: number,
@@ -167,7 +169,7 @@ function buildEmail1(
   Hi ${name},
 </p>
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  Yesterday you scored <strong style="font-size:18px;color:${score <= 2 ? "#dc2626" : score <= 4 ? "#ca8a04" : "#16a34a"};">${score}/6</strong> on your SB 553 compliance assessment. That means ${gaps.length} open gap${gaps.length !== 1 ? "s" : ""} that a Cal/OSHA inspector would cite on a walkthrough.
+  Yesterday you scored <strong style="font-size:18px;color:${score / max_score < 0.6 ? "#dc2626" : score / max_score < 0.9 ? "#ca8a04" : "#16a34a"};">${score}/${max_score}</strong> on your compliance assessment. That means ${gaps.length} open gap${gaps.length !== 1 ? "s" : ""} that a Cal/OSHA inspector would cite on a walkthrough.
 </p>
 
 ${topGapBlock}
@@ -233,6 +235,7 @@ ${ctaButton("Start Intake &rarr;", `${appUrl}/contact`)}
 function buildEmail3(
   name: string,
   score: number,
+  max_score: number,
   gaps: Gap[],
   industry: string,
   fine_low: number,
@@ -249,7 +252,7 @@ function buildEmail3(
   const content = `
 <h1 style="font-size:22px;color:#18181b;margin:16px 0 8px;">${name}, close ${gaps.length} gap${gaps.length !== 1 ? "s" : ""} in 48 hours.</h1>
 <p style="font-size:15px;color:#3f3f46;line-height:1.7;">
-  A week ago, you scored <strong>${score}/6</strong> on your SB 553 compliance assessment. Those gaps are still open:
+  A week ago, you scored <strong>${score}/${max_score}</strong> on your compliance assessment. Those gaps are still open:
 </p>
 
 <ul style="font-size:14px;color:#3f3f46;line-height:1.8;padding-left:20px;">

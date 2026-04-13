@@ -130,7 +130,7 @@ async function handleCapture(body: unknown): Promise<NextResponse> {
   const supabase = await createClient()
   const { data: row } = await supabase
     .from("compliance_score_leads")
-    .select("score, score_tier, gaps, industry, estimated_fine_low, estimated_fine_high, partner_ref")
+    .select("score, max_score, score_tier, gaps, industry, estimated_fine_low, estimated_fine_high, partner_ref")
     .eq("id", lead_id)
     .single()
 
@@ -143,6 +143,7 @@ async function handleCapture(body: unknown): Promise<NextResponse> {
         email,
         name: business_name,
         score: row.score,
+        max_score: row.max_score ?? 11,
         score_tier: row.score_tier,
         gaps: gaps.map((g) => ({
           key: g.key,
@@ -195,6 +196,7 @@ async function handleLegacy(body: unknown): Promise<NextResponse> {
       email: lead.email,
       name: lead.name,
       score: result.score,
+      max_score: result.max_score,
       score_tier: result.tier,
       gaps: result.gaps.map((g) => ({
         key: g.key,
