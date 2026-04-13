@@ -309,11 +309,34 @@ function ScorePageInner() {
 
   const selectedVertical = verticals.find((v) => v.slug === industry)
 
+  /* ─── Progress bar component ─── */
+  function renderProgress(answered: number, total: number) {
+    const pct = Math.round((answered / total) * 100)
+    return (
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-sans text-[13px] text-steel">{answered} of {total} answered</span>
+          <span className="font-sans text-[13px] font-medium text-midnight">{pct}%</span>
+        </div>
+        <div className="h-1.5 bg-ash/60 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full rounded-full"
+            style={{ background: pct === 100 ? "#10B981" : "#C41230" }}
+            initial={{ width: 0 }}
+            animate={{ width: `${pct}%` }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          />
+        </div>
+      </div>
+    )
+  }
+
   /* ─── Shared question card renderer ─── */
   function renderQuestionCard(
     q: { key: string; question: string; help?: string },
     val: boolean | null,
-    toggle: (key: string, value: boolean) => void
+    toggle: (key: string, value: boolean) => void,
+    index: number
   ) {
     const isYes = val === true
     const isNo = val === false
@@ -321,52 +344,73 @@ function ScorePageInner() {
     return (
       <div
         key={q.key}
-        className={`bg-brand-white border border-midnight/[0.08] p-4 flex flex-col transition-all ${
-          isYes ? "border-l-[3px] border-l-[#10B981]" : isNo ? "border-l-[3px] border-l-crimson" : ""
+        className={`bg-brand-white border p-5 flex flex-col transition-all ${
+          isYes
+            ? "border-l-[3px] border-l-[#10B981] border-t-midnight/[0.08] border-r-midnight/[0.08] border-b-midnight/[0.08]"
+            : isNo
+              ? "border-l-[3px] border-l-crimson border-t-midnight/[0.08] border-r-midnight/[0.08] border-b-midnight/[0.08]"
+              : "border-midnight/[0.08]"
         }`}
       >
-        <div className="flex items-start justify-between gap-4">
-          <p className="font-sans text-[14px] font-medium text-midnight leading-snug flex-1">
-            {q.question}
-          </p>
-          <div className="flex items-center gap-3 shrink-0">
-            {q.help && (
+        <div className="flex items-start gap-4">
+          <span className="font-display text-[12px] font-semibold text-steel/50 mt-0.5 shrink-0 w-6">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-3">
+              <p className="font-sans text-[14px] font-medium text-midnight leading-snug flex-1">
+                {q.question}
+              </p>
+              {q.help && (
+                <button
+                  onClick={() => setExpandedHelp(helpOpen ? null : q.key)}
+                  className="text-steel hover:text-midnight transition-colors shrink-0 mt-0.5"
+                  aria-label="Toggle help"
+                >
+                  <Question size={16} weight="bold" />
+                </button>
+              )}
+            </div>
+
+            <AnimatePresence>
+              {helpOpen && q.help && (
+                <motion.p
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="font-sans text-[13px] text-steel mt-2 overflow-hidden leading-relaxed"
+                >
+                  {q.help}
+                </motion.p>
+              )}
+            </AnimatePresence>
+
+            {/* YES / NO buttons */}
+            <div className="flex gap-2 mt-3">
               <button
-                onClick={() => setExpandedHelp(helpOpen ? null : q.key)}
-                className="text-steel hover:text-midnight transition-colors"
-                aria-label="Toggle help"
-              >
-                <Question size={18} weight="bold" />
-              </button>
-            )}
-            <button
-              onClick={() => toggle(q.key, val === true ? false : true)}
-              className={`relative w-12 h-6 rounded-full transition-colors ${
-                isYes ? "bg-[#10B981]" : isNo ? "bg-crimson" : "bg-ash"
-              }`}
-              aria-label={`Toggle ${q.key}`}
-            >
-              <span
-                className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
-                  isYes ? "translate-x-[26px]" : isNo ? "translate-x-[2px]" : "translate-x-[14px]"
+                onClick={() => toggle(q.key, true)}
+                className={`flex-1 py-2.5 px-4 text-[13px] font-semibold uppercase tracking-[1px] border transition-all ${
+                  isYes
+                    ? "bg-[#10B981] text-white border-[#10B981]"
+                    : "bg-transparent text-steel border-midnight/[0.12] hover:border-[#10B981]/40 hover:text-[#10B981]"
                 }`}
-              />
-            </button>
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => toggle(q.key, false)}
+                className={`flex-1 py-2.5 px-4 text-[13px] font-semibold uppercase tracking-[1px] border transition-all ${
+                  isNo
+                    ? "bg-crimson text-white border-crimson"
+                    : "bg-transparent text-steel border-midnight/[0.12] hover:border-crimson/40 hover:text-crimson"
+                }`}
+              >
+                No
+              </button>
+            </div>
           </div>
         </div>
-        <AnimatePresence>
-          {helpOpen && q.help && (
-            <motion.p
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="font-sans text-[13px] text-steel mt-2 overflow-hidden"
-            >
-              {q.help}
-            </motion.p>
-          )}
-        </AnimatePresence>
       </div>
     )
   }
@@ -528,23 +572,32 @@ function ScorePageInner() {
                 {hasVerticalPhase && ` You'll also answer ${verticalQuestions.length} ${selectedVertical?.display_name}-specific question${verticalQuestions.length === 1 ? "" : "s"} next.`}
               </p>
 
+              {renderProgress(
+                Object.values(baselineAnswers).filter((v) => v !== null).length,
+                BASELINE_QUESTIONS.length
+              )}
+
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-10">
-                <div className="flex flex-col gap-4">
-                  {BASELINE_QUESTIONS.map((q) =>
-                    renderQuestionCard(q, baselineAnswers[q.key], (key, val) => toggleBaseline(key as BaselineKey, val))
+                <div className="flex flex-col gap-3">
+                  {BASELINE_QUESTIONS.map((q, i) =>
+                    renderQuestionCard(q, baselineAnswers[q.key], (key, val) => toggleBaseline(key as BaselineKey, val), i)
                   )}
 
-                  {allBaselineAnswered && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
-                      <button
-                        onClick={handleBaselineDone}
-                        className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[15px] uppercase tracking-[2px] w-full py-4 hover:bg-crimson/90 transition-colors"
-                      >
-                        {hasVerticalPhase ? `Next: ${selectedVertical?.display_name} Questions` : "See My Results"}
-                        <ArrowRight size={16} weight="bold" />
-                      </button>
-                    </motion.div>
-                  )}
+                  <div className="mt-4">
+                    <button
+                      onClick={handleBaselineDone}
+                      disabled={!allBaselineAnswered}
+                      className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[15px] uppercase tracking-[2px] w-full py-4 hover:bg-crimson/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      {hasVerticalPhase ? `Next: ${selectedVertical?.display_name} Questions` : "See My Results"}
+                      <ArrowRight size={16} weight="bold" />
+                    </button>
+                    {!allBaselineAnswered && (
+                      <p className="font-sans text-[12px] text-steel/60 text-center mt-2">
+                        Answer all {BASELINE_QUESTIONS.length} questions to continue
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 <div className="hidden lg:block">
@@ -552,15 +605,18 @@ function ScorePageInner() {
                     <div className="flex justify-center">
                       <ScoreRing score={baselineYesCount + verticalYesCount} max={maxScore} size={160} />
                     </div>
+                    <p className="font-sans text-[12px] text-steel text-center mt-3">
+                      {baselineYesCount + verticalYesCount} / {maxScore} compliant
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Mobile score bar */}
-              <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-brand-white border-b border-midnight/[0.08] h-16 flex items-center justify-between px-6">
+              {/* Mobile score bar — positioned below nav */}
+              <div className="lg:hidden fixed top-16 left-0 right-0 z-40 bg-brand-white border-b border-midnight/[0.08] h-12 flex items-center justify-between px-6">
                 <span className="font-sans text-[13px] text-steel">Compliance Score</span>
                 <span
-                  className="font-mono text-[22px] font-bold"
+                  className="font-display text-[20px] font-bold"
                   style={{
                     color: baselineYesCount >= 10 ? "#10B981" : baselineYesCount >= 7 ? "#C9A84C" : "#C41230",
                   }}
@@ -605,27 +661,37 @@ function ScorePageInner() {
                 {verticalQuestions.length} additional requirement{verticalQuestions.length === 1 ? "" : "s"} specific to your industry.
               </p>
 
+              {renderProgress(
+                Object.values(verticalAnswers).filter((v) => v !== null).length,
+                verticalQuestions.length
+              )}
+
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-10">
-                <div className="flex flex-col gap-4">
-                  {verticalQuestions.map((q) =>
+                <div className="flex flex-col gap-3">
+                  {verticalQuestions.map((q, i) =>
                     renderQuestionCard(
                       { key: q.key, question: q.question, help: q.help },
                       verticalAnswers[q.key] ?? null,
-                      (key, val) => toggleVertical(key, val)
+                      (key, val) => toggleVertical(key, val),
+                      i
                     )
                   )}
 
-                  {allVerticalAnswered && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
-                      <button
-                        onClick={handleVerticalDone}
-                        className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[15px] uppercase tracking-[2px] w-full py-4 hover:bg-crimson/90 transition-colors"
-                      >
-                        See My Results
-                        <ArrowRight size={16} weight="bold" />
-                      </button>
-                    </motion.div>
-                  )}
+                  <div className="mt-4">
+                    <button
+                      onClick={handleVerticalDone}
+                      disabled={!allVerticalAnswered}
+                      className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[15px] uppercase tracking-[2px] w-full py-4 hover:bg-crimson/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      See My Results
+                      <ArrowRight size={16} weight="bold" />
+                    </button>
+                    {!allVerticalAnswered && (
+                      <p className="font-sans text-[12px] text-steel/60 text-center mt-2">
+                        Answer all {verticalQuestions.length} questions to continue
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 <div className="hidden lg:block">
@@ -633,6 +699,9 @@ function ScorePageInner() {
                     <div className="flex justify-center">
                       <ScoreRing score={baselineYesCount + verticalYesCount} max={maxScore} size={160} />
                     </div>
+                    <p className="font-sans text-[12px] text-steel text-center mt-3">
+                      {baselineYesCount + verticalYesCount} / {maxScore} compliant
+                    </p>
                   </div>
                 </div>
               </div>
