@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 /* ─── Brand Tokens ─── */
 
@@ -414,6 +415,21 @@ export default function ScoreLandingPage() {
       {/* 1 - ATTENTION — Above the Fold                    */}
       {/* ══════════════════════════════════════════════════ */}
       <section style={{ background: B.void, position: "relative", overflow: "hidden" }}>
+        <Image
+          src="/images/hero/compliance-night.jpg"
+          alt=""
+          fill
+          priority
+          style={{ objectFit: "cover", opacity: 0.12, pointerEvents: "none" }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: `linear-gradient(to bottom, ${B.void}E6 0%, ${B.void}CC 40%, ${B.void}F2 100%)`,
+            pointerEvents: "none",
+          }}
+        />
         <div
           style={{
             position: "absolute",
@@ -948,6 +964,36 @@ export default function ScoreLandingPage() {
             </Reveal>
           ))}
         </div>
+
+        {/* Dashboard preview */}
+        <Reveal delay={0.3}>
+          <div
+            style={{
+              marginTop: 64,
+              position: "relative",
+              borderRadius: 4,
+              overflow: "hidden",
+              border: `1px solid ${B.midnight}10`,
+              boxShadow: `0 24px 80px ${B.midnight}15`,
+            }}
+          >
+            <Image
+              src="/images/hero/dashboard-glow.jpg"
+              alt="Protekon compliance dashboard showing real-time score and gap analysis"
+              width={1200}
+              height={675}
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: `linear-gradient(to top, ${B.parchment} 0%, transparent 30%)`,
+                pointerEvents: "none",
+              }}
+            />
+          </div>
+        </Reveal>
       </section>
 
       {/* ══════════════════════════════════════════════════ */}
@@ -1088,8 +1134,19 @@ export default function ScoreLandingPage() {
       {/* ══════════════════════════════════════════════════ */}
       {/* 4 - DESIRE — Social Proof                         */}
       {/* ══════════════════════════════════════════════════ */}
-      <section style={{ background: B.parchment, padding: "100px 24px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      <section style={{ background: B.parchment, position: "relative", overflow: "hidden" }}>
+        {/* Background construction image */}
+        <div style={{ position: "absolute", top: 0, right: 0, width: "40%", height: "100%", pointerEvents: "none" }}>
+          <Image
+            src="/images/industries/construction.jpg"
+            alt=""
+            fill
+            style={{ objectFit: "cover", opacity: 0.06 }}
+          />
+          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${B.parchment} 0%, transparent 100%)` }} />
+        </div>
+
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "100px 24px", position: "relative", zIndex: 1 }}>
           <Reveal>
             {eyebrow("What business owners discovered")}
             <h2
@@ -1522,6 +1579,20 @@ export default function ScoreLandingPage() {
           overflow: "hidden",
         }}
       >
+        <Image
+          src="/images/solutions/compliance-team.jpg"
+          alt=""
+          fill
+          style={{ objectFit: "cover", opacity: 0.08, pointerEvents: "none" }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: `linear-gradient(to bottom, ${B.void}F0 0%, ${B.void}D0 50%, ${B.void}F5 100%)`,
+            pointerEvents: "none",
+          }}
+        />
         <div
           style={{
             position: "absolute",
