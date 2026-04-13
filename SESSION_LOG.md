@@ -1254,3 +1254,76 @@ User asked about lead funnels during session. Findings:
 ### Git
 - 8 commits pushed: `6b54736` through `5e02a19`
 - Production deployment: ● Ready on Vercel
+
+## Session 23 — 2026-04-13
+
+### Completed
+- **Site crawl audit — 10 issues resolved across 13 files**
+  - SSR refactor: `/industries` (server component + client split) and `/score` (metadata + Suspense wizard)
+  - Brand alignment: "MANAGED COMPLIANCE" → "AI COMPLIANCE OFFICER" in opengraph, login, signup
+  - Pricing fix: $299/mo on compliance-suite → $597 Core minimum + setup fee line
+  - Nav/Footer: added Partners + Free Compliance Score links, fixed mega menu
+  - Contact: removed fake 1-800-555-1234, corrected HQ to Inland Empire, copyright 2025 → 2026
+- **API audit — 5 revenue-blocking issues triaged**
+  - Stripe Portal: added try-catch (was returning raw 500)
+  - Stripe Checkout: switched from empty env var mapping to lookup-key resolution (`protekon_{plan}_monthly`)
+  - Annual summary: replaced hardcoded "Demo Construction Co" / "Shield CaaS" with dynamic DB data
+  - Confirmed `/api/sample-report` and `/api/samples/unlock` were false positives (server actions work)
+- **Sample report PDF generation**
+  - New `lib/pdf-samples.ts` — generates branded PDFs for all 3 sample reports (WVPP, Sub Report, Municipal Pulse)
+  - Added GET handler to `/api/samples/gate` for download after email gate unlock
+  - Added `/api/sample-report` POST route for homepage CTA lead capture
+- **Sentry integration (ngenius-pros/protekon)**
+  - `@sentry/nextjs` installed, next.config.mjs wrapped with withSentryConfig
+  - Client: replay + feedback widget. Server + edge: 0.1 trace sample rate
+  - Global error boundary, instrumentation hooks, `/sentry-tunnel` tunnel route
+  - `SENTRY_AUTH_TOKEN` set in Vercel for source map uploads
+- **SB 553 guide 404 investigated** — confirmed false positive: Sanity data complete, returns 200 in production
+
+### Audit Snapshot
+- Pages: 70
+- API routes: 20
+- Server actions: 33 files
+- Components: 86
+- Inngest functions: 19 files
+- Migrations: 19
+- Tests: 44
+- Build: PASS (Vercel ● Ready)
+
+### Decisions Made
+- Stripe checkout uses lookup keys not hardcoded price IDs — survives test/live mode switches
+- Sentry integrated with session replay (100% on error, 10% normal) and tunnel route for ad blocker bypass
+- Sample PDFs are real branded documents with content, not placeholder stubs
+
+### Known Issues
+- Anthropic API credits depleted — chat endpoint works but returns billing error
+- Sentry Seer not yet enabled (Settings → Seer in dashboard)
+- Phone number on /contact is "Available upon request" — needs real number
+- Stripe Portal "No such customer" — test-mode customer may not match DB `stripe_customer_id`
+
+### Conversion Flow Verification (5/5)
+1. Score wizard → ✅ 200
+2. Stripe checkout → ✅ Test-mode products created with lookup keys (ready for browser test)
+3. Samples email gate + PDF download → ✅ All 3 PDFs generate (4-5KB each)
+4. Contact form → ✅ `{"success":true}`
+5. Partner apply → ✅ 200
+
+### Stripe Test-Mode Products Created
+| Plan | Lookup Key | Price | Price ID |
+|------|-----------|-------|----------|
+| Core | `protekon_core_monthly` | $597/mo | `price_1TLsR8AoRTtKxAEAlAYItlco` |
+| Professional | `protekon_professional_monthly` | $897/mo | `price_1TLsR9AoRTtKxAEAiFtwfo9z` |
+| Multi-Site | `protekon_multi-site_monthly` | $1,297/mo | `price_1TLsRAAoRTtKxAEAMvaNjgkw` |
+
+### Next Session Should
+- Top up Anthropic API credits and verify chat endpoint
+- Enable Sentry Seer for AI root cause analysis
+- Browser test: Stripe checkout end-to-end (login → pricing → checkout → success)
+- Browser test: Stripe portal (login → settings → manage subscription)
+- Visual QA pass on score funnel (27 verticals, vertical questions flow)
+- Visual QA on industries page (SSR refactor — verify cards render)
+
+### Git
+- 5 commits pushed: `0616779` through `5094bb9`
+- Stripe test-mode products created via API (not in git)
+- Production deployment: ● Ready on Vercel
