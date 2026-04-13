@@ -81,7 +81,7 @@ export default function AnnualSummaryReportPage() {
             {businessName}
           </h1>
           <p className="font-display font-light text-[18px] tracking-[3px] text-gold">
-            Calendar Year 2025 · Prepared by Shield CaaS by PROTEKON
+            Calendar Year 2025 · Prepared by PROTEKON
           </p>
 
           <button
@@ -131,7 +131,9 @@ export default function AnnualSummaryReportPage() {
             </span>
           </div>
           <p className="font-sans text-[15px] text-midnight leading-relaxed">
-            Demo Construction Co maintained strong compliance throughout Calendar Year 2025, achieving a year-end compliance score of <strong>87/100</strong>. The organization successfully maintained <strong>6 active compliance documents</strong>, responded to <strong>18 regulatory updates</strong>, and resolved <strong>45 of 47 workplace incidents</strong>. Only <strong>1 incident</strong> was OSHA recordable, resulting in a recordable rate of <strong>2.1%</strong>, well below industry average. The company avoided an estimated <strong>$52,000</strong> in potential Cal/OSHA penalties through proactive compliance management. Key achievements include successful SB 553 implementation, quarterly IIPP updates, and 100% training compliance.
+            {businessName} maintained strong compliance throughout Calendar Year 2025
+            {stats.length >= 4 && (<>, achieving a year-end compliance score of <strong>{stats[0]?.value ?? "—"}</strong>. The organization managed <strong>{stats[2]?.value ?? "—"} workplace incidents</strong> and maintained <strong>{stats[1]?.value ?? "—"} active compliance documents</strong>.</>)}
+            {stats.length < 4 && <>. Full annual data is being compiled by your AI compliance officer.</>}
           </p>
         </motion.div>
 

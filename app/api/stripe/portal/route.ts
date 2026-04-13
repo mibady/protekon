@@ -27,10 +27,15 @@ export async function POST(request: NextRequest) {
 
   const origin = request.nextUrl.origin
 
-  const session = await getStripe().billingPortal.sessions.create({
-    customer: client.stripe_customer_id,
-    return_url: `${origin}/dashboard/settings`,
-  })
+  try {
+    const session = await getStripe().billingPortal.sessions.create({
+      customer: client.stripe_customer_id,
+      return_url: `${origin}/dashboard/settings`,
+    })
 
-  return NextResponse.json({ url: session.url })
+    return NextResponse.json({ url: session.url })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed to create billing portal session"
+    return NextResponse.json({ error: message }, { status: 502 })
+  }
 }
