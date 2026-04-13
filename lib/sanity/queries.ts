@@ -35,7 +35,8 @@ export const allBlogPostsQuery = groq`
   *[_type == "blogPost"] | order(publishedAt desc) {
     _id, title, slug, excerpt, coverImage, publishedAt,
     "author": author->{ name, slug, image },
-    "categories": categories[]->{ title, slug }
+    "categories": categories[]->{ title, slug },
+    regulatoryDomain, industries, keywordCluster, contentTier
   }
 `
 
