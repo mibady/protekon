@@ -32,7 +32,12 @@ import {
   ClipboardText,
   Plant,
   Warehouse,
-  Truck
+  Truck,
+  Robot,
+  CalendarBlank,
+  BookOpenText,
+  BellRinging,
+  Car
 } from "@phosphor-icons/react"
 import { signOut } from "@/lib/actions/auth"
 import { getClientProfile } from "@/lib/actions/settings"
@@ -45,6 +50,8 @@ const navGroups = [
     items: [
       { name: "Dashboard", href: "/dashboard", icon: House },
       { name: "Compliance Score", href: "/dashboard/reports/compliance-score", icon: ChartLine },
+      { name: "AI Compliance Officer", href: "/dashboard/chat", icon: Robot },
+      { name: "Compliance Calendar", href: "/dashboard/calendar", icon: CalendarBlank },
     ]
   },
   {
@@ -59,6 +66,8 @@ const navGroups = [
     items: [
       { name: "Incident Log", href: "/dashboard/incidents", icon: WarningCircle, badge: 2 },
       { name: "Regulatory Updates", href: "/dashboard/regulations", icon: Bell, badge: 3 },
+      { name: "Alerts", href: "/dashboard/alerts", icon: BellRinging },
+      { name: "Knowledge Base", href: "/dashboard/knowledge", icon: BookOpenText },
       { name: "Reports", href: "/dashboard/reports", icon: Clipboard },
       { name: "Training", href: "/dashboard/training", icon: GraduationCap },
       { name: "Quarterly Reviews", href: "/dashboard/reports/compliance-score", icon: ChartLine, minTier: "professional" as const },
@@ -320,9 +329,15 @@ export default function DashboardLayout({
               <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">WHOLESALE</span>
               <ul className="flex flex-col gap-0.5">
                 <li>
-                  <Link href="/dashboard/wholesale/zones" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/wholesale") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
-                    <Warehouse size={16} className={pathname.startsWith("/dashboard/wholesale") ? "text-crimson" : "text-steel"} />
-                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/wholesale") ? "text-brand-white" : "text-brand-white/45"}`}>Safety Zones</span>
+                  <Link href="/dashboard/wholesale/zones" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname === "/dashboard/wholesale/zones" ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <Warehouse size={16} className={pathname === "/dashboard/wholesale/zones" ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname === "/dashboard/wholesale/zones" ? "text-brand-white" : "text-brand-white/45"}`}>Safety Zones</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/dashboard/wholesale/forklift-operators" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname === "/dashboard/wholesale/forklift-operators" ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <GraduationCap size={16} className={pathname === "/dashboard/wholesale/forklift-operators" ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname === "/dashboard/wholesale/forklift-operators" ? "text-brand-white" : "text-brand-white/45"}`}>Forklift Operators</span>
                   </Link>
                 </li>
               </ul>
@@ -336,6 +351,19 @@ export default function DashboardLayout({
                   <Link href="/dashboard/transportation/fleet" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/transportation") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
                     <Truck size={16} className={pathname.startsWith("/dashboard/transportation") ? "text-crimson" : "text-steel"} />
                     <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/transportation") ? "text-brand-white" : "text-brand-white/45"}`}>Fleet & Drivers</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {client?.vertical === "auto-services" && (
+            <div className="mb-5">
+              <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">AUTO SERVICES</span>
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link href="/dashboard/auto-services" className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${pathname.startsWith("/dashboard/auto-services") ? "bg-crimson/[0.07] border-l-[3px] border-crimson" : "border-l-[3px] border-transparent hover:bg-brand-white/[0.04]"}`}>
+                    <Car size={16} className={pathname.startsWith("/dashboard/auto-services") ? "text-crimson" : "text-steel"} />
+                    <span className={`font-display font-medium text-[11px] tracking-[1px] ${pathname.startsWith("/dashboard/auto-services") ? "text-brand-white" : "text-brand-white/45"}`}>Shop Management</span>
                   </Link>
                 </li>
               </ul>

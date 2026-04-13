@@ -20,6 +20,7 @@ import { getPosterLocations } from "@/lib/actions/poster-compliance"
 import { OshaIndustryBenchmark } from "@/components/dashboard/OshaIndustryBenchmark"
 import { OshaNearbyEnforcementWidget } from "@/components/dashboard/OshaNearbyEnforcement"
 import { OshaScoreComparison } from "@/components/dashboard/OshaScoreComparison"
+import { PermanentStandardCountdown } from "@/components/dashboard/PermanentStandardCountdown"
 import type { DashboardData } from "@/lib/types"
 
 // Animated counter hook
@@ -442,6 +443,9 @@ export default function DashboardPage() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Permanent Standard Countdown */}
+      <PermanentStandardCountdown />
 
       {/* OSHA Intelligence Widgets */}
       <div className="grid lg:grid-cols-3 gap-6">

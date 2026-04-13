@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import { getRegulations, acknowledgeRegulation } from "@/lib/actions/reports"
 import { toast } from "sonner"
+import { PermanentStandardCountdown } from "@/components/dashboard/PermanentStandardCountdown"
 
 type Regulation = {
   id: string; severity: string; code: string; issuingBody: string; publishedDate: string;
@@ -38,6 +39,11 @@ export default function RegulationsPage() {
 
   return (
     <div className="p-6 lg:p-8">
+      {/* Permanent Standard Countdown */}
+      <div className="mb-6">
+        <PermanentStandardCountdown />
+      </div>
+
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
         <div>

@@ -8,10 +8,13 @@ import { requestDocument } from "@/lib/actions/documents"
 
 const documentTypes = [
   { id: "iipp", name: "IIPP Update", description: "Injury & Illness Prevention Program", regulation: "8 CCR 3203" },
-  { id: "sb553", name: "SB 553 Plan", description: "Workplace Violence Prevention Plan", regulation: "SB 553" },
+  { id: "wvpp", name: "SB 553 Plan", description: "Workplace Violence Prevention Plan", regulation: "SB 553" },
   { id: "eap", name: "Emergency Action Plan", description: "Emergency procedures and evacuation", regulation: "8 CCR 3220" },
-  { id: "hazcom", name: "Hazcom Program", description: "Hazard Communication Program", regulation: "8 CCR 5194" },
-  { id: "heat", name: "Heat Illness Prevention", description: "Outdoor heat illness prevention", regulation: "8 CCR 3395" },
+  { id: "hazcom", name: "HazCom Program", description: "Hazard Communication Program (GHS)", regulation: "8 CCR 5194" },
+  { id: "heat-illness-prevention", name: "Heat Illness Prevention", description: "Outdoor heat illness prevention", regulation: "8 CCR 3395" },
+  { id: "osha-300-log", name: "OSHA 300 Log Compliance", description: "Injury and illness recording and reporting", regulation: "8 CCR 14300" },
+  { id: "incident-investigation", name: "Incident Investigation Procedures", description: "Workplace incident investigation framework", regulation: "8 CCR 3203(a)(6)" },
+  { id: "training-records", name: "Training Records Framework", description: "Employee safety training documentation", regulation: "8 CCR 3203(a)(7)" },
   { id: "custom", name: "Custom Document", description: "Request a custom compliance document", regulation: "Various" },
 ]
 
