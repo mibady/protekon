@@ -104,6 +104,34 @@ export const documentGeneration = inngest.createFunction(
       await sendEmail({ to: email, ...documentReadyEmail(documentType, businessName) })
     })
 
+    // Step 5: Index document content for RAG
+    if (aiContent) {
+      await step.run("index-for-rag", async () => {
+        const serialized = [
+          aiContent.title,
+          ...aiContent.sections.map((s) => `${s.heading}\n${s.body}`),
+          aiContent.recommendations.length > 0
+            ? `Recommendations:\n${aiContent.recommendations.join("\n")}`
+            : "",
+        ].filter(Boolean).join("\n\n")
+
+        await inngest.send({
+          name: "rag/document.index",
+          data: {
+            id: `${clientId}-${documentType}-${Date.now()}`,
+            title: aiContent.title,
+            content: serialized,
+            metadata: {
+              type: "document",
+              vertical,
+              clientId,
+              title: aiContent.title,
+            },
+          },
+        })
+      })
+    }
+
     return { success: true, documentType, pages: docResult.pages }
   }
 )
