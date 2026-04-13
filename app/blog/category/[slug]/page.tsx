@@ -35,45 +35,69 @@ export default async function BlogCategoryPage({ params }: Props) {
   return (
     <>
       <Nav />
-      <main className="min-h-screen bg-parchment">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <Link
-            href="/blog"
-            className="mb-6 inline-flex items-center gap-2 text-sm text-steel hover:text-void transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            All Posts
-          </Link>
+      <main className="min-h-screen">
+        {/* Hero — matches /blog header */}
+        <section className="relative bg-void pt-32 pb-16 overflow-hidden">
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(201,168,76,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.02) 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }}
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(196,18,48,0.06) 0%, transparent 60%)',
+            }}
+          />
 
-          <h1 className="mb-2 text-4xl font-bold tracking-tight text-void">{categoryTitle}</h1>
-          <p className="mb-8 text-lg text-steel">
-            {posts.length} {posts.length === 1 ? 'article' : 'articles'}
-          </p>
-
-          {/* Category nav */}
-          <div className="mb-10 flex flex-wrap gap-2">
+          <div className="relative mx-auto max-w-6xl px-6">
             <Link
               href="/blog"
-              className="rounded-full border border-fog bg-white px-4 py-1.5 text-sm text-steel hover:border-crimson/20 hover:text-crimson transition-colors"
+              className="mb-6 inline-flex items-center gap-2 text-sm text-steel hover:text-brand-white transition-colors"
             >
-              All
+              <ArrowLeft className="h-4 w-4" />
+              All Posts
             </Link>
-            {categories
-              .filter((cat: any) => cat.postCount > 0)
-              .map((cat: any) => (
-                <Link
-                  key={cat._id}
-                  href={`/blog/category/${cat.slug.current}`}
-                  className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
-                    cat.slug.current === slug
-                      ? 'border-crimson bg-crimson/10 text-crimson font-medium'
-                      : 'border-fog bg-white text-steel hover:border-crimson/20 hover:text-crimson'
-                  }`}
-                >
-                  {cat.title} ({cat.postCount})
-                </Link>
-              ))}
+
+            <h1 className="font-display text-4xl font-bold tracking-tight text-brand-white lg:text-5xl">
+              {categoryTitle}
+            </h1>
+            <p className="mt-2 text-lg text-steel">
+              {posts.length} {posts.length === 1 ? 'article' : 'articles'}
+            </p>
+
+            {/* Category nav */}
+            <div className="mt-8 flex flex-wrap gap-2">
+              <Link
+                href="/blog"
+                className="border border-brand-white/15 bg-brand-white/5 px-4 py-2 font-display text-[11px] font-semibold uppercase tracking-[3px] text-brand-white transition-all hover:border-gold/40 hover:text-gold"
+              >
+                All Posts
+              </Link>
+              {categories
+                .filter((cat: any) => cat.postCount > 0)
+                .map((cat: any) => (
+                  <Link
+                    key={cat._id}
+                    href={`/blog/category/${cat.slug.current}`}
+                    className={`border px-4 py-2 font-display text-[11px] font-semibold uppercase tracking-[2px] transition-all ${
+                      cat.slug.current === slug
+                        ? 'border-crimson bg-crimson/10 text-crimson'
+                        : 'border-brand-white/10 text-steel hover:border-crimson/40 hover:text-crimson'
+                    }`}
+                  >
+                    {cat.title} ({cat.postCount})
+                  </Link>
+                ))}
+            </div>
           </div>
+        </section>
+
+        {/* Articles grid */}
+        <section className="bg-parchment py-16">
+          <div className="mx-auto max-w-6xl px-6">
 
           {posts && posts.length > 0 ? (
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -119,7 +143,8 @@ export default async function BlogCategoryPage({ params }: Props) {
               <p className="text-lg text-steel">No posts in this category yet.</p>
             </div>
           )}
-        </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>
