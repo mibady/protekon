@@ -69,12 +69,26 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Resolve setup-fee line item. Env vars can carry stale ids (deleted
+    // prices in test mode); verify before including so checkout doesn't 500.
+    let setupFeeLineItem: { price: string; quantity: number } | null = null
+    const setupFeeId = SETUP_FEE_IDS[planId]
+    if (setupFeeId) {
+      try {
+        const price = await stripe.prices.retrieve(setupFeeId)
+        if (price && price.active && !(price as { deleted?: boolean }).deleted) {
+          setupFeeLineItem = { price: setupFeeId, quantity: 1 }
+        }
+      } catch {
+        setupFeeLineItem = null
+      }
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [
         { price: prices.data[0].id, quantity: 1 },
-        // Add one-time setup fee if configured
-        ...(SETUP_FEE_IDS[planId] ? [{ price: SETUP_FEE_IDS[planId], quantity: 1 }] : []),
+        ...(setupFeeLineItem ? [setupFeeLineItem] : []),
       ],
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/pricing?checkout=cancelled`,
