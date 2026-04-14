@@ -249,26 +249,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <motion.div 
-        className="absolute bottom-0 left-0 right-0 bg-void border-t border-brand-white/[0.06] py-4 px-8 lg:px-16"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8 }}
-      >
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-          <span className="font-display text-[9px] tracking-[3px] uppercase text-steel">
-            Trusted by businesses across all 50 states
-          </span>
-          <div className="flex items-center gap-3">
-            {['SOC 2', 'Federal OSHA', '28 State Plans', 'All 50 States'].map((badge) => (
-              <span key={badge} className="font-display text-[10px] tracking-[2px] uppercase text-gold/60 px-3 py-1 border border-gold/20">
-                {badge}
-              </span>
-            ))}
-          </div>
-        </div>
-      </motion.div>
     </section>
   )
 }
