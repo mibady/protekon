@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { ShieldWarning, ArrowRight, CurrencyDollar, Buildings, UsersThree } from "@phosphor-icons/react"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
+import { submitSampleGate } from "@/lib/actions/samples"
 
 // OSHA violation data from Cal/OSHA enforcement dataset (business plan Section 4)
 const industryData: Record<string, {
@@ -102,6 +103,21 @@ const sizeMultipliers: Record<string, { label: string; factor: number; avgPenalt
 export default function CalculatorPage() {
   const [industry, setIndustry] = useState("construction")
   const [size, setSize] = useState("26-50")
+  const [gateEmail, setGateEmail] = useState("")
+  const [gateUnlocked, setGateUnlocked] = useState(false)
+  const [gateSubmitting, setGateSubmitting] = useState(false)
+
+  async function handleGateSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!gateEmail.trim()) return
+    setGateSubmitting(true)
+    const fd = new FormData()
+    fd.set("email", gateEmail)
+    fd.set("vertical", industry)
+    await submitSampleGate(fd)
+    setGateSubmitting(false)
+    setGateUnlocked(true)
+  }
 
   const data = industryData[industry]
   const sizeData = sizeMultipliers[size]
@@ -250,6 +266,36 @@ export default function CalculatorPage() {
                 </div>
               </div>
 
+              {!gateUnlocked && (
+                <div className="bg-midnight text-parchment p-8">
+                  <h3 className="font-display font-bold text-[14px] uppercase tracking-[1px] text-gold mb-2">
+                    See the full breakdown
+                  </h3>
+                  <p className="font-sans text-[14px] text-fog mb-6">
+                    Enter your work email to unlock estimated citations, total exposure, per-violation cost, and the Protekon ROI comparison for your size + industry.
+                  </p>
+                  <form onSubmit={handleGateSubmit} className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="email"
+                      value={gateEmail}
+                      onChange={(e) => setGateEmail(e.target.value)}
+                      required
+                      placeholder="you@company.com"
+                      className="flex-1 px-4 py-3 bg-parchment/10 border border-parchment/20 font-sans text-[14px] text-parchment placeholder:text-fog focus:border-gold focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      disabled={gateSubmitting}
+                      className="px-6 py-3 bg-crimson text-parchment font-display font-semibold text-[11px] uppercase tracking-[1.5px] hover:bg-crimson/90 transition-colors disabled:opacity-50"
+                    >
+                      {gateSubmitting ? "Unlocking…" : "Unlock Breakdown"}
+                    </button>
+                  </form>
+                </div>
+              )}
+
+              {gateUnlocked && (
+              <>
               {/* Three stat cards */}
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="bg-brand-white border border-midnight/[0.08] p-6 text-center">
@@ -320,6 +366,8 @@ export default function CalculatorPage() {
                   <ArrowRight size={16} weight="bold" />
                 </Link>
               </div>
+              </>
+              )}
 
               {/* Fine print */}
               <p className="font-sans text-[11px] text-steel/60 leading-relaxed">

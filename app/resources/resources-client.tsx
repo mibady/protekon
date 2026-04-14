@@ -47,6 +47,11 @@ export default function ResourcesClient({ featured, articles, downloads }: Props
   const [nlSubmitting, setNlSubmitting] = useState(false)
   const [nlDone, setNlDone] = useState(false)
 
+  const [gateTarget, setGateTarget] = useState<string | null>(null)
+  const [gateEmail, setGateEmail] = useState("")
+  const [gateError, setGateError] = useState<string | null>(null)
+  const [gateSubmitting, setGateSubmitting] = useState(false)
+
   async function handleNewsletterSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!nlEmail.trim()) return
@@ -56,6 +61,25 @@ export default function ResourcesClient({ featured, articles, downloads }: Props
     await submitSampleGate(fd)
     setNlDone(true)
     setNlSubmitting(false)
+  }
+
+  async function handleGateSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!gateTarget || !gateEmail.trim()) return
+    setGateSubmitting(true)
+    setGateError(null)
+    const fd = new FormData()
+    fd.set("email", gateEmail)
+    const res = await submitSampleGate(fd)
+    setGateSubmitting(false)
+    if (res.error) {
+      setGateError(res.error)
+      return
+    }
+    const url = `/api/samples/gate?report=${encodeURIComponent(gateTarget)}&email=${encodeURIComponent(gateEmail)}`
+    window.open(url, "_blank")
+    setGateTarget(null)
+    setGateEmail("")
   }
 
   return (
@@ -199,7 +223,7 @@ export default function ResourcesClient({ featured, articles, downloads }: Props
           {/* Downloads */}
           <div>
             <h2 className="font-display font-bold text-[12px] tracking-[4px] uppercase text-gold mb-8">
-              Free Downloads
+              Templates We Use
             </h2>
             <div className="space-y-4">
               {downloads.map((download, i) => (
@@ -222,7 +246,10 @@ export default function ResourcesClient({ featured, articles, downloads }: Props
                     </div>
                   </div>
                   <button
-                    onClick={() => window.open(`/api/samples/gate?report=${encodeURIComponent(download.title)}`, "_blank")}
+                    onClick={() => {
+                      setGateTarget(download.title)
+                      setGateError(null)
+                    }}
                     className="font-display text-[9px] tracking-[2px] uppercase text-gold hover:text-parchment transition-colors"
                   >
                     Download
@@ -266,6 +293,51 @@ export default function ResourcesClient({ featured, articles, downloads }: Props
       </section>
 
       <Footer />
+
+      {gateTarget && (
+        <div className="fixed inset-0 z-50 bg-void/80 flex items-center justify-center p-6" onClick={() => setGateTarget(null)}>
+          <form
+            onClick={(e) => e.stopPropagation()}
+            onSubmit={handleGateSubmit}
+            className="w-full max-w-md bg-parchment p-8 border border-midnight/10"
+          >
+            <h3 className="font-display font-bold text-[18px] text-midnight mb-2">
+              Get the {gateTarget}
+            </h3>
+            <p className="font-sans text-[13px] text-midnight/70 mb-6">
+              Enter your work email. We&apos;ll send future template updates and compliance guidance — unsubscribe any time.
+            </p>
+            <input
+              type="email"
+              value={gateEmail}
+              onChange={(e) => setGateEmail(e.target.value)}
+              required
+              placeholder="you@company.com"
+              autoFocus
+              className="w-full px-4 py-3 bg-brand-white border border-midnight/15 font-sans text-[14px] text-midnight focus:border-crimson focus:outline-none mb-3"
+            />
+            {gateError && (
+              <p className="font-sans text-[12px] text-crimson mb-3">{gateError}</p>
+            )}
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setGateTarget(null)}
+                className="flex-1 px-5 py-3 border border-midnight/20 font-display font-semibold text-[11px] uppercase tracking-[1.5px] text-midnight hover:bg-midnight/5 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={gateSubmitting}
+                className="flex-1 px-5 py-3 bg-crimson text-brand-white font-display font-semibold text-[11px] uppercase tracking-[1.5px] hover:bg-crimson/90 transition-colors disabled:opacity-50"
+              >
+                {gateSubmitting ? "Preparing…" : "Send & Download"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </main>
   )
 }

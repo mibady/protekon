@@ -9,6 +9,7 @@ import Footer from '@/components/layout/Footer'
 import { client } from '@/lib/sanity/client'
 import { blogPostBySlugQuery } from '@/lib/sanity/queries'
 import RelatedPosts from '@/components/blog/related-posts'
+import BlogPostCTA from '@/components/blog/BlogPostCTA'
 import { urlFor } from '@/lib/sanity/image'
 import { PortableText } from '@/lib/sanity/portable-text'
 import { format } from 'date-fns'
@@ -120,6 +121,8 @@ export default async function BlogPostPage({ params }: Props) {
                 <PortableText value={post.body} />
               </article>
             )}
+
+            <BlogPostCTA />
 
             {/* Related Posts */}
             <RelatedPosts
