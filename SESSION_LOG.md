@@ -1364,3 +1364,50 @@ User asked about lead funnels during session. Findings:
 
 ### Linear
 - Not updated this session (Phase 0 NGE-358 [DNA] Middleware — Auth enforcement is now shipped; mark Done next session with manual verification)
+
+## Session 26 — 2026-04-14
+
+### Completed
+- **Closed all 14 pricing-vs-product audit gaps.** Starting state: 2 closed (knowledge base + enforcement pipeline pre-session). Shipped 12 this session across 5 commits.
+- Copy batch (ab53732): "AI"-as-actor → "Protekon" (pricing/about/signup), "runs autonomously" qualified with "after a one-time intake", data-moat record counts scrubbed from stat bars, FAQ "human compliance analyst reviews edge cases" rewritten to reflect real dashboard-flag behavior.
+- Dashboard feature batch (a2a93ac): marketplace integrations "Available" → "Coming Soon" (public + dashboard); `/dashboard/reports/quarterly-review` — distinct quarterly scorecard + review-call CTA via `NEXT_PUBLIC_REVIEW_BOOKING_URL` (closes gaps #5 + #8); `/dashboard/samples` — in-dashboard library, samples gate bypasses email check for authed users; vertical template picker — root-cause fix (documents action reads `clients.vertical` not stale auth metadata; settings mirrors back).
+- Heavy feature batch (dbffa01): `employee_log_requests` migration + SB 553 release action (PII-scrubbed packet → Vercel Blob) + Inngest 15-day SLA workflow + list/form UI. Training materials library — 5 Cal/OSHA PDF topics (SB 553 WVPP, IIPP, Heat Illness, HazCom, Forklift) + sign-off sheet generator + download buttons on training page. Spec `specs/multi-site-rollup.md`.
+- Rollup UI batch (6b2b7a9): `/dashboard/rollup` calls `get_site_rollup(p_client_id)` RPC (data layer deployed separately via Supabase MCP — sites table, site_id FKs on 5 tables, backfill + provision functions, site_rollup view). 6-tile portfolio summary + per-site KPI matrix with contextual accents. Tier-gated to multi-site. Verified end-to-end: Coastal Health Group returns 1 site, 5 incidents (1 severe), 9 documents, 50% training (2 overdue), 0 log requests, 0 alerts.
+
+### Audit Snapshot
+- Pages: 75 total (32 marketing, 42 dashboard+partner, 1 misc)
+- API routes: 21 (+1 samples/gate updated, +2 training endpoints new)
+- Actions: 35 files, 106 exports (+2 new: employee-log-requests, rollup)
+- Components: 87
+- Inngest functions: 19 (+1 employee-log-sla)
+- Migrations: 20 local (+1 employee_log_requests); sites schema lives in Supabase only
+- Build: tsc clean on every commit; lint clean; pre-commit gates passed 4/4
+
+### Decisions Made
+- Quarterly review + monthly review call combined into a single `/dashboard/reports/quarterly-review` page rather than two routes. Rationale: both features are tier-gated to Professional+ and share the same audience; a combined page reduces nav clutter and gives the booking CTA context.
+- Vertical template picker fix reads `clients.vertical` as canonical source with auth metadata fallback (not the reverse). Rationale: `clients` table is written by intake and settings; auth metadata lagged behind updates.
+- Sample gate bypass for authenticated users instead of requiring dashboard-side re-gating. Rationale: the email gate is a lead-capture mechanism for anonymous visitors; forcing paying customers to re-enter email is friction without purpose.
+- Multi-site rollup UI shipped without sites CRUD page or per-site scoping cookie. Rationale: the audit called out "consolidated multi-site dashboard" — rollup alone closes it. CRUD and scoping are Session B per spec.
+- Reused `training_records` table for sign-off sheet source of truth rather than creating a separate signoffs table. Rationale: a sign-off is metadata on an already-tracked record, not a new entity.
+- Multi-site data model migrations (021+) live in Supabase only, not committed to `supabase/migrations/`. Rationale: they were applied via Supabase MCP outside this repo's migration flow. Future session should reconcile (export and commit) before the next branch cut.
+
+### Known Issues
+- 19 preexisting test failures carry from Session 24 (chat/stripe-routes/score-submit/resend/construction). Not introduced this session.
+- `supabase/migrations/021_sites.sql` etc. not in repo — only in Supabase. Reconcile next session.
+- Pre-existing uncommitted state (seed-demo.ts, supabase/seed.sql, download route, settings) unchanged since Session 24 — separate cleanup needed.
+- `/dashboard/audits` and `/partner/clients` still 404 (flagged in Session 24, not audit-related).
+
+### Next Session Should
+- Export Supabase multi-site migrations (sites table, site_id FKs, RPC, views) into `supabase/migrations/021..025_*.sql` so the schema is source-controlled
+- Manual QA pass on preview: `/dashboard/rollup` for a multi-site client, employee log request flow (create → release → download packet), training material + sign-off PDF downloads, quarterly review CTA
+- Set `NEXT_PUBLIC_REVIEW_BOOKING_URL` in Vercel env (Cal.com/Calendly link)
+- Optional follow-ups (not audit-required): sites CRUD at `/dashboard/sites`, header site picker + cookie, per-site stamping in create actions
+- Fix 19 preexisting test failures (dedicated session)
+
+### Git
+- 4 new commits this session pushed: ab53732, a2a93ac, dbffa01, 6b2b7a9
+- Remote: origin/main @ 6b2b7a9
+- b6ca34f (between dbffa01 and 6b2b7a9) is user-authored, not part of this session's claude work
+
+### Linear
+- Not updated this session (audit close was project-memory-driven, not Linear-tracked)
