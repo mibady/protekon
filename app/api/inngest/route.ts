@@ -18,6 +18,7 @@ import { sampleNurtureDrip } from "@/inngest/functions/sample-nurture-drip"
 import { planUpdatePipeline } from "@/inngest/functions/plan-update-pipeline"
 import { ragIndexer } from "@/inngest/functions/rag-indexer"
 import { cslbNotificationPipeline } from "@/inngest/functions/cslb-notification-pipeline"
+import { employeeLogSla } from "@/inngest/functions/employee-log-sla"
 
 export const maxDuration = 300
 
@@ -43,5 +44,6 @@ export const { GET, POST, PUT } = serve({
     planUpdatePipeline,
     ragIndexer,
     cslbNotificationPipeline,
+    employeeLogSla,
   ],
 })

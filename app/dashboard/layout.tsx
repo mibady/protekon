@@ -66,6 +66,7 @@ const navGroups = [
     label: "COMPLIANCE",
     items: [
       { name: "Incident Log", href: "/dashboard/incidents", icon: WarningCircle, badge: 2 },
+      { name: "Log Requests (SB 553)", href: "/dashboard/incidents/log-requests", icon: WarningCircle },
       { name: "Regulatory Updates", href: "/dashboard/regulations", icon: Bell, badge: 3 },
       { name: "Alerts", href: "/dashboard/alerts", icon: BellRinging },
       { name: "Knowledge Base", href: "/dashboard/knowledge", icon: BookOpenText },

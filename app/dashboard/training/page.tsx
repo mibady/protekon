@@ -1,7 +1,15 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { GraduationCap, Plus, Check, Trash } from "@phosphor-icons/react"
+import { GraduationCap, Plus, Check, Trash, Download, FileText } from "@phosphor-icons/react"
+
+const TRAINING_TOPICS = [
+  { slug: "sb-553-wvpp", title: "SB 553 Workplace Violence Prevention", regulation: "Labor Code §6401.9" },
+  { slug: "iipp", title: "Injury & Illness Prevention Program", regulation: "8 CCR §3203" },
+  { slug: "heat-illness", title: "Heat Illness Prevention", regulation: "8 CCR §3395" },
+  { slug: "hazcom", title: "Hazard Communication (HazCom)", regulation: "8 CCR §5194" },
+  { slug: "forklift", title: "Forklift Operator Training", regulation: "8 CCR §3668" },
+]
 import { useState, useEffect } from "react"
 import { getTrainingRecords, addTrainingRecord, completeTraining, deleteTrainingRecord } from "@/lib/actions/training"
 
@@ -108,6 +116,41 @@ export default function TrainingPage() {
                 {stat.label}
               </p>
             </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Training Materials Library */}
+      <motion.div
+        className="bg-brand-white border border-midnight/[0.08] p-6 mb-6"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <FileText size={18} className="text-gold" />
+          <h2 className="font-display font-bold text-[14px] text-midnight">Training Materials Library</h2>
+        </div>
+        <p className="font-sans text-[12px] text-steel mb-4">
+          Download Cal/OSHA-aligned training content for any topic. Every material ships with an acknowledgement block employees can sign.
+        </p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {TRAINING_TOPICS.map((t) => (
+            <a
+              key={t.slug}
+              href={`/api/training/materials/${t.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block p-4 border border-midnight/[0.08] hover:border-gold hover:bg-gold/[0.02] transition-colors"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <FileText size={16} className="text-crimson" />
+                <Download size={14} className="text-steel group-hover:text-gold" />
+              </div>
+              <h3 className="font-display font-bold text-[12px] text-midnight mb-1 leading-tight">
+                {t.title}
+              </h3>
+              <span className="font-sans text-[10px] text-steel">{t.regulation}</span>
+            </a>
           ))}
         </div>
       </motion.div>
@@ -235,6 +278,14 @@ export default function TrainingPage() {
                               Complete
                             </button>
                           )}
+                          <a
+                            href={`/api/training/signoff/${record.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-1.5 border border-midnight/20 text-midnight font-display font-medium text-[10px] tracking-[1px] uppercase hover:border-gold hover:text-gold transition-colors inline-flex items-center gap-1"
+                          >
+                            <Download size={12} weight="bold" /> Sign-off
+                          </a>
                           <button
                             onClick={() => handleDelete(record.id)}
                             className="p-1.5 text-steel hover:text-crimson transition-colors"
