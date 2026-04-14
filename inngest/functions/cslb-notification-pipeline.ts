@@ -23,20 +23,43 @@ import { createClient } from "@supabase/supabase-js"
 import { Resend } from "resend"
 import { inngest } from "../client"
 
-// ── Supabase clients ─────────────────────────────────────────────────────────
-// Intel DB (vizmtkfpxxjzlpzibate) — CSLB data, change log, risk config
-const intelDb = createClient(
-  process.env.INTEL_SUPABASE_URL!,
-  process.env.INTEL_SUPABASE_SERVICE_KEY! // service role — bypasses RLS
-)
+// ── Lazy-init clients (constructed on first call, not at module load) ────────
+// Prevents build-time crashes when env vars aren't populated in the Next.js
+// "collect page data" pass.
 
-// App DB (yfkledwhwsembikpjynu) — clients, construction_subs, alerts
-const appDb = createClient(
-  process.env.APP_SUPABASE_URL!,
-  process.env.APP_SUPABASE_SERVICE_KEY!
-)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let _intelDb: any = null
+function getIntelDb() {
+  if (!_intelDb) {
+    const url = process.env.INTEL_SUPABASE_URL
+    const key = process.env.INTEL_SUPABASE_SERVICE_KEY
+    if (!url || !key) throw new Error("INTEL_SUPABASE_URL / INTEL_SUPABASE_SERVICE_KEY not set")
+    _intelDb = createClient(url, key)
+  }
+  return _intelDb
+}
 
-const resend = new Resend(process.env.RESEND_API_KEY!)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let _appDb: any = null
+function getAppDb() {
+  if (!_appDb) {
+    const url = process.env.APP_SUPABASE_URL
+    const key = process.env.APP_SUPABASE_SERVICE_KEY
+    if (!url || !key) throw new Error("APP_SUPABASE_URL / APP_SUPABASE_SERVICE_KEY not set")
+    _appDb = createClient(url, key)
+  }
+  return _appDb
+}
+
+let _resend: Resend | null = null
+function getResend() {
+  if (!_resend) {
+    const key = process.env.RESEND_API_KEY
+    if (!key) throw new Error("RESEND_API_KEY not set")
+    _resend = new Resend(key)
+  }
+  return _resend
+}
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -92,7 +115,7 @@ export const cslbNotificationPipeline = inngest.createFunction(
   async ({ step, logger }) => {
     // ── Step 1: Fetch pending notifications from intel DB ──────────────────
     const notifications = await step.run("fetch-pending-notifications", async () => {
-      const { data, error } = await intelDb.rpc("cslb_pending_notifications")
+      const { data, error } = await getIntelDb().rpc("cslb_pending_notifications")
       if (error) throw new Error(`cslb_pending_notifications() failed: ${error.message}`)
       return (data as PendingNotification[]) ?? []
     })
@@ -112,7 +135,7 @@ export const cslbNotificationPipeline = inngest.createFunction(
     const clientIds = [...new Set(notifications.map((n) => n.app_client_id))]
 
     const clients = await step.run("fetch-clients", async () => {
-      const { data, error } = await appDb
+      const { data, error } = await getAppDb()
         .from("clients")
         .select("id, email, business_name, notification_preferences")
         .in("id", clientIds)
@@ -149,7 +172,7 @@ export const cslbNotificationPipeline = inngest.createFunction(
       }))
 
       // upsert on source_ref — safe to re-run if Inngest retries
-      const { error } = await appDb
+      const { error } = await getAppDb()
         .from("alerts")
         .upsert(rows, { onConflict: "source_ref", ignoreDuplicates: true })
 
@@ -173,7 +196,7 @@ export const cslbNotificationPipeline = inngest.createFunction(
 
         // Batch update — one per sub (no parallel N+1 queries)
         const updates = [...bySubId.entries()].map(([subId, n]) =>
-          appDb
+          getAppDb()
             .from("construction_subs")
             .update({
               cslb_primary_status: n.new_value,
@@ -228,7 +251,7 @@ export const cslbNotificationPipeline = inngest.createFunction(
         })
 
         // Resend batch API — up to 100 per call
-        const { error } = await resend.batch.send(emails)
+        const { error } = await getResend().batch.send(emails)
         if (error) {
           // Log but don't throw — alerts are already in DB, email is best-effort
           logger.error("Resend batch failed (non-fatal):", error)
@@ -244,7 +267,7 @@ export const cslbNotificationPipeline = inngest.createFunction(
     const changeIds = notifications.map((n) => n.change_id)
 
     await step.run("mark-notified", async () => {
-      const { data: markedCount, error } = await intelDb.rpc("cslb_mark_notified", {
+      const { data: markedCount, error } = await getIntelDb().rpc("cslb_mark_notified", {
         change_ids: changeIds,
       })
       if (error) throw new Error(`cslb_mark_notified() failed: ${error.message}`)
@@ -279,7 +302,7 @@ export async function registerLicenseForMonitoring(params: {
   const { licenseNo, appClientId, appSubId, relationshipType } = params
 
   // 1. Verify the license exists in the intel DB
-  const { data: license, error: lookupError } = await intelDb
+  const { data: license, error: lookupError } = await getIntelDb()
     .from("cslb_licenses")
     .select(
       "license_no, primary_status, business_type, county, wc_expiration_date, expiration_date"
@@ -292,7 +315,7 @@ export async function registerLicenseForMonitoring(params: {
   }
 
   // 2. Insert into cslb_monitored_licenses (upsert — idempotent)
-  const { error: monitorError } = await intelDb.from("cslb_monitored_licenses").upsert(
+  const { error: monitorError } = await getIntelDb().from("cslb_monitored_licenses").upsert(
     {
       license_no: licenseNo,
       app_client_id: appClientId,
@@ -308,13 +331,13 @@ export async function registerLicenseForMonitoring(params: {
     throw new Error(`monitored_licenses upsert failed: ${monitorError.message}`)
 
   // 3. Set is_monitored = true on the license record
-  await intelDb
+  await getIntelDb()
     .from("cslb_licenses")
     .update({ is_monitored: true })
     .eq("license_no", licenseNo)
 
   // 4. Cache initial CSLB state on the construction_subs record
-  await appDb
+  await getAppDb()
     .from("construction_subs")
     .update({
       cslb_license_no: licenseNo,
@@ -338,7 +361,7 @@ export async function stopMonitoringLicense(params: {
   const { licenseNo, appClientId } = params
 
   // Soft-delete — preserve history
-  const { error } = await intelDb
+  const { error } = await getIntelDb()
     .from("cslb_monitored_licenses")
     .update({ removed_at: new Date().toISOString() })
     .eq("license_no", licenseNo)
@@ -348,7 +371,7 @@ export async function stopMonitoringLicense(params: {
   if (error) throw new Error(`deregister failed: ${error.message}`)
 
   // Check if any other clients still monitor this license
-  const { count } = await intelDb
+  const { count } = await getIntelDb()
     .from("cslb_monitored_licenses")
     .select("*", { count: "exact", head: true })
     .eq("license_no", licenseNo)
@@ -356,7 +379,7 @@ export async function stopMonitoringLicense(params: {
 
   // If no other clients monitor it, unset is_monitored to stop WC lapse detection
   if ((count ?? 0) === 0) {
-    await intelDb
+    await getIntelDb()
       .from("cslb_licenses")
       .update({ is_monitored: false })
       .eq("license_no", licenseNo)
