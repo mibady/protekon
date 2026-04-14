@@ -1327,3 +1327,40 @@ User asked about lead funnels during session. Findings:
 - 5 commits pushed: `0616779` through `5094bb9`
 - Stripe test-mode products created via API (not in git)
 - Production deployment: ● Ready on Vercel
+
+## Session 24 — 2026-04-14
+
+### Completed
+- CTA/paygate/lead flow remediation — shipped 4 commits covering:
+  - **feat(auth)**: root middleware.ts guarding /dashboard/* + /partner/*; lib/safe-redirect.ts; validated ?next= param in auth callback + signIn + login page
+  - **feat(billing)**: closed signup→intake→dashboard revenue leak (intake now routes through Stripe Checkout); added "Complete payment" banner on /dashboard when stripe_customer_id null; wired settings upgrade button; Stripe checkout self-heals stale customer ids via customers.retrieve + row reset
+  - **feat(leads)**: gated /api/samples/gate GET behind email + 24h recent-lead verification; /resources downloads now email-modal gated; new BlogPostCTA component on every /blog/[slug]; calculator breakdown + ROI gated behind email
+  - **fix(copy+links)**: /sample-reports→/samples + empty-href fixes in ScoreWizard; id=engine/security anchors on about + homepage; next.config redirects for /industries/hipaa, /industries/property-management, /partner/dashboard; removed "Take a quick assessment" + "No sales call" + "Free Downloads" microcopy per Rules #3 and #4
+
+### Audit Snapshot
+- Pages: 34 dashboard + 3 partner + ~30 marketing (flat) = ~67
+- API routes: 19
+- Actions: 33 files
+- Components: 87
+- Build: tsc clean; lint clean on touched files; preexisting test failures (chat/stripe-routes/score) unchanged by this session
+
+### Decisions Made
+- Stale stripe_customer_id → self-heal via customers.retrieve precheck rather than require manual DB cleanup. Rationale: dev DBs carry stale test ids indefinitely; self-heal removes a persistent friction point for Ian's manual QA.
+- /dashboard/audits and /partner/clients 404s NOT redirected. These are unbuilt features (tier-gated Annual Audit; partner client-list view). Masking with redirects would hide real product gaps from roadmap.
+- Split remediation into 4 logical commits (auth, billing, leads, copy) rather than one omnibus — respects pre-commit ≤20-file block and keeps bisect-friendly history.
+
+### Known Issues
+- Preexisting test failures (19) in chat/stripe-routes/score-submit/resend/construction — not introduced this session, confirmed via stash+rerun on clean main. Should be addressed in a follow-up.
+- /dashboard/audits and /partner/clients still 404 — need real implementations, not redirects.
+
+### Next Session Should
+- Manual QA pass on preview deploy: signup→Stripe test card, logged-out /dashboard redirect with ?next=, ?next=//evil.com rejection, resources gate, blog CTA, calculator gate, settings upgrade, three new 301 redirects
+- Fix the 19 preexisting test failures (separate session)
+- Build /dashboard/audits (Annual Audit feature for Multi-Site tier) and /partner/clients if on roadmap
+
+### Git
+- 4 commits rebased + pushed: ac9be89, 018ae1b, 43164f8, 5ba47b1
+- Remote: origin/main @ 5ba47b1
+
+### Linear
+- Not updated this session (Phase 0 NGE-358 [DNA] Middleware — Auth enforcement is now shipped; mark Done next session with manual verification)
