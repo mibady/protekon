@@ -74,6 +74,7 @@ const navGroups = [
       { name: "Training", href: "/dashboard/training", icon: GraduationCap },
       { name: "Quarterly Reviews", href: "/dashboard/reports/quarterly-review", icon: ChartLine, minTier: "professional" as const },
       { name: "Annual Audit", href: "/dashboard/reports/annual-summary", icon: Clipboard, minTier: "multi-site" as const },
+      { name: "Multi-Site Rollup", href: "/dashboard/rollup", icon: ChartLine, minTier: "multi-site" as const },
     ]
   },
   {
