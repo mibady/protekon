@@ -865,218 +865,611 @@ const PROPERTY_COMPLIANCE_PROGRAM_TEMPLATE: DocumentTemplate = {
   ],
 }
 
+
 // ---------------------------------------------------------------------------
-// MISSING TEMPLATES — prioritized by regulatory risk
+// Construction: Silica Exposure Control Plan
 // ---------------------------------------------------------------------------
 
-// Construction: Silica Exposure Control Plan (HIGH PRIORITY — top penalty)
 const SILICA_EXPOSURE_CONTROL_PLAN_TEMPLATE: DocumentTemplate = {
   id: "silica-exposure-control",
   title: "Respirable Crystalline Silica Exposure Control Plan",
   vertical: "construction",
-  description: "Written exposure control plan for construction tasks disturbing silica (concrete cutting, grinding, drilling, jackhammering). Highest per-case penalties in construction.",
+  description: "Written exposure control plan for construction tasks disturbing silica (concrete cutting, grinding, drilling, jackhammering). Required by 29 CFR 1926.1153. Highest per-case penalties in construction.",
   jurisdiction: "federal-osha",
   requiredClientFields: ["businessName", "location", "employeeCount"],
   refreshCycle: "annual",
   retentionYears: 30,
-  disclaimer: "This plan must be updated whenever new silica-generating tasks are introduced. Medical surveillance records must be retained for 30 years.",
+  disclaimer: "This plan must be updated whenever new silica-generating tasks are introduced or work conditions change. Medical surveillance and exposure monitoring records must be retained for 30 years per 29 CFR 1910.1020. A competent person must be designated to implement this plan on each worksite.",
   sections: [
-    { heading: "1. Scope and Application", purpose: "Identify all construction tasks generating respirable crystalline silica: concrete/masonry cutting, grinding, drilling, jackhammering, tuck-pointing, abrasive blasting. List each task and the employees exposed.", requiredReferences: ["29 CFR 1926.1153(a)", "29 CFR 1926.1153(c)"], targetWords: 300, alwaysInclude: true },
-    { heading: "2. Table 1 Compliance or Alternative Exposure Assessment", purpose: "For each task, specify whether Table 1 specified exposure control methods are used OR objective air monitoring was conducted. Table 1 provides per-task controls (e.g., wet cutting with integrated water delivery for handheld power saws).", requiredReferences: ["29 CFR 1926.1153(c)(1)", "29 CFR 1926.1153(d)"], targetWords: 400, alwaysInclude: true },
-    { heading: "3. Engineering and Work Practice Controls", purpose: "Describe specific engineering controls per task: water delivery systems, local exhaust ventilation, enclosed cabs with filtered air. Work practice controls: wet sweeping, HEPA vacuums, housekeeping.", requiredReferences: ["29 CFR 1926.1153(c)(1)", "29 CFR 1926.1153(f)(1)"], targetWords: 350, alwaysInclude: true },
-    { heading: "4. Respiratory Protection Program", purpose: "When controls cannot reduce exposure below PEL (50 μg/m³ TWA): respirator selection per APF tables, annual fit testing, medical evaluation, proper use/maintenance.", requiredReferences: ["29 CFR 1926.1153(e)", "29 CFR 1910.134"], targetWords: 300, alwaysInclude: true },
-    { heading: "5. Medical Surveillance", purpose: "For employees exposed above action level (25 μg/m³) for 30+ days/year: initial exam within 30 days, periodic exams every 3 years, chest X-ray and pulmonary function test. Written medical opinions within 30 days.", requiredReferences: ["29 CFR 1926.1153(h)"], targetWords: 300, alwaysInclude: true },
-    { heading: "6. Competent Person Designation", purpose: "Identify the competent person at each worksite. Must be capable of identifying silica hazards and authorized to take corrective measures.", requiredReferences: ["29 CFR 1926.1153(g)"], targetWords: 200, alwaysInclude: true },
-    { heading: "7. Training", purpose: "All exposed employees: health hazards of silica, methods to limit exposure, exposure monitoring and medical surveillance purpose/procedures, and this plan's contents.", requiredReferences: ["29 CFR 1926.1153(i)"], targetWords: 250, alwaysInclude: true },
-    { heading: "8. Recordkeeping", purpose: "Exposure monitoring records: 30 years. Medical surveillance: employment duration + 30 years. Must be accessible to employees and OSHA.", requiredReferences: ["29 CFR 1926.1153(j)", "29 CFR 1910.1020"], targetWords: 200, alwaysInclude: true },
+    {
+      heading: "1. Scope and Application",
+      purpose: "Identify all construction tasks at this worksite that generate respirable crystalline silica. Must include a task-by-task inventory covering concrete/masonry cutting, grinding, drilling, jackhammering, tuck-pointing, abrasive blasting, and demolition. For each task, list the employees assigned, the frequency of the task, and the estimated duration of exposure per shift.",
+      requiredReferences: ["29 CFR 1926.1153(a)", "29 CFR 1926.1153(c)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Table 1 Compliance or Alternative Exposure Assessment",
+      purpose: "For each identified task, specify whether the employer uses Table 1 specified exposure control methods OR has conducted objective air monitoring per the alternative exposure assessment. Table 1 provides per-task engineering controls — for example, handheld power saws must use integrated water delivery for blade cooling and dust suppression. If Table 1 cannot be fully implemented for any task, describe the alternative assessment methodology including sampling strategy, analytical method (NIOSH 7500 or equivalent), and documentation of results relative to the PEL (50 μg/m³) and action level (25 μg/m³).",
+      requiredReferences: ["29 CFR 1926.1153(c)(1)", "29 CFR 1926.1153(d)"],
+      targetWords: 450,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Engineering and Work Practice Controls",
+      purpose: "Describe the specific engineering controls applied to each silica-generating task. Must include water delivery systems (flow rates, nozzle placement), local exhaust ventilation (HEPA-filtered vacuums attached to tools), enclosed cabs with HEPA-filtered positive-pressure systems, and ventilated containment for indoor work. Describe work practice controls including wet sweeping instead of dry sweeping, HEPA-filtered vacuum systems for cleanup, prohibition of compressed air for cleaning, and housekeeping schedules to prevent settled dust re-suspension.",
+      requiredReferences: ["29 CFR 1926.1153(c)(1)", "29 CFR 1926.1153(f)(1)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Respiratory Protection Program",
+      purpose: "Describe the respiratory protection program for employees whose exposure cannot be reduced below the PEL through engineering controls alone. Must include respirator selection based on Assigned Protection Factor (APF) tables, initial and annual fit testing procedures per 29 CFR 1910.134, medical evaluation for respirator use, training on proper donning/doffing/seal-check procedures, and a maintenance and inspection schedule for reusable respirators.",
+      requiredReferences: ["29 CFR 1926.1153(e)", "29 CFR 1910.134"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Medical Surveillance",
+      purpose: "Describe the medical surveillance program for employees exposed above the action level (25 μg/m³ as an 8-hour TWA) for 30 or more days per year. Must include initial medical examination within 30 days of assignment, periodic examinations every 3 years (or annually if recommended by the physician), chest X-ray (ILO classification), pulmonary function test (FVC and FEV1), TB testing when recommended, and written medical opinions provided to the employer within 30 days. Describe how medical removal provisions are implemented when a physician recommends removal from silica exposure.",
+      requiredReferences: ["29 CFR 1926.1153(h)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "6. Competent Person Designation",
+      purpose: "Identify the competent person responsible for implementing the silica exposure control plan at each worksite. Must include the person's name, title, and qualifications. The competent person must be capable of identifying existing and foreseeable silica hazards, authorized to take prompt corrective measures to eliminate or minimize them, and knowledgeable about the requirements of 29 CFR 1926.1153.",
+      requiredReferences: ["29 CFR 1926.1153(g)"],
+      targetWords: 200,
+      alwaysInclude: true,
+    },
+    {
+      heading: "7. Training",
+      purpose: "Describe the training program for all employees with occupational exposure to respirable crystalline silica. Must cover the health hazards of silica exposure (silicosis, lung cancer, COPD, kidney disease), the specific tasks at this worksite that generate silica dust, the engineering and work practice controls in place, the purpose and procedures for exposure monitoring and medical surveillance, the contents of this written plan, and employee access rights to exposure and medical records per 29 CFR 1910.1020.",
+      requiredReferences: ["29 CFR 1926.1153(i)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "8. Recordkeeping",
+      purpose: "Describe the recordkeeping requirements for this program. Exposure monitoring records must be retained for at least 30 years. Medical surveillance records must be retained for the duration of employment plus 30 years. Objective data used in lieu of air monitoring must be retained for 30 years. All records must be accessible to employees and their designated representatives per 29 CFR 1910.1020. Describe the storage location, format, and custodian for each record type.",
+      requiredReferences: ["29 CFR 1926.1153(j)", "29 CFR 1910.1020"],
+      targetWords: 250,
+      alwaysInclude: true,
+    },
   ],
 }
 
-// Hearing Conservation Program (construction + manufacturing)
+// ---------------------------------------------------------------------------
+// Cross-Vertical: Hearing Conservation Program
+// ---------------------------------------------------------------------------
+
 const HEARING_CONSERVATION_PROGRAM_TEMPLATE: DocumentTemplate = {
   id: "hearing-conservation",
   title: "Hearing Conservation Program",
   vertical: "all",
-  description: "Required when employee noise exposure reaches or exceeds 85 dBA (8-hour TWA). Covers monitoring, audiometric testing, hearing protection, and training.",
+  description: "Required hearing conservation program when employee noise exposure reaches or exceeds the 85 dBA action level (8-hour TWA). Covers noise monitoring, audiometric testing, hearing protection devices, engineering controls, and training.",
   jurisdiction: "cal-osha",
   requiredClientFields: ["businessName", "location", "employeeCount"],
   refreshCycle: "annual",
   retentionYears: 30,
-  disclaimer: "Audiometric testing must be administered by a qualified audiologist or technician under their supervision. Records retained for duration of employment.",
+  disclaimer: "This program must be administered by or under the supervision of a qualified audiologist, otolaryngologist, or certified occupational hearing conservationist. Audiometric testing records must be retained for the duration of the affected employee's employment. Noise exposure measurements must be retained for 2 years.",
   sections: [
-    { heading: "1. Noise Monitoring", purpose: "Initial baseline survey, area monitoring, personal dosimetry. Identify areas/tasks exceeding 85 dBA action level and 90 dBA PEL. Repeat when changes increase exposures.", requiredReferences: ["8 CCR 5097(a)", "29 CFR 1910.95(d)"], targetWords: 300, alwaysInclude: true },
-    { heading: "2. Audiometric Testing Program", purpose: "Baseline audiogram within 6 months (1 year with mobile van). Annual audiograms. Standard Threshold Shift detection and follow-up.", requiredReferences: ["8 CCR 5097(b)", "29 CFR 1910.95(g)"], targetWords: 300, alwaysInclude: true },
-    { heading: "3. Hearing Protection Devices", purpose: "Provided at no cost at 85 dBA+. Required at 90 dBA+. Types, NRR ratings, proper fit verification.", requiredReferences: ["8 CCR 5098", "29 CFR 1910.95(i)"], targetWords: 250, alwaysInclude: true },
-    { heading: "4. Engineering and Administrative Controls", purpose: "Required at 90 dBA+: equipment maintenance, vibration dampening, sound barriers, rotation schedules.", requiredReferences: ["8 CCR 5096", "29 CFR 1910.95(b)(1)"], targetWords: 250, alwaysInclude: true },
-    { heading: "5. Training", purpose: "Annual: effects of noise on hearing, audiometric testing purpose, proper HPD use/care, program contents.", requiredReferences: ["29 CFR 1910.95(k)"], targetWords: 250, alwaysInclude: true },
-    { heading: "6. Recordkeeping", purpose: "Noise measurements: 2 years. Audiometric records: duration of employment. Include employee name, date, examiner, results.", requiredReferences: ["29 CFR 1910.95(m)", "8 CCR 5097(d)"], targetWords: 200, alwaysInclude: true },
+    {
+      heading: "1. Noise Monitoring",
+      purpose: "Describe the noise monitoring program used to identify employees exposed at or above the 85 dBA action level. Must include the initial baseline noise survey methodology (area monitoring and/or personal dosimetry), identification of all work areas and tasks exceeding 85 dBA (action level) and 90 dBA (PEL), the monitoring schedule, and the triggers for repeating monitoring (changes in production, processes, equipment, or controls that may increase exposure). Employees must be notified of monitoring results.",
+      requiredReferences: ["8 CCR 5097(a)", "29 CFR 1910.95(d)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Audiometric Testing Program",
+      purpose: "Describe the audiometric testing program for all employees exposed at or above the action level. Must include baseline audiogram procedures (within 6 months of first exposure, or within 1 year if a mobile test van is used — preceded by 14 hours of quiet), annual audiograms, Standard Threshold Shift (STS) detection criteria (average change of 10 dB or more at 2000, 3000, and 4000 Hz in either ear), and follow-up procedures when an STS is confirmed (retest within 30 days, notification, refitting of hearing protection, referral for clinical evaluation if pathology is suspected).",
+      requiredReferences: ["8 CCR 5097(b)", "29 CFR 1910.95(g)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Hearing Protection Devices",
+      purpose: "Describe the hearing protection program. Must include the types of hearing protection devices (HPDs) available to employees (earplugs, earmuffs, canal caps), the Noise Reduction Rating (NRR) for each device type, the OSHA derating methodology applied, proper fitting and use instructions, the requirement to provide HPDs at no cost to all employees exposed at or above 85 dBA, the mandatory use requirement at or above 90 dBA, and the replacement schedule for worn or damaged HPDs.",
+      requiredReferences: ["8 CCR 5098", "29 CFR 1910.95(i)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Engineering and Administrative Controls",
+      purpose: "Describe feasible engineering and administrative controls to reduce noise exposure when exposure exceeds the 90 dBA PEL. Engineering controls must include equipment maintenance and lubrication schedules, vibration dampening mounts, sound-absorbing barriers and enclosures, equipment substitution with quieter models, and isolation of noisy processes. Administrative controls may include job rotation schedules, quiet work periods, and limiting exposure duration. Document why any feasible control was not implemented.",
+      requiredReferences: ["8 CCR 5096", "29 CFR 1910.95(b)(1)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Training",
+      purpose: "Describe the annual training program for all employees exposed at or above the action level. Must cover the effects of noise on hearing (temporary and permanent threshold shifts, tinnitus), the purpose and procedures of audiometric testing, the purpose, types, advantages/disadvantages, and proper selection, fitting, use, and care of hearing protection devices, and the contents of this written program. Training must be repeated annually and updated when monitoring results or program procedures change.",
+      requiredReferences: ["29 CFR 1910.95(k)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "6. Recordkeeping",
+      purpose: "Describe the recordkeeping requirements. Noise exposure measurement records must include the date, employee name, job classification, sampling methodology, and results — retained for a minimum of 2 years. Audiometric test records must include the employee's name, job classification, date, examiner's name, audiometer serial number and date of last calibration, and test results — retained for the duration of employment. Records must be accessible to employees and their representatives per 29 CFR 1910.1020.",
+      requiredReferences: ["29 CFR 1910.95(m)", "8 CCR 5097(d)"],
+      targetWords: 250,
+      alwaysInclude: true,
+    },
   ],
 }
 
-// Healthcare: HIPAA Security Risk Analysis (HIGH PRIORITY — #1 OCR finding)
+// ---------------------------------------------------------------------------
+// Healthcare: HIPAA Security Risk Analysis
+// ---------------------------------------------------------------------------
+
 const HIPAA_SRA_TEMPLATE: DocumentTemplate = {
   id: "hipaa-sra",
   title: "HIPAA Security Risk Analysis",
   vertical: "healthcare",
-  description: "#1 finding in OCR audits. Required annual assessment of threats and vulnerabilities to ePHI.",
+  description: "The #1 finding in OCR compliance audits and enforcement actions. 45 CFR §164.308(a)(1) requires covered entities to conduct an accurate and thorough assessment of the potential risks and vulnerabilities to the confidentiality, integrity, and availability of all ePHI.",
   jurisdiction: "hipaa",
   requiredClientFields: ["businessName", "location", "employeeCount", "vertical"],
   refreshCycle: "annual",
   retentionYears: 6,
-  disclaimer: "Must be conducted annually and whenever significant changes occur. Retain 6 years per 45 CFR §164.530(j).",
+  disclaimer: "This Security Risk Analysis must be conducted annually and whenever significant changes occur to systems, operations, or the environment that affect the security of ePHI. Retain for 6 years per HIPAA Administrative Simplification rules (45 CFR §164.530(j)). This SRA does not constitute legal advice.",
   sections: [
-    { heading: "1. Scope of the Assessment", purpose: "Identify all electronic media and systems that create, receive, maintain, or transmit ePHI. Map data flows between systems.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"], targetWords: 350, alwaysInclude: true },
-    { heading: "2. Threat Identification", purpose: "Identify all reasonably anticipated threats: natural (fire, flood), human (hackers, social engineering), environmental (power failure, hardware malfunction).", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"], targetWords: 350, alwaysInclude: true },
-    { heading: "3. Vulnerability Assessment", purpose: "For each system, assess vulnerabilities: missing patches, weak passwords, unencrypted data, insufficient logging, inadequate physical security.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)", "45 CFR §164.312"], targetWords: 350, alwaysInclude: true },
-    { heading: "4. Current Security Measures", purpose: "Document existing safeguards: access controls, encryption, audit logging, backup, workforce training, physical security, BAAs.", requiredReferences: ["45 CFR §164.306(b)(1)"], targetWords: 300, alwaysInclude: true },
-    { heading: "5. Risk Determination", purpose: "For each threat-vulnerability pair: rate likelihood (H/M/L) and impact (H/M/L). Assign overall risk level. Document methodology.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"], targetWords: 300, alwaysInclude: true },
-    { heading: "6. Risk Management Plan", purpose: "For each risk: mitigate, accept, transfer, or avoid. Include implementation timeline and responsible person.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(B)"], targetWords: 350, alwaysInclude: true },
-    { heading: "7. Documentation and Review Schedule", purpose: "Retain 6 years. Annual review required. Additional reviews triggered by incidents, system changes, or organizational changes.", requiredReferences: ["45 CFR §164.316(b)(1)", "45 CFR §164.530(j)"], targetWords: 200, alwaysInclude: true },
+    {
+      heading: "1. Scope of the Assessment",
+      purpose: "Define the complete scope of this risk analysis. Must identify every electronic system, device, and media that creates, receives, maintains, or transmits ePHI — including EHR/EMR systems, practice management software, billing systems, email (if used for PHI), fax servers, mobile devices, laptops, portable storage media, cloud-hosted services, medical devices with ePHI, backup tapes/drives, and paper-to-digital scanning systems. Map the data flows between systems showing where ePHI enters, moves through, and exits the organization.",
+      requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Threat Identification",
+      purpose: "Identify all reasonably anticipated threats to the confidentiality, integrity, and availability of ePHI. Must include natural threats (fire, flood, earthquake, severe weather, power grid failure), human threats both intentional (hackers, ransomware, social engineering, phishing, insider theft, terminated employee access) and unintentional (employee errors, misdirected faxes/emails, improper disposal, lost devices), and environmental threats (HVAC failure, water damage, hardware malfunction, software corruption). Threats must be specific to this practice's physical location, technology environment, and workforce composition.",
+      requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Vulnerability Assessment",
+      purpose: "For each ePHI system identified in scope, assess technical, administrative, and physical vulnerabilities. Technical vulnerabilities must include patch management status, password policies, encryption status (at rest and in transit), access control mechanisms, audit logging configuration, firewall and antivirus status, and wireless network security. Administrative vulnerabilities must include workforce training gaps, sanctions policy enforcement, and Business Associate oversight. Physical vulnerabilities must include facility access controls, workstation positioning, device theft prevention, and media disposal procedures.",
+      requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)", "45 CFR §164.312"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Current Security Measures",
+      purpose: "Document all existing safeguards currently in place and assess their effectiveness. Must cover access controls (unique user IDs, role-based access, automatic logoff), encryption (at rest per §164.312(a)(2)(iv) and in transit per §164.312(e)(1)), audit controls and log review procedures, data backup frequency and integrity verification, workforce security awareness training program, physical security measures (locks, alarms, badge access), and the current inventory of executed Business Associate Agreements.",
+      requiredReferences: ["45 CFR §164.306(b)(1)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Risk Determination",
+      purpose: "For each identified threat-vulnerability combination, determine the level of risk. Must document the methodology used for risk scoring. Rate the likelihood of the threat exploiting the vulnerability (high, medium, or low) based on the threat source motivation/capability and the nature of the vulnerability. Rate the potential impact (high, medium, or low) if the threat were realized — considering the sensitivity of the ePHI, the volume of records affected, and the harm to individuals. Assign an overall risk level for each combination and rank risks to prioritize remediation.",
+      requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "6. Risk Management Plan",
+      purpose: "For each identified risk, describe the risk response strategy. Must categorize each response as mitigate (implement additional safeguards to reduce risk to a reasonable and appropriate level), accept (document the business justification for accepting residual risk, signed by a responsible official), transfer (insurance coverage, BAA provisions shifting liability), or avoid (eliminate the activity creating the risk). For each mitigation action, include the specific safeguard, the responsible person, the implementation deadline, the estimated cost, and the method for verifying effectiveness.",
+      requiredReferences: ["45 CFR §164.308(a)(1)(ii)(B)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "7. Documentation and Review Schedule",
+      purpose: "Describe the documentation and review requirements. This SRA must be documented in writing and retained for a minimum of 6 years from the date of creation or the date it was last in effect, whichever is later. Annual review is required. Additional reviews must be triggered by any security incident, significant system change (new EHR, cloud migration), new technology deployment, organizational change (merger, new location), or change in regulatory requirements. Document the date of this assessment, the person(s) who conducted it, and the next scheduled review date.",
+      requiredReferences: ["45 CFR §164.316(b)(1)", "45 CFR §164.530(j)"],
+      targetWords: 250,
+      alwaysInclude: true,
+    },
   ],
 }
 
-// Healthcare: Aerosol Transmissible Disease Plan (Cal/OSHA specific)
+// ---------------------------------------------------------------------------
+// Healthcare: Aerosol Transmissible Disease Plan
+// ---------------------------------------------------------------------------
+
 const ATD_PLAN_TEMPLATE: DocumentTemplate = {
   id: "atd-plan",
   title: "Aerosol Transmissible Disease Exposure Control Plan",
   vertical: "healthcare",
-  description: "Cal/OSHA-specific requirement beyond federal BBP. Written ATD plan addressing airborne transmission risks in healthcare facilities.",
+  description: "Cal/OSHA-specific requirement (8 CCR §5199) that goes beyond federal bloodborne pathogen protections. Written ATD plan addressing airborne pathogen transmission risks in healthcare facilities. Most small practices are unaware this California-only standard exists.",
   jurisdiction: "cal-osha",
   requiredClientFields: ["businessName", "location", "employeeCount", "vertical"],
   refreshCycle: "annual",
   retentionYears: 5,
-  disclaimer: "Must be reviewed annually and updated when new ATDs emerge or CDC/Cal/OSHA guidance changes.",
+  disclaimer: "This ATD plan must be reviewed annually and updated whenever new aerosol transmissible diseases emerge, new tasks with exposure risk are introduced, or when CDC/Cal/OSHA guidance changes. This plan addresses workplace safety requirements under Cal/OSHA — clinical infection control protocols may require additional documentation.",
   sections: [
-    { heading: "1. Exposure Determination", purpose: "Identify employees with occupational ATD exposure by job classification. Identify tasks and procedures that create exposure risk.", requiredReferences: ["8 CCR 5199(b)", "8 CCR 5199(d)(1)"], targetWords: 300, alwaysInclude: true },
-    { heading: "2. Source Control Measures", purpose: "Triage screening, respiratory hygiene/cough etiquette, patient isolation (AIIR if available), visitor management.", requiredReferences: ["8 CCR 5199(d)(2)"], targetWords: 300, alwaysInclude: true },
-    { heading: "3. Referral Procedures", purpose: "For facilities without AIIR: referral procedures, transport protocols, receiving facility communication.", requiredReferences: ["8 CCR 5199(d)(3)"], targetWords: 250, alwaysInclude: true },
-    { heading: "4. Respiratory Protection Program", purpose: "N95 or higher selection, fit testing (annual), medical evaluation, seal checks, PAPR availability.", requiredReferences: ["8 CCR 5199(d)(4)", "8 CCR 5144"], targetWords: 300, alwaysInclude: true },
-    { heading: "5. Employee Screening and Medical Services", purpose: "TB skin testing (initial/periodic), symptom monitoring, post-exposure management, positive conversion procedures.", requiredReferences: ["8 CCR 5199(g)"], targetWords: 300, alwaysInclude: true },
-    { heading: "6. Training", purpose: "Annual: transmission modes, signs/symptoms, infection control, respiratory protection, reporting. Facility-specific ATDs.", requiredReferences: ["8 CCR 5199(h)"], targetWords: 250, alwaysInclude: true },
+    {
+      heading: "1. Exposure Determination",
+      purpose: "Identify all employees with occupational exposure to aerosol transmissible diseases. Must list job classifications where all employees have exposure (physicians, nurses, respiratory therapists, medical assistants performing triage) and classifications where some employees have exposure based on specific tasks (front desk staff during patient check-in, housekeeping staff cleaning patient areas, laboratory technicians processing respiratory specimens). For each classification, identify the specific tasks and procedures that create exposure risk.",
+      requiredReferences: ["8 CCR 5199(b)", "8 CCR 5199(d)(1)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Source Control Measures",
+      purpose: "Describe how the facility identifies and isolates patients with suspected or confirmed aerosol transmissible diseases. Must include triage screening procedures (symptom questions, signage in waiting areas, visual assessment), respiratory hygiene and cough etiquette provisions (tissues, no-touch waste receptacles, surgical masks for symptomatic patients), patient placement procedures (airborne infection isolation rooms with negative pressure if available, or immediate masking and separation), and visitor management protocols for patients under ATD precautions.",
+      requiredReferences: ["8 CCR 5199(d)(2)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Referral Procedures",
+      purpose: "Describe procedures for referring patients with suspected or confirmed ATDs to facilities with appropriate isolation capacity when this facility lacks airborne infection isolation rooms. Must include criteria for when to refer, the list of referral facilities with contact information, transport protocols (patient masking during transport, notification of receiving facility before transfer, ambulance crew notification), and documentation of the referral decision.",
+      requiredReferences: ["8 CCR 5199(d)(3)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Respiratory Protection Program",
+      purpose: "Describe the respiratory protection program for all employees with potential ATD exposure. Must include respirator selection (N95 filtering facepiece as minimum, with higher-level protection for aerosol-generating procedures), initial and annual fit testing procedures per 8 CCR 5144, medical evaluation for respirator use before fit testing, user seal-check procedures required before each use, availability of powered air-purifying respirators (PAPRs) for employees who cannot achieve an adequate fit, and procedures for respirator cleaning, storage, and disposal.",
+      requiredReferences: ["8 CCR 5199(d)(4)", "8 CCR 5144"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Employee Screening and Medical Services",
+      purpose: "Describe the employee health screening program for ATD-exposed workers. Must include baseline tuberculosis screening (TST or IGRA) upon hire for all employees with exposure potential, periodic screening based on risk assessment (annual for high-risk classifications), procedures for managing employees who convert to positive TB status (chest X-ray, symptom monitoring, work restriction evaluation), post-exposure evaluation for employees exposed to a confirmed ATD case, and medical confidentiality requirements for employee health records.",
+      requiredReferences: ["8 CCR 5199(g)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "6. Training",
+      purpose: "Describe the training program for all employees with potential ATD exposure. Must be provided upon initial assignment and at least annually. Must cover the epidemiology and modes of transmission for ATDs encountered in this facility, signs and symptoms of relevant ATDs (tuberculosis, influenza, COVID-19, measles, pertussis), infection control procedures in this plan including source control and isolation, proper use, fit-checking, and limitations of respiratory protection, the procedure for reporting suspected ATD exposures, and employee rights including access to medical records. Training must be specific to the ATDs most likely encountered at this facility.",
+      requiredReferences: ["8 CCR 5199(h)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
   ],
 }
 
-// Healthcare: BAA Tracker Template (document form)
+// ---------------------------------------------------------------------------
+// Healthcare: BAA Compliance Tracker
+// ---------------------------------------------------------------------------
+
 const BAA_TRACKER_TEMPLATE: DocumentTemplate = {
   id: "baa-tracker",
   title: "Business Associate Agreement Compliance Tracker",
   vertical: "healthcare",
-  description: "Structured BAA inventory tracking all vendors with PHI access, agreement status, renewal dates, and required provisions.",
+  description: "Structured BAA inventory and compliance verification document. Tracks all vendors with access to PHI, BAA execution status, required provisions, renewal dates, and vendor risk levels per HIPAA Business Associate requirements.",
   jurisdiction: "hipaa",
   requiredClientFields: ["businessName", "location", "employeeCount", "vertical"],
   refreshCycle: "semi-annual",
   retentionYears: 6,
-  disclaimer: "BAAs must be retained for 6 years per HIPAA. Update when vendors are added, removed, or data relationships change.",
+  disclaimer: "Business Associate Agreements must be retained for 6 years per HIPAA Administrative Simplification rules (45 CFR §164.530(j)). This tracker must be updated when vendors are added, removed, or when the nature of the data relationship changes. A BAA more than 3 years old should be reviewed against current regulatory requirements.",
   sections: [
-    { heading: "1. BAA Inventory", purpose: "All business associates: vendor name, service type, PHI types shared, execution date, expiration/renewal date, status.", requiredReferences: ["45 CFR §164.308(b)", "45 CFR §164.502(e)"], targetWords: 300, alwaysInclude: true },
-    { heading: "2. Required BAA Provisions Checklist", purpose: "Verify: permitted uses/disclosures, safeguards obligation, breach notification (60 days), PHI return/destruction on termination, subcontractor chain-down, CE termination right.", requiredReferences: ["45 CFR §164.314(a)(2)", "45 CFR §164.504(e)(2)"], targetWords: 350, alwaysInclude: true },
-    { heading: "3. Vendor Risk Assessment", purpose: "Per BA: PHI volume, access type, geographic location, BA security posture, breach history.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"], targetWords: 300, alwaysInclude: true },
-    { heading: "4. Monitoring and Renewal Schedule", purpose: "Renewal tracking (flag 90 days before expiration), annual BA compliance verification, breach response procedures, due diligence documentation.", requiredReferences: ["45 CFR §164.308(b)(3)"], targetWords: 250, alwaysInclude: true },
-    { heading: "5. Termination and PHI Return/Destruction", purpose: "Written notice, PHI return/certified destruction timeline, verification, infeasibility procedures.", requiredReferences: ["45 CFR §164.504(e)(2)(ii)(I)"], targetWords: 250, alwaysInclude: true },
+    {
+      heading: "1. BAA Inventory",
+      purpose: "Provide a complete inventory of all business associates. Must include for each vendor: name, service category (EHR/EMR provider, billing/coding, cloud hosting, IT support, document shredding, answering service, transcription, laboratory, pharmacy, clearinghouse), the specific types of PHI shared or accessible (demographic, clinical, financial, psychotherapy notes), BAA execution date, expiration or renewal date, and current status (active/current, active/expired, pending execution, terminated). Flag any vendor with PHI access that does not have an executed BAA.",
+      requiredReferences: ["45 CFR §164.308(b)", "45 CFR §164.502(e)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Required BAA Provisions Checklist",
+      purpose: "Verify each executed BAA contains the provisions required by 45 CFR §164.314(a)(2). Must include a checklist confirming: permitted and required uses and disclosures of PHI, the BA's obligation to use appropriate safeguards including encryption, the BA's obligation to report breaches of unsecured PHI within 60 days per §164.410, the requirement to return or destroy all PHI upon termination, the BA's agreement to extend requirements to subcontractors (chain-down provision), the covered entity's right to terminate for material breach, and the BA's obligation to make information available for HHS investigations.",
+      requiredReferences: ["45 CFR §164.314(a)(2)", "45 CFR §164.504(e)(2)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Vendor Risk Assessment",
+      purpose: "Describe the risk assessment performed for each business associate. Must evaluate the volume and sensitivity of PHI accessed (number of patient records, whether psychotherapy or substance abuse records are included), the type of access (view only, modify, store, transmit, dispose), the BA's geographic location, the BA's documented security posture (SOC 2 report, HITRUST certification, or self-attestation), the BA's history of security incidents or breaches (check HHS breach portal), and whether the BA uses subcontractors with PHI access. Assign a risk level (high, medium, low) to each BA.",
+      requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Monitoring and Renewal Schedule",
+      purpose: "Describe the ongoing monitoring and renewal procedures for all BAAs. Must include the tracking mechanism for BAA expiration dates (flag 90 days before expiration), the annual verification procedure to confirm each BA is still handling PHI appropriately, the procedure for responding when a BA reports a security incident or breach, documentation of all due diligence activities, and the escalation procedure when a BA is non-responsive to renewal or compliance requests.",
+      requiredReferences: ["45 CFR §164.308(b)(3)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Termination and PHI Return or Destruction",
+      purpose: "Describe the procedures when a business associate relationship ends. Must include the written termination notice process, the timeline and procedure for PHI return or certified destruction (the BA must return or destroy all PHI in any form and confirm in writing), the verification procedure to confirm destruction is complete, the documentation retained as evidence of termination and PHI disposition, and procedures for situations where return or destruction is infeasible (the BA must extend protections indefinitely and limit further uses/disclosures).",
+      requiredReferences: ["45 CFR §164.504(e)(2)(ii)(I)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
   ],
 }
 
+// ---------------------------------------------------------------------------
 // Manufacturing: Machine Guarding Program
+// ---------------------------------------------------------------------------
+
 const MACHINE_GUARDING_PROGRAM_TEMPLATE: DocumentTemplate = {
   id: "machine-guarding",
   title: "Machine Guarding Program",
   vertical: "manufacturing",
-  description: "Written machine guarding program covering point-of-operation guards, nip point protection, and rotating part enclosures per Cal/OSHA Title 8 §4001-4005.",
+  description: "Written machine guarding program covering point-of-operation guards, nip point protection, and rotating part enclosures. Machine guarding and LOTO together account for over 60% of manufacturing Cal/OSHA citations. References Cal/OSHA Title 8 §4001-4005.",
   jurisdiction: "cal-osha",
   requiredClientFields: ["businessName", "location", "employeeCount"],
   refreshCycle: "annual",
   retentionYears: 5,
-  disclaimer: "Machine-specific guarding assessments must be conducted for each piece of equipment. Guards must never be removed or bypassed without LOTO procedures.",
+  disclaimer: "Machine-specific guarding assessments must be conducted for each piece of equipment. Guards must never be removed, bypassed, or modified without following the lockout/tagout and re-guarding procedures described herein. Update when new equipment is added or existing equipment is modified.",
   sections: [
-    { heading: "1. Machine Inventory and Hazard Classification", purpose: "List all machines. For each, identify hazard type: point of operation, nip points, rotating parts, flying chips, reciprocating/transverse motion. Classify by risk.", requiredReferences: ["8 CCR 4001", "8 CCR 4002"], targetWords: 350, alwaysInclude: true },
-    { heading: "2. Guard Types and Selection Criteria", purpose: "Fixed, interlocked, adjustable, self-adjusting guards, presence-sensing devices, two-hand tripping, restraint devices. Specify which guard for each machine.", requiredReferences: ["8 CCR 4003", "8 CCR 4004"], targetWords: 350, alwaysInclude: true },
-    { heading: "3. Point-of-Operation Guarding", purpose: "Must prevent operator from reaching danger zone, not create additional hazards, allow safe maintenance, be firmly secured.", requiredReferences: ["8 CCR 4003(a)", "8 CCR 4005"], targetWords: 300, alwaysInclude: true },
-    { heading: "4. Inspection and Maintenance Schedule", purpose: "Daily visual by operators, monthly documented by maintenance, annual comprehensive audit. Report/correct damaged or missing guards.", requiredReferences: ["8 CCR 4001", "8 CCR 3203(a)(4)"], targetWords: 300, alwaysInclude: true },
-    { heading: "5. Guard Removal and Re-Installation Procedures", purpose: "Authorization process, LOTO cross-reference, reinstallation verification before production, authorized personnel list.", requiredReferences: ["8 CCR 3314", "8 CCR 4001"], targetWords: 250, alwaysInclude: true },
-    { heading: "6. Training", purpose: "All employees near guarded machines: guard purpose/function, consequences of removal/bypass, deficiency reporting, maintenance request procedures.", requiredReferences: ["8 CCR 3203(a)(7)"], targetWords: 250, alwaysInclude: true },
+    {
+      heading: "1. Machine Inventory and Hazard Classification",
+      purpose: "Provide a complete inventory of all machines and equipment at the worksite that present guarding hazards. For each machine, identify the specific hazard types present: point of operation (where the machine performs work on the material), nip points (where two rotating parts converge), rotating parts (shafts, couplings, spindles, gears, flywheels), flying chips and sparks, reciprocating motion (presses, shears), and transverse motion (feed mechanisms, conveyors). Classify each machine by risk level (high, medium, low) based on severity of potential injury and frequency of employee interaction.",
+      requiredReferences: ["8 CCR 4001", "8 CCR 4002"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Guard Types and Selection Criteria",
+      purpose: "Describe the guard types available and the selection criteria used to match guards to hazards. Must cover fixed guards (permanent barriers requiring tools for removal), interlocked guards (automatically shut down the machine when opened), adjustable guards (accommodate various stock sizes), self-adjusting guards (move with the stock), presence-sensing devices (light curtains, safety mats, laser scanners), two-hand tripping devices (require simultaneous actuation), and restraint/pullback devices. For each machine in the inventory, specify which guard type is applied and the engineering rationale for the selection.",
+      requiredReferences: ["8 CCR 4003", "8 CCR 4004"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Point-of-Operation Guarding",
+      purpose: "Describe the specific requirements for point-of-operation guards at this facility. Must ensure guards prevent the operator from placing any part of their body in the danger zone during the operating cycle, do not create pinch points or other secondary hazards, permit safe material feeding and ejection, allow safe lubrication and routine adjustment without removal, and are secured to the machine frame or the floor so they cannot be easily displaced. Must reference the maximum opening sizes relative to distance from the danger zone per Table O-10.",
+      requiredReferences: ["8 CCR 4003(a)", "8 CCR 4005"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Inspection and Maintenance Schedule",
+      purpose: "Describe the multi-tier inspection program for all machine guards. Must include daily visual checks by machine operators (verify guards are in place, properly secured, and undamaged before starting work), monthly documented inspections by maintenance personnel (check guard integrity, interlock function, sensor calibration, mounting hardware), and an annual comprehensive audit of all guarded machines. Include procedures for reporting damaged, missing, or bypassed guards, the timeline for correction (interim measures within 24 hours, permanent correction within 7 days), and the documentation format for each inspection level.",
+      requiredReferences: ["8 CCR 4001", "8 CCR 3203(a)(4)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Guard Removal and Re-Installation Procedures",
+      purpose: "Describe the authorization and control process for removing machine guards during maintenance, setup, or die changes. Must require written authorization from a designated supervisor, cross-reference the LOTO program (8 CCR 3314) for energy isolation before guard removal, specify that guards must be reinstalled and verified before the machine returns to production, identify by job title who is authorized to remove and reinstall guards, and require documentation of each guard removal event (date, machine, reason, duration, person who removed, person who reinstalled and verified).",
+      requiredReferences: ["8 CCR 3314", "8 CCR 4001"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
+    {
+      heading: "6. Training",
+      purpose: "Describe the training program for all employees who operate, set up, maintain, or work near guarded machines. Must cover the purpose and function of each guard type on the machines they work with, the hazards present at each machine and the specific injuries guards prevent, the prohibition against removing or bypassing guards without authorization, how to recognize and report guard deficiencies, the procedures for requesting guard removal for maintenance (including LOTO steps), and the disciplinary consequences for guard violations. Training must be provided before initial assignment and refreshed when new machines or guard types are introduced.",
+      requiredReferences: ["8 CCR 3203(a)(7)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
   ],
 }
 
+// ---------------------------------------------------------------------------
 // Manufacturing: Confined Space Entry Program
+// ---------------------------------------------------------------------------
+
 const CONFINED_SPACE_PROGRAM_TEMPLATE: DocumentTemplate = {
   id: "confined-space-program",
   title: "Permit-Required Confined Space Entry Program",
   vertical: "manufacturing",
-  description: "Written program for permit-required confined space entry covering atmospheric monitoring, entry procedures, attendant duties, and rescue provisions.",
+  description: "Written program for identifying, classifying, and safely entering permit-required confined spaces. Covers atmospheric monitoring, entry permit system, attendant duties, and rescue provisions per Cal/OSHA 8 CCR §5157.",
   jurisdiction: "cal-osha",
   requiredClientFields: ["businessName", "location", "employeeCount"],
   refreshCycle: "annual",
   retentionYears: 5,
-  disclaimer: "Each permit-required confined space must be individually assessed. Entry permits retained at least 1 year. Review annually and after any incident.",
+  disclaimer: "Each permit-required confined space must be individually assessed. Entry permits must be retained for at least 1 year. This program must be reviewed annually, after any confined space incident, and when new confined spaces are identified.",
   sections: [
-    { heading: "1. Confined Space Identification and Inventory", purpose: "Identify and label all confined spaces: tanks, vessels, silos, pits, vaults, tunnels, manholes. Classify as permit-required or non-permit based on atmospheric hazard, engulfment, configuration, other serious hazard.", requiredReferences: ["8 CCR 5157(c)", "8 CCR 5157(d)"], targetWords: 350, alwaysInclude: true },
-    { heading: "2. Entry Permit System", purpose: "Written permit: space ID, purpose, date/time, authorized entrants, attendants, entry supervisor, hazards, atmospheric results, controls, communication. Valid for one entry period.", requiredReferences: ["8 CCR 5157(f)"], targetWords: 350, alwaysInclude: true },
-    { heading: "3. Atmospheric Monitoring", purpose: "Test oxygen (19.5%-23.5%), flammable gases (<10% LEL), toxics (below PEL). Before entry and continuously during occupancy. Calibration schedule.", requiredReferences: ["8 CCR 5157(c)(5)", "8 CCR 5157(d)(5)"], targetWords: 300, alwaysInclude: true },
-    { heading: "4. Entry Procedures and Attendant Duties", purpose: "Entrant duties (monitor, communicate, exit on alarm). Attendant duties (count, monitor, summon rescue, order evacuation — never enter). Entry supervisor duties (verify, authorize, terminate).", requiredReferences: ["8 CCR 5157(h)", "8 CCR 5157(i)", "8 CCR 5157(j)"], targetWords: 400, alwaysInclude: true },
-    { heading: "5. Rescue and Emergency Provisions", purpose: "On-site team or documented emergency services agreement. Non-entry rescue preferred. Annual rescue practice. Retrieval systems for vertical entries >5 feet.", requiredReferences: ["8 CCR 5157(k)"], targetWords: 350, alwaysInclude: true },
-    { heading: "6. Training and Certification", purpose: "Before first assignment and when duties change. Certification: employee name, trainer signature, date. Refresher when program changes or deficiencies found.", requiredReferences: ["8 CCR 5157(g)"], targetWords: 250, alwaysInclude: true },
+    {
+      heading: "1. Confined Space Identification and Inventory",
+      purpose: "Identify, label, and classify all confined spaces at the worksite. Must include a physical inventory of all spaces meeting the definition: large enough to enter and perform work, has limited or restricted means of entry or exit, and is not designed for continuous occupancy. Common manufacturing spaces include tanks, vessels, silos, hoppers, pits, vaults, sumps, boilers, heat exchangers, ductwork, and utility tunnels. For each, determine if it is permit-required based on the presence of a hazardous atmosphere, engulfment hazard, converging walls, or other serious hazard. Post 'Danger — Permit-Required Confined Space' signs at each identified PRCS.",
+      requiredReferences: ["8 CCR 5157(c)", "8 CCR 5157(d)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Entry Permit System",
+      purpose: "Describe the written entry permit system. Each permit must contain: the space to be entered and its specific hazards, the purpose of entry, date and authorized duration, names of authorized entrants and attendants, the entry supervisor who authorized the permit, results of atmospheric testing (oxygen, flammables, toxics) with time of testing, control measures in effect (ventilation, isolation, purging), communication procedures, and required equipment. Each permit is valid for one entry period only. Completed permits must be retained for at least 1 year.",
+      requiredReferences: ["8 CCR 5157(f)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Atmospheric Monitoring",
+      purpose: "Describe atmospheric testing requirements before and during confined space entry. Must include testing for oxygen concentration (safe range: 19.5% to 23.5%), flammable gases and vapors (below 10% LEL), and toxic substances (below applicable Cal/OSHA PELs). Testing must be performed before entry by an authorized person from outside the space using a calibrated direct-reading instrument, continuously during occupancy using a personal 4-gas monitor, and at multiple levels when the space allows atmospheric stratification. Describe the instrument calibration schedule and bump-test procedure.",
+      requiredReferences: ["8 CCR 5157(c)(5)", "8 CCR 5157(d)(5)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Entry Procedures and Attendant Duties",
+      purpose: "Describe the duties and authorities for each role. Authorized entrants must know the hazards, properly use monitoring and communication equipment, alert the attendant when danger is recognized, and exit immediately when ordered or when an alarm condition exists. The attendant must maintain an accurate count of entrants, continuously monitor conditions inside and outside the space, order evacuation when a prohibited condition is detected, summon rescue when needed, and must never enter the space under any circumstances. The entry supervisor must verify all permit conditions are satisfied, terminate entry when conditions change, and cancel the permit when operations are complete.",
+      requiredReferences: ["8 CCR 5157(h)", "8 CCR 5157(i)", "8 CCR 5157(j)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Rescue and Emergency Provisions",
+      purpose: "Describe the rescue provisions. Must specify whether rescue is provided by an on-site team or through a documented arrangement with local emergency services (written agreement required, service must respond timely). Non-entry rescue (retrieval lines and mechanical devices) must be used whenever feasible. For vertical entries deeper than 5 feet, a mechanical retrieval system (tripod and winch with full-body harness) is required. If entry rescue is maintained on-site, the team must practice making permit-space rescues at least annually. Describe rescue equipment inventory and communication protocols with external services.",
+      requiredReferences: ["8 CCR 5157(k)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "6. Training and Certification",
+      purpose: "Describe training requirements for each role. All authorized entrants, attendants, and entry supervisors must be trained before first assignment and whenever duties change, a new hazard is introduced, or deficiencies are identified. Training must establish proficiency in the duties required by this program. Certification records must include the employee's name, signature of the trainer, and dates of training. The employer must certify that training has been accomplished. Refresher training when the program is revised or when performance suggests additional training is needed.",
+      requiredReferences: ["8 CCR 5157(g)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
   ],
 }
 
+// ---------------------------------------------------------------------------
 // Agriculture: Wildfire Smoke Protection Plan
+// ---------------------------------------------------------------------------
+
 const WILDFIRE_SMOKE_PROTECTION_PLAN_TEMPLATE: DocumentTemplate = {
   id: "wildfire-smoke-protection",
   title: "Wildfire Smoke Protection Plan",
   vertical: "agriculture",
-  description: "Required when AQI for PM2.5 reaches 151+. California's wildfire smoke standard is the most prescriptive in the nation.",
+  description: "Required protection plan for outdoor workers when the current AQI for PM2.5 reaches or exceeds 151. Cal/OSHA's wildfire smoke standard (8 CCR §5141.1) is the most prescriptive in the nation and imposes escalating requirements as AQI levels increase.",
   jurisdiction: "cal-osha",
   requiredClientFields: ["businessName", "location", "employeeCount"],
   refreshCycle: "annual",
   retentionYears: 5,
-  disclaimer: "Implement immediately when AQI for PM2.5 reaches 151. Monitor conditions throughout each work shift during wildfire season.",
+  disclaimer: "This plan must be implemented immediately when the current AQI for PM2.5 reaches 151. Employers must monitor AQI conditions throughout each outdoor work shift during wildfire season. Review and update annually before fire season.",
   sections: [
-    { heading: "1. AQI Monitoring Procedures", purpose: "Designate responsible person, monitoring sources (AirNow.gov, local AQMD, PurpleAir), check frequency (before shift + every 2 hours), worker notification method.", requiredReferences: ["8 CCR 5141.1(c)"], targetWords: 300, alwaysInclude: true },
-    { heading: "2. Exposure Controls by AQI Level", purpose: "AQI 151-200: respirators for voluntary use, rest in filtered areas. AQI 201-300: require respirators, reduce exertion. AQI 301+: enclosed filtered-air structures, reduce exposure time.", requiredReferences: ["8 CCR 5141.1(d)", "8 CCR 5141.1(e)"], targetWords: 400, alwaysInclude: true },
-    { heading: "3. Respiratory Protection", purpose: "When required (AQI 201+): N95+, proper fit (seal check each use), medical evaluation, sufficient supply.", requiredReferences: ["8 CCR 5141.1(e)", "8 CCR 5144"], targetWords: 300, alwaysInclude: true },
-    { heading: "4. Training", purpose: "Before smoke season: health effects, AQI checking, plan procedures, respirator use, right to medical treatment without reprisal.", requiredReferences: ["8 CCR 5141.1(f)"], targetWords: 250, alwaysInclude: true },
-    { heading: "5. Communication and Emergency Procedures", purpose: "AQI change notification, filtered-air shelter locations, symptom response procedures, emergency contacts.", requiredReferences: ["8 CCR 5141.1(d)", "8 CCR 3203(a)(3)"], targetWords: 250, alwaysInclude: true },
+    {
+      heading: "1. AQI Monitoring Procedures",
+      purpose: "Describe how the employer monitors current AQI for PM2.5 before and during each outdoor work shift. Must designate the responsible person by name and title, identify monitoring sources (EPA AirNow.gov, local Air Quality Management District, Cal/OSHA-accepted monitoring devices, or direct-reading PM2.5 instruments at the worksite), establish check frequency (before each shift and every 2 hours during the shift when conditions are changing), define the communication method for notifying all outdoor workers of current AQI levels, and describe the recordkeeping for AQI readings taken during each shift.",
+      requiredReferences: ["8 CCR 5141.1(c)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Exposure Controls by AQI Level",
+      purpose: "Describe the tiered response protocol based on current AQI for PM2.5. At AQI 151-200 (Unhealthy): provide N95 or better respirators for voluntary use, relocate work to less-exposed areas where feasible, encourage rest periods in areas with filtered air. At AQI 201-300 (Very Unhealthy): provide and ensure use of N95 or better respirators, reduce outdoor physical exertion where feasible, increase monitoring frequency to every hour. At AQI 301-500 (Hazardous): provide enclosed structures with filtered air for rest and recovery, reduce outdoor exposure time to the minimum necessary, require respirator use for any outdoor work, and consider suspending non-essential outdoor operations.",
+      requiredReferences: ["8 CCR 5141.1(d)", "8 CCR 5141.1(e)"],
+      targetWords: 450,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Respiratory Protection",
+      purpose: "Describe the respiratory protection provisions when respirator use is required (AQI 201+) or offered for voluntary use (AQI 151-200). Must include the type of respirators provided (N95 filtering facepiece as minimum — surgical masks are not acceptable), sufficient supply for all outdoor workers at no cost, the requirement for user seal checks before each use, medical evaluation procedures for employees required to wear respirators, and the conditions under which higher-level protection (P100, elastomeric respirators) may be necessary.",
+      requiredReferences: ["8 CCR 5141.1(e)", "8 CCR 5144"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Training",
+      purpose: "Describe training for all employees who may be exposed to wildfire smoke during outdoor work. Must be provided before smoke season and before any employee's first outdoor assignment during a smoke event. Must cover the health effects of wildfire smoke and particulate matter (respiratory irritation, exacerbation of asthma and heart disease), how to check the current AQI, the specific procedures in this plan triggered at each AQI level, proper use and limitations of N95 respirators including the seal-check procedure, the employee's right to medical treatment without reprisal, and how to report smoke exposure symptoms to the employer.",
+      requiredReferences: ["8 CCR 5141.1(f)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Communication and Emergency Procedures",
+      purpose: "Describe how workers are notified when AQI conditions change and when emergency procedures are activated. Must include the method for real-time communication to field workers (radio, text, posted signage, supervisor notification), the locations of filtered-air shelters or enclosed rest areas, emergency response procedures if a worker shows symptoms of smoke exposure (persistent coughing, wheezing, difficulty breathing, chest tightness, dizziness), emergency contact numbers (911, nearest medical facility), and the supervisor's authority to halt outdoor work when conditions deteriorate rapidly.",
+      requiredReferences: ["8 CCR 5141.1(d)", "8 CCR 3203(a)(3)"],
+      targetWords: 300,
+      alwaysInclude: true,
+    },
   ],
 }
 
+// ---------------------------------------------------------------------------
 // Agriculture: Pesticide Safety Program
+// ---------------------------------------------------------------------------
+
 const PESTICIDE_SAFETY_PROGRAM_TEMPLATE: DocumentTemplate = {
   id: "pesticide-safety",
   title: "Pesticide Safety Training and Compliance Program",
   vertical: "agriculture",
-  description: "Pesticide safety training, application recordkeeping, restricted material permits, and Worker Protection Standard compliance.",
+  description: "Written program covering pesticide safety training, application recordkeeping, restricted material permits, and Worker Protection Standard compliance. Cross-references Cal/OSHA worker safety requirements with California Department of Pesticide Regulation (DPR) standards.",
   jurisdiction: "cal-osha",
   requiredClientFields: ["businessName", "location", "employeeCount"],
   refreshCycle: "annual",
   retentionYears: 5,
-  disclaimer: "Covers Cal/OSHA worker safety and DPR cross-references. Restricted material permits obtained separately from County Agricultural Commissioner.",
+  disclaimer: "This program covers Cal/OSHA worker safety and cross-references DPR requirements under Title 3 CCR. Restricted material permits must be obtained separately from the County Agricultural Commissioner. Update whenever new pesticide products are introduced or application methods change.",
   sections: [
-    { heading: "1. Pesticide Inventory and Use Records", purpose: "Complete inventory. Application records: product name, EPA registration, location, date/time, amount, applicator, REI. Retain 2 years.", requiredReferences: ["3 CCR §6624", "3 CCR §6626"], targetWords: 300, alwaysInclude: true },
-    { heading: "2. Worker Protection Standard Compliance", purpose: "REIs, decontamination sites (water/soap/towels within 1/4 mile), treated area notification (posting or oral), early-entry protections.", requiredReferences: ["3 CCR §6764", "40 CFR Part 170"], targetWords: 350, alwaysInclude: true },
-    { heading: "3. Pesticide Safety Training", purpose: "Before exposure and annually. In workers' language. Cover: safe handling, health effects, labels/SDSs, decontamination, emergency procedures.", requiredReferences: ["3 CCR §6724", "3 CCR §6764(b)"], targetWords: 300, alwaysInclude: true },
-    { heading: "4. Personal Protective Equipment", purpose: "Per label: chemical-resistant gloves, coveralls, eye protection, respirators. Provided free, cleaned after use, stored separately.", requiredReferences: ["3 CCR §6738", "8 CCR 5194(d)"], targetWords: 250, alwaysInclude: true },
-    { heading: "5. Restricted Material Permits", purpose: "If applicable: County Agricultural Commissioner permit process, use conditions, pre-application notification, recordkeeping.", requiredReferences: ["3 CCR §6400-6490"], targetWords: 200, alwaysInclude: false },
-    { heading: "6. Emergency and Medical Response", purpose: "First aid, decontamination, medical access, poison control (1-800-222-1222), Cal/OSHA reporting for serious injuries.", requiredReferences: ["3 CCR §6726", "Labor Code §6409.1"], targetWords: 250, alwaysInclude: true },
+    {
+      heading: "1. Pesticide Inventory and Use Records",
+      purpose: "Describe procedures for maintaining a complete inventory of all pesticides used and the application recordkeeping requirements. Must include the process for the current product inventory (product name, EPA registration number, active ingredient, signal word), and application record requirements per 3 CCR §6624: each record must document product name and EPA registration number, location of application (field, block, greenhouse), date and time of start/finish, total amount applied, application method, applicator name and license/certificate number, and restricted entry interval (REI). Application records must be retained for minimum 2 years and made available to workers and regulatory agencies upon request.",
+      requiredReferences: ["3 CCR §6624", "3 CCR §6626"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Worker Protection Standard Compliance",
+      purpose: "Describe compliance with the federal Worker Protection Standard (40 CFR Part 170) as implemented through California regulations. Must include restricted entry interval (REI) enforcement procedures (posting treated areas with WPS-compliant signs including product name, active ingredient, REI, and re-entry date/time), decontamination site requirements (clean water, soap, and single-use towels within 1/4 mile of work area), notification procedures for treated areas (field posting or oral notification — specify which method and when), and early-entry worker protections when entry before REI expiration is necessary (specific PPE requirements, inhalation exposure assessment, hand labor task restrictions).",
+      requiredReferences: ["3 CCR §6764", "40 CFR Part 170"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Pesticide Safety Training",
+      purpose: "Describe the pesticide safety training program for all handlers and field workers. Training must be conducted before any employee handles pesticides or enters a treated area and must be repeated at least annually. Must be conducted in a language the workers understand. Content must include safe handling and application procedures specific to products used at this operation, health effects of exposure (acute and chronic), how to read and understand labels and Safety Data Sheets, proper decontamination procedures including emergency eye wash and full body decontamination, emergency first aid procedures, and the worker's right to request information about pesticide applications. Document with date, trainer name/qualifications, topics, and worker sign-offs.",
+      requiredReferences: ["3 CCR §6724", "3 CCR §6764(b)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Personal Protective Equipment",
+      purpose: "Describe PPE requirements for pesticide handlers and early-entry workers. Must specify that PPE selection is determined by the product label — the label is the law. Common requirements include chemical-resistant gloves (material compatible with product), coveralls or chemical-resistant suit, chemical-resistant footwear, eye protection (goggles or face shield), and respiratory protection when label-required (specify type). All PPE must be provided at no cost, cleaned or disposed of after each use, inspected before each use for damage or contamination, and stored separately from personal clothing and food.",
+      requiredReferences: ["3 CCR §6738", "8 CCR 5194(d)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Restricted Material Permits",
+      purpose: "If restricted-use pesticides are used, describe the permitting process and compliance procedures. Must include the application to the County Agricultural Commissioner, conditions of use specified in the permit (application rates, buffer zones, wind speed restrictions, notification requirements), pre-application notification for neighboring properties and sensitive sites (schools, residences, waterways), and recordkeeping specific to restricted material use. If not currently used, state this and describe the review procedure if they are introduced.",
+      requiredReferences: ["3 CCR §6400-6490"],
+      targetWords: 300,
+      alwaysInclude: false,
+    },
+    {
+      heading: "6. Emergency and Medical Response",
+      purpose: "Describe emergency response and medical treatment procedures for pesticide exposure incidents. Must include immediate first aid by exposure type (skin: remove clothing and wash with soap/water; eye: flush with clean water for 15 minutes; ingestion: do not induce vomiting, call Poison Control), emergency decontamination station locations and equipment, Poison Control Center number (1-800-222-1222), the procedure for transporting the product label and SDS to the medical facility, Cal/OSHA reporting obligations for serious injuries within 24 hours per Labor Code §6409.1, and incident documentation requirements (product information, exposure circumstances, medical treatment provided).",
+      requiredReferences: ["3 CCR §6726", "Labor Code §6409.1"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
   ],
 }
 
+// ---------------------------------------------------------------------------
 // Auto Services: Spray Booth Compliance Program
+// ---------------------------------------------------------------------------
+
 const SPRAY_BOOTH_COMPLIANCE_PROGRAM_TEMPLATE: DocumentTemplate = {
   id: "spray-booth-compliance",
   title: "Spray Booth and Respiratory Protection Compliance Program",
   vertical: "auto-services",
-  description: "Spray booth ventilation, isocyanate medical surveillance, hazmat storage, and fire prevention for automotive paint/refinishing.",
+  description: "Comprehensive compliance program covering spray booth ventilation, isocyanate exposure medical surveillance, hazardous material storage/waste management, and fire prevention for automotive paint and refinishing operations. Isocyanate medical records retained 30 years.",
   jurisdiction: "cal-osha",
   requiredClientFields: ["businessName", "location", "employeeCount"],
   refreshCycle: "annual",
   retentionYears: 30,
-  disclaimer: "Isocyanate medical surveillance records retained 30 years. Airflow measurements must be documented. Review when new coatings or equipment are introduced.",
+  disclaimer: "Isocyanate exposure medical surveillance records must be retained for 30 years per employee. Spray booth airflow measurements must be documented. Review whenever new coating products, spray equipment, or booth configurations are introduced. Annual airflow testing is required.",
   sections: [
-    { heading: "1. Spray Booth Ventilation Requirements", purpose: "Adequate velocity to prevent flammable vapor accumulation, exhaust maintenance, filter replacement schedule, annual airflow measurement documentation, make-up air.", requiredReferences: ["8 CCR 5154", "29 CFR 1910.94(c)"], targetWords: 350, alwaysInclude: true },
-    { heading: "2. Isocyanate Exposure Control", purpose: "For HDI/MDI/TDI exposure: monitoring, engineering controls (booth airflow), respiratory protection (supplied-air or PAPR w/ OV cartridges), medical surveillance.", requiredReferences: ["8 CCR 5155", "8 CCR 5208"], targetWords: 350, alwaysInclude: true },
-    { heading: "3. Medical Surveillance (Isocyanate Exposure)", purpose: "Pre-assignment and periodic exams. Pulmonary function (FVC, FEV1), respiratory questionnaire, written opinions. Records: 30 years.", requiredReferences: ["8 CCR 5208(l)", "8 CCR 5155"], targetWords: 300, alwaysInclude: true },
-    { heading: "4. Hazmat Storage and Waste Management", purpose: "Flammable liquid cabinets, chemical separation, used oil labeling (H&S Code §25250), waste manifesting.", requiredReferences: ["29 CFR 1910.106", "Health & Safety Code §25250"], targetWords: 300, alwaysInclude: true },
-    { heading: "5. Fire Prevention for Paint Operations", purpose: "No-spark tools, extinguisher placement (within 10ft of booth), Class I Division 1/2 electrical ratings, hot work permits near paint storage.", requiredReferences: ["29 CFR 1910.107", "8 CCR 5154(h)"], targetWords: 300, alwaysInclude: true },
-    { heading: "6. Training", purpose: "Booth operation/maintenance, isocyanate hazards, respirator use, hazmat handling, fire prevention, emergency procedures. Documented with dates/topics.", requiredReferences: ["8 CCR 5194(h)", "8 CCR 3203(a)(7)"], targetWords: 250, alwaysInclude: true },
+    {
+      heading: "1. Spray Booth Ventilation Requirements",
+      purpose: "Describe the spray booth ventilation system and compliance requirements. Must include exhaust airflow specifications (adequate velocity to confine and remove flammable vapors and overspray — typically 100 linear feet per minute across the booth cross-section for crossdraft booths), make-up air system requirements (filtered, tempered air to replace exhausted air), exhaust filter maintenance schedule (inspection before each use, replacement at manufacturer-specified restriction limits), annual airflow measurement and documentation procedure (calibrated anemometer at specified points), and maintenance log requirements including filter changes, motor/belt inspections, and ductwork cleaning dates.",
+      requiredReferences: ["8 CCR 5154", "29 CFR 1910.94(c)"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "2. Isocyanate Exposure Control",
+      purpose: "Describe the exposure control program for employees working with isocyanate-containing coatings (HDI, MDI, TDI — common in automotive clearcoats, primers, and single-stage paints). Must include identification of all isocyanate-containing products (by name and isocyanate type), exposure monitoring protocol (initial assessment and periodic monitoring per 8 CCR 5155), engineering controls (spray booth with adequate airflow as primary control), respiratory protection requirements for mixing and spraying (supplied-air respirators or PAPR with combination organic vapor/P100 cartridges — N95 alone is insufficient for isocyanates), and procedures for employees who develop respiratory sensitization (removal from exposure, medical referral).",
+      requiredReferences: ["8 CCR 5155", "8 CCR 5208"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "3. Medical Surveillance for Isocyanate Exposure",
+      purpose: "Describe the medical surveillance program for all employees with isocyanate exposure. Must include pre-assignment examination (before first exposure), periodic examinations at physician-determined intervals (typically annual), pulmonary function testing (FVC and FEV1) at baseline and each periodic exam, respiratory history questionnaire tracking sensitization symptoms (wheezing, chest tightness, shortness of breath, cough), written medical opinions within 30 days, and retention of all records for duration of employment plus 30 years. Describe medical removal procedures when a physician determines an employee has developed isocyanate sensitization.",
+      requiredReferences: ["8 CCR 5208(l)", "8 CCR 5155"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "4. Hazardous Material Storage and Waste Management",
+      purpose: "Describe storage, labeling, and disposal requirements for automotive paints, solvents, and waste. Must include flammable liquid storage cabinet requirements (FM-approved, rated per 29 CFR 1910.106, maximum quantities per cabinet), incompatible chemical separation (oxidizers from flammables, acids from bases), used oil storage and labeling per California H&S Code §25250 (labeled 'Used Oil,' leak-proof containers, registered hauler for transport), waste paint and solvent management (hazardous waste characterization, accumulation time limits by generator status, manifesting for off-site disposal), and GHS-compliant labeling for all secondary containers.",
+      requiredReferences: ["29 CFR 1910.106", "Health & Safety Code §25250"],
+      targetWords: 400,
+      alwaysInclude: true,
+    },
+    {
+      heading: "5. Fire Prevention for Paint Operations",
+      purpose: "Describe fire prevention measures specific to automotive paint operations. Must include the prohibition of spark-producing tools within and adjacent to booths, fire extinguisher placement (minimum one rated 2A-20BC within 10 feet of booth entrance), electrical equipment classification for booth areas (Class I Division 1 inside, Class I Division 2 within 20 feet per NEC Article 516), hot work permit requirements for welding/cutting/grinding within 35 feet of paint storage, fire suppression system inspection schedule (if equipped), and prohibition of flammable material storage within 20 feet of the booth.",
+      requiredReferences: ["29 CFR 1910.107", "8 CCR 5154(h)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
+    {
+      heading: "6. Training",
+      purpose: "Describe the training program for all paint shop employees. Must cover spray booth operation and daily inspection procedures, isocyanate health hazards and sensitization symptoms (employees must report wheezing, chest tightness, or breathing difficulty immediately), proper respirator selection, donning, seal-checking, and maintenance for isocyanate work, hazardous material handling including SDS access and emergency spill response, fire prevention and extinguisher use, and emergency evacuation procedures for the paint area. Training must be documented with employee name, date, topics, and trainer. Initial training before first assignment; annual refreshers required.",
+      requiredReferences: ["8 CCR 5194(h)", "8 CCR 3203(a)(7)"],
+      targetWords: 350,
+      alwaysInclude: true,
+    },
   ],
 }
 
