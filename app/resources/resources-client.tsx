@@ -102,7 +102,7 @@ export default function ResourcesClient({ featured, articles, downloads }: Props
             </h1>
             <p className="font-sans text-[16px] text-steel max-w-[600px] leading-relaxed">
               Guides, templates, webinars, and articles to help you understand and maintain
-              California workplace compliance. All free. No registration required.
+              California workplace compliance. Templates delivered to your inbox.
             </p>
           </motion.div>
         </div>

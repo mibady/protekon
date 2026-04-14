@@ -133,7 +133,7 @@ export default function AnnualSummaryReportPage() {
           <p className="font-sans text-[15px] text-midnight leading-relaxed">
             {businessName} maintained strong compliance throughout Calendar Year 2025
             {stats.length >= 4 && (<>, achieving a year-end compliance score of <strong>{stats[0]?.value ?? "—"}</strong>. The organization managed <strong>{stats[2]?.value ?? "—"} workplace incidents</strong> and maintained <strong>{stats[1]?.value ?? "—"} active compliance documents</strong>.</>)}
-            {stats.length < 4 && <>. Full annual data is being compiled by your AI compliance officer.</>}
+            {stats.length < 4 && <>. Full annual data is being compiled by Protekon.</>}
           </p>
         </motion.div>
 

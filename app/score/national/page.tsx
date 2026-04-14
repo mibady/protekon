@@ -597,7 +597,7 @@ export default function ScoreNationalPage() {
                   "Real OSHA enforcement data",
                   "All 50 states + DC",
                   "27 industries",
-                  "2 minutes",
+                  "Instant results",
                 ].map((t) => (
                   <div
                     key={t}
@@ -1722,8 +1722,8 @@ export default function ScoreNationalPage() {
                 a: "We cover 27 industry verticals mapped from NAICS codes. If yours isn\u2019t in the dropdown, select the closest match \u2014 the core safety questions (HazCom, emergency action plan, OSHA 300, training records, written safety program) apply to every employer regardless of industry.",
               },
               {
-                q: "How long does it take?",
-                a: "About two minutes. A few yes-or-no baseline questions plus a handful of industry-specific questions for your vertical.",
+                q: "What's involved?",
+                a: "A few yes-or-no baseline questions plus industry-specific checks that adapt to your vertical.",
               },
             ].map((item) => (
               <FAQItem key={item.q} q={item.q} a={item.a} />
@@ -1833,7 +1833,7 @@ export default function ScoreNationalPage() {
                 fontWeight: 300,
               }}
             >
-              About two minutes. Real results. Your compliance score and fine exposure —
+              Real results. Your compliance score and fine exposure —
               calculated against real OSHA enforcement data across
               every US state, territory, and industry.
             </p>

@@ -94,9 +94,9 @@ export default function SignupPage() {
               Activate Your<br />AI Compliance Officer.
             </h2>
             <p className="font-sans text-[16px] leading-[1.75] text-fog">
-              Answer a few questions about your business. Your AI compliance
-              officer starts monitoring regulations immediately. First document
-              delivered in 48 hours.
+              Answer a few questions about your business. Protekon starts
+              monitoring regulations immediately. First document delivered
+              in 48 hours.
             </p>
           </motion.div>
 

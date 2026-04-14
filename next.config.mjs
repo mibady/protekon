@@ -30,6 +30,9 @@ const nextConfig = {
       { source: '/industries/property-management', destination: '/industries/real-estate', permanent: true },
       // Partner portal: /partner is the dashboard
       { source: '/partner/dashboard', destination: '/partner', permanent: true },
+      // Footer uses "Warehouse & Logistics" -> /industries/logistics; wholesale
+      // slug is orphaned. Redirect so any external links don't 404.
+      { source: '/industries/wholesale', destination: '/industries/logistics', permanent: true },
     ]
   },
 }

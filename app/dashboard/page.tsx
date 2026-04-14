@@ -137,7 +137,7 @@ export default function DashboardPage() {
         <div className="bg-crimson/5 border border-crimson/30 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <p className="font-display font-semibold text-[14px] uppercase tracking-[1.5px] text-crimson">Complete your payment to activate</p>
-            <p className="font-sans text-[13px] text-midnight/70 mt-1">Your AI compliance officer is on hold until billing is set up. Takes under a minute.</p>
+            <p className="font-sans text-[13px] text-midnight/70 mt-1">Protekon is on hold until billing is set up.</p>
           </div>
           <button
             onClick={handleCompletePayment}
@@ -147,17 +147,19 @@ export default function DashboardPage() {
           </button>
         </div>
       )}
-      {/* AI Compliance Officer Status */}
-      <motion.div
-        className="bg-midnight border-l-[3px] border-crimson px-6 py-4"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-      >
-        <p className="font-sans text-[13px] leading-relaxed text-brand-white/80">
-          Your AI compliance officer is active. It&apos;s monitoring Cal/OSHA, OSHSB, and CSLB feeds daily. Your first compliance documents will be delivered within 48 hours of completing your intake assessment.
-        </p>
-      </motion.div>
+      {/* Protekon Status (hidden while payment is pending to avoid "on hold" + "active" contradiction) */}
+      {!needsPayment && (
+        <motion.div
+          className="bg-midnight border-l-[3px] border-crimson px-6 py-4"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <p className="font-sans text-[13px] leading-relaxed text-brand-white/80">
+            Protekon is active. Monitoring Cal/OSHA, OSHSB, and CSLB feeds daily. Your first compliance documents will be delivered within 48 hours of completing your intake assessment.
+          </p>
+        </motion.div>
+      )}
 
       {/* BENTO ROW 1 - Three Equal Columns */}
       <div className="grid md:grid-cols-3 gap-6">
@@ -565,7 +567,7 @@ export default function DashboardPage() {
           {
             icon: WarningCircle,
             title: "Log an Incident",
-            description: "AI-powered classification + automatic PII removal.",
+            description: "Protekon classifies and strips PII automatically.",
             cta: "Log Now",
             href: "/dashboard/incidents/new",
             color: "crimson"

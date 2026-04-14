@@ -72,7 +72,7 @@ export default function DocumentRequestPage() {
             Request Submitted
           </h1>
           <p className="font-sans text-[15px] text-steel mb-8">
-            Your document request has been received. Our AI engine will generate your updated document within 48 hours. You&apos;ll receive an email notification when it&apos;s ready.
+            Your document request has been received. Protekon will generate your updated document within 48 hours. You&apos;ll receive an email notification when it&apos;s ready.
           </p>
           <Link
             href="/dashboard/documents"
@@ -115,7 +115,7 @@ export default function DocumentRequestPage() {
         <Lightning size={20} className="text-gold flex-shrink-0 mt-0.5" />
         <div>
           <p className="font-display font-semibold text-[12px] text-midnight mb-1">
-            AI-Powered Document Generation
+            Protekon Document Generation
           </p>
           <p className="font-sans text-[13px] text-steel">
             Documents are generated using your business profile, recent regulatory updates, and industry best practices. Most documents are delivered within 48 hours.

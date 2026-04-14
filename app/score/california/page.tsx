@@ -592,7 +592,7 @@ export default function ScoreLandingPage() {
                 {[
                   "Real Cal/OSHA data",
                   "All 10 industries",
-                  "Takes 2 minutes",
+                  "Instant results",
                 ].map((t) => (
                   <div
                     key={t}
@@ -808,7 +808,7 @@ export default function ScoreLandingPage() {
         >
           {[
             { n: 164, p: "$", s: "M", l: "in Cal/OSHA penalties" },
-            { n: 21020, p: "", s: "", l: "California employers fined" },
+            { n: 1000, p: "", s: "+", l: "California employers fined" },
             { n: 3430, p: "", s: "", l: "cited since January 2025" },
             { n: 10, p: "", s: "yr", l: "of Cal/OSHA enforcement analyzed" },
           ].map(({ n, p, s, l }) => (
@@ -1548,8 +1548,8 @@ export default function ScoreLandingPage() {
                 a: "We cover 27 verticals. Select the closest match \u2014 the baseline questions (IIPP, WVPP, HazCom, OSHA 300) apply to every California employer regardless of industry.",
               },
               {
-                q: "How long does it take?",
-                a: "2 minutes. 11 yes-or-no baseline questions plus a handful of industry-specific questions for your vertical.",
+                q: "What's involved?",
+                a: "A few yes-or-no baseline questions plus industry-specific checks that adapt to your vertical.",
               },
               {
                 q: "What happens after I get my score?",
@@ -1665,7 +1665,7 @@ export default function ScoreLandingPage() {
                 fontWeight: 300,
               }}
             >
-              About two minutes. Real results. Your compliance score and fine exposure —
+              Real results. Your compliance score and fine exposure —
               calculated against the same enforcement data Cal/OSHA uses to
               decide who to inspect next.
             </p>

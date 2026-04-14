@@ -50,7 +50,7 @@ const steps = [
     number: "01",
     title: "Send the compliance score.",
     description:
-      "Use the free compliance score tool with your clients. Ten questions. Two minutes. They get an instant gap analysis showing exactly where they're exposed. You get a warm lead with a quantified problem.",
+      "Use the free compliance score tool with your clients. They get an instant gap analysis showing exactly where they're exposed. You get a warm lead with a quantified problem.",
   },
   {
     number: "02",
