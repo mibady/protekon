@@ -866,12 +866,12 @@ function ScoreWizardInner() {
                   Start My Intake
                   <ArrowRight size={16} weight="bold" />
                 </Link>
-                <Link href="/sample-reports" className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors">
+                <Link href="/samples" className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors">
                   See a Sample Plan
                 </Link>
-                <a href="#" className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors">
+                <Link href="/contact" className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors">
                   Book a 15-Minute Call
-                </a>
+                </Link>
               </div>
             </div>
 

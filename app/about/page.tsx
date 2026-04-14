@@ -113,7 +113,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission */}
-      <section className="py-24 px-6 lg:px-8 bg-parchment">
+      <section id="engine" className="py-24 px-6 lg:px-8 bg-parchment scroll-mt-24">
         <div className="max-w-[1200px] mx-auto">
           <motion.div
             className="mb-16"
@@ -181,7 +181,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-24 px-6 lg:px-8 bg-midnight">
+      <section id="security" className="py-24 px-6 lg:px-8 bg-midnight scroll-mt-24">
         <div className="max-w-[1200px] mx-auto">
           <motion.div
             className="mb-16"

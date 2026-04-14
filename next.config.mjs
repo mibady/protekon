@@ -23,6 +23,15 @@ const nextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [
+      // Industry aliases — content covered by existing verticals
+      { source: '/industries/hipaa', destination: '/industries/healthcare', permanent: true },
+      { source: '/industries/property-management', destination: '/industries/real-estate', permanent: true },
+      // Partner portal: /partner is the dashboard
+      { source: '/partner/dashboard', destination: '/partner', permanent: true },
+    ]
+  },
 }
 
 export default withSentryConfig(nextConfig, {

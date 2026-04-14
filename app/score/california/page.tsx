@@ -543,7 +543,7 @@ export default function ScoreLandingPage() {
                   marginBottom: 40,
                 }}
               >
-                Take a quick assessment. Get your compliance score calculated against{" "}
+                Get your compliance score calculated against{" "}
                 <strong style={{ color: B.white, fontWeight: 500 }}>
                   real Cal/OSHA enforcement data
                 </strong>{" "}
@@ -901,8 +901,8 @@ export default function ScoreLandingPage() {
           {[
             {
               n: "01",
-              t: "Take a quick assessment",
-              d: "Simple yes/no questions about your compliance documentation. Industry-specific questions adapt to your vertical. Takes about two minutes.",
+              t: "Answer a few yes/no questions",
+              d: "Simple questions about your compliance documentation. Industry-specific checks adapt to your vertical.",
               c: B.crimson,
             },
             {
@@ -1055,8 +1055,8 @@ export default function ScoreLandingPage() {
                 tag: "Feature",
               },
               {
-                t: "No sales call. No pressure.",
-                d: "Take the full assessment privately. Score and gaps shown immediately. The PDF download is the only thing that asks for an email.",
+                t: "Straight to your score.",
+                d: "Full assessment runs privately. Score and gaps shown immediately. The PDF download is the only thing that asks for an email.",
                 tag: "Feature",
               },
             ].map((b, i) => (
@@ -1711,9 +1711,9 @@ export default function ScoreLandingPage() {
               }}
             >
               {[
-                "Your scorecard in minutes",
-                "No sales call",
-                "Results in 2 minutes",
+                "Your scorecard delivered by email",
+                "Scored against real Cal/OSHA data",
+                "Industry-specific gap analysis",
                 "Real enforcement data",
               ].map((t) => (
                 <div

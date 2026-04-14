@@ -546,7 +546,7 @@ export default function ScoreNationalPage() {
                   marginBottom: 40,
                 }}
               >
-                Take a quick assessment. Get your compliance score calculated against{" "}
+                Get your compliance score calculated against{" "}
                 <strong style={{ color: B.white, fontWeight: 500 }}>
                   real OSHA enforcement data
                 </strong>{" "}
@@ -1126,8 +1126,8 @@ export default function ScoreNationalPage() {
                 tag: "Feature",
               },
               {
-                t: "No sales call. No pressure.",
-                d: "Full score, gap analysis, and fine exposure shown immediately. Your personalized gap analysis in minutes. The downloadable PDF scorecard is the only thing gated.",
+                t: "Straight to your score.",
+                d: "Full score, gap analysis, and fine exposure shown immediately. Your personalized gap analysis delivered to your inbox. The downloadable PDF scorecard is the only thing gated.",
                 tag: "Feature",
               },
             ].map((b, i) => (

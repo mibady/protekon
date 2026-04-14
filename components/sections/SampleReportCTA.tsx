@@ -172,7 +172,7 @@ export default function SampleReportCTA() {
 
               {/* Fine print */}
               <p className="font-sans font-light text-[11px] text-steel text-center">
-                No credit card. No sales call. Just your free report.
+                See exactly what Protekon produces for your industry.
               </p>
             </form>
           </motion.div>

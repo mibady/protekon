@@ -84,7 +84,7 @@ export default function ProductOverview() {
           </div>
 
           {/* Right Column - Feature Cards */}
-          <div className="flex flex-col gap-6">
+          <div id="engine" className="flex flex-col gap-6 scroll-mt-24">
             {features.map((feature, i) => (
               <motion.div
                 key={feature.title}

@@ -61,7 +61,6 @@ export default function PdfGateForm({ leadId, onCapture }: PdfGateFormProps) {
       <p className="font-sans text-[15px] text-steel leading-relaxed mb-6 max-w-[560px]">
         A personalized PDF with your score breakdown, gap analysis, estimated fine exposure, and
         a comparison of what it costs to fix now vs. what it costs if Cal/OSHA shows up first.
-        No sales call required.
       </p>
 
       {pdfState === "error" && (
