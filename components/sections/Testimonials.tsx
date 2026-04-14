@@ -2,8 +2,17 @@
 
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
+import { HardHat, Factory, Buildings } from "@phosphor-icons/react"
+import type { Icon } from "@phosphor-icons/react"
 
-const testimonials = [
+const testimonials: {
+  quote: string
+  attribution: string
+  location: string
+  industry: string
+  borderColor: string
+  Icon: Icon
+}[] = [
   {
     quote:
       "We got cited $14,200 before we had any compliance program. After switching to PROTEKON, the inspector walked away with zero citations. Zero.",
@@ -11,6 +20,7 @@ const testimonials = [
     location: "Inland Empire, CA",
     industry: "CONSTRUCTION",
     borderColor: "#C41230",
+    Icon: HardHat,
   },
   {
     quote:
@@ -19,6 +29,7 @@ const testimonials = [
     location: "Houston, TX",
     industry: "MANUFACTURING",
     borderColor: "#C9A84C",
+    Icon: Factory,
   },
   {
     quote:
@@ -27,6 +38,7 @@ const testimonials = [
     location: "Atlanta, GA",
     industry: "HOSPITALITY",
     borderColor: "#C41230",
+    Icon: Buildings,
   },
 ]
 
@@ -65,6 +77,14 @@ export default function Testimonials() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
             >
+              {/* Industry icon badge */}
+              <div
+                className="absolute -top-7 right-6 w-14 h-14 flex items-center justify-center bg-void border-2"
+                style={{ borderColor: testimonial.borderColor }}
+              >
+                <testimonial.Icon size={26} weight="bold" style={{ color: testimonial.borderColor }} />
+              </div>
+
               {/* Opening quote mark */}
               <span className="font-display font-black text-[64px] leading-none text-crimson absolute -top-2 left-6">
                 &ldquo;

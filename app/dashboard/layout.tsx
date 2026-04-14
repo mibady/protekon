@@ -201,21 +201,35 @@ export default function DashboardLayout({
                 />
               </svg>
               <span className="absolute inset-0 flex items-center justify-center font-display font-extrabold text-[14px] text-gold">
-                {complianceScore}
+                {client ? complianceScore : <span className="w-4 h-4 rounded-full bg-brand-white/10 animate-pulse" />}
               </span>
             </div>
-            <div className="flex flex-col">
-              <span className="font-sans font-normal text-[13px] text-brand-white">
-                {client?.business_name || "Loading..."}
-              </span>
-              <span className="font-sans font-light text-[11px] text-steel capitalize">
-                {client?.vertical || "—"}
-              </span>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="w-2 h-2 rounded-full bg-[#2A7D4F]" />
-                <span className="font-display font-medium text-[9px] tracking-[2px] uppercase text-[#2A7D4F]">
-                  Compliant
+            <div className="flex flex-col gap-1">
+              {client ? (
+                <span className="font-sans font-normal text-[13px] text-brand-white">
+                  {client.business_name}
                 </span>
+              ) : (
+                <span className="h-[13px] w-32 bg-brand-white/10 rounded animate-pulse" />
+              )}
+              {client ? (
+                <span className="font-sans font-light text-[11px] text-steel capitalize">
+                  {client.vertical || "—"}
+                </span>
+              ) : (
+                <span className="h-[11px] w-20 bg-brand-white/10 rounded animate-pulse" />
+              )}
+              <div className="flex items-center gap-2 mt-1">
+                {client ? (
+                  <>
+                    <span className={`w-2 h-2 rounded-full ${complianceScore >= 75 ? "bg-[#2A7D4F]" : complianceScore >= 50 ? "bg-gold" : "bg-crimson"}`} />
+                    <span className={`font-display font-medium text-[9px] tracking-[2px] uppercase ${complianceScore >= 75 ? "text-[#2A7D4F]" : complianceScore >= 50 ? "text-gold" : "text-crimson"}`}>
+                      {complianceScore >= 75 ? "Compliant" : complianceScore >= 50 ? "Needs Review" : "At Risk"}
+                    </span>
+                  </>
+                ) : (
+                  <span className="h-[9px] w-16 bg-brand-white/10 rounded animate-pulse" />
+                )}
               </div>
             </div>
           </div>

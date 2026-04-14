@@ -180,19 +180,17 @@ export default function RegulationsPage() {
                   <ArrowRight size={14} weight="bold" />
                 </Link>
               )}
-              <button
-                onClick={() => {
-                  if (update.source_url) {
-                    window.open(update.source_url, "_blank")
-                  } else {
-                    toast.info("Source URL not available")
-                  }
-                }}
-                className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors"
-              >
-                <ArrowSquareOut size={14} />
-                View Source
-              </button>
+              {update.source_url && (
+                <a
+                  href={update.source_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 font-display font-medium text-[12px] tracking-[2px] uppercase text-midnight hover:bg-midnight/[0.04] transition-colors"
+                >
+                  <ArrowSquareOut size={14} />
+                  View Source
+                </a>
+              )}
             </div>
           </motion.div>
         ))}
