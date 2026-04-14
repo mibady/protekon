@@ -57,33 +57,32 @@ export const intakePipeline = inngest.createFunction(
 
     const plan = client.plan || "core"
 
-    // Step 3: Generate starter documents (tier-aware)
+    // Step 3: Generate starter documents (tier-aware, registry-enforced)
     await step.run("generate-documents", async () => {
-      // All tiers get these 3 base docs
-      const docTypes = [
-        { type: `${vertical}-compliance-plan`, filename: `${vertical}-compliance-plan.pdf` },
-        { type: `${vertical}-gap-analysis`, filename: `${vertical}-gap-analysis.pdf` },
-        { type: "incident-response-protocol", filename: "incident-response-protocol.pdf" },
-      ]
+      const { getStarterDocuments, getDocumentLabel } = await import("@/lib/document-templates")
+      const docIds = getStarterDocuments(vertical, plan as "core" | "professional" | "multi-site")
 
-      // Professional + Multi-Site get Emergency Action Plan
-      if (plan === "professional" || plan === "multi-site") {
-        docTypes.push({ type: "emergency-action-plan", filename: "emergency-action-plan.pdf" })
-      }
-
-      // Multi-Site gets consolidated compliance report
-      if (plan === "multi-site") {
-        docTypes.push({ type: "consolidated-compliance-report", filename: "consolidated-compliance-report.pdf" })
-      }
-
-      for (const doc of docTypes) {
+      for (const docType of docIds) {
         const seq = String(Math.floor(Math.random() * 900) + 100)
+        const label = getDocumentLabel(docType)
         await supabase.from("documents").insert({
           client_id: client.id,
           document_id: `DOC-${new Date().getFullYear()}-${seq}`,
-          type: doc.type,
-          filename: doc.filename,
-          status: "current",
+          type: docType,
+          filename: `${label}.pdf`,
+          status: "requested",
+        })
+
+        // Fire generation pipeline for each document
+        await inngest.send({
+          name: "compliance/document.requested",
+          data: {
+            clientId: client.id,
+            email,
+            businessName,
+            documentType: docType,
+            vertical,
+          },
         })
       }
     })

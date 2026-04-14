@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { inngest } from "@/inngest/client"
+import { getDocumentLabel, isValidTemplateId } from "@/lib/document-templates"
 import type { ActionResult, Document } from "@/lib/types"
 
 export async function requestDocument(formData: FormData): Promise<ActionResult> {
@@ -23,6 +24,11 @@ export async function requestDocument(formData: FormData): Promise<ActionResult>
     return { error: "Document type is required." }
   }
 
+  // Enforce schema — only accept IDs present in the template registry
+  if (type !== "custom" && !isValidTemplateId(type)) {
+    return { error: `Unknown document type "${type}". Please select a valid document type.` }
+  }
+
   // Generate document ID: DOC-YYYY-NNN
   const year = new Date().getFullYear()
   const { count } = await supabase
@@ -33,16 +39,11 @@ export async function requestDocument(formData: FormData): Promise<ActionResult>
   const seq = String((count ?? 0) + 1).padStart(3, "0")
   const documentId = `DOC-${year}-${seq}`
 
-  const typeLabels: Record<string, string> = {
-    iipp: "Injury & Illness Prevention Program",
-    sb553: "SB 553 Workplace Violence Prevention",
-    eap: "Emergency Action Plan",
-    hazcom: "Hazard Communication Program",
-    heat: "Heat Illness Prevention Plan",
-    custom: "Custom Compliance Document",
-  }
-
-  const filename = `${typeLabels[type] || type}.pdf`
+  // Pull display name from the centralized registry — no hardcoded map
+  const displayName = type === "custom"
+    ? "Custom Compliance Document"
+    : getDocumentLabel(type)
+  const filename = `${displayName}.pdf`
 
   const { error } = await supabase.from("documents").insert({
     client_id: user.id,
@@ -62,7 +63,7 @@ export async function requestDocument(formData: FormData): Promise<ActionResult>
   await supabase.from("audit_log").insert({
     client_id: user.id,
     event_type: "document.requested",
-    description: `Requested ${typeLabels[type] || type} document (${documentId})`,
+    description: `Requested ${displayName} document (${documentId})`,
     metadata: { document_id: documentId, type, priority },
   })
 
@@ -99,4 +100,40 @@ export async function getDocuments(): Promise<Document[]> {
   if (error) return []
 
   return data as Document[]
+}
+
+/**
+ * Get available document types for the current user's vertical.
+ * Pulls from the centralized template registry — no hardcoded lists.
+ * The document request UI calls this to populate options dynamically.
+ */
+export async function getAvailableDocTypesForUser(): Promise<
+  { id: string; title: string; description: string; regulation: string; sectionCount: number; isVerticalSpecific: boolean }[]
+> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return []
+
+  const vertical = user.user_metadata?.vertical || "other"
+
+  // Import dynamically to avoid circular dependency issues
+  const { getAvailableDocumentTypes, getTemplatesForVertical } = await import("@/lib/document-templates")
+  const allTypes = getAvailableDocumentTypes(vertical)
+
+  // Cross-vertical IDs (the 8 platform-wide) — mark vertical-specific ones
+  const { getTemplatesForVertical: getAll } = await import("@/lib/document-templates")
+  const crossVerticalIds = new Set(
+    (getAll("__none__") || []).map(() => "")
+  )
+
+  // Simpler approach: cross-vertical templates have vertical === "all"
+  const templates = getTemplatesForVertical(vertical)
+  return templates.map((t) => ({
+    id: t.id,
+    title: t.title,
+    description: t.description,
+    regulation: t.sections[0]?.requiredReferences[0] ?? "",
+    sectionCount: t.sections.filter((s) => s.alwaysInclude).length,
+    isVerticalSpecific: t.vertical !== "all",
+  }))
 }

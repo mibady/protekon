@@ -866,6 +866,221 @@ const PROPERTY_COMPLIANCE_PROGRAM_TEMPLATE: DocumentTemplate = {
 }
 
 // ---------------------------------------------------------------------------
+// MISSING TEMPLATES — prioritized by regulatory risk
+// ---------------------------------------------------------------------------
+
+// Construction: Silica Exposure Control Plan (HIGH PRIORITY — top penalty)
+const SILICA_EXPOSURE_CONTROL_PLAN_TEMPLATE: DocumentTemplate = {
+  id: "silica-exposure-control",
+  title: "Respirable Crystalline Silica Exposure Control Plan",
+  vertical: "construction",
+  description: "Written exposure control plan for construction tasks disturbing silica (concrete cutting, grinding, drilling, jackhammering). Highest per-case penalties in construction.",
+  jurisdiction: "federal-osha",
+  requiredClientFields: ["businessName", "location", "employeeCount"],
+  refreshCycle: "annual",
+  retentionYears: 30,
+  disclaimer: "This plan must be updated whenever new silica-generating tasks are introduced. Medical surveillance records must be retained for 30 years.",
+  sections: [
+    { heading: "1. Scope and Application", purpose: "Identify all construction tasks generating respirable crystalline silica: concrete/masonry cutting, grinding, drilling, jackhammering, tuck-pointing, abrasive blasting. List each task and the employees exposed.", requiredReferences: ["29 CFR 1926.1153(a)", "29 CFR 1926.1153(c)"], targetWords: 300, alwaysInclude: true },
+    { heading: "2. Table 1 Compliance or Alternative Exposure Assessment", purpose: "For each task, specify whether Table 1 specified exposure control methods are used OR objective air monitoring was conducted. Table 1 provides per-task controls (e.g., wet cutting with integrated water delivery for handheld power saws).", requiredReferences: ["29 CFR 1926.1153(c)(1)", "29 CFR 1926.1153(d)"], targetWords: 400, alwaysInclude: true },
+    { heading: "3. Engineering and Work Practice Controls", purpose: "Describe specific engineering controls per task: water delivery systems, local exhaust ventilation, enclosed cabs with filtered air. Work practice controls: wet sweeping, HEPA vacuums, housekeeping.", requiredReferences: ["29 CFR 1926.1153(c)(1)", "29 CFR 1926.1153(f)(1)"], targetWords: 350, alwaysInclude: true },
+    { heading: "4. Respiratory Protection Program", purpose: "When controls cannot reduce exposure below PEL (50 μg/m³ TWA): respirator selection per APF tables, annual fit testing, medical evaluation, proper use/maintenance.", requiredReferences: ["29 CFR 1926.1153(e)", "29 CFR 1910.134"], targetWords: 300, alwaysInclude: true },
+    { heading: "5. Medical Surveillance", purpose: "For employees exposed above action level (25 μg/m³) for 30+ days/year: initial exam within 30 days, periodic exams every 3 years, chest X-ray and pulmonary function test. Written medical opinions within 30 days.", requiredReferences: ["29 CFR 1926.1153(h)"], targetWords: 300, alwaysInclude: true },
+    { heading: "6. Competent Person Designation", purpose: "Identify the competent person at each worksite. Must be capable of identifying silica hazards and authorized to take corrective measures.", requiredReferences: ["29 CFR 1926.1153(g)"], targetWords: 200, alwaysInclude: true },
+    { heading: "7. Training", purpose: "All exposed employees: health hazards of silica, methods to limit exposure, exposure monitoring and medical surveillance purpose/procedures, and this plan's contents.", requiredReferences: ["29 CFR 1926.1153(i)"], targetWords: 250, alwaysInclude: true },
+    { heading: "8. Recordkeeping", purpose: "Exposure monitoring records: 30 years. Medical surveillance: employment duration + 30 years. Must be accessible to employees and OSHA.", requiredReferences: ["29 CFR 1926.1153(j)", "29 CFR 1910.1020"], targetWords: 200, alwaysInclude: true },
+  ],
+}
+
+// Hearing Conservation Program (construction + manufacturing)
+const HEARING_CONSERVATION_PROGRAM_TEMPLATE: DocumentTemplate = {
+  id: "hearing-conservation",
+  title: "Hearing Conservation Program",
+  vertical: "all",
+  description: "Required when employee noise exposure reaches or exceeds 85 dBA (8-hour TWA). Covers monitoring, audiometric testing, hearing protection, and training.",
+  jurisdiction: "cal-osha",
+  requiredClientFields: ["businessName", "location", "employeeCount"],
+  refreshCycle: "annual",
+  retentionYears: 30,
+  disclaimer: "Audiometric testing must be administered by a qualified audiologist or technician under their supervision. Records retained for duration of employment.",
+  sections: [
+    { heading: "1. Noise Monitoring", purpose: "Initial baseline survey, area monitoring, personal dosimetry. Identify areas/tasks exceeding 85 dBA action level and 90 dBA PEL. Repeat when changes increase exposures.", requiredReferences: ["8 CCR 5097(a)", "29 CFR 1910.95(d)"], targetWords: 300, alwaysInclude: true },
+    { heading: "2. Audiometric Testing Program", purpose: "Baseline audiogram within 6 months (1 year with mobile van). Annual audiograms. Standard Threshold Shift detection and follow-up.", requiredReferences: ["8 CCR 5097(b)", "29 CFR 1910.95(g)"], targetWords: 300, alwaysInclude: true },
+    { heading: "3. Hearing Protection Devices", purpose: "Provided at no cost at 85 dBA+. Required at 90 dBA+. Types, NRR ratings, proper fit verification.", requiredReferences: ["8 CCR 5098", "29 CFR 1910.95(i)"], targetWords: 250, alwaysInclude: true },
+    { heading: "4. Engineering and Administrative Controls", purpose: "Required at 90 dBA+: equipment maintenance, vibration dampening, sound barriers, rotation schedules.", requiredReferences: ["8 CCR 5096", "29 CFR 1910.95(b)(1)"], targetWords: 250, alwaysInclude: true },
+    { heading: "5. Training", purpose: "Annual: effects of noise on hearing, audiometric testing purpose, proper HPD use/care, program contents.", requiredReferences: ["29 CFR 1910.95(k)"], targetWords: 250, alwaysInclude: true },
+    { heading: "6. Recordkeeping", purpose: "Noise measurements: 2 years. Audiometric records: duration of employment. Include employee name, date, examiner, results.", requiredReferences: ["29 CFR 1910.95(m)", "8 CCR 5097(d)"], targetWords: 200, alwaysInclude: true },
+  ],
+}
+
+// Healthcare: HIPAA Security Risk Analysis (HIGH PRIORITY — #1 OCR finding)
+const HIPAA_SRA_TEMPLATE: DocumentTemplate = {
+  id: "hipaa-sra",
+  title: "HIPAA Security Risk Analysis",
+  vertical: "healthcare",
+  description: "#1 finding in OCR audits. Required annual assessment of threats and vulnerabilities to ePHI.",
+  jurisdiction: "hipaa",
+  requiredClientFields: ["businessName", "location", "employeeCount", "vertical"],
+  refreshCycle: "annual",
+  retentionYears: 6,
+  disclaimer: "Must be conducted annually and whenever significant changes occur. Retain 6 years per 45 CFR §164.530(j).",
+  sections: [
+    { heading: "1. Scope of the Assessment", purpose: "Identify all electronic media and systems that create, receive, maintain, or transmit ePHI. Map data flows between systems.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"], targetWords: 350, alwaysInclude: true },
+    { heading: "2. Threat Identification", purpose: "Identify all reasonably anticipated threats: natural (fire, flood), human (hackers, social engineering), environmental (power failure, hardware malfunction).", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"], targetWords: 350, alwaysInclude: true },
+    { heading: "3. Vulnerability Assessment", purpose: "For each system, assess vulnerabilities: missing patches, weak passwords, unencrypted data, insufficient logging, inadequate physical security.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)", "45 CFR §164.312"], targetWords: 350, alwaysInclude: true },
+    { heading: "4. Current Security Measures", purpose: "Document existing safeguards: access controls, encryption, audit logging, backup, workforce training, physical security, BAAs.", requiredReferences: ["45 CFR §164.306(b)(1)"], targetWords: 300, alwaysInclude: true },
+    { heading: "5. Risk Determination", purpose: "For each threat-vulnerability pair: rate likelihood (H/M/L) and impact (H/M/L). Assign overall risk level. Document methodology.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"], targetWords: 300, alwaysInclude: true },
+    { heading: "6. Risk Management Plan", purpose: "For each risk: mitigate, accept, transfer, or avoid. Include implementation timeline and responsible person.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(B)"], targetWords: 350, alwaysInclude: true },
+    { heading: "7. Documentation and Review Schedule", purpose: "Retain 6 years. Annual review required. Additional reviews triggered by incidents, system changes, or organizational changes.", requiredReferences: ["45 CFR §164.316(b)(1)", "45 CFR §164.530(j)"], targetWords: 200, alwaysInclude: true },
+  ],
+}
+
+// Healthcare: Aerosol Transmissible Disease Plan (Cal/OSHA specific)
+const ATD_PLAN_TEMPLATE: DocumentTemplate = {
+  id: "atd-plan",
+  title: "Aerosol Transmissible Disease Exposure Control Plan",
+  vertical: "healthcare",
+  description: "Cal/OSHA-specific requirement beyond federal BBP. Written ATD plan addressing airborne transmission risks in healthcare facilities.",
+  jurisdiction: "cal-osha",
+  requiredClientFields: ["businessName", "location", "employeeCount", "vertical"],
+  refreshCycle: "annual",
+  retentionYears: 5,
+  disclaimer: "Must be reviewed annually and updated when new ATDs emerge or CDC/Cal/OSHA guidance changes.",
+  sections: [
+    { heading: "1. Exposure Determination", purpose: "Identify employees with occupational ATD exposure by job classification. Identify tasks and procedures that create exposure risk.", requiredReferences: ["8 CCR 5199(b)", "8 CCR 5199(d)(1)"], targetWords: 300, alwaysInclude: true },
+    { heading: "2. Source Control Measures", purpose: "Triage screening, respiratory hygiene/cough etiquette, patient isolation (AIIR if available), visitor management.", requiredReferences: ["8 CCR 5199(d)(2)"], targetWords: 300, alwaysInclude: true },
+    { heading: "3. Referral Procedures", purpose: "For facilities without AIIR: referral procedures, transport protocols, receiving facility communication.", requiredReferences: ["8 CCR 5199(d)(3)"], targetWords: 250, alwaysInclude: true },
+    { heading: "4. Respiratory Protection Program", purpose: "N95 or higher selection, fit testing (annual), medical evaluation, seal checks, PAPR availability.", requiredReferences: ["8 CCR 5199(d)(4)", "8 CCR 5144"], targetWords: 300, alwaysInclude: true },
+    { heading: "5. Employee Screening and Medical Services", purpose: "TB skin testing (initial/periodic), symptom monitoring, post-exposure management, positive conversion procedures.", requiredReferences: ["8 CCR 5199(g)"], targetWords: 300, alwaysInclude: true },
+    { heading: "6. Training", purpose: "Annual: transmission modes, signs/symptoms, infection control, respiratory protection, reporting. Facility-specific ATDs.", requiredReferences: ["8 CCR 5199(h)"], targetWords: 250, alwaysInclude: true },
+  ],
+}
+
+// Healthcare: BAA Tracker Template (document form)
+const BAA_TRACKER_TEMPLATE: DocumentTemplate = {
+  id: "baa-tracker",
+  title: "Business Associate Agreement Compliance Tracker",
+  vertical: "healthcare",
+  description: "Structured BAA inventory tracking all vendors with PHI access, agreement status, renewal dates, and required provisions.",
+  jurisdiction: "hipaa",
+  requiredClientFields: ["businessName", "location", "employeeCount", "vertical"],
+  refreshCycle: "semi-annual",
+  retentionYears: 6,
+  disclaimer: "BAAs must be retained for 6 years per HIPAA. Update when vendors are added, removed, or data relationships change.",
+  sections: [
+    { heading: "1. BAA Inventory", purpose: "All business associates: vendor name, service type, PHI types shared, execution date, expiration/renewal date, status.", requiredReferences: ["45 CFR §164.308(b)", "45 CFR §164.502(e)"], targetWords: 300, alwaysInclude: true },
+    { heading: "2. Required BAA Provisions Checklist", purpose: "Verify: permitted uses/disclosures, safeguards obligation, breach notification (60 days), PHI return/destruction on termination, subcontractor chain-down, CE termination right.", requiredReferences: ["45 CFR §164.314(a)(2)", "45 CFR §164.504(e)(2)"], targetWords: 350, alwaysInclude: true },
+    { heading: "3. Vendor Risk Assessment", purpose: "Per BA: PHI volume, access type, geographic location, BA security posture, breach history.", requiredReferences: ["45 CFR §164.308(a)(1)(ii)(A)"], targetWords: 300, alwaysInclude: true },
+    { heading: "4. Monitoring and Renewal Schedule", purpose: "Renewal tracking (flag 90 days before expiration), annual BA compliance verification, breach response procedures, due diligence documentation.", requiredReferences: ["45 CFR §164.308(b)(3)"], targetWords: 250, alwaysInclude: true },
+    { heading: "5. Termination and PHI Return/Destruction", purpose: "Written notice, PHI return/certified destruction timeline, verification, infeasibility procedures.", requiredReferences: ["45 CFR §164.504(e)(2)(ii)(I)"], targetWords: 250, alwaysInclude: true },
+  ],
+}
+
+// Manufacturing: Machine Guarding Program
+const MACHINE_GUARDING_PROGRAM_TEMPLATE: DocumentTemplate = {
+  id: "machine-guarding",
+  title: "Machine Guarding Program",
+  vertical: "manufacturing",
+  description: "Written machine guarding program covering point-of-operation guards, nip point protection, and rotating part enclosures per Cal/OSHA Title 8 §4001-4005.",
+  jurisdiction: "cal-osha",
+  requiredClientFields: ["businessName", "location", "employeeCount"],
+  refreshCycle: "annual",
+  retentionYears: 5,
+  disclaimer: "Machine-specific guarding assessments must be conducted for each piece of equipment. Guards must never be removed or bypassed without LOTO procedures.",
+  sections: [
+    { heading: "1. Machine Inventory and Hazard Classification", purpose: "List all machines. For each, identify hazard type: point of operation, nip points, rotating parts, flying chips, reciprocating/transverse motion. Classify by risk.", requiredReferences: ["8 CCR 4001", "8 CCR 4002"], targetWords: 350, alwaysInclude: true },
+    { heading: "2. Guard Types and Selection Criteria", purpose: "Fixed, interlocked, adjustable, self-adjusting guards, presence-sensing devices, two-hand tripping, restraint devices. Specify which guard for each machine.", requiredReferences: ["8 CCR 4003", "8 CCR 4004"], targetWords: 350, alwaysInclude: true },
+    { heading: "3. Point-of-Operation Guarding", purpose: "Must prevent operator from reaching danger zone, not create additional hazards, allow safe maintenance, be firmly secured.", requiredReferences: ["8 CCR 4003(a)", "8 CCR 4005"], targetWords: 300, alwaysInclude: true },
+    { heading: "4. Inspection and Maintenance Schedule", purpose: "Daily visual by operators, monthly documented by maintenance, annual comprehensive audit. Report/correct damaged or missing guards.", requiredReferences: ["8 CCR 4001", "8 CCR 3203(a)(4)"], targetWords: 300, alwaysInclude: true },
+    { heading: "5. Guard Removal and Re-Installation Procedures", purpose: "Authorization process, LOTO cross-reference, reinstallation verification before production, authorized personnel list.", requiredReferences: ["8 CCR 3314", "8 CCR 4001"], targetWords: 250, alwaysInclude: true },
+    { heading: "6. Training", purpose: "All employees near guarded machines: guard purpose/function, consequences of removal/bypass, deficiency reporting, maintenance request procedures.", requiredReferences: ["8 CCR 3203(a)(7)"], targetWords: 250, alwaysInclude: true },
+  ],
+}
+
+// Manufacturing: Confined Space Entry Program
+const CONFINED_SPACE_PROGRAM_TEMPLATE: DocumentTemplate = {
+  id: "confined-space-program",
+  title: "Permit-Required Confined Space Entry Program",
+  vertical: "manufacturing",
+  description: "Written program for permit-required confined space entry covering atmospheric monitoring, entry procedures, attendant duties, and rescue provisions.",
+  jurisdiction: "cal-osha",
+  requiredClientFields: ["businessName", "location", "employeeCount"],
+  refreshCycle: "annual",
+  retentionYears: 5,
+  disclaimer: "Each permit-required confined space must be individually assessed. Entry permits retained at least 1 year. Review annually and after any incident.",
+  sections: [
+    { heading: "1. Confined Space Identification and Inventory", purpose: "Identify and label all confined spaces: tanks, vessels, silos, pits, vaults, tunnels, manholes. Classify as permit-required or non-permit based on atmospheric hazard, engulfment, configuration, other serious hazard.", requiredReferences: ["8 CCR 5157(c)", "8 CCR 5157(d)"], targetWords: 350, alwaysInclude: true },
+    { heading: "2. Entry Permit System", purpose: "Written permit: space ID, purpose, date/time, authorized entrants, attendants, entry supervisor, hazards, atmospheric results, controls, communication. Valid for one entry period.", requiredReferences: ["8 CCR 5157(f)"], targetWords: 350, alwaysInclude: true },
+    { heading: "3. Atmospheric Monitoring", purpose: "Test oxygen (19.5%-23.5%), flammable gases (<10% LEL), toxics (below PEL). Before entry and continuously during occupancy. Calibration schedule.", requiredReferences: ["8 CCR 5157(c)(5)", "8 CCR 5157(d)(5)"], targetWords: 300, alwaysInclude: true },
+    { heading: "4. Entry Procedures and Attendant Duties", purpose: "Entrant duties (monitor, communicate, exit on alarm). Attendant duties (count, monitor, summon rescue, order evacuation — never enter). Entry supervisor duties (verify, authorize, terminate).", requiredReferences: ["8 CCR 5157(h)", "8 CCR 5157(i)", "8 CCR 5157(j)"], targetWords: 400, alwaysInclude: true },
+    { heading: "5. Rescue and Emergency Provisions", purpose: "On-site team or documented emergency services agreement. Non-entry rescue preferred. Annual rescue practice. Retrieval systems for vertical entries >5 feet.", requiredReferences: ["8 CCR 5157(k)"], targetWords: 350, alwaysInclude: true },
+    { heading: "6. Training and Certification", purpose: "Before first assignment and when duties change. Certification: employee name, trainer signature, date. Refresher when program changes or deficiencies found.", requiredReferences: ["8 CCR 5157(g)"], targetWords: 250, alwaysInclude: true },
+  ],
+}
+
+// Agriculture: Wildfire Smoke Protection Plan
+const WILDFIRE_SMOKE_PROTECTION_PLAN_TEMPLATE: DocumentTemplate = {
+  id: "wildfire-smoke-protection",
+  title: "Wildfire Smoke Protection Plan",
+  vertical: "agriculture",
+  description: "Required when AQI for PM2.5 reaches 151+. California's wildfire smoke standard is the most prescriptive in the nation.",
+  jurisdiction: "cal-osha",
+  requiredClientFields: ["businessName", "location", "employeeCount"],
+  refreshCycle: "annual",
+  retentionYears: 5,
+  disclaimer: "Implement immediately when AQI for PM2.5 reaches 151. Monitor conditions throughout each work shift during wildfire season.",
+  sections: [
+    { heading: "1. AQI Monitoring Procedures", purpose: "Designate responsible person, monitoring sources (AirNow.gov, local AQMD, PurpleAir), check frequency (before shift + every 2 hours), worker notification method.", requiredReferences: ["8 CCR 5141.1(c)"], targetWords: 300, alwaysInclude: true },
+    { heading: "2. Exposure Controls by AQI Level", purpose: "AQI 151-200: respirators for voluntary use, rest in filtered areas. AQI 201-300: require respirators, reduce exertion. AQI 301+: enclosed filtered-air structures, reduce exposure time.", requiredReferences: ["8 CCR 5141.1(d)", "8 CCR 5141.1(e)"], targetWords: 400, alwaysInclude: true },
+    { heading: "3. Respiratory Protection", purpose: "When required (AQI 201+): N95+, proper fit (seal check each use), medical evaluation, sufficient supply.", requiredReferences: ["8 CCR 5141.1(e)", "8 CCR 5144"], targetWords: 300, alwaysInclude: true },
+    { heading: "4. Training", purpose: "Before smoke season: health effects, AQI checking, plan procedures, respirator use, right to medical treatment without reprisal.", requiredReferences: ["8 CCR 5141.1(f)"], targetWords: 250, alwaysInclude: true },
+    { heading: "5. Communication and Emergency Procedures", purpose: "AQI change notification, filtered-air shelter locations, symptom response procedures, emergency contacts.", requiredReferences: ["8 CCR 5141.1(d)", "8 CCR 3203(a)(3)"], targetWords: 250, alwaysInclude: true },
+  ],
+}
+
+// Agriculture: Pesticide Safety Program
+const PESTICIDE_SAFETY_PROGRAM_TEMPLATE: DocumentTemplate = {
+  id: "pesticide-safety",
+  title: "Pesticide Safety Training and Compliance Program",
+  vertical: "agriculture",
+  description: "Pesticide safety training, application recordkeeping, restricted material permits, and Worker Protection Standard compliance.",
+  jurisdiction: "cal-osha",
+  requiredClientFields: ["businessName", "location", "employeeCount"],
+  refreshCycle: "annual",
+  retentionYears: 5,
+  disclaimer: "Covers Cal/OSHA worker safety and DPR cross-references. Restricted material permits obtained separately from County Agricultural Commissioner.",
+  sections: [
+    { heading: "1. Pesticide Inventory and Use Records", purpose: "Complete inventory. Application records: product name, EPA registration, location, date/time, amount, applicator, REI. Retain 2 years.", requiredReferences: ["3 CCR §6624", "3 CCR §6626"], targetWords: 300, alwaysInclude: true },
+    { heading: "2. Worker Protection Standard Compliance", purpose: "REIs, decontamination sites (water/soap/towels within 1/4 mile), treated area notification (posting or oral), early-entry protections.", requiredReferences: ["3 CCR §6764", "40 CFR Part 170"], targetWords: 350, alwaysInclude: true },
+    { heading: "3. Pesticide Safety Training", purpose: "Before exposure and annually. In workers' language. Cover: safe handling, health effects, labels/SDSs, decontamination, emergency procedures.", requiredReferences: ["3 CCR §6724", "3 CCR §6764(b)"], targetWords: 300, alwaysInclude: true },
+    { heading: "4. Personal Protective Equipment", purpose: "Per label: chemical-resistant gloves, coveralls, eye protection, respirators. Provided free, cleaned after use, stored separately.", requiredReferences: ["3 CCR §6738", "8 CCR 5194(d)"], targetWords: 250, alwaysInclude: true },
+    { heading: "5. Restricted Material Permits", purpose: "If applicable: County Agricultural Commissioner permit process, use conditions, pre-application notification, recordkeeping.", requiredReferences: ["3 CCR §6400-6490"], targetWords: 200, alwaysInclude: false },
+    { heading: "6. Emergency and Medical Response", purpose: "First aid, decontamination, medical access, poison control (1-800-222-1222), Cal/OSHA reporting for serious injuries.", requiredReferences: ["3 CCR §6726", "Labor Code §6409.1"], targetWords: 250, alwaysInclude: true },
+  ],
+}
+
+// Auto Services: Spray Booth Compliance Program
+const SPRAY_BOOTH_COMPLIANCE_PROGRAM_TEMPLATE: DocumentTemplate = {
+  id: "spray-booth-compliance",
+  title: "Spray Booth and Respiratory Protection Compliance Program",
+  vertical: "auto-services",
+  description: "Spray booth ventilation, isocyanate medical surveillance, hazmat storage, and fire prevention for automotive paint/refinishing.",
+  jurisdiction: "cal-osha",
+  requiredClientFields: ["businessName", "location", "employeeCount"],
+  refreshCycle: "annual",
+  retentionYears: 30,
+  disclaimer: "Isocyanate medical surveillance records retained 30 years. Airflow measurements must be documented. Review when new coatings or equipment are introduced.",
+  sections: [
+    { heading: "1. Spray Booth Ventilation Requirements", purpose: "Adequate velocity to prevent flammable vapor accumulation, exhaust maintenance, filter replacement schedule, annual airflow measurement documentation, make-up air.", requiredReferences: ["8 CCR 5154", "29 CFR 1910.94(c)"], targetWords: 350, alwaysInclude: true },
+    { heading: "2. Isocyanate Exposure Control", purpose: "For HDI/MDI/TDI exposure: monitoring, engineering controls (booth airflow), respiratory protection (supplied-air or PAPR w/ OV cartridges), medical surveillance.", requiredReferences: ["8 CCR 5155", "8 CCR 5208"], targetWords: 350, alwaysInclude: true },
+    { heading: "3. Medical Surveillance (Isocyanate Exposure)", purpose: "Pre-assignment and periodic exams. Pulmonary function (FVC, FEV1), respiratory questionnaire, written opinions. Records: 30 years.", requiredReferences: ["8 CCR 5208(l)", "8 CCR 5155"], targetWords: 300, alwaysInclude: true },
+    { heading: "4. Hazmat Storage and Waste Management", purpose: "Flammable liquid cabinets, chemical separation, used oil labeling (H&S Code §25250), waste manifesting.", requiredReferences: ["29 CFR 1910.106", "Health & Safety Code §25250"], targetWords: 300, alwaysInclude: true },
+    { heading: "5. Fire Prevention for Paint Operations", purpose: "No-spark tools, extinguisher placement (within 10ft of booth), Class I Division 1/2 electrical ratings, hot work permits near paint storage.", requiredReferences: ["29 CFR 1910.107", "8 CCR 5154(h)"], targetWords: 300, alwaysInclude: true },
+    { heading: "6. Training", purpose: "Booth operation/maintenance, isocyanate hazards, respirator use, hazmat handling, fire prevention, emergency procedures. Documented with dates/topics.", requiredReferences: ["8 CCR 5194(h)", "8 CCR 3203(a)(7)"], targetWords: 250, alwaysInclude: true },
+  ],
+}
+
+// ---------------------------------------------------------------------------
 // Template Registry
 // ---------------------------------------------------------------------------
 // Platform-Wide Templates (completing the 8 promised)
@@ -1113,7 +1328,7 @@ const TRAINING_RECORDS_FRAMEWORK_TEMPLATE: DocumentTemplate = {
 
 /** All document templates organized by vertical → document type */
 const TEMPLATE_REGISTRY: Record<string, DocumentTemplate[]> = {
-  // Cross-vertical (every client gets these — the 8 platform-wide templates)
+  // Cross-vertical (every client gets these — the 8 platform-wide + hearing conservation)
   all: [
     WVPP_TEMPLATE,
     IIPP_TEMPLATE,
@@ -1123,18 +1338,34 @@ const TEMPLATE_REGISTRY: Record<string, DocumentTemplate[]> = {
     OSHA_300_LOG_TEMPLATE,
     INCIDENT_INVESTIGATION_TEMPLATE,
     TRAINING_RECORDS_FRAMEWORK_TEMPLATE,
+    HEARING_CONSERVATION_PROGRAM_TEMPLATE,
   ],
   // Vertical-specific
-  construction: [FALL_PROTECTION_PLAN_TEMPLATE],
-  healthcare: [BBP_EXPOSURE_CONTROL_PLAN_TEMPLATE],
-  manufacturing: [LOTO_PROGRAM_TEMPLATE],
-  agriculture: [], // Heat illness prevention is now cross-vertical
+  construction: [
+    FALL_PROTECTION_PLAN_TEMPLATE,
+    SILICA_EXPOSURE_CONTROL_PLAN_TEMPLATE,
+  ],
+  healthcare: [
+    BBP_EXPOSURE_CONTROL_PLAN_TEMPLATE,
+    HIPAA_SRA_TEMPLATE,
+    ATD_PLAN_TEMPLATE,
+    BAA_TRACKER_TEMPLATE,
+  ],
+  manufacturing: [
+    LOTO_PROGRAM_TEMPLATE,
+    MACHINE_GUARDING_PROGRAM_TEMPLATE,
+    CONFINED_SPACE_PROGRAM_TEMPLATE,
+  ],
+  agriculture: [
+    WILDFIRE_SMOKE_PROTECTION_PLAN_TEMPLATE,
+    PESTICIDE_SAFETY_PROGRAM_TEMPLATE,
+  ],
   transportation: [FLEET_SAFETY_PROGRAM_TEMPLATE],
   wholesale: [PIT_SAFETY_PROGRAM_TEMPLATE],
   retail: [RETAIL_STORE_SAFETY_PROGRAM_TEMPLATE],
   hospitality: [HOSPITALITY_SAFETY_PROGRAM_TEMPLATE],
   "real-estate": [PROPERTY_COMPLIANCE_PROGRAM_TEMPLATE],
-  // Auto services: use cross-vertical templates only until vertical is fully built.
+  "auto-services": [SPRAY_BOOTH_COMPLIANCE_PROGRAM_TEMPLATE],
 }
 
 // ---------------------------------------------------------------------------
@@ -1175,11 +1406,13 @@ export function getTemplatesForVertical(vertical: string): DocumentTemplate[] {
  */
 export function getAvailableDocumentTypes(
   vertical: string
-): { id: string; title: string; description: string }[] {
+): { id: string; title: string; description: string; regulation: string; sectionCount: number }[] {
   return getTemplatesForVertical(vertical).map((t) => ({
     id: t.id,
     title: t.title,
     description: t.description,
+    regulation: t.sections[0]?.requiredReferences[0] ?? "",
+    sectionCount: t.sections.filter((s) => s.alwaysInclude).length,
   }))
 }
 
@@ -1195,6 +1428,66 @@ export function validateClientData(
     (field) => !clientData[field]
   )
   return { valid: missing.length === 0, missing }
+}
+
+/**
+ * Centralized label map for every template ID in the registry.
+ * Single source of truth — documents.ts, UI components, and pipelines
+ * all pull from here instead of maintaining separate hardcoded maps.
+ */
+export function getDocumentLabel(templateId: string): string {
+  const allTemplates = Object.values(TEMPLATE_REGISTRY).flat()
+  const found = allTemplates.find((t) => t.id === templateId)
+  return found?.title ?? templateId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
+/**
+ * Check if a template ID exists anywhere in the registry.
+ * Used to enforce schema — reject unknown IDs before they create ghost documents.
+ */
+export function isValidTemplateId(templateId: string): boolean {
+  const allTemplates = Object.values(TEMPLATE_REGISTRY).flat()
+  return allTemplates.some((t) => t.id === templateId)
+}
+
+/**
+ * Get the starter document set for a vertical + plan tier.
+ * Replaces the generic "{vertical}-compliance-plan" pattern in intake-pipeline.
+ * Returns real template IDs that pass through the AI generator with guardrails.
+ */
+export function getStarterDocuments(
+  vertical: string,
+  plan: "core" | "professional" | "multi-site"
+): string[] {
+  // Every client gets these 3 foundational documents
+  const base: string[] = ["iipp", "wvpp", "incident-investigation"]
+
+  // Professional + Multi-Site add EAP and HazCom
+  if (plan === "professional" || plan === "multi-site") {
+    base.push("eap", "hazcom")
+  }
+
+  // Multi-Site adds training framework and OSHA 300 log
+  if (plan === "multi-site") {
+    base.push("training-records", "osha-300-log")
+  }
+
+  // Add vertical-specific templates (all plan tiers)
+  const verticalTemplates = TEMPLATE_REGISTRY[vertical] ?? []
+  for (const t of verticalTemplates) {
+    if (!base.includes(t.id)) {
+      base.push(t.id)
+    }
+  }
+
+  return base
+}
+
+/**
+ * Get all verticals that have registered templates.
+ */
+export function getRegisteredVerticals(): string[] {
+  return Object.keys(TEMPLATE_REGISTRY).filter((k) => k !== "all")
 }
 
 /**

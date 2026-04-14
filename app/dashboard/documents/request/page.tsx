@@ -1,28 +1,34 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { FileText, ArrowLeft, Lightning, Check } from "@phosphor-icons/react"
+import { FileText, ArrowLeft, Lightning, Check, Star } from "@phosphor-icons/react"
 import Link from "next/link"
-import { useState } from "react"
-import { requestDocument } from "@/lib/actions/documents"
+import { useState, useEffect } from "react"
+import { requestDocument, getAvailableDocTypesForUser } from "@/lib/actions/documents"
 
-const documentTypes = [
-  { id: "iipp", name: "IIPP Update", description: "Injury & Illness Prevention Program", regulation: "8 CCR 3203" },
-  { id: "wvpp", name: "SB 553 Plan", description: "Workplace Violence Prevention Plan", regulation: "SB 553" },
-  { id: "eap", name: "Emergency Action Plan", description: "Emergency procedures and evacuation", regulation: "8 CCR 3220" },
-  { id: "hazcom", name: "HazCom Program", description: "Hazard Communication Program (GHS)", regulation: "8 CCR 5194" },
-  { id: "heat-illness-prevention", name: "Heat Illness Prevention", description: "Outdoor heat illness prevention", regulation: "8 CCR 3395" },
-  { id: "osha-300-log", name: "OSHA 300 Log Compliance", description: "Injury and illness recording and reporting", regulation: "8 CCR 14300" },
-  { id: "incident-investigation", name: "Incident Investigation Procedures", description: "Workplace incident investigation framework", regulation: "8 CCR 3203(a)(6)" },
-  { id: "training-records", name: "Training Records Framework", description: "Employee safety training documentation", regulation: "8 CCR 3203(a)(7)" },
-  { id: "custom", name: "Custom Document", description: "Request a custom compliance document", regulation: "Various" },
-]
+type DocType = {
+  id: string
+  title: string
+  description: string
+  regulation: string
+  sectionCount: number
+  isVerticalSpecific: boolean
+}
 
 export default function DocumentRequestPage() {
+  const [documentTypes, setDocumentTypes] = useState<DocType[]>([])
+  const [loading, setLoading] = useState(true)
   const [selectedType, setSelectedType] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    getAvailableDocTypesForUser().then((types) => {
+      setDocumentTypes(types)
+      setLoading(false)
+    })
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -123,40 +129,137 @@ export default function DocumentRequestPage() {
           <label className="block font-display font-medium text-[12px] tracking-[3px] uppercase text-steel mb-4">
             Select Document Type
           </label>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {documentTypes.map((type) => (
-              <motion.button
-                key={type.id}
-                type="button"
-                onClick={() => setSelectedType(type.id)}
-                className={`text-left p-4 border transition-all ${
-                  selectedType === type.id 
-                    ? 'border-crimson bg-crimson/[0.04]' 
-                    : 'border-midnight/[0.08] bg-brand-white hover:border-midnight/20'
-                }`}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <FileText size={24} className={selectedType === type.id ? 'text-crimson' : 'text-midnight'} />
-                  {selectedType === type.id && (
-                    <span className="w-5 h-5 bg-crimson flex items-center justify-center">
-                      <Check size={12} weight="bold" className="text-white" />
-                    </span>
-                  )}
+          {loading ? (
+            <div className="text-steel font-sans text-[14px] py-8 text-center">
+              Loading available document types...
+            </div>
+          ) : (
+            <>
+              {/* Vertical-specific templates first */}
+              {documentTypes.some((t) => t.isVerticalSpecific) && (
+                <div className="mb-6">
+                  <p className="font-display font-medium text-[11px] tracking-[2px] uppercase text-gold mb-3 flex items-center gap-2">
+                    <Star size={14} weight="fill" className="text-gold" />
+                    Your Industry Templates
+                  </p>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {documentTypes.filter((t) => t.isVerticalSpecific).map((type) => (
+                      <motion.button
+                        key={type.id}
+                        type="button"
+                        onClick={() => setSelectedType(type.id)}
+                        className={`text-left p-4 border transition-all ${
+                          selectedType === type.id 
+                            ? 'border-crimson bg-crimson/[0.04]' 
+                            : 'border-gold/30 bg-gold/[0.02] hover:border-gold/50'
+                        }`}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <FileText size={24} className={selectedType === type.id ? 'text-crimson' : 'text-gold'} />
+                          {selectedType === type.id && (
+                            <span className="w-5 h-5 bg-crimson flex items-center justify-center">
+                              <Check size={12} weight="bold" className="text-white" />
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-display font-bold text-[14px] text-midnight mb-1">
+                          {type.title}
+                        </h3>
+                        <p className="font-sans text-[12px] text-steel mb-2">
+                          {type.description}
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 border border-gold/30 bg-gold/5 font-display font-medium text-[10px] tracking-[1px] text-gold">
+                            {type.regulation}
+                          </span>
+                          <span className="font-sans text-[10px] text-steel">
+                            {type.sectionCount} sections
+                          </span>
+                        </div>
+                      </motion.button>
+                    ))}
+                  </div>
                 </div>
-                <h3 className="font-display font-bold text-[14px] text-midnight mb-1">
-                  {type.name}
-                </h3>
-                <p className="font-sans text-[12px] text-steel mb-2">
-                  {type.description}
-                </p>
-                <span className="px-2 py-0.5 border border-gold/30 bg-gold/5 font-display font-medium text-[10px] tracking-[1px] text-gold">
-                  {type.regulation}
-                </span>
-              </motion.button>
-            ))}
-          </div>
+              )}
+
+              {/* Platform-wide templates */}
+              <p className="font-display font-medium text-[11px] tracking-[2px] uppercase text-steel mb-3">
+                Platform-Wide Templates
+              </p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {documentTypes.filter((t) => !t.isVerticalSpecific).map((type) => (
+                  <motion.button
+                    key={type.id}
+                    type="button"
+                    onClick={() => setSelectedType(type.id)}
+                    className={`text-left p-4 border transition-all ${
+                      selectedType === type.id 
+                        ? 'border-crimson bg-crimson/[0.04]' 
+                        : 'border-midnight/[0.08] bg-brand-white hover:border-midnight/20'
+                    }`}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <FileText size={24} className={selectedType === type.id ? 'text-crimson' : 'text-midnight'} />
+                      {selectedType === type.id && (
+                        <span className="w-5 h-5 bg-crimson flex items-center justify-center">
+                          <Check size={12} weight="bold" className="text-white" />
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-display font-bold text-[14px] text-midnight mb-1">
+                      {type.title}
+                    </h3>
+                    <p className="font-sans text-[12px] text-steel mb-2">
+                      {type.description}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 border border-gold/30 bg-gold/5 font-display font-medium text-[10px] tracking-[1px] text-gold">
+                        {type.regulation}
+                      </span>
+                      <span className="font-sans text-[10px] text-steel">
+                        {type.sectionCount} sections
+                      </span>
+                    </div>
+                  </motion.button>
+                ))}
+
+                {/* Custom document — always available */}
+                <motion.button
+                  type="button"
+                  onClick={() => setSelectedType("custom")}
+                  className={`text-left p-4 border transition-all ${
+                    selectedType === "custom" 
+                      ? 'border-crimson bg-crimson/[0.04]' 
+                      : 'border-midnight/[0.08] bg-brand-white hover:border-midnight/20'
+                  }`}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <FileText size={24} className={selectedType === "custom" ? 'text-crimson' : 'text-midnight'} />
+                    {selectedType === "custom" && (
+                      <span className="w-5 h-5 bg-crimson flex items-center justify-center">
+                        <Check size={12} weight="bold" className="text-white" />
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-display font-bold text-[14px] text-midnight mb-1">
+                    Custom Document
+                  </h3>
+                  <p className="font-sans text-[12px] text-steel mb-2">
+                    Request a custom compliance document
+                  </p>
+                  <span className="px-2 py-0.5 border border-gold/30 bg-gold/5 font-display font-medium text-[10px] tracking-[1px] text-gold">
+                    Various
+                  </span>
+                </motion.button>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Additional Notes */}
