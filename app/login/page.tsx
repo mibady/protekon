@@ -6,17 +6,20 @@ import { motion } from "framer-motion"
 import { Eye, EyeSlash, ArrowRight } from "@phosphor-icons/react"
 import { signIn } from "@/lib/actions/auth"
 import { createClient } from "@/lib/supabase/client"
+import { safeRedirect } from "@/lib/safe-redirect"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [nextPath, setNextPath] = useState("/dashboard")
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get("error") === "auth_callback_failed") {
       setError("Authentication failed. Please try again.")
     }
+    setNextPath(safeRedirect(params.get("next"), "/dashboard"))
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -145,6 +148,7 @@ export default function LoginPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <input type="hidden" name="next" value={nextPath} />
             {/* Email */}
             <div className="flex flex-col gap-2">
               <label className="font-display font-semibold text-[12px] tracking-[2px] uppercase text-steel">
