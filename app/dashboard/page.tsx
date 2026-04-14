@@ -116,8 +116,37 @@ export default function DashboardPage() {
 
   const scoreColor = complianceScore >= 75 ? "#2A7D4F" : complianceScore >= 50 ? "#C9A84C" : "#C41230"
 
+  const needsPayment = !!data?.client && !data.client.stripe_customer_id
+  async function handleCompletePayment() {
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planId: data?.client?.plan ?? "core" }),
+      })
+      const payload = await res.json()
+      if (res.ok && payload.url) window.location.href = payload.url
+    } catch {
+      // Swallow — user can retry from settings if checkout creation fails.
+    }
+  }
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+      {needsPayment && (
+        <div className="bg-crimson/5 border border-crimson/30 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <p className="font-display font-semibold text-[14px] uppercase tracking-[1.5px] text-crimson">Complete your payment to activate</p>
+            <p className="font-sans text-[13px] text-midnight/70 mt-1">Your AI compliance officer is on hold until billing is set up. Takes under a minute.</p>
+          </div>
+          <button
+            onClick={handleCompletePayment}
+            className="bg-crimson text-brand-white font-display font-semibold text-[13px] uppercase tracking-[1.5px] px-5 py-3 hover:bg-crimson/90 transition-colors"
+          >
+            Complete payment
+          </button>
+        </div>
+      )}
       {/* AI Compliance Officer Status */}
       <motion.div
         className="bg-midnight border-l-[3px] border-crimson px-6 py-4"

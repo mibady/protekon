@@ -138,6 +138,23 @@ export default function IntakePage() {
     setSubmitting(false)
 
     if (res.success) {
+      // After intake completes, route the user through Stripe Checkout for the
+      // plan they just selected. If checkout setup fails, fall back to the
+      // dashboard so the user isn't stranded.
+      try {
+        const checkout = await fetch("/api/stripe/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ planId: selectedPlan }),
+        })
+        const data = await checkout.json()
+        if (checkout.ok && data.url) {
+          window.location.href = data.url
+          return
+        }
+      } catch {
+        // fall through to dashboard redirect below
+      }
       setTimeout(() => router.push("/dashboard"), 3000)
     }
   }

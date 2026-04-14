@@ -48,6 +48,7 @@ export type ClientProfile = {
   created_at: string
   updated_at: string
   notification_preferences?: Record<string, boolean>
+  stripe_customer_id?: string | null
 }
 
 // --- Alerts (Phase 0: NGE-359) ---

@@ -301,7 +301,32 @@ export default function SettingsPage() {
 
                 {/* Upgrade CTA */}
                 {client?.plan !== "multi-site" && (
-                  <div className="mb-4 bg-gold/[0.06] border border-gold/20 px-4 py-3 flex items-center justify-between">
+                  <button
+                    type="button"
+                    disabled={billingLoading}
+                    onClick={async () => {
+                      setBillingLoading(true)
+                      try {
+                        const nextPlan = client?.plan === "core" ? "professional" : "multi-site"
+                        const res = await fetch("/api/stripe/checkout", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ planId: nextPlan }),
+                        })
+                        const data = await res.json()
+                        if (res.ok && data.url) {
+                          window.location.href = data.url
+                        } else {
+                          setError(data.error || "Unable to start checkout")
+                        }
+                      } catch {
+                        setError("Unable to start checkout")
+                      } finally {
+                        setBillingLoading(false)
+                      }
+                    }}
+                    className="w-full mb-4 bg-gold/[0.06] border border-gold/20 hover:border-gold/40 hover:bg-gold/[0.1] px-4 py-3 flex items-center justify-between text-left transition-colors disabled:opacity-50"
+                  >
                     <div>
                       <span className="font-display font-bold text-[12px] text-midnight">
                         Upgrade to {client?.plan === "core" ? "Professional" : "Multi-Site"}
@@ -315,7 +340,7 @@ export default function SettingsPage() {
                     <span className="font-display font-bold text-[14px] text-gold">
                       {client?.plan === "core" ? "$897/mo" : "$1,297/mo"}
                     </span>
-                  </div>
+                  </button>
                 )}
 
                 <p className="font-sans text-[13px] text-steel mb-4">

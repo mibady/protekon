@@ -51,6 +51,24 @@ export async function POST(request: NextRequest) {
 
     const origin = request.nextUrl.origin
 
+    // If the row has a stripe_customer_id, verify it still exists in Stripe.
+    // Dev DBs often carry stale ids from deleted test customers — treating
+    // them as valid makes Checkout fail with "No such customer".
+    let customerId: string | undefined = client?.stripe_customer_id || undefined
+    if (customerId) {
+      try {
+        const existing = await stripe.customers.retrieve(customerId)
+        if ((existing as { deleted?: boolean }).deleted) customerId = undefined
+      } catch {
+        customerId = undefined
+      }
+
+      if (!customerId) {
+        // Clear the stale id so future requests don't pay this round-trip.
+        await supabase.from("clients").update({ stripe_customer_id: null }).eq("id", user.id)
+      }
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [
@@ -60,8 +78,8 @@ export async function POST(request: NextRequest) {
       ],
       success_url: `${origin}/dashboard?checkout=success`,
       cancel_url: `${origin}/pricing?checkout=cancelled`,
-      customer: client?.stripe_customer_id || undefined,
-      customer_email: client?.stripe_customer_id ? undefined : (client?.email ?? user.email),
+      customer: customerId,
+      customer_email: customerId ? undefined : (client?.email ?? user.email),
       metadata: {
         userId: user.id,
         clientId: client?.id ?? "",
