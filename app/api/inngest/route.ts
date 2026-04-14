@@ -17,6 +17,7 @@ import { reEngagement } from "@/inngest/functions/re-engagement"
 import { sampleNurtureDrip } from "@/inngest/functions/sample-nurture-drip"
 import { planUpdatePipeline } from "@/inngest/functions/plan-update-pipeline"
 import { ragIndexer } from "@/inngest/functions/rag-indexer"
+import { cslbNotificationPipeline } from "@/inngest/functions/cslb-notification-pipeline"
 
 export const maxDuration = 300
 
@@ -41,5 +42,6 @@ export const { GET, POST, PUT } = serve({
     sampleNurtureDrip,
     planUpdatePipeline,
     ragIndexer,
+    cslbNotificationPipeline,
   ],
 })
