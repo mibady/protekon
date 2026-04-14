@@ -148,17 +148,17 @@ const faqs = [
   {
     question: "Do I need to install any software or manage anything?",
     answer:
-      "No. PROTEKON runs autonomously. Compliance documents are delivered to your inbox on schedule. Your dashboard shows real-time compliance status, but you never have to log in for the system to do its job. It monitors regulations, processes incidents, updates documents, and sends you proof \u2014 whether you check the dashboard or not.",
+      "No. After a one-time 15-minute intake, PROTEKON runs on its own. Compliance documents are delivered to your inbox on schedule. Your dashboard shows real-time compliance status, but you never have to log in for the system to do its job. It monitors regulations, processes incidents, updates documents, and sends you proof \u2014 whether you check the dashboard or not.",
   },
   {
     question: "How is this different from compliance software like NAVEX or FaceUp?",
     answer:
-      "Enterprise compliance software gives you a dashboard to manage yourself. You still need staff to enter data, interpret regulations, generate reports, and maintain records. Protekon is an AI agent that does all of that autonomously. You don\u2019t operate a system. You don\u2019t manage a platform. The agent does the compliance work \u2014 the same work a $60\u201380K/year compliance officer would do \u2014 for less than $1,300/month.",
+      "Enterprise compliance software gives you a dashboard to manage yourself. You still need staff to enter data, interpret regulations, generate reports, and maintain records. Protekon does that work for you. You don\u2019t operate a system. You don\u2019t manage a platform. Protekon does the compliance work \u2014 the same work a $60\u201380K/year compliance officer would do \u2014 for less than $1,300/month.",
   },
   {
-    question: "What does the AI actually do vs. a human?",
+    question: "What does Protekon actually do day-to-day?",
     answer:
-      "The AI writes your compliance plans from your intake data, classifies incidents by severity and OSHA code, strips personally identifiable information from reports, scans three regulatory feeds every morning, analyzes the impact of new regulations on your documents, and delivers reports on schedule. A human compliance analyst reviews edge cases on Professional and Multi-Site plans. The AI handles the 95% that is procedural. The human handles the 5% that requires judgment.",
+      "Protekon writes your compliance plans from your intake data, classifies incidents by severity and OSHA code, strips personally identifiable information from reports, scans three regulatory feeds every morning, analyzes the impact of new regulations on your documents, and delivers reports on schedule. If an incident or regulation falls outside its confidence threshold, Protekon flags it in your dashboard with the specific judgment call you need to make \u2014 so you\u2019re never blindsided by an edge case.",
   },
 ]
 

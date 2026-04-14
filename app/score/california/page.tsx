@@ -809,8 +809,8 @@ export default function ScoreLandingPage() {
           {[
             { n: 164, p: "$", s: "M", l: "in Cal/OSHA penalties" },
             { n: 21020, p: "", s: "", l: "California employers fined" },
-            { n: 73960, p: "", s: "+", l: "Cal/OSHA records analyzed" },
             { n: 3430, p: "", s: "", l: "cited since January 2025" },
+            { n: 10, p: "", s: "yr", l: "of Cal/OSHA enforcement analyzed" },
           ].map(({ n, p, s, l }) => (
             <div
               key={l}

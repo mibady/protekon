@@ -24,7 +24,7 @@ const values = [
   {
     number: "02",
     title: "Agent, Not Software",
-    description: "We don't sell dashboards. We don't sell templates. PROTEKON does the work — autonomously, on schedule, without being prompted. Your compliance posture improves while you run your business."
+    description: "We don't sell dashboards. We don't sell templates. After a one-time intake, PROTEKON does the work — on schedule, without being prompted. Your compliance posture improves while you run your business."
   },
   {
     number: "03",
@@ -75,7 +75,7 @@ export default function AboutPage() {
               </div>
 
               <h1 className="font-display font-black text-[clamp(40px,6vw,64px)] leading-[0.95] text-parchment mb-8">
-                We Built the AI That Runs Your Compliance Department.
+                We Built Protekon to Run Your Compliance Department.
               </h1>
 
               <p className="font-sans text-[17px] leading-[1.8] text-fog max-w-[520px]">
@@ -150,7 +150,7 @@ export default function AboutPage() {
               transition={{ delay: 0.2 }}
             >
               The average serious OSHA fine is $16,131 — and willful violations can exceed
-              $161,000. Protekon Core costs $597/month. We built an AI agent that does
+              $161,000. Protekon Core costs $597/month. We built Protekon to do
               the work of a compliance officer — writing plans, classifying incidents,
               stripping PII, scanning regulations, and delivering audit-ready documents —
               for less than 1% of the cost of hiring one.

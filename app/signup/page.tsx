@@ -108,7 +108,7 @@ export default function SignupPage() {
             transition={{ delay: 0.4 }}
           >
             {[
-              "AI writes your IIPP + SB 553 plan in 48 hours",
+              "Protekon writes your IIPP + SB 553 plan in 48 hours",
               "Incident classification + PII stripping from day one",
               "Regulatory monitoring starts immediately — daily 6am scans",
               "Scheduled delivery to your inbox — no login required",

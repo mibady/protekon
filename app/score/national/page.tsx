@@ -815,8 +815,8 @@ export default function ScoreNationalPage() {
           {[
             { n: 1040, p: "$", s: "M", l: "in OSHA penalties since 2020" },
             { n: 116000, p: "", s: "+", l: "employers cited nationwide" },
-            { n: 431000, p: "", s: "+", l: "OSHA records analyzed" },
-            { n: 243000, p: "", s: "+", l: "serious violations (56%)" },
+            { n: 56, p: "", s: "%", l: "of citations rated serious" },
+            { n: 50, p: "", s: "", l: "states monitored daily" },
           ].map(({ n, p, s, l }) => (
             <div
               key={l}
