@@ -12,21 +12,21 @@ const integrations = [
     category: "Automation",
     description: "Connect PROTEKON to 5,000+ apps. Automate document delivery, incident alerts, and compliance workflows.",
     icon: Plugs,
-    status: "Available",
+    status: "Coming Soon",
   },
   {
     name: "Slack",
     category: "Communication",
     description: "Get real-time compliance alerts and incident notifications directly in your Slack channels.",
     icon: Bell,
-    status: "Available",
+    status: "Coming Soon",
   },
   {
     name: "Microsoft Teams",
     category: "Communication",
     description: "Receive compliance updates and collaborate on safety documentation within Teams.",
     icon: Users,
-    status: "Available",
+    status: "Coming Soon",
   },
   {
     name: "QuickBooks",
@@ -40,14 +40,14 @@ const integrations = [
     category: "HR",
     description: "Automatic employee count sync for accurate compliance documentation and pricing.",
     icon: Users,
-    status: "Available",
+    status: "Coming Soon",
   },
   {
     name: "Google Workspace",
     category: "Productivity",
     description: "Store compliance documents in Google Drive with automatic organization and sharing.",
     icon: FileText,
-    status: "Available",
+    status: "Coming Soon",
   },
 ]
 
@@ -99,8 +99,9 @@ export default function MarketplacePage() {
               EXTEND PROTEKON
             </h1>
             <p className="font-sans text-[16px] text-steel max-w-[600px] leading-relaxed">
-              Integrations, add-ons, and partners to enhance your compliance stack. 
-              Connect PROTEKON to your existing tools and workflows.
+              Integrations and add-ons to enhance your compliance stack. The roadmap below
+              shows what we&rsquo;re building next &mdash; current clients vote on priority in
+              their dashboard.
             </p>
           </motion.div>
         </div>

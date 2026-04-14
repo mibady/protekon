@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { createClient } from "@/lib/supabase/server"
 import { rateLimit, getClientIp } from "@/lib/rate-limit"
 import { generateSamplePDF } from "@/lib/pdf-samples"
 
@@ -43,32 +44,38 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 }
 
-/* ── GET: download sample PDF (requires prior email capture) ── */
+/* ── GET: download sample PDF (authenticated users OR recent email gate) ── */
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const report = request.nextUrl.searchParams.get("report")
-  const email = request.nextUrl.searchParams.get("email")?.trim().toLowerCase()
 
   if (!report) {
     return NextResponse.json({ error: "Missing report parameter" }, { status: 400 })
   }
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return NextResponse.json({ error: "Email required" }, { status: 403 })
-  }
+  // Authenticated dashboard users bypass the email gate.
+  const authed = await createClient()
+  const { data: { user } } = await authed.auth.getUser()
 
-  // Verify the email has a recent lead row (within 24h) before serving the asset.
-  const supabase = createAdminClient()
-  const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-  const { data: lead } = await supabase
-    .from("sample_report_leads")
-    .select("id")
-    .ilike("email", email)
-    .gte("created_at", cutoff)
-    .limit(1)
-    .maybeSingle()
+  if (!user) {
+    const email = request.nextUrl.searchParams.get("email")?.trim().toLowerCase()
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json({ error: "Email required" }, { status: 403 })
+    }
 
-  if (!lead) {
-    return NextResponse.json({ error: "Submit the form first to access this download" }, { status: 403 })
+    // Verify the email has a recent lead row (within 24h) before serving the asset.
+    const supabase = createAdminClient()
+    const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+    const { data: lead } = await supabase
+      .from("sample_report_leads")
+      .select("id")
+      .ilike("email", email)
+      .gte("created_at", cutoff)
+      .limit(1)
+      .maybeSingle()
+
+    if (!lead) {
+      return NextResponse.json({ error: "Submit the form first to access this download" }, { status: 403 })
+    }
   }
 
   try {

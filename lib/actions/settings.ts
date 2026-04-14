@@ -96,6 +96,12 @@ export async function updateCompany(formData: FormData): Promise<ActionResult> {
     return { error: error.message }
   }
 
+  // Keep auth user_metadata in sync with vertical so downstream events (intake,
+  // inngest) route to the correct templates even before the next login.
+  if (vertical) {
+    await supabase.auth.updateUser({ data: { vertical } })
+  }
+
   await supabase.from("audit_log").insert({
     client_id: user.id,
     event_type: "settings.company_updated",

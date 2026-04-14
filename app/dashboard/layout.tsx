@@ -59,6 +59,7 @@ const navGroups = [
     items: [
       { name: "My Documents", href: "/dashboard/documents", icon: FileText },
       { name: "Request Update", href: "/dashboard/documents/request", icon: FileText },
+      { name: "Sample Library", href: "/dashboard/samples", icon: FileText },
     ]
   },
   {
@@ -70,7 +71,7 @@ const navGroups = [
       { name: "Knowledge Base", href: "/dashboard/knowledge", icon: BookOpenText },
       { name: "Reports", href: "/dashboard/reports", icon: Clipboard },
       { name: "Training", href: "/dashboard/training", icon: GraduationCap },
-      { name: "Quarterly Reviews", href: "/dashboard/reports/compliance-score", icon: ChartLine, minTier: "professional" as const },
+      { name: "Quarterly Reviews", href: "/dashboard/reports/quarterly-review", icon: ChartLine, minTier: "professional" as const },
       { name: "Annual Audit", href: "/dashboard/reports/annual-summary", icon: Clipboard, minTier: "multi-site" as const },
     ]
   },

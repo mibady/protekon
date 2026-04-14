@@ -9,21 +9,21 @@ const integrations = [
     category: "Automation",
     description: "Connect PROTEKON to 5,000+ apps. Automate document delivery, incident alerts, and compliance workflows.",
     icon: Plugs,
-    status: "Available",
+    status: "Coming Soon",
   },
   {
     name: "Slack",
     category: "Communication",
     description: "Get real-time compliance alerts and incident notifications directly in your Slack channels.",
     icon: Bell,
-    status: "Available",
+    status: "Coming Soon",
   },
   {
     name: "Microsoft Teams",
     category: "Communication",
     description: "Receive compliance updates and collaborate on safety documentation within Teams.",
     icon: Users,
-    status: "Available",
+    status: "Coming Soon",
   },
   {
     name: "QuickBooks",
@@ -37,14 +37,14 @@ const integrations = [
     category: "HR",
     description: "Automatic employee count sync for accurate compliance documentation and pricing.",
     icon: Users,
-    status: "Available",
+    status: "Coming Soon",
   },
   {
     name: "Google Workspace",
     category: "Productivity",
     description: "Store compliance documents in Google Drive with automatic organization and sharing.",
     icon: FileText,
-    status: "Available",
+    status: "Coming Soon",
   },
 ]
 

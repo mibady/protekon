@@ -114,19 +114,16 @@ export async function getAvailableDocTypesForUser(): Promise<
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return []
 
-  const vertical = user.user_metadata?.vertical || "other"
+  // Canonical source for vertical is the clients table (written by intake + settings).
+  // Auth user_metadata is a legacy fallback only.
+  const { data: clientRow } = await supabase
+    .from("clients")
+    .select("vertical")
+    .eq("id", user.id)
+    .maybeSingle()
+  const vertical = clientRow?.vertical || user.user_metadata?.vertical || "other"
 
-  // Import dynamically to avoid circular dependency issues
-  const { getAvailableDocumentTypes, getTemplatesForVertical } = await import("@/lib/document-templates")
-  const allTypes = getAvailableDocumentTypes(vertical)
-
-  // Cross-vertical IDs (the 8 platform-wide) — mark vertical-specific ones
-  const { getTemplatesForVertical: getAll } = await import("@/lib/document-templates")
-  const crossVerticalIds = new Set(
-    (getAll("__none__") || []).map(() => "")
-  )
-
-  // Simpler approach: cross-vertical templates have vertical === "all"
+  const { getTemplatesForVertical } = await import("@/lib/document-templates")
   const templates = getTemplatesForVertical(vertical)
   return templates.map((t) => ({
     id: t.id,
