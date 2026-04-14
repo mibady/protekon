@@ -105,15 +105,6 @@ export default function Hero() {
               </Link>
             </motion.div>
 
-            {/* Microcopy */}
-            <motion.p
-              className="font-sans text-[12px] text-steel"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              No software. No staff. First delivery in 48 hours. Cancel anytime.
-            </motion.p>
           </div>
         </div>
 
