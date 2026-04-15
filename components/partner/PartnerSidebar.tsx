@@ -8,6 +8,7 @@ import {
   House,
   ClipboardText,
   GraduationCap,
+  BookOpen,
   Gear,
   SignOut,
   List,
@@ -33,6 +34,7 @@ const TIER_BG: Record<PartnerProfile["tier"], string> = {
 const navItems = [
   { name: "Dashboard", href: "/partner", icon: House, exact: true },
   { name: "Assessments", href: "/partner/assessments", icon: ClipboardText, exact: false },
+  { name: "Enablement", href: "/partner/enablement", icon: BookOpen, exact: false },
   { name: "Boot Camp", href: "/partners/boot-camp", icon: GraduationCap, exact: false, external: true },
   { name: "Settings", href: "/partner/settings", icon: Gear, exact: false },
 ]

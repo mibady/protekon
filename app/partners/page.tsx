@@ -218,6 +218,18 @@ export default function PartnersPage() {
               <ArrowRight size={16} weight="bold" />
             </Link>
           </motion.div>
+
+          <motion.p
+            className="text-center text-[11px] font-display tracking-[2px] uppercase text-fog mt-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            Already a partner?{" "}
+            <Link href="/partner/enablement" className="text-gold hover:text-parchment transition-colors underline-offset-4 hover:underline">
+              Enter the enablement library
+            </Link>
+          </motion.p>
         </div>
       </section>
 
