@@ -91,7 +91,7 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.45 }}
             >
               <Link
-                href="/signup"
+                href="/pricing"
                 className="inline-flex items-center justify-center font-display font-semibold text-[11px] tracking-[3px] uppercase text-brand-white bg-crimson px-8 py-4 border-l-[3px] border-brand-white/30 hover:brightness-110 transition-all"
               >
                 Activate Your Compliance Officer

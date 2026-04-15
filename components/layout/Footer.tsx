@@ -12,6 +12,7 @@ const footerLinks = {
       { name: "Healthcare", href: "/industries/healthcare" },
       { name: "Hospitality", href: "/industries/hospitality" },
       { name: "Warehouse & Logistics", href: "/industries/logistics" },
+      { name: "Wholesale Trade", href: "/industries/wholesale" },
       { name: "Agriculture", href: "/industries/agriculture" },
       { name: "Retail", href: "/industries/retail" },
       { name: "Transportation", href: "/industries/transportation" },

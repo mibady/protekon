@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { getStripe } from "@/lib/stripe"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { inngest } from "@/inngest/client"
+import { sendEmail } from "@/lib/resend"
+import { welcomeEmail } from "@/lib/email-templates"
+import crypto from "crypto"
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
@@ -35,27 +38,139 @@ export async function POST(request: NextRequest) {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object
-      const { userId, clientId, planId } = session.metadata ?? {}
+      const meta = session.metadata ?? {}
+      const planId = meta.planId ?? "core"
+      const flow = meta.flow ?? "upgrade"
 
-      if (clientId) {
+      // ─── PATH A: Existing customer upgrade ───
+      if (flow === "upgrade" && meta.clientId) {
         await supabase
           .from("clients")
           .update({
             stripe_customer_id: session.customer as string,
-            plan: planId ?? "core",
+            plan: planId,
             status: "active",
           })
-          .eq("id", clientId)
+          .eq("id", meta.clientId)
 
         await supabase.from("audit_log").insert({
-          client_id: clientId,
+          client_id: meta.clientId,
           event_type: "billing.checkout_completed",
           description: `Subscribed to ${planId} plan via Stripe Checkout`,
           metadata: {
             stripeCustomerId: session.customer,
             subscriptionId: session.subscription,
-            userId,
+            userId: meta.userId,
           },
+        })
+        break
+      }
+
+      // ─── PATH B: New customer — create account ───
+      if (flow === "new_signup") {
+        const email = meta.email || (session.customer_email as string)
+        const businessName = meta.businessName || email.split("@")[0]
+        const vertical = meta.vertical || "other"
+
+        if (!email) {
+          console.error("[stripe-webhook] new_signup: no email in metadata or session")
+          break
+        }
+
+        // Generate a secure temporary password
+        const tempPassword = crypto.randomBytes(16).toString("base64url")
+
+        // Create Supabase auth user
+        const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+          email,
+          password: tempPassword,
+          email_confirm: true,
+          user_metadata: {
+            business_name: businessName,
+            vertical,
+            plan: planId,
+          },
+        })
+
+        if (authError) {
+          console.error("[stripe-webhook] Failed to create auth user:", authError.message)
+          // If user already exists (e.g. they had an old account), just update the client row
+          const { data: existingUser } = await supabase.auth.admin.listUsers()
+          const found = existingUser?.users?.find((u) => u.email === email)
+          if (found) {
+            await supabase.from("clients").upsert({
+              id: found.id,
+              email,
+              business_name: businessName,
+              vertical,
+              plan: planId,
+              stripe_customer_id: session.customer as string,
+              compliance_score: 0,
+              risk_level: "high",
+              status: "active",
+            }, { onConflict: "id" })
+          }
+          break
+        }
+
+        const userId = authData.user.id
+
+        // Create client record
+        await supabase.from("clients").upsert({
+          id: userId,
+          email,
+          business_name: businessName,
+          vertical,
+          plan: planId,
+          stripe_customer_id: session.customer as string,
+          compliance_score: 0,
+          risk_level: "high",
+          status: "active",
+        }, { onConflict: "id" })
+
+        // Audit log
+        await supabase.from("audit_log").insert({
+          client_id: userId,
+          event_type: "billing.new_signup",
+          description: `New ${planId} subscription via Stripe Checkout`,
+          metadata: {
+            stripeCustomerId: session.customer,
+            subscriptionId: session.subscription,
+          },
+        })
+
+        // Send welcome email with password reset link
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || "https://protekon.vercel.app"
+
+        // Generate a password reset link so user sets their own password
+        const { data: resetData } = await supabase.auth.admin.generateLink({
+          type: "magiclink",
+          email,
+          options: { redirectTo: `${siteUrl}/dashboard/intake` },
+        })
+
+        const loginUrl = resetData?.properties?.action_link || `${siteUrl}/login`
+
+        await sendEmail({
+          to: email,
+          subject: "Welcome to Protekon — Set Up Your Account",
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 560px;">
+              <h2 style="color: #0A0F1C;">Welcome to Protekon</h2>
+              <p>Your <strong>${planId.charAt(0).toUpperCase() + planId.slice(1)}</strong> subscription is active.</p>
+              <p>Click below to set your password and start your compliance intake:</p>
+              <p style="margin: 24px 0;">
+                <a href="${loginUrl}" style="background: #C41230; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; letter-spacing: 1px;">
+                  SET UP MY ACCOUNT
+                </a>
+              </p>
+              <p style="color: #7A8FA5; font-size: 13px;">
+                Once you log in, you'll complete a quick compliance assessment. Protekon generates
+                your first compliance documents within 48 hours.
+              </p>
+              <p style="color: #7A8FA5; font-size: 13px;">— Protekon</p>
+            </div>
+          `,
         })
       }
       break

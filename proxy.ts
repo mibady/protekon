@@ -9,6 +9,6 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/partner/:path*",
-    "/((?!api/inngest|api/stripe/webhook|api/score/submit|api/samples/gate|api/contact|api/partners/apply)api/:path*)",
+    "/((?!api/inngest|api/stripe/webhook|api/stripe/checkout|api/score/submit|api/samples/gate|api/contact|api/partners/apply)api/:path*)",
   ],
 }

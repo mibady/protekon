@@ -343,7 +343,7 @@ export default function SamplesPage() {
             {/* CTA */}
             <div className="mt-10 text-center">
               <Link
-                href="/signup"
+                href="/pricing"
                 className="inline-flex items-center gap-3 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-10 py-4 hover:bg-crimson/90 transition-colors"
               >
                 Start Your Plan

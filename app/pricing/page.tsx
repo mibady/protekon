@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { Check, ArrowRight, Star } from "@phosphor-icons/react"
+import { Check, ArrowRight, Star, X } from "@phosphor-icons/react"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
+import { getVerticals } from "@/lib/actions/score"
 
 const plans = [
   {
@@ -169,10 +170,17 @@ const sectionVariants = {
 
 export default function PricingPage() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
+  const [showSignupForm, setShowSignupForm] = useState<string | null>(null)
+  const [signupEmail, setSignupEmail] = useState("")
+  const [signupBusiness, setSignupBusiness] = useState("")
+  const [signupVertical, setSignupVertical] = useState("")
+  const [signupError, setSignupError] = useState<string | null>(null)
 
   async function handleCheckout(slug: string) {
     setLoadingPlan(slug)
+    setSignupError(null)
     try {
+      // First try — if user is logged in, this goes straight to Stripe
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -181,15 +189,50 @@ export default function PricingPage() {
       const data = await res.json()
       if (data.url) {
         window.location.href = data.url
-      } else {
-        window.location.href = "/signup"
+        return
       }
+      // If no URL returned (e.g. no email provided), show the form
+      setShowSignupForm(slug)
     } catch {
-      window.location.href = "/signup"
+      setShowSignupForm(slug)
     } finally {
       setLoadingPlan(null)
     }
   }
+
+  async function handleSignupCheckout(e: React.FormEvent) {
+    e.preventDefault()
+    if (!showSignupForm || !signupEmail.trim()) return
+    setLoadingPlan(showSignupForm)
+    setSignupError(null)
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planId: showSignupForm,
+          email: signupEmail.trim(),
+          businessName: signupBusiness.trim(),
+          vertical: signupVertical || "other",
+        }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setSignupError(data.error || "Unable to start checkout. Please try again.")
+      }
+    } catch {
+      setSignupError("Something went wrong. Please try again.")
+    } finally {
+      setLoadingPlan(null)
+    }
+  }
+
+  const [verticals, setVerticals] = useState<{ slug: string; display_name: string }[]>([])
+  useEffect(() => {
+    getVerticals().then((verts) => setVerticals(verts.map((v) => ({ slug: v.slug, display_name: v.display_name }))))
+  }, [])
 
   return (
     <main className="bg-void min-h-screen">
@@ -255,7 +298,7 @@ export default function PricingPage() {
       </section>
 
       {/* ───── TIER CARDS ───── */}
-      <section className="pb-24 px-6 lg:px-8">
+      <section id="plans" className="pb-24 px-6 lg:px-8 scroll-mt-24">
         <div className="max-w-[1200px] mx-auto">
           <div className="grid md:grid-cols-3 gap-6">
             {plans.map((plan, i) => (
@@ -503,7 +546,7 @@ export default function PricingPage() {
 
           <div className="text-center">
             <Link
-              href="/signup"
+              href="#plans"
               className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-crimson/90 transition-colors"
             >
               Start with Multiple Verticals
@@ -604,7 +647,7 @@ export default function PricingPage() {
             transition={{ delay: 0.2 }}
           >
             <Link
-              href="/signup"
+              href="#plans"
               className="inline-flex items-center justify-center gap-2 bg-parchment text-crimson font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-parchment/90 transition-colors"
             >
               Activate Your Compliance Officer
@@ -620,6 +663,111 @@ export default function PricingPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* ───── SIGNUP MODAL (for unauthenticated checkout) ───── */}
+      <AnimatePresence>
+        {showSignupForm && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div
+              className="absolute inset-0 bg-void/80"
+              onClick={() => { setShowSignupForm(null); setSignupError(null) }}
+            />
+            <motion.div
+              className="relative bg-brand-white w-full max-w-md p-8"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            >
+              <button
+                onClick={() => { setShowSignupForm(null); setSignupError(null) }}
+                className="absolute top-4 right-4 text-steel hover:text-midnight transition-colors"
+              >
+                <X size={20} />
+              </button>
+
+              <h2 className="font-display font-bold text-[24px] text-midnight mb-2">
+                Start your {plans.find((p) => p.slug === showSignupForm)?.name} plan
+              </h2>
+              <p className="font-sans text-[14px] text-steel leading-relaxed mb-6">
+                Enter your details and you&apos;ll be taken to secure checkout. Your account is created automatically once payment completes.
+              </p>
+
+              {signupError && (
+                <div className="bg-crimson/5 border border-crimson/30 px-4 py-3 mb-4">
+                  <p className="font-sans text-[13px] text-crimson">{signupError}</p>
+                </div>
+              )}
+
+              <form onSubmit={handleSignupCheckout} className="flex flex-col gap-4">
+                <div>
+                  <label className="font-display font-semibold text-[12px] tracking-[1px] uppercase text-midnight block mb-1.5">
+                    Work Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={signupEmail}
+                    onChange={(e) => setSignupEmail(e.target.value)}
+                    placeholder="you@company.com"
+                    className="w-full border border-midnight/[0.15] text-midnight font-sans text-[15px] px-4 py-3 placeholder:text-steel/50 focus:outline-none focus:border-crimson/50 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="font-display font-semibold text-[12px] tracking-[1px] uppercase text-midnight block mb-1.5">
+                    Business Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={signupBusiness}
+                    onChange={(e) => setSignupBusiness(e.target.value)}
+                    placeholder="Your company name"
+                    className="w-full border border-midnight/[0.15] text-midnight font-sans text-[15px] px-4 py-3 placeholder:text-steel/50 focus:outline-none focus:border-crimson/50 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="font-display font-semibold text-[12px] tracking-[1px] uppercase text-midnight block mb-1.5">
+                    Industry
+                  </label>
+                  <select
+                    value={signupVertical}
+                    onChange={(e) => setSignupVertical(e.target.value)}
+                    className="w-full border border-midnight/[0.15] text-midnight font-sans text-[15px] px-4 py-3 focus:outline-none focus:border-crimson/50 transition-colors appearance-none bg-brand-white"
+                  >
+                    <option value="">Select your industry</option>
+                    {verticals.map((v) => (
+                      <option key={v.slug} value={v.slug}>{v.display_name}</option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  disabled={loadingPlan === showSignupForm || !signupEmail.trim() || !signupBusiness.trim()}
+                  className="w-full bg-crimson text-brand-white font-display font-semibold text-[12px] tracking-[3px] uppercase py-4 hover:bg-crimson/90 transition-colors disabled:opacity-40 flex items-center justify-center gap-2 mt-2"
+                >
+                  {loadingPlan === showSignupForm ? (
+                    <div className="w-5 h-5 border-2 border-brand-white/30 border-t-brand-white rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      Continue to Payment
+                      <ArrowRight size={14} weight="bold" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <p className="font-sans text-[11px] text-steel/60 text-center mt-4">
+                Secure checkout via Stripe. Cancel anytime.
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </main>

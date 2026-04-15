@@ -359,7 +359,7 @@ export default function CalculatorPage() {
                 </div>
 
                 <Link
-                  href="/signup"
+                  href="/pricing"
                   className="inline-flex items-center gap-3 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-crimson/90 transition-colors"
                 >
                   Start Your Plan

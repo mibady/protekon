@@ -13,11 +13,15 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [nextPath, setNextPath] = useState("/dashboard")
+  const [isWelcome, setIsWelcome] = useState(false)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get("error") === "auth_callback_failed") {
       setError("Authentication failed. Please try again.")
+    }
+    if (params.get("welcome") === "true") {
+      setIsWelcome(true)
     }
     setNextPath(safeRedirect(params.get("next"), "/dashboard"))
   }, [])
@@ -133,11 +137,23 @@ export default function LoginPage() {
             </h1>
             <p className="font-sans text-[15px] text-steel">
               Don&apos;t have an account?{" "}
-              <Link href="/signup" className="text-gold hover:text-gold/80 transition-colors">
-                Start your compliance plan
+              <Link href="/pricing" className="text-gold hover:text-gold/80 transition-colors">
+                See plans &amp; pricing
               </Link>
             </p>
           </div>
+
+          {/* Welcome banner for new signups */}
+          {isWelcome && (
+            <div className="mb-6 px-5 py-4 bg-[#10B981]/10 border border-[#10B981]/20">
+              <p className="font-display font-semibold text-[14px] text-[#10B981] mb-1">
+                Payment received — your account is being set up.
+              </p>
+              <p className="font-sans text-[13px] text-midnight/70">
+                Check your email for a login link from Protekon. Click it to set your password and start your compliance intake.
+              </p>
+            </div>
+          )}
 
           {/* Error */}
           {error && (

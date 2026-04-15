@@ -169,7 +169,7 @@ export default function HealthcarePage() {
               Need healthcare compliance plus another compliance area? Add any vertical for <span className="text-gold font-semibold">+$397/month</span>. No additional setup fee.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/signup" className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-crimson/90 transition-colors">
+              <Link href="/pricing" className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-crimson/90 transition-colors">
                 Start My Healthcare Compliance
                 <ArrowRight size={14} weight="bold" />
               </Link>

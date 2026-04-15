@@ -201,7 +201,7 @@ export default function Nav() {
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 <Link
-                  href="/signup"
+                  href="/pricing"
                   className="font-display font-semibold text-[9px] tracking-[3px] uppercase text-brand-white bg-crimson px-6 py-2.5 inline-block"
                 >
                   GET STARTED
@@ -274,7 +274,7 @@ export default function Nav() {
                   CLIENT LOGIN
                 </Link>
                 <Link
-                  href="/signup"
+                  href="/pricing"
                   onClick={() => setMobileMenuOpen(false)}
                   className="font-display font-semibold text-[11px] tracking-[3px] uppercase text-brand-white bg-crimson px-6 py-3 text-center"
                 >

@@ -178,7 +178,7 @@ export default function Pricing() {
 
                 {/* CTA */}
                 <Link
-                  href="/signup"
+                  href="/pricing"
                   className={`block w-full py-4 text-center font-display font-semibold text-[12px] tracking-[3px] uppercase transition-all ${
                     tier.ctaStyle === "filled"
                       ? "bg-crimson text-brand-white hover:brightness-110"

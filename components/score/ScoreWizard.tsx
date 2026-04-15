@@ -3,11 +3,10 @@
 import { useState, useMemo, useCallback, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, Question, CaretUp } from "@phosphor-icons/react"
+import { ArrowRight, Question, CaretUp, ShieldCheck } from "@phosphor-icons/react"
 import Link from "next/link"
 import ScoreRing from "@/components/score/ScoreRing"
 import GapCards from "@/components/score/GapCards"
-import PdfGateForm from "@/components/score/PdfGateForm"
 import { calculateScore, getVerticalQuestions } from "@/lib/score-calculator"
 import { getVerticals, getVerticalBenchmark } from "@/lib/actions/score"
 import type { ScoreAnswers, ScoreResult, VerticalBenchmark, VerticalQuestion } from "@/lib/types/score"
@@ -111,7 +110,7 @@ function ScoreWizardInner() {
   const searchParams = useSearchParams()
 
   /* ─── State ─── */
-  const [step, setStep] = useState<"hero" | "baseline" | "vertical" | "results">("hero")
+  const [step, setStep] = useState<"hero" | "baseline" | "vertical" | "capture" | "results">("hero")
   const [industry, setIndustry] = useState("")
   const [employeeCount, setEmployeeCount] = useState("")
   const [verticals, setVerticals] = useState<{ slug: string; display_name: string; tier: string; compliance_stack: string[] }[]>([])
@@ -136,6 +135,9 @@ function ScoreWizardInner() {
   const [leadId, setLeadId] = useState<string | null>(null)
   const [result, setResult] = useState<ScoreResult | null>(null)
   const [, setSavingAnonymous] = useState(false)
+  const [captureEmail, setCaptureEmail] = useState("")
+  const [captureBusinessName, setCaptureBusinessName] = useState("")
+  const [captureSubmitting, setCaptureSubmitting] = useState(false)
 
   /* ─── Load verticals on mount ─── */
   useEffect(() => {
@@ -227,10 +229,15 @@ function ScoreWizardInner() {
   const submitAndShowResults = useCallback(async () => {
     if (!liveResult) return
     setResult(liveResult)
-    setStep("results")
+    setStep("capture")
     window.scrollTo({ top: 0, behavior: "smooth" })
+  }, [liveResult])
 
-    setSavingAnonymous(true)
+  async function handleCaptureSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!captureEmail.trim() || !captureBusinessName.trim() || !result) return
+    setCaptureSubmitting(true)
+
     try {
       const res = await fetch("/api/score/submit", {
         method: "POST",
@@ -262,28 +269,30 @@ function ScoreWizardInner() {
       })
       if (res.ok) {
         const data = await res.json()
-        setLeadId(data.id || null)
+        const newLeadId = data.id || null
+        setLeadId(newLeadId)
+
+        // Immediately capture email on the lead row
+        if (newLeadId) {
+          await fetch("/api/score/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              phase: "capture",
+              lead_id: newLeadId,
+              email: captureEmail.trim(),
+              business_name: captureBusinessName.trim(),
+            }),
+          })
+        }
       }
     } catch {
-      // Silent fail on anonymous save
+      // proceed to results even if save fails
     } finally {
-      setSavingAnonymous(false)
+      setCaptureSubmitting(false)
+      setStep("results")
+      window.scrollTo({ top: 0, behavior: "smooth" })
     }
-  }, [liveResult, industry, employeeCount, baselineAnswers, verticalAnswers, hasVerticalPhase, searchParams])
-
-  async function handlePdfCapture(email: string, businessName: string) {
-    if (!leadId) throw new Error("No lead ID")
-    const res = await fetch("/api/score/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        phase: "capture",
-        lead_id: leadId,
-        email,
-        business_name: businessName,
-      }),
-    })
-    if (!res.ok) throw new Error("Capture failed")
   }
 
   function handleRetake() {
@@ -700,6 +709,82 @@ function ScoreWizardInner() {
       )}
 
       {/* ═══════════════════════════════════════════════ */}
+      {/* CAPTURE — Email gate before results             */}
+      {/* ═══════════════════════════════════════════════ */}
+      {step === "capture" && (
+        <motion.section
+          key="capture"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+          className="pt-32 pb-20 px-6 lg:px-8"
+        >
+          <div className="max-w-lg mx-auto">
+            <div className="text-center mb-10">
+              <div className="w-16 h-16 bg-crimson/10 flex items-center justify-center mx-auto mb-4">
+                <ShieldCheck size={32} weight="fill" className="text-crimson" />
+              </div>
+              <h2 className="font-display text-[32px] font-bold text-midnight tracking-tight">
+                Your results are ready.
+              </h2>
+              <p className="font-sans text-[16px] text-steel leading-relaxed mt-3 max-w-md mx-auto">
+                Enter your work email to see your compliance score, gap analysis,
+                fine exposure, and cost comparison.
+              </p>
+            </div>
+
+            <form onSubmit={handleCaptureSubmit} className="flex flex-col gap-4">
+              <div>
+                <label className="font-display font-semibold text-[13px] text-midnight block mb-1.5">
+                  Work Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={captureEmail}
+                  onChange={(e) => setCaptureEmail(e.target.value)}
+                  placeholder="you@company.com"
+                  className="w-full bg-brand-white border border-midnight/[0.15] text-midnight font-sans text-[15px] px-4 py-3 placeholder:text-steel/50 focus:outline-none focus:border-crimson/50 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="font-display font-semibold text-[13px] text-midnight block mb-1.5">
+                  Business Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={captureBusinessName}
+                  onChange={(e) => setCaptureBusinessName(e.target.value)}
+                  placeholder="Your company name"
+                  className="w-full bg-brand-white border border-midnight/[0.15] text-midnight font-sans text-[15px] px-4 py-3 placeholder:text-steel/50 focus:outline-none focus:border-crimson/50 transition-colors"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={captureSubmitting || !captureEmail.trim() || !captureBusinessName.trim()}
+                className="w-full bg-crimson text-brand-white font-display font-semibold text-[15px] uppercase tracking-[2px] py-4 hover:bg-crimson/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed mt-2 flex items-center justify-center gap-2"
+              >
+                {captureSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-brand-white/30 border-t-brand-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    See My Results
+                    <ArrowRight size={16} weight="bold" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <p className="font-sans text-[11px] text-steel/60 text-center mt-4">
+              Protekon sends your compliance scorecard to this email.
+            </p>
+          </div>
+        </motion.section>
+      )}
+
+      {/* ═══════════════════════════════════════════════ */}
       {/* RESULTS                                         */}
       {/* ═══════════════════════════════════════════════ */}
       {step === "results" && result && (
@@ -853,24 +938,45 @@ function ScoreWizardInner() {
               </div>
             )}
 
-            {/* PDF Gate */}
-            <PdfGateForm leadId={leadId} onCapture={handlePdfCapture} />
+            {/* PDF Download — email already captured */}
+            {leadId && (
+              <div className="bg-parchment p-8 mt-12">
+                <div className="flex items-center gap-3 mb-4">
+                  <ShieldCheck size={28} weight="fill" className="text-[#10B981]" />
+                  <h3 className="font-display text-[20px] font-semibold text-midnight">
+                    Your Scorecard is Ready
+                  </h3>
+                </div>
+                <p className="font-sans text-[15px] text-steel leading-relaxed mb-6">
+                  We sent a copy to {captureEmail}. Download it now or check your inbox.
+                </p>
+                <a
+                  href={`/api/score/report?id=${leadId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[15px] uppercase tracking-[2px] px-8 py-4 hover:bg-crimson/90 transition-colors"
+                >
+                  Download My Scorecard
+                  <ArrowRight size={16} weight="bold" />
+                </a>
+              </div>
+            )}
 
-            {/* Post-Download CTAs */}
+            {/* Conversion CTAs */}
             <div className="mt-16">
               <h2 className="font-display text-[32px] font-bold text-midnight mb-6">
                 Ready to close these gaps in 48 hours?
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <Link href="/contact" className="flex flex-col items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:bg-crimson/90 transition-colors">
-                  Start My Intake
+                <Link href="/pricing" className="flex flex-col items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:bg-crimson/90 transition-colors">
+                  Get Protekon
                   <ArrowRight size={16} weight="bold" />
                 </Link>
                 <Link href="/samples" className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors">
                   See a Sample Plan
                 </Link>
                 <Link href="/contact" className="flex flex-col items-center justify-center gap-2 bg-brand-white border border-midnight/[0.12] text-midnight font-display font-semibold text-[14px] uppercase tracking-[1.5px] p-6 text-center hover:border-crimson/30 transition-colors">
-                  Book a 15-Minute Call
+                  Talk to a Human
                 </Link>
               </div>
             </div>

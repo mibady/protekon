@@ -43,7 +43,7 @@ export default function FinalCTA() {
             whileTap={{ scale: 0.96 }}
           >
             <Link
-              href="/signup"
+              href="/pricing"
               className="inline-flex items-center justify-center font-display font-semibold text-[12px] tracking-[3px] uppercase bg-brand-white text-crimson px-8 py-4 min-w-[280px]"
             >
               ACTIVATE YOUR COMPLIANCE OFFICER

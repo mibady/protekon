@@ -29,7 +29,7 @@ export default function ScoreLanding() {
             transition={{ delay: 0.1 }}
           >
             How Compliant Is Your Business?{" "}
-            <span className="text-gold">Find Out in 3 Minutes.</span>
+            <span className="text-gold">Find Out Now.</span>
           </motion.h1>
 
           <motion.p
@@ -137,9 +137,9 @@ export default function ScoreLanding() {
                   </div>
 
                   <p className="font-sans text-[14px] text-fog leading-relaxed mb-6">
-                    Federal OSHA enforcement data covering all 50 states. $1.04B+
-                    in penalties since 2020, 116K+ employers cited, 431K+
-                    enforcement records with 56% serious violation rate.
+                    Federal OSHA enforcement data covering all 50 states.
+                    Real penalties, real citations, real enforcement patterns —
+                    with a 56% serious violation rate across every industry.
                   </p>
 
                   <div className="flex flex-col gap-2 mb-8">
@@ -172,8 +172,8 @@ export default function ScoreLanding() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.55 }}
           >
-            Both assessments are free, anonymous, and take under 3 minutes.
-            The PDF download is the only step that asks for an email.
+            Both assessments are free. Enter your work email to see your
+            score, gap analysis, and fine exposure.
           </motion.p>
         </div>
       </section>

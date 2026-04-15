@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Free Compliance Score | PROTEKON",
     description:
-      "Get your workplace compliance score in under 3 minutes. 27 industries. Real Cal/OSHA + federal enforcement data. Instant gap analysis.",
+      "Get your workplace compliance score. 27 industries. Real Cal/OSHA + federal enforcement data. Instant gap analysis.",
   },
 }
 

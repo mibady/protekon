@@ -25,14 +25,13 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Signup → Pricing: accounts are created via Stripe checkout, not free signup
+      { source: '/signup', destination: '/pricing', permanent: false },
       // Industry aliases — content covered by existing verticals
       { source: '/industries/hipaa', destination: '/industries/healthcare', permanent: true },
       { source: '/industries/property-management', destination: '/industries/real-estate', permanent: true },
       // Partner portal: /partner is the dashboard
       { source: '/partner/dashboard', destination: '/partner', permanent: true },
-      // Footer uses "Warehouse & Logistics" -> /industries/logistics; wholesale
-      // slug is orphaned. Redirect so any external links don't 404.
-      { source: '/industries/wholesale', destination: '/industries/logistics', permanent: true },
     ]
   },
 }

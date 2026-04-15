@@ -383,7 +383,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/signup"
+                href="/pricing"
                 className="inline-flex items-center justify-center gap-3 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-10 py-4 hover:bg-crimson/90 transition-colors"
               >
                 Start Your Plan

@@ -357,7 +357,7 @@ export default function AboutPage() {
             transition={{ delay: 0.2 }}
           >
             <Link
-              href="/signup"
+              href="/pricing"
               className="inline-flex items-center justify-center gap-2 bg-crimson text-parchment font-display font-semibold text-[11px] tracking-[3px] uppercase px-8 py-4 hover:bg-crimson/90 transition-colors"
             >
               Start Your Compliance Plan
