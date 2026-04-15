@@ -86,6 +86,7 @@ const navGroups = [
       { name: "Marketplace", href: "/dashboard/marketplace", icon: Storefront },
     ]
   },
+  // VERTICAL group is injected dynamically inside DashboardLayout based on client.vertical / client.plan
   {
     label: "ACCOUNT",
     items: [
@@ -148,6 +149,38 @@ export default function DashboardLayout({
   const tierRank: Record<string, number> = { core: 1, professional: 2, "multi-site": 3 }
   const tierLabel: Record<string, string> = { core: "Core", professional: "Professional", "multi-site": "Multi-Site" }
   const canAccess = (minTier?: string) => !minTier || (tierRank[clientPlan] ?? 1) >= (tierRank[minTier] ?? 1)
+
+  // Vertical sidebar entries — main pages for each vertical, conditionally injected.
+  const VERTICAL_ENTRIES: { key: string; name: string; href: string; icon: typeof House }[] = [
+    { key: "agriculture", name: "Agriculture", href: "/dashboard/agriculture", icon: Plant },
+    { key: "auto-services", name: "Auto Services", href: "/dashboard/auto-services", icon: Car },
+    { key: "construction", name: "Construction", href: "/dashboard/construction", icon: HardHat },
+    { key: "healthcare", name: "Healthcare", href: "/dashboard/healthcare", icon: FirstAidKit },
+    { key: "hospitality", name: "Hospitality", href: "/dashboard/hospitality", icon: Storefront },
+    { key: "manufacturing", name: "Manufacturing", href: "/dashboard/manufacturing", icon: Wrench },
+    { key: "real-estate", name: "Real Estate", href: "/dashboard/real-estate", icon: Buildings },
+    { key: "retail", name: "Retail", href: "/dashboard/retail", icon: Storefront },
+    { key: "transportation", name: "Transportation", href: "/dashboard/transportation", icon: Truck },
+    { key: "wholesale", name: "Wholesale", href: "/dashboard/wholesale", icon: Warehouse },
+  ]
+
+  const clientVertical = client?.vertical ?? ""
+  const isMultiSite = clientPlan === "multi-site"
+  const visibleVerticalEntries = isMultiSite
+    ? VERTICAL_ENTRIES
+    : VERTICAL_ENTRIES.filter((v) => v.key === clientVertical)
+
+  const computedNavGroups = (() => {
+    if (visibleVerticalEntries.length === 0) return navGroups
+    const verticalGroup = {
+      label: "VERTICAL",
+      items: visibleVerticalEntries.map((v) => ({ name: v.name, href: v.href, icon: v.icon })),
+    }
+    // Inject VERTICAL group between BUSINESS TOOLS and ACCOUNT
+    const accountIdx = navGroups.findIndex((g) => g.label === "ACCOUNT")
+    const idx = accountIdx === -1 ? navGroups.length : accountIdx
+    return [...navGroups.slice(0, idx), verticalGroup, ...navGroups.slice(idx)]
+  })()
 
   // Get current page name for breadcrumb
   const getPageName = () => {
@@ -388,7 +421,7 @@ export default function DashboardLayout({
               </ul>
             </div>
           )}
-          {navGroups.map((group) => (
+          {computedNavGroups.map((group) => (
             <div key={group.label} className="mb-5">
               <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">
                 {group.label}
@@ -421,9 +454,9 @@ export default function DashboardLayout({
                               {item.name}
                             </span>
                           </div>
-                          {item.badge && (
+                          {(item as { badge?: number }).badge && (
                             <span className="px-2 py-0.5 bg-crimson text-brand-white font-display font-bold text-[9px] rounded-full">
-                              {item.badge}
+                              {(item as { badge?: number }).badge}
                             </span>
                           )}
                         </Link>
@@ -516,7 +549,7 @@ export default function DashboardLayout({
                 </button>
               </div>
               <nav className="px-4 py-4">
-                {navGroups.map((group) => (
+                {computedNavGroups.map((group) => (
                   <div key={group.label} className="mb-5">
                     <span className="block px-3 mb-2 font-display font-medium text-[10px] tracking-[3px] text-steel">
                       {group.label}
@@ -549,9 +582,9 @@ export default function DashboardLayout({
                                     {item.name}
                                   </span>
                                 </div>
-                                {item.badge && (
+                                {(item as { badge?: number }).badge && (
                                   <span className="px-2 py-0.5 bg-crimson text-brand-white font-display font-bold text-[9px] rounded-full">
-                                    {item.badge}
+                                    {(item as { badge?: number }).badge}
                                   </span>
                                 )}
                               </Link>
