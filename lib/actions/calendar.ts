@@ -93,5 +93,40 @@ export async function getCalendarEvents(): Promise<CalendarEvent[]> {
     })
   }
 
+  // Per-client reminders generated from compliance_calendar
+  // (WVPP annual refresh, quarterly review, certification expiry, etc.)
+  const { data: reminders } = await supabase
+    .from("client_reminders")
+    .select("id, title, description, due_date, reminder_type, status")
+    .eq("client_id", user.id)
+    .neq("status", "completed")
+
+  const REMINDER_TYPE_MAP: Record<string, CalendarEventType> = {
+    certification_expiry: "certification",
+    license_expiry: "certification",
+    coi_expiry: "certification",
+    training_due: "training",
+    document_review: "document",
+    retention_expiry: "document",
+    annual_review: "regulatory",
+    quarterly_review: "regulatory",
+    regulatory_deadline: "regulatory",
+    posting_window: "regulatory",
+  }
+
+  for (const rem of reminders || []) {
+    const due = new Date(rem.due_date)
+    const status: CalendarEventStatus =
+      rem.status === "overdue" || due < now ? "overdue" : "upcoming"
+    events.push({
+      id: `rem-${rem.id}`,
+      date: rem.due_date,
+      title: rem.title,
+      type: REMINDER_TYPE_MAP[rem.reminder_type] ?? "regulatory",
+      status,
+      detail: rem.description ?? undefined,
+    })
+  }
+
   return events.sort((a, b) => a.date.localeCompare(b.date))
 }
