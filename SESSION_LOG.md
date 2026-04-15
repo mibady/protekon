@@ -1411,3 +1411,46 @@ User asked about lead funnels during session. Findings:
 
 ### Linear
 - Not updated this session (audit close was project-memory-driven, not Linear-tracked)
+
+## Session 27 — 2026-04-14
+
+### Completed
+- Reviewed `docs/protekon_differentiator_full.html` (internal/sales artifact with moat numbers contradicting public copy rules). Per user direction, integrated the 5 customer-facing copy blocks + two-layer + cross-check narratives into live pages as comparative claims only, moved competitive table + raw moat numbers to `docs/internal/competitive-positioning.md`, and deleted the HTML.
+- Commit `31fef41` — Hero rewritten around "Inspector is not going to warn you / Protekon will"; construction H1 rebuilt around CSLB stealth-lapse; features array expanded with Stealth WC Lapse Detection + Enforcement-Informed Safety Plans; added Enforcement Intelligence narrative section to construction page; added "How Protekon Is Built" section (two-layer + cross-check cards) to `/about`; new `CaliforniaScopeNote` component reused on construction + about + industries. Industries slug page gained construction-only Subcontractor Verification Report description + scope note. (Also carried pre-staged multi-site sites CRUD scaffolding — SitePicker, lib/actions/sites.ts, lib/site-context.ts, specs/multi-site-polish-plan.md — into this commit from prior-session index state.)
+- Commit `032e57f` — Three nightly Inngest crons wired to the audit-closed DB pipelines: `retention-scanner` (0 5 * * *) → `fn_update_retention_statuses`, `coi-expiration-scanner` (15 5 * * *) → `fn_scan_coi_expirations`, `reminder-processor` (30 5 * * *) → `fn_process_due_reminders`. `post-signup` now seeds a year of compliance reminders per new client via `fn_generate_client_reminders` (idempotent RPC).
+- Commit `089f3f3` — End-to-end COI upload pipeline: new `POST /api/construction/coi-upload` (multipart → Vercel Blob → `fn_process_coi_upload`), new `CoiUploadDialog` component (file picker + optional extracted fields), `VerticalPage` gained a generic `rowActions?: (row, refresh) => ReactNode` slot backwards-compatible with every other vertical dashboard, subs page renders the dialog per row, and `getSubcontractors()` swapped to read from `v_construction_subs_dashboard` for composite CSLB + COI risk score.
+
+### Audit Snapshot
+- Pages: 76 total (28 marketing-style, 43 dashboard/partner, 5 misc)
+- API routes: 22 (+1 construction/coi-upload)
+- Actions: 36 files
+- Components: 90 (+CaliforniaScopeNote, +CoiUploadDialog)
+- Inngest functions: 22 (+3 scanners)
+- Build: tsc clean on every commit; pre-commit gate passed 3/3
+
+### Decisions Made
+- Hybrid artifact retirement: public-site surfaces get comparative-claim rewrites only; raw moat numbers live in `docs/internal/competitive-positioning.md` for 1:1 sales use. Keeps the Session 25 scrub discipline while preserving the numbers where they're valuable.
+- COI upload flow is client-posts-to-API-route (not server action) because multipart file handling works cleaner through route handlers with `@vercel/blob` `put()`, and the auth check can rely on cookie-based Supabase client while the RPC uses the admin client for cross-table writes.
+- `VerticalPage.rowActions` added as an optional signature instead of forking the construction subs page. One config field, zero breakage on other dashboards, and the COI dialog is purpose-built per row via `row.id`/`row.company_name`.
+- Base-table writes still target `construction_subs` even though reads now hit `v_construction_subs_dashboard`. Views are read paths; insert/update/delete stay on the table to avoid RLS recomputation cost and view-update constraints.
+- Extracted-data fields (policy #, carrier, WC expiry, GL expiry) are optional on the dialog. DB function tolerates empty `{}`, so users can upload raw PDFs today and Document AI extraction can be bolted on later without dialog changes.
+
+### Known Issues
+- Commit `31fef41` swept in pre-staged multi-site files (SitePicker, sites/page, sites.ts, site-context, specs/multi-site-polish-plan.md, dashboard/layout.tsx). Those were already `A `/`M ` in the index from a prior session. Commit message reflects only the copy work; the multi-site additions shipped silently. Flag for clean-up if bisect history matters.
+- 19 preexisting test failures from Session 24 still not addressed (chat/stripe-routes/score-submit/resend/construction).
+- Supabase multi-site migrations (021+) still live only in Supabase, not committed to `supabase/migrations/`. Session 26 flagged this; still open.
+- Document AI extraction is not wired — COI uploads go through as raw files with `{}` extracted_data unless the caller prefills the dialog form fields.
+
+### Next Session Should
+- Manual QA on preview deploy: `/` (Hero rewrite), `/solutions/construction`, `/industries/construction`, `/about` (two-layer section); sub-dashboard row → click COI → upload PDF → verify `v_construction_subs_dashboard` reflects new status
+- Export Supabase multi-site migrations (021+) into `supabase/migrations/` so schema is source-controlled
+- Fix 19 preexisting test failures (dedicated session)
+- Optional: wire Document AI extraction into `/api/construction/coi-upload` so the dialog can auto-populate fields server-side
+- Optional: add a "Subs Needing Attention" widget on `/dashboard` pulling from `v_subs_needing_action`
+
+### Git
+- 3 commits pushed this session: `31fef41`, `032e57f`, `089f3f3`
+- Remote: origin/main @ `089f3f3`
+
+### Linear
+- Not updated this session
