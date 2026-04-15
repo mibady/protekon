@@ -1454,3 +1454,50 @@ User asked about lead funnels during session. Findings:
 
 ### Linear
 - Not updated this session
+
+## Session 28 — 2026-04-15
+
+### Completed
+- Authored 11 specialized DocumentTemplates in `lib/document-templates.ts` to close the 17-industry demo gap: electrical-safety-program, ergonomics-program, respiratory-protection-program, hazwoper-program, msha-mining-safety-program, multi-employer-worksite-policy, event-safety-crowd-management, campus-safety-plan, janitorial-chemical-safety, drycleaning-solvent-safety, salon-personal-services-safety. Each template has 6–8 locked sections with real Cal/OSHA, CFR, Ed Code, MSHA, NFPA, CARB, Prop 65 citations that flow into the AI generator prompt via `buildSectionPrompt()`.
+- Added 15 new vertical buckets to TEMPLATE_REGISTRY: utilities, equipment_repair, building_services, information, facilities_mgmt, staffing, mining, waste_environmental, laundry, arts_entertainment, education, public_admin, personal_services, professional_services, business_support.
+- Fixed cross-vertical resolution bug: bbp-exposure-control, confined-space-program, pit-safety-program, wildfire-smoke-protection were each single-bucket; now multi-listed across their correct secondary verticals (hospitality, construction, retail/manufacturing).
+- Added `VERTICAL_ALIASES { logistics → wholesale }` with `resolveVertical()` helper; applied in `getDocumentTemplate()`, `getTemplatesForVertical()`, and `getStarterDocuments()`. Marketing slug `/industries/logistics` now resolves correctly.
+- Wrote `__tests__/document-templates.test.ts` — 8 assertions covering every advertised industry, every new template id, alias parity, section/reference/retention/disclaimer minimums, starter-pack uniqueness, registry completeness. All pass (431ms).
+- Published Template Architecture ADR at `docs/TEMPLATE-ARCHITECTURE.md` with hybrid model (sections in code, metadata in DB), change log, and pending item for `document_template_meta` sync.
+- Captured three live-DB migrations as tracked repo files: `021_create_document_template_meta.sql`, `023_expand_document_template_meta_37_templates.sql`, `024_fix_template_meta_vertical_overassignments.sql`. Fresh clone + `supabase db push` now reproduces the correct 37-template / 25-vertical state. Migration numbering collision with `022_verticals_reference.sql` resolved via rename (commit `e5f66ea`).
+
+### Audit Snapshot
+- Pages: 76
+- API routes: 22
+- Components: 90
+- Server actions: 36 files
+- Supabase migrations: 24
+- Inngest functions: 22
+- tsc --noEmit: clean
+- vitest __tests__/document-templates.test.ts: 8/8 pass
+
+### Decisions Made
+- **Hybrid template architecture codified** — section definitions + AI prompt structure live in `lib/document-templates.ts`; queryable metadata (display_name, retention_years, applicable_verticals[], review_frequency, is_active) lives in `document_template_meta`. Sync direction is one-way: code → DB. See `docs/TEMPLATE-ARCHITECTURE.md`.
+- **documents.template_key stays plain text, not FK** — supplementary docs (gap-analysis, audit-package, eeo-policy, salary-range, incident-response-protocol) legitimately have `template_key = NULL` and shouldn't block joins.
+- **Cross-vertical templates are multi-listed by reference** — same object appears in multiple registry buckets; DB equivalent is `applicable_verticals text[]`.
+- **Coverage strategy for "security" vertical** — no new template. WVPP (SB 553) in the platform-wide bucket is the primary required document for private-sector security; 9 platform templates are correct coverage.
+
+### Known Issues
+- Local branch is 1 commit ahead of origin/main (`a69a9da` — content-seed of 218 blog posts, not authored this session). Not pushed by /done — user's choice whether to publish.
+- Working tree has uncommitted `.claude/settings.local.json` drift and an untracked `styles/protekon_brand_kit_v2.html` scratch file. Neither is this session's work.
+- Slug drift with `verticals` reference table in live Supabase remains open: `automotive` vs canonical `auto-services`, `real_estate` vs `real-estate`, `warehouse` coexists with `wholesale`. Decision deferred (option 1/2/3 from mid-session discussion).
+- Orphaned live-DB `document_templates` table (not the new `document_template_meta`) is still present, still unused by app code. Recommend drop in follow-up migration.
+
+### Next Session Should
+- Resolve the `verticals` slug drift: pick option 1 (adopt DB slugs — rename code to match `automotive`/`real_estate`/drop `warehouse`) or option 2 (normalize DB to match code). Option 1 recommended — preserves NAICS/enforcement data in the DB table.
+- Drop the orphaned `document_templates` table via a numbered migration (025_*).
+- Optionally push `a69a9da` content seed if the 218 blog posts should go live.
+
+### Linear
+- No Linear task was tied to this session.
+
+### Commits This Session
+- `22cf44a` feat(compliance): specialized templates for all 27 advertised industries
+- `0bc2a85` docs: template architecture decision record
+- `595aa4c` docs(adr): update template architecture for 37-template expansion
+- `ec1be9b` feat(db): track document_template_meta migrations in repo (superseded by rename in `e5f66ea`)
