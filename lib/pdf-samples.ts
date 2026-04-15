@@ -1,4 +1,12 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
+import {
+  loadEmployeeMaterial,
+  getEmployeeMaterialMeta,
+  isEmployeeSampleKey,
+  EMPLOYEE_TITLE_BY_KEY,
+  type EmployeeSampleKey,
+  type TokenContext,
+} from "@/lib/samples/employee-materials"
 
 const PAGE_WIDTH = 612
 const PAGE_HEIGHT = 792
@@ -511,8 +519,46 @@ function wrapText(text: string, font: Awaited<ReturnType<typeof PDFDocument.prot
   return lines
 }
 
-export async function generateSamplePDF(reportTitle: string): Promise<{ buffer: Uint8Array; filename: string }> {
-  const report = REPORTS[reportTitle]
+export type GenerateSampleContext = {
+  context?: TokenContext
+}
+
+/** Resolve an employee-material sampleKey (or title alias) to a SampleReport. */
+function resolveEmployeeReport(
+  key: EmployeeSampleKey,
+  context: TokenContext | undefined
+): SampleReport {
+  const material = loadEmployeeMaterial(key, context)
+  const meta = getEmployeeMaterialMeta(key)
+  return {
+    title: meta.title,
+    filename: meta.filename,
+    sections: material.sections,
+    footer: meta.footer,
+  }
+}
+
+export async function generateSamplePDF(
+  reportTitle: string,
+  options: GenerateSampleContext = {}
+): Promise<{ buffer: Uint8Array; filename: string }> {
+  let report: SampleReport | undefined = REPORTS[reportTitle]
+
+  // Fallback 1: reportTitle is a direct employee sampleKey
+  if (!report && isEmployeeSampleKey(reportTitle)) {
+    report = resolveEmployeeReport(reportTitle, options.context)
+  }
+
+  // Fallback 2: reportTitle matches one of the employee material title aliases
+  if (!report) {
+    const matchedKey = (Object.keys(EMPLOYEE_TITLE_BY_KEY) as EmployeeSampleKey[]).find(
+      (k) => EMPLOYEE_TITLE_BY_KEY[k] === reportTitle
+    )
+    if (matchedKey) {
+      report = resolveEmployeeReport(matchedKey, options.context)
+    }
+  }
+
   if (!report) {
     throw new Error(`Unknown report: ${reportTitle}`)
   }

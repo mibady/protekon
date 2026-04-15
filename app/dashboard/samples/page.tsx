@@ -84,6 +84,45 @@ const sampleReports = [
     ],
   },
   {
+    title: "SB 553 Employee Summary",
+    pages: 3,
+    badge: "Shareable",
+    description:
+      "Plain-language 8th-grade-reading-level handout for employees. Explains the four types of workplace violence, reporting rights, retaliation protections, and how to file a report. Ready to distribute.",
+    features: [
+      "Employee-facing (8th grade)",
+      "Cites LC §6401.9 + 8 CCR §3343",
+      "Covers Types 1–4 + reporting paths",
+      "Retaliation protection included",
+    ],
+  },
+  {
+    title: "WVPP Employee Sign-Off Sheet",
+    pages: 2,
+    badge: "Template",
+    description:
+      "Acknowledgment and training sign-off form with merge fields for your business name, plan revision, employee name, and signature. Required training record under 8 CCR §3203(b)(2).",
+    features: [
+      "Merge-field tokens included",
+      "Acknowledgment + training confirmation",
+      "3-year retention template",
+      "Two-column print layout",
+    ],
+  },
+  {
+    title: "Manager WVP Communication Guide",
+    pages: 4,
+    badge: "Manager",
+    description:
+      "Manager-facing quick reference for rolling out your WVP plan. Five talking points, common employee questions with answers, escalation triggers, and the after-action 24-hour checklist.",
+    features: [
+      "5 talking points for team meetings",
+      "FAQ with scripted answers",
+      "Escalation trigger list",
+      "After-action 24h checklist",
+    ],
+  },
+  {
     title: "Quarterly Compliance Review",
     pages: 7,
     badge: null,

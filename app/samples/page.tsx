@@ -48,6 +48,45 @@ const sampleReports = [
       "Local code change alerts",
     ],
   },
+  {
+    title: "SB 553 Employee Summary",
+    pages: 3,
+    badge: "New",
+    description:
+      "Plain-language 8th-grade-reading-level handout for employees. Covers the four types of workplace violence, reporting rights, and retaliation protections under Cal. Lab. Code §6401.9.",
+    features: [
+      "Employee-facing (8th grade)",
+      "Cites LC §6401.9 + 8 CCR §3343",
+      "Covers Types 1–4",
+      "Retaliation protection included",
+    ],
+  },
+  {
+    title: "WVPP Employee Sign-Off Sheet",
+    pages: 2,
+    badge: null,
+    description:
+      "Acknowledgment + training sign-off form with merge fields for business name, plan revision, employee name, and signature. Required training record under 8 CCR §3203(b)(2).",
+    features: [
+      "Merge-field tokens",
+      "Acknowledgment + training sections",
+      "3-year retention template",
+      "Two-column print layout",
+    ],
+  },
+  {
+    title: "Manager WVP Communication Guide",
+    pages: 4,
+    badge: null,
+    description:
+      "Manager quick reference for rolling out your WVP plan: talking points, FAQ with scripted answers, escalation triggers, and the after-action 24-hour checklist.",
+    features: [
+      "5 talking points",
+      "FAQ with scripted answers",
+      "Escalation trigger list",
+      "After-action checklist",
+    ],
+  },
 ]
 
 export default function SamplesPage() {
@@ -123,7 +162,7 @@ export default function SamplesPage() {
                     Unlock Sample Reports
                   </h2>
                   <p className="font-sans text-[13px] text-steel">
-                    Enter your work email to access all 3 samples instantly.
+                    Enter your work email to access all samples instantly.
                   </p>
                 </div>
               </div>
@@ -189,7 +228,7 @@ export default function SamplesPage() {
                   Samples Unlocked
                 </h3>
                 <p className="font-sans text-[13px] text-steel">
-                  Download any of the 3 sample reports below. A copy has also been sent to {email}.
+                  Download any of the sample reports below. A copy has also been sent to {email}.
                 </p>
               </div>
             </motion.div>
