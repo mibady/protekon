@@ -6,6 +6,7 @@ import Image from "next/image"
 import { ArrowRight } from "@phosphor-icons/react"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
+import CaliforniaScopeNote from "@/components/marketing/CaliforniaScopeNote"
 
 const stats = [
   { value: "431K+", label: "Violations Analyzed" },
@@ -176,6 +177,110 @@ export default function AboutPage() {
                 </p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How Protekon is Built — two-layer architecture */}
+      <section id="engine-architecture" className="py-24 px-6 lg:px-8 bg-void scroll-mt-24">
+        <div className="max-w-[1200px] mx-auto">
+          <motion.div
+            className="mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-gold">
+              How Protekon Is Built
+            </span>
+            <h2 className="font-display font-black text-[clamp(36px,5vw,52px)] text-parchment mt-4 max-w-[780px]">
+              Two independent data layers. One compliance platform.
+            </h2>
+            <p className="font-sans text-[16px] text-fog leading-[1.8] mt-6 max-w-[720px]">
+              Most compliance platforms do one thing. Protekon runs two independent pipelines that
+              cross-validate each other — so the documents, alerts, and risk scores a client receives
+              are grounded in real regulatory activity, not static templates.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.div
+              className="bg-midnight border border-brand-white/[0.06] p-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              <span className="inline-block font-display font-semibold text-[10px] tracking-[2px] uppercase text-gold/80 bg-gold/10 px-2 py-1 mb-4">
+                National — all 50 states
+              </span>
+              <h3 className="font-display font-bold text-[20px] text-parchment mb-4">
+                OSHA Enforcement Intelligence
+              </h3>
+              <p className="font-sans text-[14px] text-fog leading-[1.7]">
+                Real penalty data, inspection records, and violation trends from the federal OSHA
+                enforcement database — segmented by vertical, state, and month. Protekon uses it to
+                surface the citations that are actually being written against your industry, so your
+                plan reflects what inspectors are looking for now.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="bg-midnight border border-brand-white/[0.06] p-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="inline-block font-display font-semibold text-[10px] tracking-[2px] uppercase text-crimson/90 bg-crimson/10 px-2 py-1 mb-4">
+                California — CSLB
+              </span>
+              <h3 className="font-display font-bold text-[20px] text-parchment mb-4">
+                Contractor License Monitoring
+              </h3>
+              <p className="font-sans text-[14px] text-fog leading-[1.7]">
+                Every licensed contractor in California, all 58 counties, checked daily for status
+                changes, workers&apos; comp lapses, bond cancellations, and approaching expirations.
+                Not a lookup. Active monitoring.
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Cross-check edge */}
+          <motion.div
+            className="mt-8 grid md:grid-cols-2 gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="bg-crimson/[0.06] border border-crimson/20 p-8">
+              <h3 className="font-display font-bold text-[15px] uppercase tracking-[1px] text-crimson mb-4">
+                Cross-Check — COI vs CSLB
+              </h3>
+              <p className="font-sans text-[13px] text-fog leading-[1.7]">
+                When a subcontractor uploads a Certificate of Insurance, Protekon extracts the
+                workers&apos; comp expiration date and compares it against the date on file in their
+                CSLB record. A contractor can submit a COI showing a current WC policy while the
+                state record already shows it lapsed. That discrepancy is the one that denies claims.
+                Protekon catches it before the work begins.
+              </p>
+            </div>
+            <div className="bg-gold/[0.05] border border-gold/20 p-8">
+              <h3 className="font-display font-bold text-[15px] uppercase tracking-[1px] text-gold mb-4">
+                Enforcement-Informed Documents
+              </h3>
+              <p className="font-sans text-[13px] text-fog leading-[1.7]">
+                When Protekon generates a WVPP, IIPP, or heat illness plan, it pulls from the
+                enforcement layer to reflect what Cal/OSHA has actually cited in that industry in the
+                past twelve months. The document is not a template stamped with your company name —
+                it is built from the citation record for your vertical and your state.
+              </p>
+            </div>
+          </motion.div>
+
+          <div className="mt-10 max-w-[720px]">
+            <CaliforniaScopeNote />
           </div>
         </div>
       </section>

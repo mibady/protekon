@@ -5,28 +5,29 @@ import Link from "next/link"
 import Image from "next/image"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
-import { HardHat, FileText, Users, Wrench, Check, ArrowRight } from "@phosphor-icons/react"
+import { HardHat, FileText, Users, ShieldWarning, Check, ArrowRight } from "@phosphor-icons/react"
+import CaliforniaScopeNote from "@/components/marketing/CaliforniaScopeNote"
 
 const features = [
   {
     icon: HardHat,
-    title: "CSLB Compliance",
-    description: "License requirements, bond documentation, and workers comp certificates. Always current, always compliant.",
+    title: "CSLB License Monitoring",
+    description: "Every subcontractor on your roster, cross-checked daily against CSLB. When a bond cancels, workers' comp lapses, or a license is about to expire, Protekon flags it the day it changes.",
+  },
+  {
+    icon: ShieldWarning,
+    title: "Stealth WC Lapse Detection",
+    description: "A contractor can show CLEAR on a standard CSLB lookup while their workers' comp has already lapsed. Protekon catches the discrepancy before the next pour — not after the incident report.",
   },
   {
     icon: FileText,
-    title: "Site Safety Plans",
-    description: "Project-specific safety plans for every job site. Customized to your scope of work and hazards.",
+    title: "Enforcement-Informed Safety Plans",
+    description: "Protekon pulls the violations Cal/OSHA has actually cited in California construction over the past 12 months and builds your IIPP, WVPP, and fall-protection plan around what inspectors are writing up right now.",
   },
   {
     icon: Users,
-    title: "Toolbox Talks",
-    description: "Weekly safety meeting topics delivered to your inbox. Documentation included.",
-  },
-  {
-    icon: Wrench,
-    title: "Sub Documentation",
-    description: "Subcontractor qualification packages. Insurance verification and compliance tracking.",
+    title: "Toolbox Talks & Training Records",
+    description: "Weekly safety meeting topics, delivered to your inbox with sign-off sheets. Documentation lands in your dashboard so it is ready the next time an inspector asks for it.",
   },
 ]
 
@@ -67,13 +68,16 @@ export default function ConstructionPage() {
               Protekon for Construction
             </span>
             <h1 className="font-display font-black text-[clamp(36px,5vw,56px)] leading-[0.92] text-parchment mt-4 mb-6">
-              CSLB + SITE SAFETY COMPLIANCE
+              YOUR SUB&apos;S LICENSE SHOWS CLEAR. THEIR WORKERS&apos; COMP LAPSED THREE WEEKS AGO.
             </h1>
-            <p className="font-sans text-[16px] text-steel leading-relaxed mb-8">
-              California construction faces the highest enforcement rates of any industry. 
-              Protekon for Construction covers CSLB licensing, Cal/OSHA site safety, subcontractor documentation, 
-              and project-specific safety plans.
+            <p className="font-sans text-[16px] text-steel leading-relaxed mb-6">
+              Protekon cross-checks every subcontractor&apos;s CSLB record against their actual insurance dates — every day.
+              When something changes, you find out before the next pour, not after the incident report. This check
+              cannot be done manually. A standard CSLB license lookup will not show you this.
             </p>
+            <div className="mb-8 max-w-[540px]">
+              <CaliforniaScopeNote />
+            </div>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/score"
@@ -139,6 +143,29 @@ export default function ConstructionPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Enforcement intelligence narrative */}
+      <section className="py-20 px-8 bg-void border-t border-brand-white/[0.06]">
+        <div className="max-w-[900px] mx-auto">
+          <span className="font-display font-semibold text-[11px] tracking-[4px] uppercase text-gold mb-4 block">
+            Enforcement Intelligence
+          </span>
+          <h2 className="font-display font-black text-[clamp(28px,4vw,40px)] leading-[1.05] text-parchment mb-6">
+            What your industry actually gets fined for — in your state, this year.
+          </h2>
+          <p className="font-sans text-[16px] text-fog leading-[1.8] mb-4">
+            Protekon surfaces real enforcement data for California construction: average penalties, the
+            violations that generate the most citations, and whether enforcement activity is trending up
+            or down near you. Your compliance program is built around what Cal/OSHA inspectors are
+            actually citing — not what a generic checklist says they might.
+          </p>
+          <p className="font-sans text-[16px] text-fog leading-[1.8]">
+            When Protekon generates your WVPP or IIPP, it reflects the citation pattern for your
+            vertical and state. Competitors fill templates with your company name. Protekon builds the
+            document from the enforcement record.
+          </p>
         </div>
       </section>
 

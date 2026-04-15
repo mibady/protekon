@@ -41,6 +41,7 @@ import {
 } from "@phosphor-icons/react"
 import { signOut } from "@/lib/actions/auth"
 import { getClientProfile } from "@/lib/actions/settings"
+import SitePicker from "@/components/dashboard/SitePicker"
 import type { ClientProfile } from "@/lib/types"
 
 // Navigation groups per blueprint spec
@@ -75,6 +76,7 @@ const navGroups = [
       { name: "Quarterly Reviews", href: "/dashboard/reports/quarterly-review", icon: ChartLine, minTier: "professional" as const },
       { name: "Annual Audit", href: "/dashboard/reports/annual-summary", icon: Clipboard, minTier: "multi-site" as const },
       { name: "Multi-Site Rollup", href: "/dashboard/rollup", icon: ChartLine, minTier: "multi-site" as const },
+      { name: "Manage Sites", href: "/dashboard/sites", icon: Buildings, minTier: "multi-site" as const },
     ]
   },
   {
@@ -607,8 +609,11 @@ export default function DashboardLayout({
               />
             </div>
 
+            {/* Site Picker (multi-site only) */}
+            <SitePicker plan={clientPlan} />
+
             {/* Notification Bell */}
-            <button 
+            <button
               onClick={() => setNotificationsOpen(!notificationsOpen)}
               className="relative p-2 hover:bg-midnight/[0.04] transition-colors"
             >

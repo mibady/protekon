@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { inngest } from "@/inngest/client"
+import { getSiteContext } from "@/lib/site-context"
 import type { ActionResult, Incident } from "@/lib/types"
 
 export async function createIncident(formData: FormData): Promise<ActionResult> {
@@ -43,6 +44,7 @@ export async function createIncident(formData: FormData): Promise<ActionResult> 
     actionsTaken: (formData.get("actionsTaken") as string) || undefined,
   }
 
+  const { siteId } = await getSiteContext()
   const { error } = await supabase.from("incidents").insert({
     client_id: user.id,
     incident_id: incidentId,
@@ -50,6 +52,7 @@ export async function createIncident(formData: FormData): Promise<ActionResult> 
     location: location || null,
     incident_date: date || null,
     severity,
+    site_id: siteId,
     metadata,
   })
 
@@ -93,11 +96,13 @@ export async function getIncidents(): Promise<Incident[]> {
 
   if (!user) return []
 
-  const { data, error } = await supabase
+  const { siteId } = await getSiteContext()
+  let query = supabase
     .from("incidents")
     .select("*")
     .eq("client_id", user.id)
-    .order("incident_date", { ascending: false })
+  if (siteId) query = query.eq("site_id", siteId)
+  const { data, error } = await query.order("incident_date", { ascending: false })
 
   if (error) {
     console.error("[getIncidents] Database error:", error.message)

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { inngest } from "@/inngest/client"
 import { stripPII } from "@/lib/pii"
+import { getSiteContext } from "@/lib/site-context"
 import { revalidatePath } from "next/cache"
 
 export type EmployeeLogRequest = {
@@ -32,11 +33,13 @@ export async function listEmployeeLogRequests(): Promise<EmployeeLogRequest[]> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return []
 
-  const { data } = await supabase
+  const { siteId } = await getSiteContext()
+  let query = supabase
     .from("employee_log_requests")
     .select("*")
     .eq("client_id", user.id)
-    .order("created_at", { ascending: false })
+  if (siteId) query = query.eq("site_id", siteId)
+  const { data } = await query.order("created_at", { ascending: false })
 
   return (data as EmployeeLogRequest[]) ?? []
 }
@@ -62,6 +65,7 @@ export async function createEmployeeLogRequest(formData: FormData): Promise<Acti
     return { error: "Start date must be before end date." }
   }
 
+  const { siteId } = await getSiteContext()
   const { data, error } = await supabase
     .from("employee_log_requests")
     .insert({
@@ -72,6 +76,7 @@ export async function createEmployeeLogRequest(formData: FormData): Promise<Acti
       reason,
       period_start: periodStart,
       period_end: periodEnd,
+      site_id: siteId,
     })
     .select("id, due_at")
     .single()

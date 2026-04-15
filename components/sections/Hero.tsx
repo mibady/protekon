@@ -56,7 +56,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.05 }}
             >
-              THE COMPLIANCE OFFICER FOR AMERICAN BUSINESS
+              COMPLIANCE INTELLIGENCE FOR AMERICAN BUSINESS
             </motion.span>
 
             {/* Headline */}
@@ -66,8 +66,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
             >
-              YOUR COMPLIANCE OFFICER DOESN&apos;T TAKE PTO. DOESN&apos;T MISS DEADLINES.{" "}
-              <span className="text-gold">DOESN&apos;T COST $80K.</span>
+              THE INSPECTOR IS NOT GOING TO WARN YOU.{" "}
+              <span className="text-gold">PROTEKON WILL.</span>
             </motion.h1>
 
             {/* Subheadline */}
@@ -77,11 +77,10 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              PROTEKON is the compliance officer that runs your entire compliance department.
-              It writes your safety plans. Classifies every incident. Strips PII automatically.
-              Monitors federal OSHA and your state plan at 6am every morning. Updates your
-              documents before you know the law changed. A few questions about your business.
-              PROTEKON handles everything else — 24 hours a day, 365 days a year.
+              Protekon monitors real enforcement actions in your industry — the fines, the
+              citations, the inspections — and keeps your business audit-ready before the
+              visit that counts. Plans, incident classification, PII scrubbing, regulatory
+              updates: all handled after a one-time intake.
             </motion.p>
 
             {/* CTAs */}

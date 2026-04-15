@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { inngest } from "@/inngest/client"
 import { getDocumentLabel, isValidTemplateId } from "@/lib/document-templates"
+import { getSiteContext } from "@/lib/site-context"
 import type { ActionResult, Document } from "@/lib/types"
 
 export async function requestDocument(formData: FormData): Promise<ActionResult> {
@@ -45,6 +46,7 @@ export async function requestDocument(formData: FormData): Promise<ActionResult>
     : getDocumentLabel(type)
   const filename = `${displayName}.pdf`
 
+  const { siteId } = await getSiteContext()
   const { error } = await supabase.from("documents").insert({
     client_id: user.id,
     document_id: documentId,
@@ -53,6 +55,7 @@ export async function requestDocument(formData: FormData): Promise<ActionResult>
     status: "requested",
     notes: notes || null,
     priority,
+    site_id: siteId,
   })
 
   if (error) {
@@ -91,11 +94,13 @@ export async function getDocuments(): Promise<Document[]> {
 
   if (!user) return []
 
-  const { data, error } = await supabase
+  const { siteId } = await getSiteContext()
+  let query = supabase
     .from("documents")
     .select("*")
     .eq("client_id", user.id)
-    .order("created_at", { ascending: false })
+  if (siteId) query = query.eq("site_id", siteId)
+  const { data, error } = await query.order("created_at", { ascending: false })
 
   if (error) return []
 

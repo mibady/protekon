@@ -5,6 +5,7 @@ import type { Metadata } from "next"
 import { ShieldAlert, ArrowRight, Check } from "lucide-react"
 import Nav from "@/components/layout/Nav"
 import Footer from "@/components/layout/Footer"
+import CaliforniaScopeNote from "@/components/marketing/CaliforniaScopeNote"
 
 const industries: Record<string, {
   label: string
@@ -354,8 +355,20 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
                   </div>
                 ))}
               </div>
+              {slug === "construction" && (
+                <p className="font-sans text-[12px] text-fog/80 leading-relaxed mt-6 pt-6 border-t border-brand-white/[0.08]">
+                  The Subcontractor Verification Report monitors California license status and insurance dates
+                  for every subcontractor you add. When a bond cancels, a workers&apos; comp policy lapses, or a
+                  license approaches expiration, Protekon flags it the day it changes.
+                </p>
+              )}
             </div>
           </div>
+          {slug === "construction" && (
+            <div className="mt-6 max-w-[640px]">
+              <CaliforniaScopeNote />
+            </div>
+          )}
         </section>
 
         {/* CTA */}
