@@ -22,3 +22,15 @@ test-results/
 journey-results/
 opensrc/
 tsconfig.tsbuildinfo
+
+# Agent / tool temp artifacts
+.claude/worktrees/
+supabase/.temp/
+osha datasets/
+
+# Dev screenshots (not assets)
+public/images/Screenshot*
+public/images/2026-*
+
+# Windows alternate data streams
+*:Zone.Identifier
