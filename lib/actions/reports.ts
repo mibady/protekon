@@ -1,6 +1,7 @@
 "use server"
 
 import { getAuth } from "@/lib/actions/shared"
+import { requirePaidAuth } from "@/lib/billing-guard"
 
 export async function getReportsSummary() {
   const { supabase, clientId } = await getAuth()
@@ -367,8 +368,9 @@ export async function getRegulations() {
 }
 
 export async function acknowledgeRegulation(regulationId: string) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   // Get current acknowledged_by array
   const { data: reg } = await supabase

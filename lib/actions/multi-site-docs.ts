@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { requirePaidAuth } from "@/lib/billing-guard"
 import { inngest } from "@/inngest/client"
 import type { ActionResult } from "@/lib/types"
 
@@ -48,21 +49,21 @@ export async function getLocationsWithDocCounts(): Promise<LocationSummary[]> {
 }
 
 export async function generateLocationDocs(locationId: string, docTypes: string[]): Promise<ActionResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { data: client } = await supabase
     .from("clients")
     .select("email, business_name, vertical")
-    .eq("id", user.id)
+    .eq("id", clientId)
     .single()
 
   const { data: location } = await supabase
     .from("retail_locations")
     .select("store_name, address, city, state")
     .eq("id", locationId)
-    .eq("client_id", user.id)
+    .eq("client_id", clientId)
     .single()
 
   if (!client || !location) return { error: "Location not found" }
@@ -72,7 +73,7 @@ export async function generateLocationDocs(locationId: string, docTypes: string[
     const locationLabel = `${location.store_name} — ${location.address}, ${location.city}, ${location.state}`
 
     await supabase.from("documents").insert({
-      client_id: user.id,
+      client_id: clientId,
       document_id: `DOC-${Date.now()}-${docType.slice(0, 4)}`,
       type: docType,
       filename: `${docType}-${location.store_name.replace(/\s+/g, "-").toLowerCase()}.pdf`,
@@ -83,7 +84,7 @@ export async function generateLocationDocs(locationId: string, docTypes: string[
     await inngest.send({
       name: "compliance/document.requested",
       data: {
-        clientId: user.id,
+        clientId,
         email: client.email,
         businessName: `${client.business_name} — ${location.store_name}`,
         documentType: docType,

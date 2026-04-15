@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { requirePaidAuth } from "@/lib/billing-guard"
 import type { ActionResult } from "@/lib/types"
 
 export interface AutoServiceShop {
@@ -29,9 +30,9 @@ export async function getAutoServiceShops(): Promise<Record<string, unknown>[]> 
 }
 
 export async function saveAutoServiceShop(formData: FormData): Promise<ActionResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const aseCerts = (formData.get("ase_certifications") as string || "")
     .split(",")
@@ -39,7 +40,7 @@ export async function saveAutoServiceShop(formData: FormData): Promise<ActionRes
     .filter(Boolean)
 
   const { error } = await supabase.from("auto_services").upsert({
-    client_id: user.id,
+    client_id: clientId,
     shop_type: formData.get("shop_type") as string || "general",
     bay_count: parseInt(formData.get("bay_count") as string) || 0,
     hazmat_handling: formData.get("hazmat_handling") === "true",

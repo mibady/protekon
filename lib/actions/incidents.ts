@@ -1,20 +1,15 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { requirePaidAuth } from "@/lib/billing-guard"
 import { inngest } from "@/inngest/client"
 import { getSiteContext } from "@/lib/site-context"
 import type { ActionResult, Incident } from "@/lib/types"
 
 export async function createIncident(formData: FormData): Promise<ActionResult> {
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: "You must be logged in to log an incident." }
-  }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, user } = auth
 
   const description = formData.get("description") as string
   const location = formData.get("location") as string | null
@@ -116,15 +111,9 @@ export async function updateIncident(
   id: string,
   data: Partial<Omit<Incident, "id" | "incident_id" | "created_at">>
 ): Promise<ActionResult> {
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: "You must be logged in to update an incident." }
-  }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, user } = auth
 
   // Verify ownership
   const { data: existing, error: fetchError } = await supabase

@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { getAuth } from "@/lib/actions/shared"
+import { requirePaidAuth } from "@/lib/billing-guard"
 
 export async function getProperties() {
   const { supabase, clientId } = await getAuth()
@@ -15,8 +16,9 @@ export async function getProperties() {
 }
 
 export async function addProperty(formData: FormData) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { error } = await supabase.from("property_portfolio").insert({
     client_id: clientId,

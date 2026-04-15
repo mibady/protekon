@@ -1,6 +1,7 @@
 "use server"
 
 import { getAuth } from "@/lib/actions/shared"
+import { requirePaidAuth } from "@/lib/billing-guard"
 
 export async function getPosterLocations() {
   const { supabase, clientId } = await getAuth()
@@ -14,8 +15,9 @@ export async function getPosterLocations() {
 }
 
 export async function addPosterLocation(formData: FormData) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { error } = await supabase.from("poster_compliance").insert({
     client_id: clientId,
@@ -32,8 +34,9 @@ export async function addPosterLocation(formData: FormData) {
 }
 
 export async function verifyPoster(id: string) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
   await supabase
     .from("poster_compliance")
     .update({ last_verified_at: new Date().toISOString(), status: "current" })

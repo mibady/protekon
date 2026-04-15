@@ -1,6 +1,7 @@
 "use server"
 
 import { getAuth } from "@/lib/actions/shared"
+import { requirePaidAuth } from "@/lib/billing-guard"
 
 export async function getPhiAssets() {
   const { supabase, clientId } = await getAuth()
@@ -14,8 +15,9 @@ export async function getPhiAssets() {
 }
 
 export async function addPhiAsset(formData: FormData) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const phiTypes = (formData.get("phi_content_types") as string || "").split(",").map(s => s.trim()).filter(Boolean)
 
@@ -46,8 +48,9 @@ export async function getBaaAgreements() {
 }
 
 export async function addBaaAgreement(formData: FormData) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const phiTypes = (formData.get("phi_types") as string || "").split(",").map(s => s.trim()).filter(Boolean)
 

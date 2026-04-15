@@ -12,6 +12,26 @@ export async function POST(req: Request) {
     return new Response("Unauthorized", { status: 401 })
   }
 
+  // Paywall: chat is a paid product. Check subscription before spending LLM tokens.
+  const { data: clientBilling } = await supabase
+    .from("clients")
+    .select("stripe_customer_id, status")
+    .eq("id", user.id)
+    .maybeSingle()
+
+  if (!clientBilling?.stripe_customer_id) {
+    return new Response(
+      "Active Protekon subscription required. Visit /pricing to get started.",
+      { status: 402 }
+    )
+  }
+  if (clientBilling.status !== "active") {
+    return new Response(
+      "Your Protekon subscription is on hold. Update billing in Settings to continue.",
+      { status: 402 }
+    )
+  }
+
   // Rate limit per user — LLM endpoint costs money per token
   const ip = getClientIp(req.headers instanceof Headers ? req.headers : new Headers())
   const limiter = rateLimit(`chat:${user.id}:${ip}`, { maxRequests: 20, windowMs: 60_000 })

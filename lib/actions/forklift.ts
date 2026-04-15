@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { requirePaidAuth } from "@/lib/billing-guard"
 import type { ActionResult } from "@/lib/types"
 
 export interface ForkliftOperator {
@@ -30,12 +31,12 @@ export async function getForkliftOperators(): Promise<ForkliftOperator[]> {
 }
 
 export async function addForkliftOperator(formData: FormData): Promise<ActionResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { error } = await supabase.from("forklift_operators").insert({
-    client_id: user.id,
+    client_id: clientId,
     operator_name: formData.get("operator_name") as string,
     cert_date: formData.get("cert_date") as string,
     cert_expiry: formData.get("cert_expiry") as string,
@@ -49,15 +50,15 @@ export async function addForkliftOperator(formData: FormData): Promise<ActionRes
 }
 
 export async function updateOperatorStatus(id: string, status: string): Promise<ActionResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { error } = await supabase
     .from("forklift_operators")
     .update({ evaluation_status: status, updated_at: new Date().toISOString() })
     .eq("id", id)
-    .eq("client_id", user.id)
+    .eq("client_id", clientId)
 
   if (error) return { error: error.message }
   return { success: true }

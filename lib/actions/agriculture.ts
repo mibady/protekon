@@ -1,6 +1,7 @@
 "use server"
 
 import { getAuth } from "@/lib/actions/shared"
+import { requirePaidAuth } from "@/lib/billing-guard"
 
 export async function getCrews() {
   const { supabase, clientId } = await getAuth()
@@ -14,8 +15,9 @@ export async function getCrews() {
 }
 
 export async function addCrew(formData: FormData) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { error } = await supabase.from("agriculture_crews").insert({
     client_id: clientId,
@@ -34,8 +36,9 @@ export async function addCrew(formData: FormData) {
 }
 
 export async function updateCrew(id: string, data: Record<string, string | number | boolean | null>) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { error } = await supabase
     .from("agriculture_crews")

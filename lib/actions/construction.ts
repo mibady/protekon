@@ -1,6 +1,7 @@
 "use server"
 
 import { getAuth } from "@/lib/actions/shared"
+import { requirePaidAuth } from "@/lib/billing-guard"
 import {
   registerLicenseForMonitoring,
   stopMonitoringLicense,
@@ -22,8 +23,9 @@ export async function getSubcontractors() {
 }
 
 export async function addSubcontractor(formData: FormData) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const licenseNumber = formData.get("license_number") as string
 
@@ -64,15 +66,17 @@ export async function addSubcontractor(formData: FormData) {
 }
 
 export async function verifySubcontractor(id: string) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
   await supabase.from("construction_subs").update({ verified_at: new Date().toISOString() }).eq("id", id).eq("client_id", clientId)
   return { success: true }
 }
 
 export async function deleteSubcontractor(id: string) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   // Fetch the license number before deleting so we can deregister monitoring
   const { data: sub } = await supabase

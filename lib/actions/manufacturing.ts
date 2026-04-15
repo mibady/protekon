@@ -1,6 +1,7 @@
 "use server"
 
 import { getAuth } from "@/lib/actions/shared"
+import { requirePaidAuth } from "@/lib/billing-guard"
 
 export async function getEquipment() {
   const { supabase, clientId } = await getAuth()
@@ -14,8 +15,9 @@ export async function getEquipment() {
 }
 
 export async function addEquipment(formData: FormData) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { error } = await supabase.from("manufacturing_equipment").insert({
     client_id: clientId,
@@ -34,8 +36,9 @@ export async function addEquipment(formData: FormData) {
 }
 
 export async function deleteEquipment(id: string) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
   await supabase.from("manufacturing_equipment").delete().eq("id", id).eq("client_id", clientId)
   return { success: true }
 }

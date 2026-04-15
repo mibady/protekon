@@ -1,6 +1,7 @@
 "use server"
 
 import { getAuth } from "@/lib/actions/shared"
+import { requirePaidAuth } from "@/lib/billing-guard"
 import { getSiteContext } from "@/lib/site-context"
 
 export async function getTrainingRecords() {
@@ -17,8 +18,9 @@ export async function getTrainingRecords() {
 }
 
 export async function addTrainingRecord(formData: FormData) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
 
   const { siteId } = await getSiteContext()
   const { error } = await supabase.from("training_records").insert({
@@ -35,8 +37,9 @@ export async function addTrainingRecord(formData: FormData) {
 }
 
 export async function completeTraining(id: string) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
   await supabase
     .from("training_records")
     .update({ status: "completed", completed_at: new Date().toISOString() })
@@ -46,8 +49,9 @@ export async function completeTraining(id: string) {
 }
 
 export async function deleteTrainingRecord(id: string) {
-  const { supabase, clientId } = await getAuth()
-  if (!clientId) return { error: "Unauthorized" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, clientId } = auth
   await supabase.from("training_records").delete().eq("id", id).eq("client_id", clientId)
   return { success: true }
 }

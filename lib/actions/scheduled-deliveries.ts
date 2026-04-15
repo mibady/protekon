@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { requirePaidAuth } from "@/lib/billing-guard"
 import type { ActionResult } from "@/lib/types"
 
 export type DeliveryPreference = {
@@ -32,9 +33,9 @@ export async function updateDeliveryPreference(
   deliveryId: string,
   updates: { frequency?: string; status?: string }
 ): Promise<ActionResult> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: "Not authenticated" }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { clientId } = auth
 
   const admin = createAdminClient()
 
@@ -43,7 +44,7 @@ export async function updateDeliveryPreference(
     .from("scheduled_deliveries")
     .select("id, client_id")
     .eq("id", deliveryId)
-    .eq("client_id", user.id)
+    .eq("client_id", clientId)
     .single()
 
   if (!existing) return { error: "Delivery not found" }

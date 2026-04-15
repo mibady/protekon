@@ -1,21 +1,16 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { requirePaidAuth } from "@/lib/billing-guard"
 import { inngest } from "@/inngest/client"
 import { getDocumentLabel, isValidTemplateId } from "@/lib/document-templates"
 import { getSiteContext } from "@/lib/site-context"
 import type { ActionResult, Document } from "@/lib/types"
 
 export async function requestDocument(formData: FormData): Promise<ActionResult> {
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: "You must be logged in to request a document." }
-  }
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, user } = auth
 
   const type = formData.get("type") as string
   const notes = formData.get("notes") as string | null
