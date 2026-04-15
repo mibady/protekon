@@ -34,6 +34,10 @@ const supabase = createClient(
 
 const DRY = process.argv.includes("--dry")
 const filterArg = process.argv.find((a) => a.startsWith("--filter="))?.split("=")[1]
+const phaseArg = (process.argv.find((a) => a.startsWith("--phase="))?.split("=")[1] ?? "2a") as
+  | "2a"
+  | "2b"
+  | "all"
 
 type Frontmatter = Record<string, unknown>
 
@@ -99,8 +103,7 @@ function derivePriority(category: string): string {
   return "medium"
 }
 
-// Phase 2a scope: platform-wide regulatory + help + faq only
-// (Industry guides + enforcement intel reserved for Phase 2b)
+// Phase 2a scope: platform-wide regulatory + help + faq
 function inPhase2a(filename: string): boolean {
   // Help articles (311-325)
   if (/^3(1[1-9]|2[0-5])-/.test(filename)) return true
@@ -113,6 +116,17 @@ function inPhase2a(filename: string): boolean {
   // Regulatory updates (299-310)
   if (/^(299|30\d|310)-regupdate-/.test(filename)) return true
   return false
+}
+
+// Phase 2b scope: 27 vertical industry pairs (compliance + enforcement intelligence, files 123-176)
+function inPhase2b(filename: string): boolean {
+  return /^1([2-6]\d|7[0-6])-.*(compliance-guide|enforcement-intelligence)\.md$/.test(filename)
+}
+
+function inScope(filename: string): boolean {
+  if (phaseArg === "2a") return inPhase2a(filename)
+  if (phaseArg === "2b") return inPhase2b(filename)
+  return inPhase2a(filename) || inPhase2b(filename)
 }
 
 async function main() {
@@ -130,7 +144,7 @@ async function main() {
   }> = []
 
   for (const file of files) {
-    if (!inPhase2a(file)) continue
+    if (!inScope(file)) continue
 
     const raw = readFileSync(join(blogDir, file), "utf-8")
     const { fm, body } = parseFrontmatter(raw)
