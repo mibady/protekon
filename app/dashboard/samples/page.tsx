@@ -44,6 +44,58 @@ const sampleReports = [
       "Local code change alerts",
     ],
   },
+  {
+    title: "Injury & Illness Prevention Program (IIPP)",
+    pages: 16,
+    badge: null,
+    description:
+      "Complete IIPP meeting 8 CCR §3203 requirements: responsibility, communication, hazard assessment, accident investigation, correction, training, and recordkeeping.",
+    features: [
+      "8 CCR §3203 compliant",
+      "Responsibility + communication sections",
+      "Hazard assessment procedures",
+      "Accident investigation framework",
+    ],
+  },
+  {
+    title: "SB 553 Violent Incident Log (Sample)",
+    pages: 5,
+    badge: null,
+    description:
+      "Example incident log showing correct PII redaction per Labor Code §6401.9(e). Three representative entries (Types 1, 2, 3) with required log fields checklist.",
+    features: [
+      "PII-stripped per SB 553",
+      "Types 1/2/3 representative entries",
+      "5-year retention format",
+      "Required fields checklist",
+    ],
+  },
+  {
+    title: "Audit-Ready Compliance Package",
+    pages: 8,
+    badge: null,
+    description:
+      "Table of contents for the on-demand Cal/OSHA inspection package. Organized the way inspectors look for records — written programs, training, incidents, inspections, vertical appendices.",
+    features: [
+      "Cross-referenced to standards",
+      "6 sections / 30+ documents",
+      "On-demand generation",
+      "Vertical-specific appendices",
+    ],
+  },
+  {
+    title: "Quarterly Compliance Review",
+    pages: 7,
+    badge: null,
+    description:
+      "Professional-tier quarterly report: compliance score trend, gap closures, regulatory changes absorbed, NAICS enforcement benchmarks, and the next-90-day plan — co-signed.",
+    features: [
+      "Score trend + gap closures",
+      "Regulatory changes absorbed",
+      "Peer NAICS benchmark",
+      "Next-90-day priorities",
+    ],
+  },
 ]
 
 export default function DashboardSamplesPage() {
