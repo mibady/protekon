@@ -6,7 +6,8 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js"
  *
  * Env vars:
  *   OSHA_SCRAPER_SUPABASE_URL — Scraper project URL (e.g. https://vizmtkfpxxjzlpzibate.supabase.co)
- *   OSHA_SCRAPER_SUPABASE_KEY — Service role key for the scraper project (read-only access)
+ *   OSHA_SCRAPER_SUPABASE_KEY — Anon key for the scraper project. RLS policies
+ *                               enforce read-only access; no service role needed.
  */
 export function createScraperClient() {
   const url = process.env.OSHA_SCRAPER_SUPABASE_URL
