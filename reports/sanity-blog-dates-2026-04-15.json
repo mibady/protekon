@@ -1,0 +1,1059 @@
+{
+  "generatedAt": "2026-04-15T20:21:03.084Z",
+  "mode": "DRY",
+  "project": "82om29g9",
+  "dataset": "production",
+  "windowStart": "2025-11-01",
+  "windowEnd": "2026-04-13",
+  "publishHourLocal": 9,
+  "timezone": "America/Los_Angeles",
+  "totalPosts": 116,
+  "firstSlot": "2025-11-03T17:00:00.000Z",
+  "lastSlot": "2026-04-13T16:00:00.000Z",
+  "rows": [
+    {
+      "docId": "blog-113",
+      "title": "\"Emergency Action Plans: What Every Employer Must Have\"",
+      "slug": "emergency-action-plans-what-every-employer-must-have",
+      "contentTier": "pillar",
+      "keywordCluster": "training",
+      "oldDate": "2026-04-13T06:37:32.755Z",
+      "newDate": "2025-11-03T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-111",
+      "title": "\"Hazard Communication (HazCom/GHS) Compliance Guide\"",
+      "slug": "hazard-communication-hazcom-ghs-compliance-guide",
+      "contentTier": "pillar",
+      "keywordCluster": "training",
+      "oldDate": "2026-04-13T06:37:32.753Z",
+      "newDate": "2025-11-04T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-110",
+      "title": "\"Heat Illness Prevention: California Employer Requirements\"",
+      "slug": "heat-illness-prevention-california-employer-requirements",
+      "contentTier": "pillar",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.750Z",
+      "newDate": "2025-11-05T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-109",
+      "title": "\"IIPP Essentials: Building Your Injury and Illness Prevention Program\"",
+      "slug": "iipp-essentials-building-your-injury-and-illness-prevention-program",
+      "contentTier": "pillar",
+      "keywordCluster": "discovery",
+      "oldDate": "2026-04-13T06:37:32.749Z",
+      "newDate": "2025-11-06T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-114",
+      "title": "\"Incident Investigation: From Report to Prevention\"",
+      "slug": "incident-investigation-from-report-to-prevention",
+      "contentTier": "pillar",
+      "keywordCluster": "post-incident",
+      "oldDate": "2026-04-13T06:37:32.756Z",
+      "newDate": "2025-11-07T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-112",
+      "title": "\"OSHA 300 Log: Recordkeeping Requirements and Best Practices\"",
+      "slug": "osha-300-log-recordkeeping-requirements-and-best-practices",
+      "contentTier": "pillar",
+      "keywordCluster": "recordkeeping",
+      "oldDate": "2026-04-13T06:37:32.754Z",
+      "newDate": "2025-11-10T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-108",
+      "title": "\"The Complete Guide to SB 553 Workplace Violence Prevention Plans\"",
+      "slug": "the-complete-guide-to-sb-553-workplace-violence-prevention-plans",
+      "contentTier": "pillar",
+      "keywordCluster": "discovery",
+      "oldDate": "2026-04-13T06:37:32.747Z",
+      "newDate": "2025-11-11T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-115",
+      "title": "\"Training Records Management: Documentation That Protects You\"",
+      "slug": "training-records-management-documentation-that-protects-you",
+      "contentTier": "pillar",
+      "keywordCluster": "recordkeeping",
+      "oldDate": "2026-04-13T06:37:32.756Z",
+      "newDate": "2025-11-12T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-116",
+      "title": "\"Cal/OSHA Enforcement Intelligence: What Every CA Employer Needs to Know\"",
+      "slug": "cal-osha-enforcement-intelligence-what-every-ca-employer-needs-to-know",
+      "contentTier": "cluster",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.757Z",
+      "newDate": "2025-11-13T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-221",
+      "title": "\"Compliance Platform Comparison: Features That Matter for SMBs\"",
+      "slug": "compliance-platform-comparison-features-that-matter-for-smbs",
+      "contentTier": "cluster",
+      "keywordCluster": "competitor",
+      "oldDate": "2026-04-13T06:37:32.796Z",
+      "newDate": "2025-11-14T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-220",
+      "title": "\"Compliance Requirements by California Region: What Local Employers Face\"",
+      "slug": "compliance-requirements-by-california-region-what-local-employers-face",
+      "contentTier": "cluster",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.793Z",
+      "newDate": "2025-11-17T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-216",
+      "title": "\"Compliance Training Requirements: Formats, Frequency and Documentation\"",
+      "slug": "compliance-training-requirements-formats-frequency-and-documentation",
+      "contentTier": "cluster",
+      "keywordCluster": "training",
+      "oldDate": "2026-04-13T06:37:32.792Z",
+      "newDate": "2025-11-18T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-219",
+      "title": "\"Employer Liability: When Compliance Gaps Become Lawsuits\"",
+      "slug": "employer-liability-when-compliance-gaps-become-lawsuits",
+      "contentTier": "cluster",
+      "keywordCluster": "legal-crossover",
+      "oldDate": "2026-04-13T06:37:32.792Z",
+      "newDate": "2025-11-19T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-117",
+      "title": "\"Federal OSHA vs. State Plans: Understanding Your Jurisdiction\"",
+      "slug": "federal-osha-vs-state-plans-understanding-your-jurisdiction",
+      "contentTier": "cluster",
+      "keywordCluster": "discovery",
+      "oldDate": "2026-04-13T06:37:32.758Z",
+      "newDate": "2025-11-20T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-118",
+      "title": "\"HIPAA Compliance for California Healthcare Practices\"",
+      "slug": "hipaa-compliance-for-california-healthcare-practices",
+      "contentTier": "cluster",
+      "keywordCluster": "privacy-trap",
+      "oldDate": "2026-04-13T06:37:32.759Z",
+      "newDate": "2025-11-21T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-222",
+      "title": "\"Is SB 553 Applicable to My Business: A Screening Guide\"",
+      "slug": "is-sb-553-applicable-to-my-business-a-screening-guide",
+      "contentTier": "cluster",
+      "keywordCluster": "discovery",
+      "oldDate": "2026-04-13T06:37:32.796Z",
+      "newDate": "2025-11-24T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-120",
+      "title": "\"Municipal Ordinance Compliance: Navigating Local Regulations\"",
+      "slug": "municipal-ordinance-compliance-navigating-local-regulations",
+      "contentTier": "cluster",
+      "keywordCluster": "legal-crossover",
+      "oldDate": "2026-04-13T06:37:32.761Z",
+      "newDate": "2025-11-25T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-209",
+      "title": "\"OSHA Fines and Penalties: What Your Violation Will Actually Cost\"",
+      "slug": "osha-fines-and-penalties-what-your-violation-will-actually-cost",
+      "contentTier": "cluster",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.790Z",
+      "newDate": "2025-11-26T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-217",
+      "title": "\"OSHA Recordkeeping: Retention Periods and Digital Storage\"",
+      "slug": "osha-recordkeeping-retention-periods-and-digital-storage",
+      "contentTier": "cluster",
+      "keywordCluster": "recordkeeping",
+      "oldDate": "2026-04-13T06:37:32.792Z",
+      "newDate": "2025-11-27T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-218",
+      "title": "\"Outsourcing Compliance: ROI Analysis for SMBs\"",
+      "slug": "outsourcing-compliance-roi-analysis-for-smbs",
+      "contentTier": "cluster",
+      "keywordCluster": "hr-research",
+      "oldDate": "2026-04-13T06:37:32.792Z",
+      "newDate": "2025-11-28T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-210",
+      "title": "\"PII in Incident Logs: The Privacy Trap Employers Miss\"",
+      "slug": "pii-in-incident-logs-the-privacy-trap-employers-miss",
+      "contentTier": "cluster",
+      "keywordCluster": "privacy-trap",
+      "oldDate": "2026-04-13T06:37:32.791Z",
+      "newDate": "2025-12-01T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-215",
+      "title": "\"SB 553 Permanent Standard: What Is Coming Next\"",
+      "slug": "sb-553-permanent-standard-what-is-coming-next",
+      "contentTier": "cluster",
+      "keywordCluster": "permanent-standard",
+      "oldDate": "2026-04-13T06:37:32.792Z",
+      "newDate": "2025-12-02T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-119",
+      "title": "\"Subcontractor Risk Management: Lien, License and Insurance Compliance\"",
+      "slug": "subcontractor-risk-management-lien-license-and-insurance-compliance",
+      "contentTier": "cluster",
+      "keywordCluster": "vendor-roadblocks",
+      "oldDate": "2026-04-13T06:37:32.759Z",
+      "newDate": "2025-12-03T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-122",
+      "title": "\"The National Compliance Landscape: 50-State OSHA Overview\"",
+      "slug": "the-national-compliance-landscape-50-state-osha-overview",
+      "contentTier": "cluster",
+      "keywordCluster": "discovery",
+      "oldDate": "2026-04-13T06:37:32.762Z",
+      "newDate": "2025-12-04T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-223",
+      "title": "\"Vertical-Specific Compliance: Beyond the 8 Baseline Templates\"",
+      "slug": "vertical-specific-compliance-beyond-the-8-baseline-templates",
+      "contentTier": "cluster",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.796Z",
+      "newDate": "2025-12-05T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-212",
+      "title": "\"When Insurance Demands Compliance Proof You Do Not Have\"",
+      "slug": "when-insurance-demands-compliance-proof-you-do-not-have",
+      "contentTier": "cluster",
+      "keywordCluster": "vendor-roadblocks",
+      "oldDate": "2026-04-13T06:37:32.791Z",
+      "newDate": "2025-12-08T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-213",
+      "title": "\"Why Free WVPP Templates Fail OSHA Inspection\"",
+      "slug": "why-free-wvpp-templates-fail-osha-inspection",
+      "contentTier": "cluster",
+      "keywordCluster": "diy-failure",
+      "oldDate": "2026-04-13T06:37:32.791Z",
+      "newDate": "2025-12-09T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-121",
+      "title": "\"Workplace Violence Prevention Laws Beyond California: CT, MD, MN, NJ, WA, TX, VA\"",
+      "slug": "workplace-violence-prevention-laws-beyond-california-ct-md-mn-nj-wa-tx-va",
+      "contentTier": "cluster",
+      "keywordCluster": "legal-crossover",
+      "oldDate": "2026-04-13T06:37:32.762Z",
+      "newDate": "2025-12-10T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-214",
+      "title": "\"WVPP Annual Review: What Changed and What Is Due\"",
+      "slug": "wvpp-annual-review-what-changed-and-what-is-due",
+      "contentTier": "cluster",
+      "keywordCluster": "annual-review",
+      "oldDate": "2026-04-13T06:37:32.791Z",
+      "newDate": "2025-12-11T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-207",
+      "title": "\"Best Workplace Violence Prevention Solutions for California Employers\"",
+      "slug": "best-workplace-violence-prevention-solutions-for-california-employers",
+      "contentTier": "comparison",
+      "keywordCluster": "competitor",
+      "oldDate": "2026-04-13T06:37:32.790Z",
+      "newDate": "2025-12-12T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-208",
+      "title": "\"Managed Compliance vs DIY: The Real Cost Analysis for SMBs\"",
+      "slug": "managed-compliance-vs-diy-the-real-cost-analysis-for-smbs",
+      "contentTier": "comparison",
+      "keywordCluster": "diy-failure",
+      "oldDate": "2026-04-13T06:37:32.790Z",
+      "newDate": "2025-12-15T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-205",
+      "title": "\"Protekon vs CalChamber Compliance Tools: Feature Comparison\"",
+      "slug": "protekon-vs-calchamber-compliance-tools-feature-comparison",
+      "contentTier": "comparison",
+      "keywordCluster": "competitor",
+      "oldDate": "2026-04-13T06:37:32.790Z",
+      "newDate": "2025-12-16T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-206",
+      "title": "\"Protekon vs Enterprise GRC Platforms: NAVEX, SafetyCulture, EHS Insight\"",
+      "slug": "protekon-vs-enterprise-grc-platforms-navex-safetyculture-ehs-insight",
+      "contentTier": "comparison",
+      "keywordCluster": "competitor",
+      "oldDate": "2026-04-13T06:37:32.790Z",
+      "newDate": "2025-12-17T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-204",
+      "title": "\"Protekon vs Safety Consultants: Managed Compliance Compared\"",
+      "slug": "protekon-vs-safety-consultants-managed-compliance-compared",
+      "contentTier": "comparison",
+      "keywordCluster": "competitor",
+      "oldDate": "2026-04-13T06:37:32.790Z",
+      "newDate": "2025-12-18T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-187",
+      "title": "\"Aerosol Transmissible Diseases: ATD Plan Requirements for Healthcare\"",
+      "slug": "aerosol-transmissible-diseases-atd-plan-requirements-for-healthcare",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.783Z",
+      "newDate": "2025-12-19T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-211",
+      "title": "\"After a Workplace Violence Incident: Your 72-Hour Checklist\"",
+      "slug": "after-a-workplace-violence-incident-your-72-hour-checklist",
+      "contentTier": "checklist-article",
+      "keywordCluster": "post-incident",
+      "oldDate": "2026-04-13T06:37:32.791Z",
+      "newDate": "2025-12-22T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-123",
+      "title": "\"Agriculture Compliance Guide: Platform-Wide and Vertical-Specific Requirements\"",
+      "slug": "agriculture-compliance-guide-platform-wide-and-vertical-specific-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.762Z",
+      "newDate": "2025-12-23T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-124",
+      "title": "\"Agriculture Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "agriculture-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.762Z",
+      "newDate": "2025-12-24T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-125",
+      "title": "\"Arts and Entertainment Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "arts-and-entertainment-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.762Z",
+      "newDate": "2025-12-25T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-126",
+      "title": "\"Arts and Entertainment Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "arts-and-entertainment-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.763Z",
+      "newDate": "2025-12-26T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-127",
+      "title": "\"Automotive Services Compliance Guide: Platform-Wide and Spray Booth Requirements\"",
+      "slug": "automotive-services-compliance-guide-platform-wide-and-spray-booth-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.763Z",
+      "newDate": "2025-12-29T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-128",
+      "title": "\"Automotive Services Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "automotive-services-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.763Z",
+      "newDate": "2025-12-30T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-186",
+      "title": "\"Bloodborne Pathogens Exposure Control Plans\"",
+      "slug": "bloodborne-pathogens-exposure-control-plans",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.783Z",
+      "newDate": "2025-12-31T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-129",
+      "title": "\"Building Services Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "building-services-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.763Z",
+      "newDate": "2026-01-01T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-130",
+      "title": "\"Building Services Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "building-services-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.763Z",
+      "newDate": "2026-01-02T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-185",
+      "title": "\"Business Associate Agreements: Tracking and Compliance\"",
+      "slug": "business-associate-agreements-tracking-and-compliance",
+      "contentTier": "how-to",
+      "keywordCluster": "privacy-trap",
+      "oldDate": "2026-04-13T06:37:32.782Z",
+      "newDate": "2026-01-05T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-153",
+      "title": "\"Business Support Services Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "business-support-services-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.771Z",
+      "newDate": "2026-01-06T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-154",
+      "title": "\"Business Support Services Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "business-support-services-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.771Z",
+      "newDate": "2026-01-07T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-194",
+      "title": "\"California Compliance Guide: Cal/OSHA, SB 553, and State-Specific Requirements\"",
+      "slug": "california-compliance-guide-cal-osha-sb-553-and-state-specific-requirements",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.787Z",
+      "newDate": "2026-01-08T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-190",
+      "title": "\"Confined Space Entry: Permit-Required Programs\"",
+      "slug": "confined-space-entry-permit-required-programs",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.784Z",
+      "newDate": "2026-01-09T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-195",
+      "title": "\"Connecticut Workplace Violence Prevention Law: Employer Requirements\"",
+      "slug": "connecticut-workplace-violence-prevention-law-employer-requirements",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.788Z",
+      "newDate": "2026-01-12T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-131",
+      "title": "\"Construction Compliance Guide: Platform-Wide and Vertical-Specific Requirements\"",
+      "slug": "construction-compliance-guide-platform-wide-and-vertical-specific-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.763Z",
+      "newDate": "2026-01-13T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-132",
+      "title": "\"Construction Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "construction-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.766Z",
+      "newDate": "2026-01-14T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-191",
+      "title": "\"Driver Qualification Files: DOT Compliance for Transportation Employers\"",
+      "slug": "driver-qualification-files-dot-compliance-for-transportation-employers",
+      "contentTier": "how-to",
+      "keywordCluster": "recordkeeping",
+      "oldDate": "2026-04-13T06:37:32.784Z",
+      "newDate": "2026-01-15T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-133",
+      "title": "\"Education Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "education-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.767Z",
+      "newDate": "2026-01-16T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-134",
+      "title": "\"Education Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "education-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.767Z",
+      "newDate": "2026-01-19T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-155",
+      "title": "\"Equipment Repair Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "equipment-repair-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.771Z",
+      "newDate": "2026-01-20T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-156",
+      "title": "\"Equipment Repair Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "equipment-repair-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.772Z",
+      "newDate": "2026-01-21T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-157",
+      "title": "\"Facilities Management Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "facilities-management-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.772Z",
+      "newDate": "2026-01-22T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-158",
+      "title": "\"Facilities Management Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "facilities-management-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.773Z",
+      "newDate": "2026-01-23T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-181",
+      "title": "\"Fall Protection Plans: OSHA's Number One Cited Standard\"",
+      "slug": "fall-protection-plans-osha-s-number-one-cited-standard",
+      "contentTier": "how-to",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.781Z",
+      "newDate": "2026-01-26T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-192",
+      "title": "\"Forklift Operator Certification and Training Requirements\"",
+      "slug": "forklift-operator-certification-and-training-requirements",
+      "contentTier": "how-to",
+      "keywordCluster": "training",
+      "oldDate": "2026-04-13T06:37:32.785Z",
+      "newDate": "2026-01-27T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-135",
+      "title": "\"Healthcare Compliance Guide: Platform-Wide and HIPAA Requirements\"",
+      "slug": "healthcare-compliance-guide-platform-wide-and-hipaa-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.767Z",
+      "newDate": "2026-01-28T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-136",
+      "title": "\"Healthcare Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "healthcare-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.767Z",
+      "newDate": "2026-01-29T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-183",
+      "title": "\"Hearing Conservation Programs: Implementation Guide\"",
+      "slug": "hearing-conservation-programs-implementation-guide",
+      "contentTier": "how-to",
+      "keywordCluster": "training",
+      "oldDate": "2026-04-13T06:37:32.782Z",
+      "newDate": "2026-01-30T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-177",
+      "title": "\"Heat Illness Prevention in Outdoor and High-Heat Industries\"",
+      "slug": "heat-illness-prevention-in-outdoor-and-high-heat-industries",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.780Z",
+      "newDate": "2026-02-02T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-184",
+      "title": "\"HIPAA Security Risk Assessment: Step by Step\"",
+      "slug": "hipaa-security-risk-assessment-step-by-step",
+      "contentTier": "how-to",
+      "keywordCluster": "privacy-trap",
+      "oldDate": "2026-04-13T06:37:32.782Z",
+      "newDate": "2026-02-03T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-137",
+      "title": "\"Hospitality Compliance Guide: Platform-Wide and Vertical-Specific Requirements\"",
+      "slug": "hospitality-compliance-guide-platform-wide-and-vertical-specific-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.767Z",
+      "newDate": "2026-02-04T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-138",
+      "title": "\"Hospitality Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "hospitality-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.768Z",
+      "newDate": "2026-02-05T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-159",
+      "title": "\"Information and Telecom Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "information-and-telecom-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.773Z",
+      "newDate": "2026-02-06T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-160",
+      "title": "\"Information and Telecom Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "information-and-telecom-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.773Z",
+      "newDate": "2026-02-09T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-161",
+      "title": "\"Laundry and Drycleaning Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "laundry-and-drycleaning-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.773Z",
+      "newDate": "2026-02-10T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-162",
+      "title": "\"Laundry and Drycleaning Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "laundry-and-drycleaning-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.774Z",
+      "newDate": "2026-02-11T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-188",
+      "title": "\"Lockout Tagout (LOTO): Procedure Development Guide for Manufacturing\"",
+      "slug": "lockout-tagout-loto-procedure-development-guide-for-manufacturing",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.783Z",
+      "newDate": "2026-02-12T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-189",
+      "title": "\"Machine Guarding Assessment and Compliance for Manufacturing\"",
+      "slug": "machine-guarding-assessment-and-compliance-for-manufacturing",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.783Z",
+      "newDate": "2026-02-13T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-139",
+      "title": "\"Manufacturing Compliance Guide: Platform-Wide and Vertical-Specific Requirements\"",
+      "slug": "manufacturing-compliance-guide-platform-wide-and-vertical-specific-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.768Z",
+      "newDate": "2026-02-16T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-140",
+      "title": "\"Manufacturing Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "manufacturing-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.768Z",
+      "newDate": "2026-02-17T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-196",
+      "title": "\"Maryland Workplace Violence Prevention: What Employers Must Know\"",
+      "slug": "maryland-workplace-violence-prevention-what-employers-must-know",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.788Z",
+      "newDate": "2026-02-18T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-200",
+      "title": "\"Michigan MIOSHA Compliance Guide for Employers\"",
+      "slug": "michigan-miosha-compliance-guide-for-employers",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.789Z",
+      "newDate": "2026-02-19T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-163",
+      "title": "\"Mining Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "mining-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.774Z",
+      "newDate": "2026-02-20T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-164",
+      "title": "\"Mining Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "mining-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.774Z",
+      "newDate": "2026-02-23T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-197",
+      "title": "\"Minnesota Workplace Violence Prevention Requirements for Employers\"",
+      "slug": "minnesota-workplace-violence-prevention-requirements-for-employers",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.788Z",
+      "newDate": "2026-02-24T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-198",
+      "title": "\"New Jersey Workplace Violence Prevention: Employer Compliance Guide\"",
+      "slug": "new-jersey-workplace-violence-prevention-employer-compliance-guide",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.789Z",
+      "newDate": "2026-02-25T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-201",
+      "title": "\"Oregon OSHA Compliance Guide for Employers\"",
+      "slug": "oregon-osha-compliance-guide-for-employers",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.789Z",
+      "newDate": "2026-02-26T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-173",
+      "title": "\"Personal Services Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "personal-services-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.779Z",
+      "newDate": "2026-02-27T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-174",
+      "title": "\"Personal Services Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "personal-services-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.779Z",
+      "newDate": "2026-03-02T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-179",
+      "title": "\"Pesticide Safety Training Requirements for Agricultural Employers\"",
+      "slug": "pesticide-safety-training-requirements-for-agricultural-employers",
+      "contentTier": "how-to",
+      "keywordCluster": "training",
+      "oldDate": "2026-04-13T06:37:32.781Z",
+      "newDate": "2026-03-03T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-165",
+      "title": "\"Professional Services Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "professional-services-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.775Z",
+      "newDate": "2026-03-04T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-166",
+      "title": "\"Professional Services Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "professional-services-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.775Z",
+      "newDate": "2026-03-05T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-141",
+      "title": "\"Public Administration Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "public-administration-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.768Z",
+      "newDate": "2026-03-06T17:00:00.000Z"
+    },
+    {
+      "docId": "blog-142",
+      "title": "\"Public Administration Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "public-administration-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.768Z",
+      "newDate": "2026-03-09T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-167",
+      "title": "\"Real Estate Compliance Guide: Platform-Wide and Rent Control Requirements\"",
+      "slug": "real-estate-compliance-guide-platform-wide-and-rent-control-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.775Z",
+      "newDate": "2026-03-10T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-168",
+      "title": "\"Real Estate Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "real-estate-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.775Z",
+      "newDate": "2026-03-11T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-193",
+      "title": "\"Rent Control Compliance for Property Managers\"",
+      "slug": "rent-control-compliance-for-property-managers",
+      "contentTier": "how-to",
+      "keywordCluster": "legal-crossover",
+      "oldDate": "2026-04-13T06:37:32.787Z",
+      "newDate": "2026-03-12T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-182",
+      "title": "\"Respirable Crystalline Silica: Exposure Limits and Controls\"",
+      "slug": "respirable-crystalline-silica-exposure-limits-and-controls",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.781Z",
+      "newDate": "2026-03-13T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-143",
+      "title": "\"Retail Trade Compliance Guide: Platform-Wide and Heat Illness Requirements\"",
+      "slug": "retail-trade-compliance-guide-platform-wide-and-heat-illness-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.769Z",
+      "newDate": "2026-03-16T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-144",
+      "title": "\"Retail Trade Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "retail-trade-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.769Z",
+      "newDate": "2026-03-17T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-175",
+      "title": "\"Security Services Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "security-services-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.779Z",
+      "newDate": "2026-03-18T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-176",
+      "title": "\"Security Services Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "security-services-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.780Z",
+      "newDate": "2026-03-19T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-180",
+      "title": "\"Spray Booth Safety and Inspection Compliance for Auto Body Shops\"",
+      "slug": "spray-booth-safety-and-inspection-compliance-for-auto-body-shops",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.781Z",
+      "newDate": "2026-03-20T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-169",
+      "title": "\"Staffing and Employment Services Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "staffing-and-employment-services-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.775Z",
+      "newDate": "2026-03-23T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-170",
+      "title": "\"Staffing and Employment Services Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "staffing-and-employment-services-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.777Z",
+      "newDate": "2026-03-24T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-202",
+      "title": "\"Texas Workplace Violence Prevention: Emerging Requirements for Employers\"",
+      "slug": "texas-workplace-violence-prevention-emerging-requirements-for-employers",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.789Z",
+      "newDate": "2026-03-25T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-145",
+      "title": "\"Transportation Compliance Guide: Platform-Wide and DOT Requirements\"",
+      "slug": "transportation-compliance-guide-platform-wide-and-dot-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.769Z",
+      "newDate": "2026-03-26T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-146",
+      "title": "\"Transportation Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "transportation-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.769Z",
+      "newDate": "2026-03-27T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-147",
+      "title": "\"Utilities Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "utilities-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.769Z",
+      "newDate": "2026-03-30T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-148",
+      "title": "\"Utilities Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "utilities-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.769Z",
+      "newDate": "2026-03-31T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-203",
+      "title": "\"Virginia Workplace Safety: VOSH Compliance and WVP Requirements\"",
+      "slug": "virginia-workplace-safety-vosh-compliance-and-wvp-requirements",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.789Z",
+      "newDate": "2026-04-01T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-171",
+      "title": "\"Warehouse Compliance Guide: Platform-Wide and Forklift Certification Requirements\"",
+      "slug": "warehouse-compliance-guide-platform-wide-and-forklift-certification-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.778Z",
+      "newDate": "2026-04-02T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-172",
+      "title": "\"Warehouse Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "warehouse-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.778Z",
+      "newDate": "2026-04-03T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-199",
+      "title": "\"Washington State Workplace Safety: L&I WISHA Compliance Guide\"",
+      "slug": "washington-state-workplace-safety-l-i-wisha-compliance-guide",
+      "contentTier": "state-guide",
+      "keywordCluster": "geo-targeted",
+      "oldDate": "2026-04-13T06:37:32.789Z",
+      "newDate": "2026-04-06T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-149",
+      "title": "\"Waste and Environmental Services Compliance Guide: Platform-Wide Requirements\"",
+      "slug": "waste-and-environmental-services-compliance-guide-platform-wide-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.770Z",
+      "newDate": "2026-04-07T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-150",
+      "title": "\"Waste and Environmental Services Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "waste-and-environmental-services-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.770Z",
+      "newDate": "2026-04-08T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-151",
+      "title": "\"Wholesale Trade Compliance Guide: Platform-Wide and Forklift Certification Requirements\"",
+      "slug": "wholesale-trade-compliance-guide-platform-wide-and-forklift-certification-requirements",
+      "contentTier": "vertical",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.770Z",
+      "newDate": "2026-04-09T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-152",
+      "title": "\"Wholesale Trade Enforcement Intelligence: Citations, Penalties and Trends\"",
+      "slug": "wholesale-trade-enforcement-intelligence-citations-penalties-and-trends",
+      "contentTier": "data-briefing",
+      "keywordCluster": "fine-panic",
+      "oldDate": "2026-04-13T06:37:32.770Z",
+      "newDate": "2026-04-10T16:00:00.000Z"
+    },
+    {
+      "docId": "blog-178",
+      "title": "\"Wildfire Smoke Protection for Agricultural Workers\"",
+      "slug": "wildfire-smoke-protection-for-agricultural-workers",
+      "contentTier": "how-to",
+      "keywordCluster": "industry-specific",
+      "oldDate": "2026-04-13T06:37:32.780Z",
+      "newDate": "2026-04-13T16:00:00.000Z"
+    }
+  ]
+}
