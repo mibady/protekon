@@ -24,7 +24,17 @@ export const postSignup = inngest.createFunction(
       if (error) throw new Error(`Failed to upsert client: ${error.message}`)
     })
 
-    // Step 2: Send welcome email
+    // Step 2: Seed a year of compliance reminders for this client.
+    // Safe to retry — fn_generate_client_reminders is idempotent per
+    // (client_id, calendar_entry, due_date).
+    await step.run("seed-client-reminders", async () => {
+      const { error } = await supabase.rpc("fn_generate_client_reminders", {
+        p_client_id: userId,
+      })
+      if (error) throw new Error(`fn_generate_client_reminders failed: ${error.message}`)
+    })
+
+    // Step 3: Send welcome email
     await step.run("send-welcome-notification", async () => {
       await sendEmail({ to: email, ...welcomeEmail(email) })
     })

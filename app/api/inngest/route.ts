@@ -19,6 +19,9 @@ import { planUpdatePipeline } from "@/inngest/functions/plan-update-pipeline"
 import { ragIndexer } from "@/inngest/functions/rag-indexer"
 import { cslbNotificationPipeline } from "@/inngest/functions/cslb-notification-pipeline"
 import { employeeLogSla } from "@/inngest/functions/employee-log-sla"
+import { retentionScanner } from "@/inngest/functions/retention-scanner"
+import { coiExpirationScanner } from "@/inngest/functions/coi-expiration-scanner"
+import { reminderProcessor } from "@/inngest/functions/reminder-processor"
 
 export const maxDuration = 300
 
@@ -45,5 +48,8 @@ export const { GET, POST, PUT } = serve({
     ragIndexer,
     cslbNotificationPipeline,
     employeeLogSla,
+    retentionScanner,
+    coiExpirationScanner,
+    reminderProcessor,
   ],
 })
