@@ -6,6 +6,7 @@ export default defineConfig({
     environment: "node",
     globals: true,
     include: ["__tests__/**/*.test.ts"],
+    setupFiles: ["__tests__/setup/billing-guard-mock.ts"],
     coverage: {
       provider: "v8",
       include: ["lib/**/*.ts", "app/api/**/*.ts", "inngest/**/*.ts"],
