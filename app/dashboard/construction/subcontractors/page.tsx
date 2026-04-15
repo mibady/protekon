@@ -1,6 +1,7 @@
 "use client"
 
 import { VerticalPage, type VerticalPageConfig } from "@/components/dashboard/VerticalPage"
+import CoiUploadDialog from "@/components/dashboard/CoiUploadDialog"
 import { HardHat } from "@phosphor-icons/react"
 import { getSubcontractors, addSubcontractor, verifySubcontractor, deleteSubcontractor } from "@/lib/actions/construction"
 
@@ -14,6 +15,13 @@ const config: VerticalPageConfig = {
   createAction: addSubcontractor,
   deleteAction: deleteSubcontractor,
   verifyAction: verifySubcontractor,
+  rowActions: (row, refresh) => (
+    <CoiUploadDialog
+      subId={String(row.id ?? "")}
+      subName={String(row.company_name ?? "Subcontractor")}
+      onUploaded={refresh}
+    />
+  ),
   formFields: [
     { name: "company_name", label: "Company Name", type: "text", placeholder: "Company name", required: true },
     { name: "license_number", label: "License Number", type: "text", placeholder: "License #" },

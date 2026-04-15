@@ -36,6 +36,8 @@ interface VerticalPageConfig {
   statusStyles: Record<string, string>
   statusKey?: string
   headerExtra?: ReactNode
+  /** Per-row custom actions rendered before verify/delete. `refresh` re-fetches the table. */
+  rowActions?: (row: Record<string, unknown>, refresh: () => Promise<void>) => ReactNode
 }
 
 const LBL = "font-display text-[12px] tracking-[2px] uppercase text-steel block mb-1"
@@ -122,7 +124,12 @@ function VerticalPage({ config }: { config: VerticalPageConfig }): ReactNode {
   const [submitting, setSubmitting] = useState(false)
   const Icon = config.icon
   const sk = config.statusKey ?? "status"
-  const hasActions = !!(config.deleteAction || config.verifyAction)
+  const hasActions = !!(config.deleteAction || config.verifyAction || config.rowActions)
+
+  async function refresh(): Promise<void> {
+    const rows = await config.fetchAction()
+    setData(rows)
+  }
   const mobileCols = config.columns.filter((c) => c.render !== "boolean").slice(0, 3)
 
   useEffect(() => {
@@ -244,6 +251,7 @@ function VerticalPage({ config }: { config: VerticalPageConfig }): ReactNode {
                       </div>
                       {hasActions && (
                         <div className="flex items-center gap-2 mt-3 pt-3 border-t border-midnight/[0.06]">
+                          {config.rowActions && config.rowActions(row, refresh)}
                           {config.verifyAction && !row.verified_at && (
                             <button onClick={() => handleVerify(id)} className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[10px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors">Verify</button>
                           )}
@@ -276,6 +284,7 @@ function VerticalPage({ config }: { config: VerticalPageConfig }): ReactNode {
                           {hasActions && (
                             <td className="px-4 py-3">
                               <div className="flex items-center justify-end gap-2">
+                                {config.rowActions && config.rowActions(row, refresh)}
                                 {config.verifyAction && !row.verified_at && (
                                   <button onClick={() => handleVerify(id)} className="px-3 py-1.5 bg-[#2A7D4F]/10 text-[#2A7D4F] font-display font-medium text-[10px] tracking-[1px] uppercase hover:bg-[#2A7D4F]/20 transition-colors">Verify</button>
                                 )}

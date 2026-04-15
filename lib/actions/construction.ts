@@ -9,8 +9,12 @@ import {
 export async function getSubcontractors() {
   const { supabase, clientId } = await getAuth()
   if (!clientId) return []
+  // v_construction_subs_dashboard exposes computed CSLB status colors,
+  // latest COI fields, and a critical/high/medium/low composite risk score
+  // on top of the base construction_subs columns. Writes still target
+  // construction_subs directly.
   const { data } = await supabase
-    .from("construction_subs")
+    .from("v_construction_subs_dashboard")
     .select("*")
     .eq("client_id", clientId)
     .order("created_at", { ascending: false })
