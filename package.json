@@ -22,6 +22,7 @@
     "@ai-sdk/anthropic": "^3.0.64",
     "@ai-sdk/openai": "^3.0.52",
     "@ai-sdk/react": "^3.0.144",
+    "@anthropic-ai/sdk": "^0.89.0",
     "@hookform/resolvers": "^3.9.1",
     "@phosphor-icons/react": "^2.1.10",
     "@portabletext/react": "^6.0.3",
