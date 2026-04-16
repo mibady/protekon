@@ -9,6 +9,7 @@ import {
   ClipboardText,
   GraduationCap,
   BookOpen,
+  Palette,
   Gear,
   SignOut,
   List,
@@ -35,6 +36,7 @@ const navItems = [
   { name: "Dashboard", href: "/partner", icon: House, exact: true },
   { name: "Assessments", href: "/partner/assessments", icon: ClipboardText, exact: false },
   { name: "Enablement", href: "/partner/enablement", icon: BookOpen, exact: false },
+  { name: "Branding", href: "/partner/branding", icon: Palette, exact: false },
   { name: "Boot Camp", href: "/partners/boot-camp", icon: GraduationCap, exact: false, external: true },
   { name: "Settings", href: "/partner/settings", icon: Gear, exact: false },
 ]
