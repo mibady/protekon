@@ -1,19 +1,49 @@
 import { getSiteUrl } from "@/lib/resend"
 
-function layoutWrapper(content: string): string {
+/**
+ * Optional partner-branding context. When provided, layoutWrapper swaps:
+ *   - Header PROTEKON wordmark for the partner logo (or partner display_name
+ *     text if logo_blob_path is null)
+ *   - Footer Protekon attribution for partner attribution when
+ *     hide_protekon_attribution=true
+ *
+ * When undefined (default), rendering is unchanged.
+ */
+export interface BrandingContext {
+  display_name: string
+  logo_blob_path: string | null
+  primary_color: string
+  hide_protekon_attribution: boolean
+}
+
+function escapeAttr(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+}
+
+export function layoutWrapper(content: string, branding?: BrandingContext): string {
+  const header = branding?.logo_blob_path
+    ? `<img src="${escapeAttr(branding.logo_blob_path)}" alt="${escapeAttr(branding.display_name)}" style="max-height:48px;max-width:200px;" />`
+    : branding?.display_name
+      ? `<span style="font-size:24px;font-weight:800;color:${branding.primary_color || "#1a1a2e"};letter-spacing:1px;">${escapeAttr(branding.display_name.toUpperCase())}</span>`
+      : `<span style="font-size:24px;font-weight:800;color:#1a1a2e;letter-spacing:1px;">PROTEKON</span>`
+
+  const footer = branding?.hide_protekon_attribution
+    ? `${escapeAttr(branding.display_name)} &middot; Workplace Safety Compliance`
+    : `Protekon Compliance &middot; California Workplace Safety`
+
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:0;background:#f5f3ef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <div style="max-width:600px;margin:0 auto;padding:40px 20px;">
     <div style="text-align:center;margin-bottom:32px;">
-      <span style="font-size:24px;font-weight:800;color:#1a1a2e;letter-spacing:1px;">PROTEKON</span>
+      ${header}
     </div>
     <div style="background:#ffffff;border:1px solid #e5e5e5;padding:32px;">
       ${content}
     </div>
     <div style="text-align:center;margin-top:24px;font-size:12px;color:#888;">
-      Protekon Compliance &middot; California Workplace Safety
+      ${footer}
     </div>
   </div>
 </body>
