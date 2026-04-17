@@ -191,32 +191,72 @@ export async function getOpenActionItems(
 // ──────────────────────────────────────────────────────────────────────────
 
 /**
- * Pulls 2-3 curated stories from the scraper database filtered by the
- * client's vertical + state. Each story has a narrated body and a
- * "What this means for you" officer paragraph.
+ * Pulls the top 5 relevant intelligence stories for the client from the app
+ * DB mirror table `client_intelligence_items`. That table is populated by
+ * `inngest/functions/mirror-intelligence-nightly.ts` (NGE-481), which pulls
+ * from the external scraper project once per day.
  *
- * The scraper DB lives at project_id=vizmtkfpxxjzlpzibate and exposes
- * protekon_v_notable_stories. That view is queried via a server-side
- * service-role client — the app DB doesn't have direct access.
+ * Selection:
+ *   1. Supabase query — vertical_tags contains client.vertical, within 14 days,
+ *      excluding rows the client has dismissed, limit 20 candidates.
+ *   2. Re-rank in-process: relevance_score × recency(half-life ~5d) × geo boost
+ *      (1.25× if client.state matches a geo_tag).
+ *   3. Slice top 5.
  *
- * IMPLEMENTATION STATUS: stubbed. The real integration requires either
- * (a) a foreign data wrapper, (b) a cross-project API call, or
- * (c) a nightly sync job that copies relevant rows into the app DB.
- * For now, returns empty array — Briefing handles the empty state.
+ * RLS already enforces vertical match and dismissal exclusion; the query
+ * filters are belt-and-suspenders.
  */
 export async function getIntelligence(
   client: V2Client
 ): Promise<IntelligenceStory[]> {
-  // TODO: wire to scraper DB. Candidate approach:
-  //   1. Nightly Inngest job mirrors protekon_v_notable_stories rows for
-  //      each active client into app DB table `client_intelligence_feed`.
-  //   2. This function queries that local table.
-  //   3. Mirror respects vertical + state filters at sync time.
-  //
-  // Until that job ships, return empty. The Briefing page shows a soft
-  // placeholder ("Nothing relevant in your industry this week") rather
-  // than hiding the section — reassures the user the feature is live.
-  return []
+  const supabase = await createClient()
+  const cutoff = new Date(Date.now() - 14 * 86_400_000).toISOString()
+
+  const { data, error } = await supabase
+    .from("client_intelligence_items")
+    .select(
+      "id, headline, story, means_for_you, link_url, source_name, severity, created_at, relevance_score, geo_tags"
+    )
+    .contains("vertical_tags", [client.vertical])
+    .gte("created_at", cutoff)
+    .not("dismissed_by_client_ids", "cs", `{${client.id}}`)
+    .order("relevance_score", { ascending: false })
+    .order("created_at", { ascending: false })
+    .limit(20)
+
+  if (error || !data) return []
+
+  const now = Date.now()
+  const stateTag = client.state?.toLowerCase() ?? null
+  const ranked = data
+    .map((row) => {
+      const ageDays =
+        (now - new Date(row.created_at as string).getTime()) / 86_400_000
+      const recency = Math.exp(-ageDays / 7) // half-life ~5 days
+      const geoBoost =
+        stateTag &&
+        Array.isArray(row.geo_tags) &&
+        (row.geo_tags as string[]).includes(stateTag)
+          ? 1.25
+          : 1
+      return {
+        row,
+        score: Number(row.relevance_score) * recency * geoBoost,
+      }
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+
+  return ranked.map(({ row }) => ({
+    id: row.id as string,
+    headline: row.headline as string,
+    story: row.story as string,
+    means_for_you: (row.means_for_you as string | null) ?? "",
+    published_at: row.created_at as string,
+    link_url: (row.link_url as string | null) ?? "#",
+    severity: ((row.severity as string | null) ??
+      "context") as IntelligenceStory["severity"],
+  }))
 }
 
 // ──────────────────────────────────────────────────────────────────────────
