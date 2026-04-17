@@ -5,7 +5,9 @@ import type { V2Client } from "@/lib/v2/types"
 import { RESOURCE_CONFIGS } from "@/lib/v2/coverage-resources"
 import {
   getResource,
+  getTeamMemberDetail,
   listResources,
+  listTeamWithCompliance,
 } from "@/lib/v2/actions/coverage"
 import { CoverageHeader } from "./coverage/CoverageHeader"
 import { CoverageList } from "./coverage/CoverageList"
@@ -67,7 +69,10 @@ export async function CoverageDrillDown(props: Props) {
   }
 
   if (props.mode === "detail") {
-    const row = await getResource(resourceType, props.id, client.id)
+    const row =
+      resourceType === "team"
+        ? await getTeamMemberDetail(props.id, client.id, vertical)
+        : await getResource(resourceType, props.id, client.id)
     if (!row) notFound()
     return (
       <div className="min-h-screen flex flex-col">
@@ -88,9 +93,12 @@ export async function CoverageDrillDown(props: Props) {
 
   // LIST MODE — pull canonical-table rows + the view rollup so we can render
   // a "N rows not yet migrated" footer when the view's total exceeds the
-  // table row count.
+  // table row count. Team uses the compliance-enriched list so rows carry a
+  // `credential_summary` and obey PII redaction for sensitive verticals.
   const [rows, viewTotals] = await Promise.all([
-    listResources(resourceType, client.id),
+    resourceType === "team"
+      ? listTeamWithCompliance(client.id, vertical)
+      : listResources(resourceType, client.id),
     getViewTotalCount(resourceType, client.id),
   ])
 
