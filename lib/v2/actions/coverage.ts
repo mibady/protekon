@@ -6,6 +6,7 @@ import type {
   ResourceType,
   VerticalOverride,
 } from "@/lib/v2/coverage-types"
+import { shouldRedactPII } from "@/lib/v2/pii"
 
 /**
  * Canonical table for each resource type. These are the *primary* tables —
@@ -190,5 +191,214 @@ export async function getVerticalOverride(
     singular_override: data?.singular_override ?? null,
     description_override: data?.description_override ?? null,
     sort_order: (data?.sort_order as number | null) ?? null,
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Team drill-down — credential compliance rollup (NGE-461 v1)
+// ──────────────────────────────────────────────────────────────────────────
+
+/**
+ * Per-member credential rollup attached to the enriched team row.
+ *
+ * `expired`    — credential status ∈ {expired, revoked, suspended}
+ * `expiring`   — still active but `expires_date` falls inside the next 30 days
+ * `active`     — everything else with a row
+ *
+ * `total` is the count of credentials joined to this member.
+ */
+export type CredentialSummary = {
+  total: number
+  expired: number
+  expiring: number
+  active: number
+}
+
+/**
+ * Enriched row shape returned from `listTeamWithCompliance`. All `team_members`
+ * columns pass through verbatim; we graft `credential_summary` on top so the
+ * config's `statusFn` + column accessors can read it without re-querying.
+ *
+ * NOTE: `training_summary` is intentionally absent in v1 — see the Phase 0
+ * schema audit. `training_records` has no FK to `team_members`; filed under
+ * follow-up ticket NGE-461 v2.
+ */
+export type TeamRowWithCompliance = ResourceRow & {
+  credential_summary: CredentialSummary
+}
+
+const EXPIRED_STATUSES = new Set<string>(["expired", "revoked", "suspended"])
+const THIRTY_DAYS_MS = 30 * 86_400_000
+
+function summarizeCredentialsFor(
+  memberId: string,
+  all: Array<{
+    holder_id: string | null
+    status: string | null
+    expires_date: string | null
+  }>
+): CredentialSummary {
+  const now = Date.now()
+  const soon = now + THIRTY_DAYS_MS
+  let expired = 0
+  let expiring = 0
+  let active = 0
+  for (const cred of all) {
+    if (cred.holder_id !== memberId) continue
+    const status = (cred.status ?? "").toLowerCase()
+    if (EXPIRED_STATUSES.has(status)) {
+      expired++
+      continue
+    }
+    if (cred.expires_date) {
+      const ts = new Date(cred.expires_date).getTime()
+      if (!Number.isNaN(ts) && ts <= soon) {
+        expiring++
+        continue
+      }
+    }
+    active++
+  }
+  return {
+    total: expired + expiring + active,
+    expired,
+    expiring,
+    active,
+  }
+}
+
+/**
+ * List all active team members for a client, each row enriched with a
+ * credential compliance rollup + optional PII redaction for sensitive
+ * verticals.
+ *
+ * PII-SENSITIVE MODE: when `shouldRedactPII(vertical)` is true we swap
+ * `full_name` for the member's role. The table isn't mutated; we replace the
+ * field on the returned row so downstream list/detail surfaces render the
+ * safe value without any extra branching.
+ */
+export async function listTeamWithCompliance(
+  clientId: string,
+  vertical: string | null
+): Promise<TeamRowWithCompliance[]> {
+  const supabase = await createClient()
+
+  const { data: members, error } = await supabase
+    .from("team_members")
+    .select("*")
+    .eq("client_id", clientId)
+    .neq("status", "terminated")
+    .order("full_name", { ascending: true })
+    .limit(500)
+
+  if (error || !members || members.length === 0) return []
+
+  const memberIds = members.map((m) => m.id as string)
+
+  const { data: creds } = await supabase
+    .from("credentials")
+    .select("holder_id, status, expires_date")
+    .eq("client_id", clientId)
+    .in("holder_id", memberIds)
+
+  const credsList = (creds ?? []) as Array<{
+    holder_id: string | null
+    status: string | null
+    expires_date: string | null
+  }>
+
+  const redact = shouldRedactPII(vertical)
+
+  return members.map((raw) => {
+    const row = raw as ResourceRow
+    const memberId = row.id as string
+    const summary = summarizeCredentialsFor(memberId, credsList)
+    const role = (row.role as string | null) ?? "Team member"
+    return {
+      ...row,
+      full_name: redact ? role : row.full_name,
+      email: redact ? null : row.email,
+      phone: redact ? null : row.phone,
+      credential_summary: summary,
+    }
+  })
+}
+
+/**
+ * Detail fetch for a single team member — full profile + linked credentials.
+ * Incident + training joins are deferred (see Phase 0 schema note); when the
+ * upstream tickets land those lists will attach here.
+ *
+ * PII redaction follows the same rule as the list action.
+ */
+export async function getTeamMemberDetail(
+  id: string,
+  clientId: string,
+  vertical: string | null
+): Promise<
+  | (TeamRowWithCompliance & {
+      credentials: Array<{
+        id: string
+        credential_type: string | null
+        credential_number: string | null
+        issuing_authority: string | null
+        issued_date: string | null
+        expires_date: string | null
+        status: string | null
+      }>
+    })
+  | null
+> {
+  const supabase = await createClient()
+
+  const { data: member, error } = await supabase
+    .from("team_members")
+    .select("*")
+    .eq("id", id)
+    .eq("client_id", clientId)
+    .maybeSingle()
+
+  if (error || !member) return null
+
+  const { data: creds } = await supabase
+    .from("credentials")
+    .select(
+      "id, credential_type, credential_number, issuing_authority, issued_date, expires_date, status, holder_id"
+    )
+    .eq("client_id", clientId)
+    .eq("holder_id", id)
+    .order("expires_date", { ascending: true, nullsFirst: false })
+
+  const credsList = (creds ?? []) as Array<{
+    id: string
+    credential_type: string | null
+    credential_number: string | null
+    issuing_authority: string | null
+    issued_date: string | null
+    expires_date: string | null
+    status: string | null
+    holder_id: string | null
+  }>
+
+  const summary = summarizeCredentialsFor(
+    id,
+    credsList.map((c) => ({
+      holder_id: c.holder_id,
+      status: c.status,
+      expires_date: c.expires_date,
+    }))
+  )
+
+  const redact = shouldRedactPII(vertical)
+  const row = member as ResourceRow
+  const role = (row.role as string | null) ?? "Team member"
+
+  return {
+    ...row,
+    full_name: redact ? role : row.full_name,
+    email: redact ? null : row.email,
+    phone: redact ? null : row.phone,
+    credential_summary: summary,
+    credentials: credsList.map(({ holder_id: _omit, ...c }) => c),
   }
 }
