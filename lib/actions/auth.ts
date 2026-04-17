@@ -10,7 +10,10 @@ export async function signIn(formData: FormData): Promise<ActionResult> {
 
   const email = formData.get("email") as string
   const password = formData.get("password") as string
-  const nextPath = safeRedirect(formData.get("next") as string | null, "/v2/briefing")
+  // /dashboard is the canonical post-auth home. next.config rewrites /dashboard/*
+  // to /v2/* transparently, so this single redirect target covers both old
+  // bookmarks and the new UI without any client-visible roundtrip.
+  const nextPath = safeRedirect(formData.get("next") as string | null, "/dashboard")
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -67,7 +70,7 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
     }, { onConflict: "id" })
   }
 
-  redirect("/v2/briefing")
+  redirect("/dashboard")
 }
 
 export async function forgotPassword(formData: FormData): Promise<ActionResult> {
@@ -76,7 +79,7 @@ export async function forgotPassword(formData: FormData): Promise<ActionResult> 
   const email = formData.get("email") as string
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/auth/callback?next=/v2/briefing`,
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/auth/callback?next=/dashboard`,
   })
 
   if (error) {

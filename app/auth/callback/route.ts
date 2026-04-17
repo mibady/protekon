@@ -5,7 +5,10 @@ import { safeRedirect } from "@/lib/safe-redirect"
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get("code")
-  const next = safeRedirect(searchParams.get("next"), "/v2/briefing")
+  // /dashboard is the canonical post-auth home. next.config rewrites
+  // /dashboard/* to /v2/* transparently, so we redirect here and the user
+  // sees the v2 surface without a client-visible URL roundtrip.
+  const next = safeRedirect(searchParams.get("next"), "/dashboard")
 
   if (code) {
     const supabase = await createClient()

@@ -34,6 +34,17 @@ const nextConfig = {
       { source: '/partner/dashboard', destination: '/partner', permanent: true },
     ]
   },
+  async rewrites() {
+    // /dashboard is the public home for authenticated clients; content is
+    // served transparently from /v2/*. This eliminates the redirect chain
+    // that was causing /dashboard ↔ /v2/briefing loops — the URL bar
+    // stays at /dashboard and Next.js rewrites the request server-side.
+    // The /v2/* URLs remain accessible directly for back-compat.
+    return [
+      { source: '/dashboard', destination: '/v2/briefing' },
+      { source: '/dashboard/:path*', destination: '/v2/:path*' },
+    ]
+  },
 }
 
 export default withSentryConfig(nextConfig, {
