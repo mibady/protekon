@@ -56,7 +56,7 @@ export function CoverageDetail({
                       {field.label}
                     </dt>
                     <dd className="font-display text-base text-midnight">
-                      {field.value}
+                      {field.render ?? field.value}
                     </dd>
                   </div>
                 ))}

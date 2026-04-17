@@ -1,3 +1,5 @@
+import type { ReactNode } from "react"
+
 /**
  * Canonical types for the Coverage surface (v2).
  *
@@ -99,14 +101,33 @@ export type ColumnDef<T = ResourceRow> = {
   label: string
   /** Returns the rendered cell value. Kept string-typed to keep lists plain. */
   value: (row: T) => string | null
+  /**
+   * Optional ReactNode override. When present, the list row renders this
+   * instead of the plain string value — lets a column return a link, badge,
+   * or icon. The `value` fn is still called for null-skipping and serves as
+   * the truncation fallback if `render` returns null.
+   */
+  render?: (row: T) => ReactNode | null
   /** When true, column is hidden on narrow layouts. */
   secondary?: boolean
+}
+
+export type DetailField = {
+  label: string
+  value: string | null
+  /**
+   * Optional ReactNode override. When present, detail view renders this in
+   * place of the plain string value — lets a field return a link, badge, or
+   * decorated text. Null-filtering still uses `value`, so provide a non-null
+   * string alongside any render override to keep the field visible.
+   */
+  render?: ReactNode
 }
 
 export type DetailSection<T = ResourceRow> = {
   label: string
   /** Markdown-flavored paragraph describing this block in officer voice. */
-  render: (row: T) => { label: string; value: string | null }[]
+  render: (row: T) => DetailField[]
 }
 
 export type PrimaryAction<T = ResourceRow> = {
