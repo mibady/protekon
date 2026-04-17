@@ -5,12 +5,18 @@ import { coverageSubItemsFor } from "@/lib/v2/coverage-sub-items"
 import type { V2Client } from "@/lib/v2/types"
 
 /**
- * Auth + feature-flag gate for all /v2/* routes.
+ * Auth gate for all /v2/* routes.
  *
  * Contract:
- *   1. Unauthenticated users → /login
- *   2. Authenticated but v2_enabled = false → /dashboard (legacy)
- *   3. Authenticated with v2_enabled = true → render v2 shell
+ *   1. Unauthenticated users              → /login?next=/v2
+ *   2. No matching client row (partner/admin)
+ *                                         → /login?error=unauthorized
+ *   3. Authenticated client               → render v2 shell
+ *
+ * The legacy /dashboard surface was removed when v2 went all-in; the
+ * v2_enabled flag is kept in the schema but no longer gated on here. If
+ * we ever need to roll back a specific client to the legacy UI, the flag
+ * can be re-wired, but today every client is on v2 unconditionally.
  *
  * The gate runs server-side on every request. No client-side flicker.
  * Sidebar receives the client record and renders identity + nav.
@@ -32,22 +38,19 @@ export default async function V2Layout({
 
   // Single query — grab everything the sidebar and gate need in one round trip.
   // clients.id = auth.uid() per project convention (no user_id FK on this table).
-  const { data: client, error } = await supabase
+  const { data: client } = await supabase
     .from("clients")
     .select(
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
     )
     .eq("id", user.id)
-    .single()
+    .maybeSingle()
 
-  if (error || !client) {
-    // Account in auth but no matching client row — likely a partner or admin.
-    // Send them to /dashboard which handles its own role-based routing.
-    redirect("/dashboard")
-  }
-
-  if (!client.v2_enabled) {
-    redirect("/dashboard")
+  if (!client) {
+    // Account in auth but no matching client row — likely a partner or
+    // admin from a parallel surface. Force re-auth instead of bouncing to
+    // a now-deleted /dashboard.
+    redirect("/login?error=unauthorized")
   }
 
   const typed = client as V2Client

@@ -10,15 +10,9 @@ export async function signIn(formData: FormData): Promise<ActionResult> {
 
   const email = formData.get("email") as string
   const password = formData.get("password") as string
+  const nextPath = safeRedirect(formData.get("next") as string | null, "/v2/briefing")
 
-  // Honor ?next= only if the caller supplied one AND it passes the
-  // safe-redirect check. Empty fallback lets us distinguish "no explicit
-  // next" (fall through to v2/legacy routing) from "explicit /dashboard"
-  // (which safeRedirect's default fallback would otherwise hide).
-  const nextParam = formData.get("next") as string | null
-  const explicitNext = nextParam ? safeRedirect(nextParam, "") : ""
-
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
@@ -27,26 +21,7 @@ export async function signIn(formData: FormData): Promise<ActionResult> {
     return { error: error.message }
   }
 
-  if (explicitNext) {
-    redirect(explicitNext)
-  }
-
-  // Route v2 clients straight to /v2/briefing so signing in doesn't
-  // detour through the legacy shell. Partners/admins (no client row) and
-  // v1 clients land on /dashboard, which has its own server-side gate.
-  if (data.user?.id) {
-    const { data: client } = await supabase
-      .from("clients")
-      .select("v2_enabled")
-      .eq("id", data.user.id)
-      .maybeSingle()
-
-    if (client?.v2_enabled) {
-      redirect("/v2/briefing")
-    }
-  }
-
-  redirect("/dashboard")
+  redirect(nextPath)
 }
 
 export async function signUp(formData: FormData): Promise<ActionResult> {
@@ -92,7 +67,7 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
     }, { onConflict: "id" })
   }
 
-  redirect("/dashboard/intake")
+  redirect("/v2/briefing")
 }
 
 export async function forgotPassword(formData: FormData): Promise<ActionResult> {
@@ -101,7 +76,7 @@ export async function forgotPassword(formData: FormData): Promise<ActionResult> 
   const email = formData.get("email") as string
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/auth/callback?next=/dashboard/settings`,
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/auth/callback?next=/v2/briefing`,
   })
 
   if (error) {

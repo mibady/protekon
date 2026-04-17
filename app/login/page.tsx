@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [nextPath, setNextPath] = useState("/dashboard")
+  const [nextPath, setNextPath] = useState("/v2/briefing")
   const [isWelcome, setIsWelcome] = useState(false)
 
   useEffect(() => {
@@ -20,10 +20,16 @@ export default function LoginPage() {
     if (params.get("error") === "auth_callback_failed") {
       setError("Authentication failed. Please try again.")
     }
+    if (params.get("error") === "session_expired") {
+      setError("Your session expired. Please sign in again.")
+    }
+    if (params.get("error") === "unauthorized") {
+      setError("Your account doesn't have access to this workspace.")
+    }
     if (params.get("welcome") === "true") {
       setIsWelcome(true)
     }
-    setNextPath(safeRedirect(params.get("next"), "/dashboard"))
+    setNextPath(safeRedirect(params.get("next"), "/v2/briefing"))
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,7 +44,7 @@ export default function LoginPage() {
       setError(result.error)
       setIsLoading(false)
     }
-    // On success, signIn redirects to /dashboard
+    // On success, signIn redirects to /v2/briefing
   }
 
   return (
