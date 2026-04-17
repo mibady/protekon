@@ -1,6 +1,6 @@
 import type { Icon } from "@phosphor-icons/react/dist/lib/types"
 import type { ResourceConfig, ResourceType } from "@/lib/v2/coverage-types"
-import { sitesConfig, sitesIcon } from "./sites"
+import { sitesConfig, sitesIcon, getSitesEmptyStateCopy } from "./sites"
 import { teamConfig, teamIcon } from "./team"
 import { credentialsConfig, credentialsIcon } from "./credentials"
 import { assetsConfig, assetsIcon } from "./assets"
@@ -42,6 +42,8 @@ export const RESOURCE_ICONS: Record<ResourceType, Icon> = {
   permits: permitsIcon,
   findings: findingsIcon,
 }
+
+export { getSitesEmptyStateCopy }
 
 export {
   sitesConfig,

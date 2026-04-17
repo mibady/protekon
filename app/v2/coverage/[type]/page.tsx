@@ -11,14 +11,23 @@ import type { V2Client } from "@/lib/v2/types"
  * hands off to CoverageDrillDown in list mode. The component handles empty
  * states, not-applicable messaging, and the "not yet migrated" footer.
  *
- * Next.js 16: params are async.
+ * NGE-460 added optional `?site_id=…` — when present, the drill-down scopes
+ * its list query to rows attached to the named site. This is how the Sites
+ * hub tiles deep-link into sibling drill-downs (team / assets / inspections
+ * / permits / materials / findings).
+ *
+ * Next.js 16: both params and searchParams are async.
  */
 type Props = {
   params: Promise<{ type: string }>
+  searchParams: Promise<{ site_id?: string | string[] }>
 }
 
-export default async function CoverageListPage({ params }: Props) {
+export default async function CoverageListPage({ params, searchParams }: Props) {
   const { type } = await params
+  const { site_id: rawSiteId } = await searchParams
+  // searchParams values may be arrays when a key repeats; take the first.
+  const siteId = Array.isArray(rawSiteId) ? rawSiteId[0] : rawSiteId
   if (!isResourceType(type)) notFound()
 
   const supabase = await createClient()
@@ -57,6 +66,7 @@ export default async function CoverageListPage({ params }: Props) {
       resourceType={type}
       vertical={typed.vertical}
       client={typed}
+      filters={siteId ? { site_id: siteId } : undefined}
     />
   )
 }

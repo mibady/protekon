@@ -2,18 +2,29 @@ import { notFound } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import type { ResourceRow, ResourceType } from "@/lib/v2/coverage-types"
 import type { V2Client } from "@/lib/v2/types"
-import { RESOURCE_CONFIGS } from "@/lib/v2/coverage-resources"
+import {
+  RESOURCE_CONFIGS,
+  getSitesEmptyStateCopy,
+} from "@/lib/v2/coverage-resources"
 import {
   getResource,
   getTeamMemberDetail,
   listResources,
   listTeamWithCompliance,
+  type ListResourceFilters,
 } from "@/lib/v2/actions/coverage"
+import {
+  getSiteComplianceLoad,
+  getSiteRecentActivity,
+  getSiteDocuments,
+} from "@/lib/v2/actions/sites"
 import { CoverageHeader } from "./coverage/CoverageHeader"
 import { CoverageList } from "./coverage/CoverageList"
 import { CoverageDetail } from "./coverage/CoverageDetail"
 import { CoverageEmptyState } from "./coverage/CoverageEmptyState"
 import { CoverageNotApplicable } from "./coverage/CoverageNotApplicable"
+import { SitesHubDetail } from "./coverage/SitesHubDetail"
+import { CoverageListFilterPill } from "./coverage/CoverageListFilterPill"
 
 /**
  * Unified drill-down surface — renders either the list view or the detail
@@ -34,6 +45,8 @@ type Props =
       resourceType: ResourceType
       vertical: string
       client: V2Client
+      /** NGE-460 — optional filters, currently just `site_id`. */
+      filters?: ListResourceFilters
     }
   | {
       mode: "detail"
@@ -74,6 +87,38 @@ export async function CoverageDrillDown(props: Props) {
         ? await getTeamMemberDetail(props.id, client.id, vertical)
         : await getResource(resourceType, props.id, client.id)
     if (!row) notFound()
+
+    // Sites hub detail — extends the generic CoverageDetail with:
+    //   • 6 compliance-load tiles (deep-links with ?site_id=…)
+    //   • Recent activity merged from system_activity + incidents
+    //   • Attached documents
+    if (resourceType === "sites") {
+      const [load, activity, documents] = await Promise.all([
+        getSiteComplianceLoad(props.id, client.id),
+        getSiteRecentActivity(props.id, client.id),
+        getSiteDocuments(props.id, client.id),
+      ])
+      return (
+        <div className="min-h-screen flex flex-col">
+          <CoverageHeader
+            resourceType={resourceType}
+            label={override.label}
+            singular={override.singular}
+            mode="detail"
+          />
+          <SitesHubDetail
+            config={config}
+            row={row}
+            singular={override.singular}
+            vertical={vertical}
+            load={load}
+            activity={activity}
+            documents={documents}
+          />
+        </div>
+      )
+    }
+
     return (
       <div className="min-h-screen flex flex-col">
         <CoverageHeader
@@ -98,11 +143,42 @@ export async function CoverageDrillDown(props: Props) {
   const [rows, viewTotals] = await Promise.all([
     resourceType === "team"
       ? listTeamWithCompliance(client.id, vertical)
-      : listResources(resourceType, client.id),
+      : listResources(resourceType, client.id, props.filters),
     getViewTotalCount(resourceType, client.id),
   ])
 
-  const notMigrated = Math.max(0, viewTotals.total - rows.length)
+  // Enrichment: when listing sites, compute the compliance-load integer
+  // per row up-front so the "Compliance load" column can render a number
+  // instead of "—". Parallel to keep the list fast even at 20+ sites.
+  let enrichedRows = rows
+  if (resourceType === "sites" && rows.length > 0) {
+    const loads = await Promise.all(
+      rows.map((row) =>
+        getSiteComplianceLoad(row.id as string, client.id).then((l) =>
+          l.team + l.assets + l.inspections + l.permits + l.materials + l.findings
+        )
+      )
+    )
+    enrichedRows = rows.map((row, i) => ({
+      ...row,
+      __compliance_load: loads[i],
+    }))
+  }
+
+  const notMigrated = Math.max(0, viewTotals.total - enrichedRows.length)
+
+  // Filter pill — only rendered when site_id filter is active. Looks up
+  // the site's name so the pill reads "Filtered to site: Main Clinic" and
+  // not a uuid.
+  const filterPill = await resolveFilterPill(props.filters, client.id, resourceType)
+
+  // Vertical-aware empty state for sites — 3 variants max, branched in
+  // the sites config helper. Non-sites types keep the generic override
+  // description.
+  const emptyDescription =
+    resourceType === "sites"
+      ? getSitesEmptyStateCopy(vertical)
+      : override.description
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -112,16 +188,22 @@ export async function CoverageDrillDown(props: Props) {
         singular={override.singular}
         mode="list"
       />
-      {rows.length === 0 ? (
+      {filterPill && (
+        <CoverageListFilterPill
+          label={filterPill.label}
+          resourceType={resourceType}
+        />
+      )}
+      {enrichedRows.length === 0 ? (
         <CoverageEmptyState
           label={override.label}
           singular={override.singular}
-          description={override.description}
+          description={emptyDescription}
         />
       ) : (
         <CoverageList
           config={config}
-          rows={rows}
+          rows={enrichedRows}
           resourceType={resourceType}
           label={override.label}
           notMigrated={notMigrated}
@@ -129,6 +211,39 @@ export async function CoverageDrillDown(props: Props) {
       )}
     </div>
   )
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Filter pill resolver — looks up the site name for a site_id filter
+// ──────────────────────────────────────────────────────────────────────────
+
+/**
+ * When a `site_id` filter is active, look up the site's `name` so the pill
+ * reads human-readably. Returns null when the filter is absent, the site
+ * doesn't exist, or the caller is already on the sites list itself (where
+ * a "Filtered to site X" pill would be redundant).
+ */
+async function resolveFilterPill(
+  filters: ListResourceFilters | undefined,
+  clientId: string,
+  resourceType: ResourceType
+): Promise<{ label: string } | null> {
+  if (!filters?.site_id) return null
+  if (resourceType === "sites") return null
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase
+      .from("sites")
+      .select("name")
+      .eq("id", filters.site_id)
+      .eq("client_id", clientId)
+      .maybeSingle()
+    const name = (data?.name as string | null) ?? null
+    if (!name) return null
+    return { label: name }
+  } catch {
+    return null
+  }
 }
 
 // ──────────────────────────────────────────────────────────────────────────
