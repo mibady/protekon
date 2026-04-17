@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { Sidebar } from "@/components/v2/Sidebar"
+import { coverageSubItemsFor } from "@/lib/v2/coverage-sub-items"
 import type { V2Client } from "@/lib/v2/types"
 
 /**
@@ -51,10 +52,16 @@ export default async function V2Layout({
 
   const typed = client as V2Client
 
+  // Primary Coverage sub-items for this vertical. Rendered as indented nav
+  // entries under the Coverage item when the user is on a /v2/coverage/*
+  // route. Query runs unconditionally — Sidebar decides whether to show them
+  // based on pathname.
+  const coverageSubItems = await coverageSubItemsFor(typed.vertical)
+
   return (
     <div className="min-h-screen bg-parchment text-midnight font-sans">
       <div className="flex">
-        <Sidebar client={typed} />
+        <Sidebar client={typed} coverageSubItems={coverageSubItems} />
         <main className="flex-1 min-w-0 min-h-screen">{children}</main>
       </div>
     </div>
