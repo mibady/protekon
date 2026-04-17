@@ -104,41 +104,24 @@ export type ColumnDef<T = ResourceRow> = {
   /**
    * Optional ReactNode override. When present, the list row renders this
    * instead of the plain string value — lets a column return a link, badge,
-   * or icon. The `value` fn is still called for null-skipping and serves as
-   * the truncation fallback if `render` returns null.
+   * icon, colored pill, or days-countdown cell. The `value` fn is still
+   * called for null-skipping, truncation fallbacks, and search; provide a
+   * non-null string alongside any render override to keep the cell visible.
+   * Introduced with NGE-474/476/480 and reused by subsequent configs.
    */
   render?: (row: T) => ReactNode | null
   /** When true, column is hidden on narrow layouts. */
   secondary?: boolean
-  /**
-   * Optional rich renderer. When present, CoverageRow uses this ReactNode in
-   * the cell in place of the raw `value` string — but `value` is still used
-   * for null-filtering, truncation fallbacks, and search. Added for NGE-480
-   * (findings drill-down) to support colored badges, icon-bearing tags, and
-   * days-countdown cells; reused going forward by other resource configs.
-   */
-  render?: (row: T) => import("react").ReactNode
 }
 
 export type DetailField = {
   label: string
   value: string | null
   /**
-   * Optional rich renderer. CoverageDetail prefers this over `value` when
-   * present, but still uses `value` for empty-section filtering — a field
-   * with `value === null` is suppressed regardless of `render`.
-   */
-  render?: import("react").ReactNode
-}
-
-export type DetailField = {
-  label: string
-  value: string | null
-  /**
-   * Optional ReactNode override. When present, detail view renders this in
-   * place of the plain string value — lets a field return a link, badge, or
-   * decorated text. Null-filtering still uses `value`, so provide a non-null
-   * string alongside any render override to keep the field visible.
+   * Optional ReactNode override. When present, the detail view renders this
+   * in place of the plain string value — lets a field return a link, badge,
+   * or decorated text. Null-filtering still uses `value`, so provide a
+   * non-null string alongside any render override to keep the field visible.
    */
   render?: ReactNode
 }
