@@ -15,6 +15,7 @@ import {
 import { signOut } from "@/lib/actions/auth"
 import { ScoreRing } from "@/components/v2/primitives/ScoreRing"
 import type { V2Client } from "@/lib/v2/types"
+import type { CoverageSubItem } from "@/lib/v2/coverage-sub-items"
 
 // ──────────────────────────────────────────────────────────────────────────
 // Nav configuration
@@ -103,9 +104,17 @@ function formatVertical(slug: string): string {
 // Component
 // ──────────────────────────────────────────────────────────────────────────
 
-export function Sidebar({ client }: { client: V2Client }) {
+export function Sidebar({
+  client,
+  coverageSubItems = [],
+}: {
+  client: V2Client
+  coverageSubItems?: CoverageSubItem[]
+}) {
   const pathname = usePathname()
   const verdict = computeVerdictLabel(client)
+  const coverageExpanded =
+    pathname?.startsWith("/v2/coverage") ?? false
 
   return (
     <aside
@@ -151,6 +160,10 @@ export function Sidebar({ client }: { client: V2Client }) {
               {group.items.map((item) => {
                 const Icon = item.icon
                 const active = isActive(pathname, item.href)
+                const showCoverageSubs =
+                  item.href === "/v2/coverage" &&
+                  coverageExpanded &&
+                  coverageSubItems.length > 0
                 return (
                   <li key={item.href}>
                     <Link
@@ -173,6 +186,32 @@ export function Sidebar({ client }: { client: V2Client }) {
                       />
                       <span>{item.name}</span>
                     </Link>
+                    {showCoverageSubs && (
+                      <ul className="mt-0.5 mb-1 ml-8 space-y-0 border-l border-white/10">
+                        {coverageSubItems.map((sub) => {
+                          const subActive = pathname === sub.href
+                          return (
+                            <li key={sub.href}>
+                              <Link
+                                href={sub.href}
+                                className={`
+                                  block pl-4 pr-3 py-1.5 text-[13px]
+                                  border-l-2 -ml-[2px] transition-colors
+                                  ${
+                                    subActive
+                                      ? "border-crimson text-parchment"
+                                      : "border-transparent text-parchment/45 hover:text-parchment/80"
+                                  }
+                                `}
+                                aria-current={subActive ? "page" : undefined}
+                              >
+                                {sub.label}
+                              </Link>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
                   </li>
                 )
               })}
