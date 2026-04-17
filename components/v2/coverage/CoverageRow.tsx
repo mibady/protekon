@@ -68,11 +68,15 @@ export function CoverageRow({
             <dl className="text-sm text-steel font-sans grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0.5 mt-2">
               {detailCols.map((col) => {
                 const value = col.value(row)
-                if (value === null) return null
+                const rendered = col.render?.(row) ?? null
+                // Skip when both plain value and render override are empty.
+                if (value === null && rendered === null) return null
                 return (
                   <div key={col.key} className="flex gap-2 min-w-0">
                     <dt className="text-steel/70 shrink-0">{col.label}:</dt>
-                    <dd className="truncate text-midnight/80">{value}</dd>
+                    <dd className="truncate text-midnight/80">
+                      {rendered ?? value}
+                    </dd>
                   </div>
                 )
               })}
