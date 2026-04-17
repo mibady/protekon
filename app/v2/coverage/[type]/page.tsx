@@ -42,9 +42,10 @@ export default async function CoverageListPage({ params, searchParams }: Props) 
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
     )
     .eq("id", user.id)
-    .single()
+    .maybeSingle()
 
-  if (!client) redirect("/dashboard")
+  // Break the loop: /dashboard now redirects v2_enabled clients back to v2.
+  if (!client) redirect("/login?error=session_expired")
 
   // Short-circuit when the type is disabled for the client's vertical. The
   // missing-row case defaults to enabled (pre-seed tolerance), so only an

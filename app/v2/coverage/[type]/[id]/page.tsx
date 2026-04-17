@@ -35,9 +35,10 @@ export default async function CoverageDetailPage({ params }: Props) {
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
     )
     .eq("id", user.id)
-    .single()
+    .maybeSingle()
 
-  if (!client) redirect("/dashboard")
+  // Break the loop: /dashboard now redirects v2_enabled clients back to v2.
+  if (!client) redirect("/login?error=session_expired")
 
   const { data: rtvm } = await supabase
     .from("resource_type_vertical_map")

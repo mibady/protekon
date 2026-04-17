@@ -34,9 +34,11 @@ export default async function CoveragePage() {
     .from("clients")
     .select("id, business_name, vertical, compliance_score")
     .eq("id", user.id)
-    .single()
+    .maybeSingle()
 
-  if (!client) redirect("/dashboard")
+  // Break the loop: /dashboard now redirects v2_enabled clients back to v2,
+  // so any v2 page that falls back to /dashboard would bounce forever.
+  if (!client) redirect("/login?error=session_expired")
 
   const typed = client as Pick<
     V2Client,

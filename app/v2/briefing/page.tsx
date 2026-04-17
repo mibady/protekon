@@ -45,8 +45,10 @@ export default async function BriefingPage() {
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
     )
     .eq("id", user.id)
-    .single()
-  if (!clientRow) redirect("/dashboard")
+    .maybeSingle()
+  // Break the loop: /dashboard now redirects v2_enabled clients back here,
+  // so if this query fails we'd bounce forever. Force re-auth instead.
+  if (!clientRow) redirect("/login?error=session_expired")
   const client = clientRow as V2Client
 
   // Parallel fetch all five blocks. allSettled so one failure doesn't
