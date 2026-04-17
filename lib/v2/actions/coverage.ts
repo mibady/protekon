@@ -115,22 +115,45 @@ export async function getCoverageOverview(
 // ──────────────────────────────────────────────────────────────────────────
 
 /**
+ * Optional filters for listResources. Introduced with NGE-460 to support
+ * Sites hub navigation — callers can pass `?site_id=…` to scope a sibling
+ * drill-down to a single site. Filter keys are whitelisted at query-build
+ * time to keep the surface small and predictable.
+ */
+export type ListResourceFilters = {
+  site_id?: string
+}
+
+/**
  * Returns the canonical-table rows for a resource type + client. Does NOT
  * union legacy vertical-specific tables — when the view's total_count
  * exceeds rows.length, the UI renders a "N rows not yet migrated" footer.
+ *
+ * Optional `filters.site_id` — when present, the query adds
+ * `.eq('site_id', …)`. All 6 sibling hub tables (team_members, assets,
+ * inspections, permits, materials, findings) carry `site_id`; passing
+ * `site_id` for a type without that column will return [] (Postgres
+ * rejects), handled gracefully via the error branch.
  */
 export async function listResources(
   type: ResourceType,
-  clientId: string
+  clientId: string,
+  filters?: ListResourceFilters
 ): Promise<ResourceRow[]> {
   const supabase = await createClient()
   const table = TABLE_FOR[type]
 
-  const { data, error } = await supabase
+  let query = supabase
     .from(table)
     .select("*")
     .eq("client_id", clientId)
     .limit(500)
+
+  if (filters?.site_id) {
+    query = query.eq("site_id", filters.site_id)
+  }
+
+  const { data, error } = await query
 
   if (error || !data) return []
   return data as ResourceRow[]
