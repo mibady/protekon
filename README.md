@@ -33,3 +33,34 @@ To learn more, take a look at the following resources:
 - [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
 
 <a href="https://v0.app/chat/api/kiro/clone/mibady/protekon-fy" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+
+## Environment Variables
+
+Copy `.env.example` to `.env.local` and fill in real values for local development. On Vercel, set every variable for Production, Preview, and Development environments.
+
+### Scraper Project (NGE-481)
+
+The nightly intelligence mirror (`inngest/functions/mirror-intelligence-nightly.ts`) pulls from the external scraper Supabase project (`vizmtkfpxxjzlpzibate`) into the app DB table `client_intelligence_items`.
+
+| Var | Purpose |
+|---|---|
+| `SCRAPER_SUPABASE_URL` | Scraper project URL (e.g. `https://vizmtkfpxxjzlpzibate.supabase.co`). |
+| `SCRAPER_SUPABASE_SERVICE_ROLE_KEY` | Service-role key for the scraper project. Never exposed to the browser. Only consumed by the nightly mirror function via `lib/supabase/scraper.ts#createScraperServiceClient`. |
+
+Rotate these keys at the Supabase dashboard for project `vizmtkfpxxjzlpzibate`, then update all Vercel environments.
+
+## Inngest Cron Catalog
+
+| Function | Cron (UTC) | Local | Purpose |
+|---|---|---|---|
+| `mirror-intelligence-nightly` | `0 10 * * *` | 2 AM PST / 3 AM PDT | Mirror scraper intelligence (`protekon_v_notable_stories`, `protekon_regulatory_updates`, `protekon_anomaly_events`) into the app DB for Briefing's intelligence block. 24h staleness acceptable. |
+
+Manual trigger via Inngest dashboard "Invoke" or:
+
+```bash
+curl -X POST "$INNGEST_URL/e/$INNGEST_EVENT_KEY" \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"inngest/function.invoked","data":{"function_id":"mirror-intelligence-nightly"}}'
+```
+
+First-run catchup: the 14/30/14-day windows backfill automatically.

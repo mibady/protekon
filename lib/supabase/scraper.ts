@@ -19,3 +19,28 @@ export function createScraperClient() {
     auth: { persistSession: false },
   })
 }
+
+/**
+ * Service-role client for the SCRAPER project (vizmtkfpxxjzlpzibate).
+ *
+ * DO NOT USE IN SERVER ACTIONS OR API ROUTES.
+ * Only legitimate caller: inngest/functions/mirror-intelligence-nightly.ts
+ * (NGE-481). Follow-up ticket will add an ESLint `no-restricted-imports` rule
+ * limiting the import site to that file.
+ *
+ * Env vars:
+ *   SCRAPER_SUPABASE_URL              — Scraper project URL
+ *   SCRAPER_SUPABASE_SERVICE_ROLE_KEY — Foreign-project admin key. Never expose to browser.
+ */
+export function createScraperServiceClient() {
+  const url = process.env.SCRAPER_SUPABASE_URL
+  const key = process.env.SCRAPER_SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) {
+    throw new Error(
+      "SCRAPER_SUPABASE_URL and SCRAPER_SUPABASE_SERVICE_ROLE_KEY required."
+    )
+  }
+  return createSupabaseClient(url, key, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
+}
