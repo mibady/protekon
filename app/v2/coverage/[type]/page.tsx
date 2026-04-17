@@ -41,7 +41,7 @@ export default async function CoverageListPage({ params, searchParams }: Props) 
     .select(
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
     )
-    .eq("id", user.id)
+    .eq("email", user.email!)
     .maybeSingle()
 
   // Break the loop: /dashboard now redirects v2_enabled clients back to v2.

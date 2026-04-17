@@ -33,7 +33,7 @@ export default async function CoveragePage() {
   const { data: client } = await supabase
     .from("clients")
     .select("id, business_name, vertical, compliance_score")
-    .eq("id", user.id)
+    .eq("email", user.email!)
     .maybeSingle()
 
   // Break the loop: /dashboard now redirects v2_enabled clients back to v2,

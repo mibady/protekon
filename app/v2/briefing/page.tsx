@@ -44,7 +44,7 @@ export default async function BriefingPage() {
     .select(
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
     )
-    .eq("id", user.id)
+    .eq("email", user.email!)
     .maybeSingle()
   // Break the loop: /dashboard now redirects v2_enabled clients back here,
   // so if this query fails we'd bounce forever. Force re-auth instead.

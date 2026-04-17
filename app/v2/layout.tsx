@@ -36,14 +36,17 @@ export default async function V2Layout({
     redirect("/login?next=/v2")
   }
 
-  // Single query — grab everything the sidebar and gate need in one round trip.
-  // clients.id = auth.uid() per project convention (no user_id FK on this table).
+  // Look up the client by email. Most rows created via signUp have
+  // clients.id === auth.uid(), but seeded clients (e.g. Coastal Health
+  // Group) were inserted with their own UUIDs and only match on email.
+  // lib/actions/intake.ts uses the same pattern — keeping one canonical
+  // join column avoids the silent-null class of bugs.
   const { data: client } = await supabase
     .from("clients")
     .select(
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
     )
-    .eq("id", user.id)
+    .eq("email", user.email!)
     .maybeSingle()
 
   if (!client) {
