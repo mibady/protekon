@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { Sidebar } from "@/components/v2/Sidebar"
 import { coverageSubItemsFor } from "@/lib/v2/coverage-sub-items"
 import type { V2Client } from "@/lib/v2/types"
@@ -36,12 +37,14 @@ export default async function V2Layout({
     redirect("/login?next=/v2")
   }
 
-  // Look up the client by email. Most rows created via signUp have
-  // clients.id === auth.uid(), but seeded clients (e.g. Coastal Health
-  // Group) were inserted with their own UUIDs and only match on email.
-  // lib/actions/intake.ts uses the same pattern — keeping one canonical
-  // join column avoids the silent-null class of bugs.
-  const { data: client } = await supabase
+  // Look up the client by email using the admin client. RLS on `clients`
+  // is scoped to `id = auth.uid()` — fine for signUp-created rows but
+  // blocks seeded rows where clients.id ≠ auth.uid(). Admin bypass is
+  // safe here because (a) identity was already verified via
+  // auth.getUser() above and (b) we scope the lookup to the verified
+  // email. Same pattern as lib/actions/intake.ts.
+  const admin = createAdminClient()
+  const { data: client } = await admin
     .from("clients")
     .select(
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"

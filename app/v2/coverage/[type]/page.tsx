@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { isResourceType } from "@/lib/v2/coverage-types"
 import { CoverageDrillDown } from "@/components/v2/CoverageDrillDown"
 import type { V2Client } from "@/lib/v2/types"
@@ -36,7 +37,9 @@ export default async function CoverageListPage({ params, searchParams }: Props) 
   } = await supabase.auth.getUser()
   if (!user) redirect(`/login?next=/v2/coverage/${type}`)
 
-  const { data: client } = await supabase
+  // Admin client bypasses RLS for the self-lookup — see app/v2/layout.tsx.
+  const admin = createAdminClient()
+  const { data: client } = await admin
     .from("clients")
     .select(
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"

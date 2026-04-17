@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { redirect } from "next/navigation"
 import {
   getPosture,
@@ -39,7 +40,11 @@ export default async function BriefingPage() {
   } = await supabase.auth.getUser()
   if (!user) redirect("/login")
 
-  const { data: clientRow } = await supabase
+  // Admin client bypasses RLS for the self-lookup — see app/v2/layout.tsx
+  // for the full rationale. Identity is already verified via
+  // supabase.auth.getUser() above.
+  const admin = createAdminClient()
+  const { data: clientRow } = await admin
     .from("clients")
     .select(
       "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"

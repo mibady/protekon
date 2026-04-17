@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { SectionLabel } from "@/components/v2/primitives/SectionLabel"
 import {
   getCoverageOverview,
@@ -30,7 +31,9 @@ export default async function CoveragePage() {
 
   if (!user) redirect("/login?next=/v2/coverage")
 
-  const { data: client } = await supabase
+  // Admin client bypasses RLS for the self-lookup — see app/v2/layout.tsx.
+  const admin = createAdminClient()
+  const { data: client } = await admin
     .from("clients")
     .select("id, business_name, vertical, compliance_score")
     .eq("email", user.email!)
