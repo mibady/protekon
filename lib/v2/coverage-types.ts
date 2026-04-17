@@ -110,6 +110,25 @@ export type ColumnDef<T = ResourceRow> = {
   render?: (row: T) => ReactNode | null
   /** When true, column is hidden on narrow layouts. */
   secondary?: boolean
+  /**
+   * Optional rich renderer. When present, CoverageRow uses this ReactNode in
+   * the cell in place of the raw `value` string — but `value` is still used
+   * for null-filtering, truncation fallbacks, and search. Added for NGE-480
+   * (findings drill-down) to support colored badges, icon-bearing tags, and
+   * days-countdown cells; reused going forward by other resource configs.
+   */
+  render?: (row: T) => import("react").ReactNode
+}
+
+export type DetailField = {
+  label: string
+  value: string | null
+  /**
+   * Optional rich renderer. CoverageDetail prefers this over `value` when
+   * present, but still uses `value` for empty-section filtering — a field
+   * with `value === null` is suppressed regardless of `render`.
+   */
+  render?: import("react").ReactNode
 }
 
 export type DetailField = {
