@@ -53,9 +53,19 @@ export default async function V2Layout({
     .maybeSingle()
 
   if (!client) {
-    // Account in auth but no matching client row — likely a partner or
-    // admin from a parallel surface. Force re-auth instead of bouncing to
-    // a now-deleted /dashboard.
+    // Account in auth but no matching client row — could be a partner.
+    // Check partner_profiles before showing unauthorized; if approved,
+    // route them to /partner instead of dead-ending here.
+    const { data: partner } = await supabase
+      .from("partner_profiles")
+      .select("status")
+      .eq("user_id", user.id)
+      .maybeSingle()
+
+    if (partner?.status === "approved") {
+      redirect("/partner")
+    }
+
     redirect("/login?error=unauthorized")
   }
 

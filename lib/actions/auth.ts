@@ -4,18 +4,19 @@ import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import type { ActionResult } from "@/lib/types"
 import { safeRedirect } from "@/lib/safe-redirect"
+import { resolveLandingPath } from "@/lib/auth/landing"
 
 export async function signIn(formData: FormData): Promise<ActionResult> {
   const supabase = await createClient()
 
   const email = formData.get("email") as string
   const password = formData.get("password") as string
-  // /dashboard is the canonical post-auth home. next.config rewrites /dashboard/*
-  // to /v2/* transparently, so this single redirect target covers both old
-  // bookmarks and the new UI without any client-visible roundtrip.
-  const nextPath = safeRedirect(formData.get("next") as string | null, "/dashboard")
+  const nextParam = formData.get("next") as string | null
+  // Honor ?next= only if the caller explicitly supplied a safe one.
+  // Empty string distinguishes "no next" from "explicit /dashboard".
+  const explicitNext = nextParam ? safeRedirect(nextParam, "") : ""
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
@@ -24,7 +25,22 @@ export async function signIn(formData: FormData): Promise<ActionResult> {
     return { error: error.message }
   }
 
-  redirect(nextPath)
+  if (explicitNext) {
+    redirect(explicitNext)
+  }
+
+  // Role-aware landing — partners → /partner, clients → /dashboard
+  // (which rewrites to v2 content), neither → unauthorized.
+  if (data.user) {
+    const landing = await resolveLandingPath(
+      supabase,
+      data.user.id,
+      data.user.email
+    )
+    redirect(landing)
+  }
+
+  redirect("/dashboard")
 }
 
 export async function signUp(formData: FormData): Promise<ActionResult> {

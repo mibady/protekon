@@ -1,14 +1,15 @@
 import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
 import { safeRedirect } from "@/lib/safe-redirect"
+import { resolveLandingPath } from "@/lib/auth/landing"
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get("code")
-  // /dashboard is the canonical post-auth home. next.config rewrites
-  // /dashboard/* to /v2/* transparently, so we redirect here and the user
-  // sees the v2 surface without a client-visible URL roundtrip.
-  const next = safeRedirect(searchParams.get("next"), "/dashboard")
+  const nextParam = searchParams.get("next")
+  // Honor explicit ?next= only when supplied + safe. Empty string
+  // distinguishes "no next" from "explicit /dashboard".
+  const explicitNext = nextParam ? safeRedirect(nextParam, "") : ""
 
   if (code) {
     const supabase = await createClient()
@@ -21,8 +22,16 @@ export async function GET(request: Request) {
           .from("clients")
           .update({ last_login_at: new Date().toISOString() })
           .eq("id", user.id)
+
+        if (explicitNext) {
+          return NextResponse.redirect(`${origin}${explicitNext}`)
+        }
+
+        // Role-aware landing — partners → /partner, clients → /dashboard.
+        const landing = await resolveLandingPath(supabase, user.id, user.email)
+        return NextResponse.redirect(`${origin}${landing}`)
       }
-      return NextResponse.redirect(`${origin}${next}`)
+      return NextResponse.redirect(`${origin}/dashboard`)
     }
   }
 
