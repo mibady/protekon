@@ -40,21 +40,26 @@ export default async function BriefingPage() {
   } = await supabase.auth.getUser()
   if (!user) redirect("/login")
 
-  // Admin client bypasses RLS for the self-lookup — see app/v2/layout.tsx
-  // for the full rationale. Identity is already verified via
-  // supabase.auth.getUser() above.
+  // Admin client bypasses RLS for the self-lookup — see app/dashboard/layout.tsx
+  // for the full rationale. Column list matches actual prod schema; `state`
+  // and `onboarding_completed_at` aren't real columns on `clients`.
   const admin = createAdminClient()
-  const { data: clientRow } = await admin
+  const { data: clientRow, error: clientErr } = await admin
     .from("clients")
-    .select(
-      "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
-    )
+    .select("id, business_name, vertical, compliance_score, v2_enabled")
     .eq("email", user.email!)
     .maybeSingle()
-  // Break the loop: /dashboard now redirects v2_enabled clients back here,
-  // so if this query fails we'd bounce forever. Force re-auth instead.
+
+  if (clientErr) {
+    console.error("[dashboard/page] clients lookup error:", clientErr)
+  }
+
   if (!clientRow) redirect("/login?error=session_expired")
-  const client = clientRow as V2Client
+  const client = {
+    ...clientRow,
+    state: null,
+    onboarding_completed_at: null,
+  } as V2Client
 
   // Parallel fetch all five blocks. allSettled so one failure doesn't
   // cascade.

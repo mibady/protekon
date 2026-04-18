@@ -37,17 +37,19 @@ export default async function CoverageListPage({ params, searchParams }: Props) 
   } = await supabase.auth.getUser()
   if (!user) redirect(`/login?next=/v2/coverage/${type}`)
 
-  // Admin client bypasses RLS for the self-lookup — see app/v2/layout.tsx.
+  // Admin client bypasses RLS for the self-lookup — see app/dashboard/layout.tsx.
+  // Select only columns that exist in prod schema.
   const admin = createAdminClient()
-  const { data: client } = await admin
+  const { data: client, error: clientErr } = await admin
     .from("clients")
-    .select(
-      "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
-    )
+    .select("id, business_name, vertical, compliance_score, v2_enabled")
     .eq("email", user.email!)
     .maybeSingle()
 
-  // Break the loop: /dashboard now redirects v2_enabled clients back to v2.
+  if (clientErr) {
+    console.error("[dashboard/coverage/[type]] clients lookup error:", clientErr)
+  }
+
   if (!client) redirect("/login?error=session_expired")
 
   // Short-circuit when the type is disabled for the client's vertical. The

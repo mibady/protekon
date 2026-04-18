@@ -34,28 +34,30 @@ export default async function V2Layout({
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect("/login?next=/v2")
+    redirect("/login?next=/dashboard")
   }
 
-  // Look up the client by email using the admin client. RLS on `clients`
-  // is scoped to `id = auth.uid()` — fine for signUp-created rows but
-  // blocks seeded rows where clients.id ≠ auth.uid(). Admin bypass is
-  // safe here because (a) identity was already verified via
-  // auth.getUser() above and (b) we scope the lookup to the verified
-  // email. Same pattern as lib/actions/intake.ts.
+  // Admin client bypasses RLS for the self-lookup. Identity is already
+  // verified via auth.getUser() above. Same pattern as lib/actions/intake.ts.
+  //
+  // Column list MUST match the actual prod schema. `state` and
+  // `onboarding_completed_at` are V2Client-typed optionals but DO NOT
+  // exist on the `clients` table — including them in the select made
+  // PostgREST silently return null for the whole row, which the layout
+  // misclassified as "no client found" → unauthorized redirect. Always
+  // log the error to catch the next column-typo regression early.
   const admin = createAdminClient()
-  const { data: client } = await admin
+  const { data: client, error: clientErr } = await admin
     .from("clients")
-    .select(
-      "id, business_name, vertical, state, compliance_score, v2_enabled, onboarding_completed_at"
-    )
+    .select("id, business_name, vertical, compliance_score, v2_enabled")
     .eq("email", user.email!)
     .maybeSingle()
 
+  if (clientErr) {
+    console.error("[dashboard/layout] clients lookup error:", clientErr)
+  }
+
   if (!client) {
-    // Account in auth but no matching client row — could be a partner.
-    // Check partner_profiles before showing unauthorized; if approved,
-    // route them to /partner instead of dead-ending here.
     const { data: partner } = await supabase
       .from("partner_profiles")
       .select("status")
@@ -69,7 +71,11 @@ export default async function V2Layout({
     redirect("/login?error=unauthorized")
   }
 
-  const typed = client as V2Client
+  const typed = {
+    ...client,
+    state: null,
+    onboarding_completed_at: null,
+  } as V2Client
 
   // Primary Coverage sub-items for this vertical. Rendered as indented nav
   // entries under the Coverage item when the user is on a /v2/coverage/*
