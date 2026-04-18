@@ -88,7 +88,7 @@ export function SitesHubDetail({
             {loadTiles.map((tile) => (
               <Link
                 key={tile.type}
-                href={`/v2/coverage/${tile.type}?site_id=${siteId}`}
+                href={`/dashboard/coverage/${tile.type}?site_id=${siteId}`}
                 className="group flex items-baseline justify-between bg-white p-5 hover:bg-parchment transition-colors"
               >
                 <div>

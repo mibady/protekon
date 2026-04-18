@@ -501,7 +501,7 @@ export const thirdPartiesConfig: ResourceConfig<ResourceRow> = {
   // surface so the officer can capture the first partner conversationally.
   primaryAction: {
     label: "Add a third party",
-    href: () => `/v2/chat?q=${encodeURIComponent("Add a third party")}`,
+    href: () => `/dashboard/chat?q=${encodeURIComponent("Add a third party")}`,
   },
 }
 

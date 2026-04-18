@@ -27,7 +27,7 @@ export function ActionItemCard({ item }: { item: ActionItem }) {
   // back to chat with the title as the prefilled message — the user can
   // always ask the officer about it.
   const href =
-    item.cta_href ?? `/v2/chat?q=${encodeURIComponent(item.title)}`
+    item.cta_href ?? `/dashboard/chat?q=${encodeURIComponent(item.title)}`
   const ctaLabel = item.cta_label ?? "Handle it"
 
   return (

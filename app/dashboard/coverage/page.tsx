@@ -107,7 +107,7 @@ export default async function CoveragePage() {
 
 function CoverageTile({ row }: { row: CoverageOverviewRow }) {
   const Icon = RESOURCE_ICONS[row.resource_type]
-  const href = `/v2/coverage/${row.resource_type}`
+  const href = `/dashboard/coverage/${row.resource_type}`
 
   return (
     <Link

@@ -34,22 +34,22 @@ const NAV_GROUPS = [
   {
     label: "TODAY",
     items: [
-      { name: "Briefing", href: "/v2/briefing", icon: House },
+      { name: "Briefing", href: "/dashboard", icon: House },
     ],
   },
   {
     label: "MY BUSINESS",
     items: [
-      { name: "Coverage", href: "/v2/coverage", icon: ShieldCheck },
-      { name: "Documents", href: "/v2/documents", icon: FileText },
-      { name: "Activity", href: "/v2/activity", icon: ClockCounterClockwise },
+      { name: "Coverage", href: "/dashboard/coverage", icon: ShieldCheck },
+      { name: "Documents", href: "/dashboard/documents", icon: FileText },
+      { name: "Activity", href: "/dashboard/activity", icon: ClockCounterClockwise },
     ],
   },
   {
     label: "INTELLIGENCE",
     items: [
-      { name: "What's Happening", href: "/v2/whats-happening", icon: Newspaper },
-      { name: "Marketplace", href: "/v2/marketplace", icon: Storefront },
+      { name: "What's Happening", href: "/dashboard/whats-happening", icon: Newspaper },
+      { name: "Marketplace", href: "/dashboard/marketplace", icon: Storefront },
     ],
   },
 ] as const
@@ -114,7 +114,7 @@ export function Sidebar({
   const pathname = usePathname()
   const verdict = computeVerdictLabel(client)
   const coverageExpanded =
-    pathname?.startsWith("/v2/coverage") ?? false
+    pathname?.startsWith("/dashboard/coverage") ?? false
 
   return (
     <aside
@@ -123,7 +123,7 @@ export function Sidebar({
     >
       {/* Wordmark */}
       <div className="px-6 pt-6 pb-4">
-        <Link href="/v2/briefing" className="inline-block group">
+        <Link href="/dashboard" className="inline-block group">
           <div className="font-display text-2xl tracking-tight leading-none">
             PROT<span className="text-crimson">E</span>KON
           </div>
@@ -161,7 +161,7 @@ export function Sidebar({
                 const Icon = item.icon
                 const active = isActive(pathname, item.href)
                 const showCoverageSubs =
-                  item.href === "/v2/coverage" &&
+                  item.href === "/dashboard/coverage" &&
                   coverageExpanded &&
                   coverageSubItems.length > 0
                 return (
@@ -223,12 +223,12 @@ export function Sidebar({
       {/* Account footer */}
       <div className="px-3 py-3 border-t border-white/5">
         <Link
-          href="/v2/my-business"
+          href="/dashboard/my-business"
           className={`
             flex items-center gap-3 px-3 py-2 text-sm rounded-none
             border-l-2 transition-colors
             ${
-              isActive(pathname, "/v2/my-business")
+              isActive(pathname, "/dashboard/my-business")
                 ? "bg-crimson/[.07] border-crimson text-parchment"
                 : "border-transparent text-parchment/55 hover:text-parchment hover:bg-white/[.03]"
             }

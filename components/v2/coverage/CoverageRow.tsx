@@ -36,8 +36,8 @@ export function CoverageRow({
 
   const rowId = (row.id as string | undefined) ?? ""
   const href = rowId
-    ? `/v2/coverage/${resourceType}/${rowId}`
-    : `/v2/coverage/${resourceType}`
+    ? `/dashboard/coverage/${resourceType}/${rowId}`
+    : `/dashboard/coverage/${resourceType}`
 
   return (
     <Link

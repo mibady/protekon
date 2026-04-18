@@ -21,7 +21,7 @@ export function CoverageHeader({
   mode: "list" | "detail"
 }) {
   const backHref =
-    mode === "detail" ? `/v2/coverage/${resourceType}` : `/v2/coverage`
+    mode === "detail" ? `/dashboard/coverage/${resourceType}` : `/dashboard/coverage`
   const backLabel = mode === "detail" ? `Back to ${label}` : "Back to Coverage"
   const heading = mode === "detail" ? singular : label
 

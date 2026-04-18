@@ -24,7 +24,7 @@ export function UnderConstruction({
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 px-8 pt-12 pb-8 max-w-2xl w-full mx-auto">
         <Link
-          href="/v2/briefing"
+          href="/dashboard"
           className="inline-flex items-center gap-2 text-sm text-steel hover:text-midnight font-sans mb-8 transition-colors"
         >
           <ArrowLeft size={14} />

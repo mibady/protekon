@@ -23,7 +23,7 @@ export function CoverageListFilterPill({
           <span className="text-midnight font-medium">{label}</span>
         </span>
         <Link
-          href={`/v2/coverage/${resourceType}`}
+          href={`/dashboard/coverage/${resourceType}`}
           className="inline-flex items-center gap-1 text-steel/70 hover:text-midnight transition-colors"
           aria-label="Clear site filter"
         >

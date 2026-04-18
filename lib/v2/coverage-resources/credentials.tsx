@@ -41,7 +41,7 @@ function PoolBadge() {
 function HolderLink({ id, name }: { id: string; name: string }) {
   return (
     <Link
-      href={`/v2/coverage/team/${id}`}
+      href={`/dashboard/coverage/team/${id}`}
       className="text-midnight underline decoration-steel/40 underline-offset-2 hover:decoration-crimson hover:text-crimson"
     >
       {name}

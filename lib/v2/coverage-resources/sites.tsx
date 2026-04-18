@@ -158,7 +158,7 @@ export const sitesConfig: ResourceConfig<ResourceRow> = {
     label: "Add a site",
     // Sites are owner-managed. This routes to the my-business surface
     // (NGE-429 journey), NOT to an auto-generation flow.
-    href: () => "/v2/my-business/sites",
+    href: () => "/dashboard/my-business/sites",
   },
 }
 

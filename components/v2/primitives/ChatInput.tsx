@@ -32,7 +32,7 @@ export function ChatInput({
     // Pass the pre-filled message via query param; the chat page reads it
     // and starts the conversation on mount.
     const params = new URLSearchParams({ q: text.trim() })
-    router.push(`/v2/chat?${params.toString()}`)
+    router.push(`/dashboard/chat?${params.toString()}`)
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {

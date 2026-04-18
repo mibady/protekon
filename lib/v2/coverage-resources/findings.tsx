@@ -537,7 +537,7 @@ export const findingsConfig: ResourceConfig<ResourceRow> = {
   },
   primaryAction: {
     label: "Log a new finding",
-    href: () => `/v2/chat?q=${encodeURIComponent("Log a new finding")}`,
+    href: () => `/dashboard/chat?q=${encodeURIComponent("Log a new finding")}`,
   },
 }
 

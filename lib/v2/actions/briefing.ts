@@ -401,10 +401,10 @@ function deriveLinkUrl(
   // Map subject_type to the appropriate v2 surface. Keep this list aligned
   // with routes as they come online.
   const routes: Record<string, string> = {
-    document: `/v2/documents/${subject_id}`,
-    incident: `/v2/incidents/${subject_id}`,
-    training_record: `/v2/my-business/team/training/${subject_id}`,
-    alert: `/v2/activity#${subject_id}`,
+    document: `/dashboard/documents/${subject_id}`,
+    incident: `/dashboard/incidents/${subject_id}`,
+    training_record: `/dashboard/my-business/team/training/${subject_id}`,
+    alert: `/dashboard/activity#${subject_id}`,
   }
   return routes[subject_type] ?? null
 }

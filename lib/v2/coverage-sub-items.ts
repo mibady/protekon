@@ -58,7 +58,7 @@ export async function coverageSubItemsFor(
     return {
       slug,
       label,
-      href: `/v2/coverage/${slug}`,
+      href: `/dashboard/coverage/${slug}`,
     }
   })
 }
