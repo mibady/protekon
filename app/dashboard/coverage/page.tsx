@@ -2,7 +2,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
-import { SectionLabel } from "@/components/v2/primitives/SectionLabel"
+import { PageHeader } from "@/components/v2/primitives/PageHeader"
 import {
   getCoverageOverview,
   type CoverageOverviewRow,
@@ -57,16 +57,11 @@ export default async function CoveragePage() {
   return (
     <div className="min-h-screen">
       <div className="px-8 pt-12 pb-12 max-w-6xl w-full mx-auto">
-        <SectionLabel>Coverage</SectionLabel>
-
-        <h1 className="font-display text-[32px] leading-tight text-midnight mb-3">
-          Here&apos;s everything I&apos;m covering for you.
-        </h1>
-        <p className="text-base font-sans text-steel max-w-2xl leading-relaxed mb-10">
-          Every resource type I maintain on your behalf — people, places,
-          documents, third parties. Open any tile to see the full list and
-          drill into specific records.
-        </p>
+        <PageHeader
+          eyebrow="MY BUSINESS · COVERAGE"
+          title="Here's everything I'm covering for you."
+          subtitle="Every resource type I maintain on your behalf — people, places, documents, third parties. Open any tile to see the full list and drill into specific records."
+        />
 
         {/* Primary tiles — always visible */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
