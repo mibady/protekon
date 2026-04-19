@@ -35,3 +35,6 @@ public/images/2026-*
 # Windows alternate data streams
 *:Zone.Identifier
 /_archive/
+
+# Remix design source (fully ported in waves v3 → Integrations MVP)
+/protekon dashboard(Remix)/

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROTEKON — Brand Identity System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{--midnight:#0B1D3A;--crimson:#C41230;--gold:#C9A84C;--void:#070F1E;--parchment:#F4EFE6;--ash:#E8E2D8;--steel:#7A8FA5;--fog:#B8C5D1;--white:#FAFAF8;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--parchment);color:var(--midnight);line-height:1.6;}
+.bc{font-family:'Barlow Condensed',sans-serif;}
+.eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--crimson);}
+.eyebrow-gold{color:var(--gold);}
+/* COVER */
+.cover{background:var(--void);min-height:100vh;display:grid;grid-template-columns:55% 45%;}
+.cover-left{padding:88px 80px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid rgba(255,255,255,0.06);}
+.cover-right{display:flex;align-items:center;justify-content:center;background:var(--midnight);position:relative;overflow:hidden;}
+.cover-right-wm{position:absolute;opacity:0.03;pointer-events:none;}
+.cover-brand{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:100px;line-height:.88;letter-spacing:2px;text-transform:uppercase;color:var(--white);}
+.cover-brand .k{color:var(--crimson);}
+.cover-meta{display:flex;flex-direction:column;gap:28px;}
+.cover-tagline{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:26px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.cover-desc{font-size:13px;font-weight:300;color:var(--steel);line-height:1.75;max-width:320px;}
+.cover-stamp{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.15);display:flex;align-items:center;gap:12px;}
+.cover-stamp::before{content:'';display:block;width:20px;height:1px;background:rgba(255,255,255,0.15);}
+.mark-display{display:flex;flex-direction:column;align-items:center;gap:32px;position:relative;z-index:1;}
+.wordmark-sub{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;letter-spacing:9px;text-transform:uppercase;color:rgba(255,255,255,0.4);}
+/* LOGO SECTION */
+.section-dark{background:var(--void);}
+.section-light{background:var(--parchment);}
+.section-mid{background:var(--midnight);}
+.section-ash{background:var(--ash);}
+.section-head{padding:88px 80px 56px;position:relative;}
+.section-head-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;}
+.s-title-dark{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:56px;line-height:.95;letter-spacing:-1px;text-transform:uppercase;color:var(--white);margin-top:16px;}
+.s-title-light{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:56px;line-height:.95;letter-spacing:-1px;text-transform:uppercase;color:var(--midnight);margin-top:16px;}
+.s-desc-dark{font-size:14px;color:var(--steel);line-height:1.75;font-weight:300;max-width:380px;}
+.s-desc-light{font-size:14px;color:#5A6A7E;line-height:1.75;font-weight:300;max-width:380px;}
+/* Logo variants */
+.logo-grid{display:grid;grid-template-columns:1fr 1fr;}
+.lv{padding:64px;border-right:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);}
+.lv:nth-child(2n){border-right:none;}
+.lv:nth-child(3),.lv:nth-child(4){border-bottom:none;}
+.lv-light{background:var(--parchment);}
+.vlabel{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:500;color:rgba(255,255,255,.3);margin-bottom:40px;}
+.vlabel-d{color:var(--steel);}
+.lh{display:flex;align-items:center;gap:20px;}
+.wm{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;letter-spacing:7px;text-transform:uppercase;color:var(--white);}
+.wm .k{color:var(--crimson);}
+.wm-dark{color:var(--midnight);}
+.wm-dark .k{color:var(--crimson);}
+.wm-tag{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-top:6px;}
+.wm-tag-d{color:var(--steel);}
+.sz-row{display:flex;align-items:flex-end;gap:28px;margin-top:40px;}
+.sz-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:6px;text-align:center;}
+.sz-lbl-d{color:var(--steel);}
+/* Color bands */
+.color-band{display:grid;grid-template-columns:1fr 280px;align-items:center;padding:36px 80px;border-top:1px solid rgba(255,255,255,0.04);}
+.cb-swatch{display:flex;align-items:center;gap:24px;}
+.sw-circle{width:52px;height:52px;border-radius:50%;flex-shrink:0;}
+.sw-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:2px;}
+.sw-hex{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:12px;letter-spacing:2px;color:var(--steel);}
+.sw-use{font-size:12px;color:var(--steel);line-height:1.6;font-weight:300;text-align:right;}
+.combo-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,0.04);}
+.combo-cell{padding:28px 32px;border-right:1px solid rgba(255,255,255,0.04);}
+.combo-cell:last-child{border-right:none;}
+.combo-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;letter-spacing:2px;text-transform:uppercase;}
+.combo-meta{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--steel);line-height:1.6;margin-top:10px;}
+/* Type section */
+.type-hero{padding:88px 80px 0;border-bottom:1px solid rgba(11,29,58,0.08);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;padding-bottom:64px;}
+.type-huge{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:88px;line-height:.88;letter-spacing:-2px;text-transform:uppercase;color:var(--midnight);}
+.type-huge .k{color:var(--crimson);}
+.tscale-row{display:grid;grid-template-columns:100px 1fr;gap:32px;align-items:baseline;padding:20px 80px;border-bottom:1px solid rgba(11,29,58,0.06);}
+.ts-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--steel);}
+/* Tagline section */
+.tag-massive{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:96px;line-height:.88;letter-spacing:-2px;text-transform:uppercase;color:var(--white);}
+.tag-row{display:grid;grid-template-columns:140px 1fr auto;gap:32px;align-items:center;padding:26px 0;border-top:1px solid rgba(255,255,255,0.06);}
+.tag-row:last-child{border-bottom:1px solid rgba(255,255,255,0.06);}
+.tr-label{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--steel);}
+.tr-text{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:22px;letter-spacing:2px;text-transform:uppercase;color:var(--white);}
+.tr-note{font-size:11px;color:var(--steel);font-style:italic;font-weight:300;}
+/* Voice */
+.vp-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(11,29,58,0.1);}
+.vp{padding:40px 36px;border-right:1px solid rgba(11,29,58,0.08);}
+.vp:last-child{border-right:none;}
+.vp-n{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:48px;color:var(--crimson);opacity:.12;line-height:1;margin-bottom:20px;}
+.vp-t{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;letter-spacing:1px;text-transform:uppercase;color:var(--midnight);margin-bottom:12px;}
+.vp-d{font-size:13px;color:#5A6A7E;line-height:1.7;font-weight:300;margin-bottom:20px;}
+.vp-ex{font-size:12px;color:var(--midnight);line-height:1.65;font-style:italic;padding-top:16px;border-top:1px solid rgba(11,29,58,0.08);}
+.dd-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(11,29,58,0.1);}
+.dd-col{padding:48px;}
+.dd-col.do{border-right:1px solid rgba(11,29,58,0.08);}
+.dd-hd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;}
+.dd-hd.do{color:var(--midnight);}
+.dd-hd.dont{color:var(--crimson);}
+.dd-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+.dd-list li{font-size:13px;font-weight:400;color:#4A5568;line-height:1.55;padding-left:18px;position:relative;}
+.dd-list.do li::before{content:'—';position:absolute;left:0;color:var(--midnight);font-weight:700;}
+.dd-list.dont li::before{content:'×';position:absolute;left:0;color:var(--crimson);font-weight:700;}
+/* Copy */
+.copy-grid{display:grid;grid-template-columns:1fr 1fr;}
+.cp{padding:64px;border-right:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);}
+.cp:nth-child(2n){border-right:none;}
+.cp:nth-child(3),.cp:nth-child(4){border-bottom:none;}
+.cp-type{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:32px;display:flex;align-items:center;gap:10px;}
+.cp-type::before{content:'';display:block;width:16px;height:1px;background:var(--gold);}
+.cp-headline{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:44px;line-height:1;text-transform:uppercase;letter-spacing:-.5px;color:var(--white);margin-bottom:20px;}
+.cp-sub{font-size:14px;color:var(--fog);line-height:1.75;font-weight:300;margin-bottom:24px;max-width:380px;}
+.cp-cta{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(201,168,76,0.4);padding-bottom:4px;}
+.cp-subj{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;letter-spacing:.5px;text-transform:uppercase;color:var(--crimson);margin-bottom:20px;line-height:1.2;}
+.cp-body{font-size:13px;color:var(--fog);line-height:1.85;font-weight:300;}
+.cp-body strong{color:var(--white);font-weight:500;}
+.cp-social{border-left:2px solid var(--gold);padding-left:20px;}
+.cp-social-text{font-size:14px;color:var(--white);line-height:1.85;font-weight:300;margin-bottom:20px;}
+.ad-lines{display:flex;flex-direction:column;}
+.ad-line{padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;letter-spacing:1px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:12px;}
+.ad-line::before{content:'';display:block;width:8px;height:8px;background:var(--crimson);flex-shrink:0;}
+.ad-line:first-child{border-top:1px solid rgba(255,255,255,0.05);}
+/* Apps */
+.biz-card{width:368px;height:208px;background:var(--midnight);position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(7,15,30,0.3);}
+.biz-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--crimson);}
+.biz-card-wm{position:absolute;bottom:-20px;right:-10px;opacity:0.04;}
+.biz-inner{position:relative;z-index:1;height:100%;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;}
+.biz-brand-n{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;letter-spacing:7px;text-transform:uppercase;color:var(--white);}
+.biz-brand-n .k{color:var(--crimson);}
+.biz-tag-sm{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-top:3px;}
+.biz-bot{display:flex;justify-content:space-between;align-items:flex-end;}
+.biz-n{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--white);}
+.biz-role{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--steel);font-weight:400;margin-top:2px;}
+.biz-ct{text-align:right;font-size:11px;color:var(--steel);line-height:1.7;font-weight:300;}
+.biz-ct a{color:var(--gold);text-decoration:none;}
+.biz-back{width:368px;height:208px;background:var(--crimson);display:flex;align-items:center;justify-content:center;margin-top:12px;box-shadow:0 24px 64px rgba(7,15,30,0.3);}
+.biz-back-inner{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.biz-back-brand{font-family:'Barlow Condensed',sans-serif;font-weight:200;font-size:13px;letter-spacing:8px;text-transform:uppercase;color:rgba(255,255,255,0.6);}
+.email-sig{background:var(--white);display:inline-block;padding:28px 36px;border-left:3px solid var(--crimson);box-shadow:0 4px 24px rgba(11,29,58,0.08);max-width:380px;}
+.sig-n{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;letter-spacing:2px;text-transform:uppercase;color:var(--midnight);}
+.sig-r{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--crimson);font-weight:500;margin-bottom:18px;}
+.sig-div{height:1px;background:var(--ash);margin:0 0 18px;}
+.sig-bn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;letter-spacing:5px;text-transform:uppercase;color:var(--midnight);}
+.sig-bn .k{color:var(--crimson);}
+.sig-tg{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:2px;margin-bottom:14px;}
+.sig-det{font-size:11px;color:#7A8FA5;line-height:1.75;font-weight:300;}
+.sig-det a{color:var(--crimson);text-decoration:none;}
+.app-ico{background:var(--midnight);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(7,15,30,0.25);}
+/* Back cover */
+.back-cover{background:var(--void);padding:120px 80px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.back-brand{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:52px;letter-spacing:8px;text-transform:uppercase;color:var(--white);}
+.back-brand .k{color:var(--crimson);}
+.back-tg{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:14px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);}
+.back-url{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.15);}
+.back-right{display:flex;flex-direction:column;gap:20px;border-left:1px solid rgba(255,255,255,0.05);padding-left:80px;}
+.blabel{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--steel);margin-bottom:4px;}
+.blist{list-style:none;display:flex;flex-direction:column;gap:10px;counter-reset:bitem;}
+.blist li{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);padding-left:24px;position:relative;counter-increment:bitem;}
+.blist li::before{content:'0' counter(bitem);position:absolute;left:0;font-size:9px;letter-spacing:0;color:var(--crimson);opacity:.6;}
+@media(max-width:800px){
+.cover,.type-hero,.section-head-split,.logo-grid,.vp-grid,.dd-grid,.copy-grid,.combo-row,.back-cover{grid-template-columns:1fr;}
+.cover-right,.back-right{display:none;}
+.cover-brand{font-size:64px;}
+.tag-massive{font-size:52px;}
+.s-title-dark,.s-title-light{font-size:38px;}
+.section-head,.cp,.lv,.vp,.dd-col,.tscale-row{padding:40px 28px;}
+.color-band{padding:28px;grid-template-columns:1fr;}
+.sw-use{text-align:left;margin-top:8px;}
+.tag-row{grid-template-columns:100px 1fr;}
+.tr-note{display:none;}
+.vp:not(:last-child){border-right:none;border-bottom:1px solid rgba(11,29,58,0.08);}
+.biz-card,.biz-back{width:100%;max-width:368px;}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+<div class="cover-left">
+  <div>
+    <div class="eyebrow eyebrow-gold">Brand Identity System</div>
+    <div style="width:32px;height:1px;background:var(--gold);margin:16px 0 32px;"></div>
+    <div class="cover-brand">PROT<span class="k">E</span>KON</div>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-tagline">Compliance, Commanded.</div>
+    <div class="cover-desc">A complete identity system for PROTEKON — the multi-regulatory compliance command platform. Rooted in proteger, the Spanish for protect, and kon, the authority to enforce it. Backed by 431,000+ OSHA violation records across 27 industry verticals.</div>
+    <div class="cover-stamp">Confidential · Brand Guidelines · 2026</div>
+  </div>
+</div>
+<div class="cover-right">
+  <div class="cover-right-wm">
+    <svg viewBox="0 0 48 84" width="480" height="840" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="13" height="84" fill="white"/>
+      <rect x="13" y="0" width="35" height="13" fill="white"/>
+      <rect x="35" y="13" width="13" height="27" fill="white"/>
+      <rect x="0" y="40" width="48" height="10" fill="white"/>
+    </svg>
+  </div>
+  <div class="mark-display">
+    <svg viewBox="0 0 48 84" width="120" height="210" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="13" height="84" fill="var(--white)"/>
+      <rect x="13" y="0" width="35" height="13" fill="var(--white)"/>
+      <rect x="35" y="13" width="13" height="27" fill="var(--white)"/>
+      <rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/>
+    </svg>
+    <div class="wordmark-sub">PROT<span style="color:var(--crimson);">E</span>KON</div>
+  </div>
+</div>
+</section>
+
+<!-- 01 LOGO -->
+<section class="section-dark">
+<div class="section-head">
+  <div class="section-head-split">
+    <div>
+      <div class="eyebrow eyebrow-gold">01 — Logo System</div>
+      <h2 class="s-title-dark">The Mark &amp;<br>Wordmark</h2>
+    </div>
+    <p class="s-desc-dark">The PROTEKON mark is a rectilinear letter P — built entirely from rectangles, zero curves, zero containers. The crimson command bar cuts across the full width at the belly. The K in the wordmark is always crimson. These two rules never change.</p>
+  </div>
+</div>
+<div class="logo-grid">
+  <div class="lv">
+    <div class="vlabel">Primary — On Dark</div>
+    <div class="lh">
+      <svg viewBox="0 0 48 84" width="36" height="63" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/>
+      </svg>
+      <div>
+        <div class="wm">PROT<span class="k">E</span>KON</div>
+        <div class="wm-tag">Compliance, Commanded.</div>
+      </div>
+    </div>
+    <div class="sz-row">
+      <div style="text-align:center;">
+        <svg viewBox="0 0 48 84" width="28" height="49" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+        <div class="sz-lbl">Lg</div>
+      </div>
+      <div style="text-align:center;">
+        <svg viewBox="0 0 48 84" width="18" height="32" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+        <div class="sz-lbl">Md</div>
+      </div>
+      <div style="text-align:center;">
+        <svg viewBox="0 0 48 84" width="11" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+        <div class="sz-lbl">Sm</div>
+      </div>
+    </div>
+  </div>
+  <div class="lv">
+    <div class="vlabel">Stacked — On Dark</div>
+    <div style="display:flex;flex-direction:column;align-items:flex-start;gap:16px;">
+      <svg viewBox="0 0 48 84" width="52" height="91" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+      <div>
+        <div class="wm" style="font-size:28px;letter-spacing:6px;">PROT<span class="k">E</span>KON</div>
+        <div class="wm-tag">Compliance, Commanded.</div>
+      </div>
+    </div>
+  </div>
+  <div class="lv lv-light">
+    <div class="vlabel vlabel-d">Primary — On Light</div>
+    <div class="lh">
+      <svg viewBox="0 0 48 84" width="36" height="63" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--midnight)"/><rect x="13" y="0" width="35" height="13" fill="var(--midnight)"/><rect x="35" y="13" width="13" height="27" fill="var(--midnight)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+      <div>
+        <div class="wm wm-dark">PROT<span class="k">E</span>KON</div>
+        <div class="wm-tag wm-tag-d">Compliance, Commanded.</div>
+      </div>
+    </div>
+    <div class="sz-row">
+      <div style="text-align:center;">
+        <svg viewBox="0 0 48 84" width="28" height="49" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--midnight)"/><rect x="13" y="0" width="35" height="13" fill="var(--midnight)"/><rect x="35" y="13" width="13" height="27" fill="var(--midnight)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+        <div class="sz-lbl sz-lbl-d">Lg</div>
+      </div>
+      <div style="text-align:center;">
+        <svg viewBox="0 0 48 84" width="18" height="32" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--midnight)"/><rect x="13" y="0" width="35" height="13" fill="var(--midnight)"/><rect x="35" y="13" width="13" height="27" fill="var(--midnight)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+        <div class="sz-lbl sz-lbl-d">Md</div>
+      </div>
+      <div style="text-align:center;">
+        <svg viewBox="0 0 48 84" width="11" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--midnight)"/><rect x="13" y="0" width="35" height="13" fill="var(--midnight)"/><rect x="35" y="13" width="13" height="27" fill="var(--midnight)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+        <div class="sz-lbl sz-lbl-d">Sm</div>
+      </div>
+    </div>
+  </div>
+  <div class="lv lv-light">
+    <div class="vlabel vlabel-d">Integrity Rules</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+      <div style="text-align:center;"><div style="padding:12px;background:rgba(11,29,58,0.04);display:inline-block;"><svg viewBox="0 0 48 84" width="22" height="39" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(20deg);"><rect x="0" y="0" width="13" height="84" fill="var(--midnight)"/><rect x="13" y="0" width="35" height="13" fill="var(--midnight)"/><rect x="35" y="13" width="13" height="27" fill="var(--midnight)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg></div><div style="font-size:9px;color:var(--crimson);letter-spacing:1px;text-transform:uppercase;margin-top:8px;font-family:'Barlow Condensed',sans-serif;">No rotate</div></div>
+      <div style="text-align:center;"><div style="padding:12px;background:rgba(11,29,58,0.04);display:inline-block;"><svg viewBox="0 0 48 84" width="22" height="39" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="#999"/><rect x="13" y="0" width="35" height="13" fill="#999"/><rect x="35" y="13" width="13" height="27" fill="#999"/><rect x="0" y="40" width="48" height="10" fill="#bbb"/></svg></div><div style="font-size:9px;color:var(--crimson);letter-spacing:1px;text-transform:uppercase;margin-top:8px;font-family:'Barlow Condensed',sans-serif;">No grayscale</div></div>
+      <div style="text-align:center;"><div style="padding:12px;background:#e0c050;display:inline-block;"><svg viewBox="0 0 48 84" width="22" height="39" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg></div><div style="font-size:9px;color:var(--crimson);letter-spacing:1px;text-transform:uppercase;margin-top:8px;font-family:'Barlow Condensed',sans-serif;">Approved bg only</div></div>
+    </div>
+    <div style="margin-top:28px;"><div class="vlabel vlabel-d" style="margin-bottom:12px;">Approved Backgrounds</div><div style="display:flex;gap:8px;"><div style="width:44px;height:44px;background:var(--void);border-radius:2px;"></div><div style="width:44px;height:44px;background:var(--midnight);border-radius:2px;"></div><div style="width:44px;height:44px;background:var(--parchment);border:1px solid rgba(11,29,58,0.12);border-radius:2px;"></div><div style="width:44px;height:44px;background:var(--white);border:1px solid rgba(11,29,58,0.1);border-radius:2px;"></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- 02 COLOR -->
+<section class="section-dark">
+<div class="section-head">
+  <div class="section-head-split">
+    <div><div class="eyebrow eyebrow-gold">02 — Color System</div><h2 class="s-title-dark">The Command<br>Palette</h2></div>
+    <p class="s-desc-dark">Three power colors, three supporting tones. Midnight anchors everything. Crimson enforces. Gold signifies prestige. Never use them interchangeably — each color carries a specific command.</p>
+  </div>
+</div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:#0B1D3A;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08);"></div><div><div class="sw-name">Midnight Command</div><div class="sw-hex">#0B1D3A</div></div></div><div class="sw-use">Primary dark · All major surfaces &amp; headers</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:#C41230;"></div><div><div class="sw-name">Crimson Enforce</div><div class="sw-hex">#C41230</div></div></div><div class="sw-use">Command bar · K letter · CTAs · Alerts</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:#C9A84C;"></div><div><div class="sw-name">Sovereign Gold</div><div class="sw-hex">#C9A84C</div></div></div><div class="sw-use">Prestige moments · Taglines · Premium tiers</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:#070F1E;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.06);"></div><div><div class="sw-name">Absolute Authority</div><div class="sw-hex">#070F1E</div></div></div><div class="sw-use">Cover backgrounds · Hero sections</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:#F4EFE6;box-shadow:inset 0 0 0 1px rgba(11,29,58,0.12);"></div><div><div class="sw-name" style="color:var(--white);">Parchment</div><div class="sw-hex">#F4EFE6</div></div></div><div class="sw-use">Light backgrounds · Document surfaces</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:#7A8FA5;"></div><div><div class="sw-name">Command Steel</div><div class="sw-hex">#7A8FA5</div></div></div><div class="sw-use">Captions · Secondary text on dark</div></div>
+<div class="combo-row" style="margin-top:16px;border-top:1px solid rgba(255,255,255,0.04);">
+  <div class="combo-cell"><div class="combo-name" style="color:var(--gold);">AUTHORITY</div><div class="combo-meta">Midnight + Gold<br>Primary surfaces</div></div>
+  <div class="combo-cell"><div class="combo-name" style="color:var(--white);">ENFORCE</div><div style="height:1px;background:rgba(255,255,255,0.06);margin-top:8px;"></div><div class="combo-meta" style="background:var(--crimson);margin:-12px -32px -28px;padding:12px 32px 28px;">Crimson field · CTAs</div></div>
+  <div class="combo-cell"><div class="combo-name" style="color:var(--midnight);">COMPLY</div><div style="height:1px;background:rgba(11,29,58,0.08);margin-top:8px;"></div><div class="combo-meta" style="color:#5A6A7E;">Parchment + Midnight<br>Document areas</div></div>
+  <div class="combo-cell"><div class="combo-name" style="color:var(--crimson);">PROTECT</div><div class="combo-meta">Void + Crimson<br>Hero &amp; cover areas</div></div>
+</div>
+</section>
+
+<!-- 03 TYPOGRAPHY -->
+<section class="section-light">
+<div class="type-hero">
+  <div>
+    <div class="eyebrow" style="margin-bottom:16px;">03 — Typography</div>
+    <div class="type-huge">PROT<span class="k">E</span>KON<br><span style="font-weight:200;color:rgba(11,29,58,0.15);">COMMANDS.</span></div>
+  </div>
+  <div style="align-self:end;">
+    <div class="eyebrow" style="margin-bottom:10px;">Display Face</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:var(--midnight);margin-bottom:6px;">Barlow Condensed</div>
+    <div style="font-size:13px;color:var(--steel);line-height:1.7;font-weight:300;max-width:300px;">200 · 300 · 400 · 500 · 600 · 700 · 800 · 900. All headlines, UI labels, navigation, and the wordmark. Weight contrast is the hierarchy.</div>
+    <div class="eyebrow" style="margin-top:24px;margin-bottom:10px;">Body Face</div>
+    <div style="font-family:'DM Sans',sans-serif;font-weight:400;font-size:18px;color:var(--midnight);margin-bottom:6px;">DM Sans</div>
+    <div style="font-size:13px;color:var(--steel);line-height:1.7;font-weight:300;max-width:300px;">300 · 400 · 500. All paragraph text, email copy, product descriptions, and extended reading.</div>
+  </div>
+</div>
+<div class="tscale-row"><div class="ts-lbl">Display 900</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:52px;line-height:1;letter-spacing:-1px;text-transform:uppercase;color:var(--midnight);">Compliance, Commanded.</div></div>
+<div class="tscale-row"><div class="ts-lbl">H1 700</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:34px;line-height:1.1;text-transform:uppercase;color:var(--midnight);">The Command to Protect</div></div>
+<div class="tscale-row"><div class="ts-lbl">H2 400</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:22px;letter-spacing:1px;text-transform:uppercase;color:var(--midnight);">Violation Intelligence · Regulatory Monitoring</div></div>
+<div class="tscale-row"><div class="ts-lbl">Body DM Sans</div><div style="font-size:16px;font-weight:400;color:#4A5568;line-height:1.7;">An OSHA inspector arrived at a Dallas construction site at 7:43am. By 9:15am, the company had received a $165,514 citation for a willful fall protection violation. They had spreadsheets. They had hope.</div></div>
+<div class="tscale-row" style="border-bottom:none;"><div class="ts-lbl">Label BC 500</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:10px;letter-spacing:3.5px;text-transform:uppercase;color:var(--crimson);">Section Label · Eyebrow · Caption · Tag</div></div>
+</section>
+
+<!-- 04 TAGLINE -->
+<section class="section-mid" style="padding:96px 80px;">
+<div class="eyebrow eyebrow-gold">04 — Tagline Architecture</div>
+<div style="margin-top:16px;">
+  <div class="tag-massive">Compliance,</div>
+  <div class="tag-massive" style="color:var(--crimson);">Commanded.</div>
+</div>
+<div style="max-width:440px;margin-top:32px;font-size:13px;color:var(--steel);line-height:1.75;font-weight:300;">The comma is a command — it creates a beat before the decisive word lands. The period is final. Never remove the punctuation. Never run the words together.</div>
+<div style="margin-top:72px;">
+  <div class="tag-row"><div class="tr-label">Primary</div><div class="tr-text">Compliance, Commanded.</div><div class="tr-note">All brand touchpoints</div></div>
+  <div class="tag-row"><div class="tr-label">Secondary</div><div class="tr-text">The Command to Protect.</div><div class="tr-note">Long-form context</div></div>
+  <div class="tag-row"><div class="tr-label">Short Form</div><div class="tr-text">Command Protection.</div><div class="tr-note">App screens, badges</div></div>
+  <div class="tag-row"><div class="tr-label">Spanish</div><div class="tr-text">Protección. Ordenada.</div><div class="tr-note">Bilingual campaigns</div></div>
+  <div class="tag-row"><div class="tr-label">Campaign</div><div class="tr-text">Protect Everything. Miss Nothing.</div><div class="tr-note">Awareness campaigns</div></div>
+</div>
+</section>
+
+<!-- 05 VOICE -->
+<section class="section-light" style="padding:96px 80px;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-bottom:72px;align-items:end;">
+  <div><div class="eyebrow" style="margin-bottom:16px;">05 — Brand Voice</div><h2 class="s-title-light">How PROTEKON<br>Speaks.</h2></div>
+  <p class="s-desc-light" style="align-self:end;">PROTEKON speaks like a commander who has already seen every violation, every fine, every shutdown. Direct. Informed. Relentless. The voice never apologizes, never hedges, never qualifies what it knows to be true.</p>
+</div>
+<div class="vp-grid">
+  <div class="vp"><div class="vp-n">01</div><div class="vp-t">Commanding</div><div class="vp-d">Directives, not suggestions. Active voice. Short sentences. Periods. We don't say "you might consider" — we say "do this."</div><div class="vp-ex">"Stop waiting for an inspection to find out you're out of compliance."</div></div>
+  <div class="vp"><div class="vp-n">02</div><div class="vp-t">Authoritative</div><div class="vp-d">We know the law. We state facts, not opinions. Specific numbers over vague claims. No hedging. No "we believe." We've analyzed 431K+ violations and $1.03B in penalties.</div><div class="vp-ex">"Construction has a 63.2% serious violation rate — the highest of any major industry. We know because we analyzed all 169,021 of them."</div></div>
+  <div class="vp"><div class="vp-n">03</div><div class="vp-t">Protective</div><div class="vp-d">Always on the side of the business. We don't shame — we shield. The tone is a trusted ally who won't let it happen to you.</div><div class="vp-ex">"Nothing reaches you without going through PROTEKON first."</div></div>
+  <div class="vp" style="border-right:none;"><div class="vp-n">04</div><div class="vp-t">Precise</div><div class="vp-d">Name the regulation, the CFR section, the penalty amount, the vertical. Every word chosen for exactness. "Fast" becomes "before the inspector arrives."</div><div class="vp-ex">"Utilities have a 69.9% serious violation rate. 7 in 10 violations are serious or worse. PROTEKON tracks all 6,318 of them."</div></div>
+</div>
+<div class="dd-grid">
+  <div class="dd-col do"><div class="dd-hd do">Write Like This</div><ul class="dd-list do"><li>Specific numbers, regulation codes, and fine amounts</li><li>Start with strong verbs — Stop. Command. Protect. Enforce.</li><li>Second person: "your business," "your workers," "your exposure"</li><li>Name the consequence before the solution</li><li>One idea per sentence. Short paragraphs. Periods.</li><li>Include Spanish in bilingual audience campaigns</li></ul></div>
+  <div class="dd-col"><div class="dd-hd dont">Never Write Like This</div><ul class="dd-list dont"><li>"We believe our platform could potentially help your compliance journey"</li><li>Passive voice: "Violations are detected by our AI system"</li><li>Vague claims: "Significantly reduce violations" — say 70%</li><li>GRC jargon the customer doesn't use daily</li><li>Cheerful clichés: "Safety first!" / "Stay compliant!"</li><li>Apologies, hedges, or qualifications of any kind</li></ul></div>
+</div>
+</section>
+
+<!-- 06 COPY -->
+<section class="section-dark">
+<div class="section-head">
+  <div class="section-head-split">
+    <div><div class="eyebrow eyebrow-gold">06 — Sample Copy</div><h2 class="s-title-dark">The Words<br>That Command.</h2></div>
+    <p class="s-desc-dark">Every piece of copy below follows the voice system precisely. Use these as active templates and tone calibration standards.</p>
+  </div>
+</div>
+<div class="copy-grid">
+  <div class="cp">
+    <div class="cp-type">Website Hero</div>
+    <div class="cp-headline">Stop Hoping<br>Regulators<br>Don't Show Up.</div>
+    <div class="cp-sub">PROTEKON turns compliance from a liability into a shield. One platform covering OSHA, HIPAA, DOT, Cal/OSHA, and Cal EPA across 27 industry verticals. In English and Spanish. Backed by 431K+ real violation records.</div>
+    <div class="cp-cta">Command Your Compliance</div>
+  </div>
+  <div class="cp">
+    <div class="cp-type">Email Campaign — Subject + Opening</div>
+    <div class="cp-subj">The fine was $165,000.<br>The app costs $299/month.</div>
+    <div class="cp-body">An OSHA inspector arrived at a Dallas site at <strong>7:43am</strong>. By 9:15am: a <strong>$165,514 citation</strong> for willful fall protection violation.<br><br>Their <strong>third citation in four years.</strong> Spreadsheets. A clipboard. Hope.<br><br>PROTEKON exists for this company. <strong>Bilingual. Predictive. Relentless.</strong><br><br><span style="color:var(--gold);font-weight:500;">14 days free. No card. No more citations.</span></div>
+  </div>
+  <div class="cp">
+    <div class="cp-type">LinkedIn — Organic Post</div>
+    <div class="cp-social"><div class="cp-social-text">70% of all farms investigated for labor violations are found in violation.<br><br>Not because farm owners don't care.<br><br>Because no one built them a compliance tool that speaks their language.<br><br>PROTEKON changes that. <span style="color:var(--gold);">Bilingual. Mobile. Built for the field.</span></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1px;color:var(--steel);">#Compliance · #AgricultureSafety · #OSHA · #PROTEKON</div></div>
+  </div>
+  <div class="cp">
+    <div class="cp-type">Value Prop — One Liner</div>
+    <div style="background:var(--crimson);padding:24px 28px;margin-bottom:28px;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:var(--white);line-height:1.35;">"PROTEKON is the multi-regulatory compliance command platform that protects businesses across 27 verticals from OSHA, HIPAA, DOT, Cal/OSHA, and Cal EPA violations — before the inspector arrives. 431,000+ violations analyzed. $1.03 billion in penalties mapped."</div></div>
+    <div class="cp-type">Ad Copy Variations</div>
+    <div class="ad-lines">
+      <div class="ad-line">Your shield against OSHA, HIPAA, and DOT.</div>
+      <div class="ad-line">431K violations analyzed. Yours won't be next.</div>
+      <div class="ad-line">7 regulatory bodies. One command platform.</div>
+      <div class="ad-line">Not just OSHA. HIPAA. DOT. Cal/OSHA. All of it.</div>
+      <div class="ad-line">We catch violations. Before regulators do.</div>
+      <div class="ad-line">27 verticals. 115K employer profiles. Zero guesswork.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 07 APPLICATIONS -->
+<section class="section-ash" style="padding:96px 80px;">
+<div class="eyebrow" style="margin-bottom:16px;">07 — Brand Applications</div>
+<h2 class="s-title-light" style="margin-bottom:80px;">PROTEKON<br>In the World.</h2>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:80px;align-items:start;">
+  <div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--steel);margin-bottom:16px;">Business Card — Front</div>
+    <div class="biz-card">
+      <div class="biz-card-wm"><svg viewBox="0 0 48 84" width="140" height="245" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="white"/><rect x="13" y="0" width="35" height="13" fill="white"/><rect x="35" y="13" width="13" height="27" fill="white"/><rect x="0" y="40" width="48" height="10" fill="white"/></svg></div>
+      <div class="biz-inner">
+        <div><div class="biz-brand-n">PROT<span class="k">E</span>KON</div><div class="biz-tag-sm">Compliance, Commanded.</div></div>
+        <div class="biz-bot">
+          <div><div class="biz-n">Marcus Reyes</div><div class="biz-role">Chief Compliance Director</div></div>
+          <div class="biz-ct">m.reyes@protekon.io<br>+1 (312) 847-2941<br><a>protekon.io</a></div>
+        </div>
+      </div>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--steel);margin-top:20px;margin-bottom:16px;">Business Card — Back</div>
+    <div class="biz-back">
+      <div class="biz-back-inner">
+        <svg viewBox="0 0 48 84" width="48" height="84" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="rgba(255,255,255,0.9)"/><rect x="13" y="0" width="35" height="13" fill="rgba(255,255,255,0.9)"/><rect x="35" y="13" width="13" height="27" fill="rgba(255,255,255,0.9)"/><rect x="0" y="40" width="48" height="10" fill="rgba(7,15,30,0.4)"/></svg>
+        <div class="biz-back-brand">PROTEKON</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:56px;">
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--steel);margin-bottom:16px;">Email Signature</div>
+      <div class="email-sig">
+        <div class="sig-n">Valentina Cruz</div>
+        <div class="sig-r">Senior Compliance Advisor</div>
+        <div class="sig-div"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+          <svg viewBox="0 0 48 84" width="14" height="24" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--midnight)"/><rect x="13" y="0" width="35" height="13" fill="var(--midnight)"/><rect x="35" y="13" width="13" height="27" fill="var(--midnight)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+          <div><div class="sig-bn">PROT<span class="k">E</span>KON</div><div class="sig-tg">Compliance, Commanded.</div></div>
+        </div>
+        <div class="sig-det">v.cruz@protekon.io · +1 (312) 847-1928<br><a href="#">protekon.io</a></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--steel);margin-bottom:16px;">App Icon</div>
+      <div style="display:flex;align-items:flex-end;gap:24px;">
+        <div style="text-align:center;"><div class="app-ico" style="width:100px;height:100px;border-radius:22px;"><svg viewBox="0 0 48 84" width="54" height="94" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--steel);margin-top:8px;text-align:center;">1024px</div></div>
+        <div style="text-align:center;"><div class="app-ico" style="width:60px;height:60px;border-radius:13px;"><svg viewBox="0 0 48 84" width="32" height="56" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--steel);margin-top:8px;text-align:center;">60px</div></div>
+        <div style="text-align:center;"><div class="app-ico" style="width:40px;height:40px;border-radius:9px;"><svg viewBox="0 0 48 84" width="21" height="37" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg></div><div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--steel);margin-top:8px;text-align:center;">40px</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 08 DATA PLATFORM -->
+<section class="section-dark">
+<div class="section-head">
+  <div class="section-head-split">
+    <div><div class="eyebrow eyebrow-gold">08 — Data &amp; Regulatory Scope</div><h2 class="s-title-dark">The Intelligence<br>Behind the Command.</h2></div>
+    <p class="s-desc-dark">PROTEKON is not a checklist app. It is a compliance intelligence platform backed by real enforcement data at scale. These numbers are always available to marketing — cite them with precision.</p>
+  </div>
+</div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:var(--crimson);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;color:var(--white);letter-spacing:0;">431K</div><div><div class="sw-name">OSHA Violation Records</div><div class="sw-hex">Real enforcement data — not estimates</div></div></div><div class="sw-use">Primary scale claim · All marketing materials</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;color:var(--void);letter-spacing:0;">115K</div><div><div class="sw-name">Employer Profiles</div><div class="sw-hex">Compliance intelligence per employer</div></div></div><div class="sw-use">Prospect targeting · Industry reports</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:var(--midnight);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:var(--white);letter-spacing:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08);">27</div><div><div class="sw-name">Industry Verticals</div><div class="sw-hex">NAICS-level precision · Tier 1/2/3</div></div></div><div class="sw-use">Vertical-specific messaging &amp; landing pages</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:var(--crimson);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;color:var(--white);letter-spacing:0;">$1.03B</div><div><div class="sw-name">Penalties Analyzed</div><div class="sw-hex">Across all verticals — real dollar amounts</div></div></div><div class="sw-use">Fear-based CTAs · Consequence messaging</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:var(--void);letter-spacing:0;">7</div><div><div class="sw-name">Regulatory Bodies Covered</div><div class="sw-hex">OSHA · HIPAA · DOT · Cal/OSHA · Cal EPA · HHS · CA Civil</div></div></div><div class="sw-use">Multi-regulatory positioning · Not just OSHA</div></div>
+<div class="color-band"><div class="cb-swatch"><div class="sw-circle" style="background:var(--midnight);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;color:var(--white);letter-spacing:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08);">3.5K</div><div><div class="sw-name">Enforcement Stories</div><div class="sw-hex">AI-generated narratives from real patterns</div></div></div><div class="sw-use">Content marketing · Blog · Social proof</div></div>
+<div style="padding:48px 80px;border-top:1px solid rgba(255,255,255,0.04);">
+  <div class="vlabel" style="margin-bottom:24px;">Top 5 Verticals by Enforcement Volume</div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;">
+    <div style="padding:20px;background:rgba(196,18,48,0.08);border:1px solid rgba(196,18,48,0.15);"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:var(--crimson);line-height:1;">169K</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-top:4px;">Construction</div><div style="font-size:10px;color:var(--steel);margin-top:2px;">63.2% serious · $469.5M</div></div>
+    <div style="padding:20px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.12);"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:var(--gold);line-height:1;">100K</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-top:4px;">Manufacturing</div><div style="font-size:10px;color:var(--steel);margin-top:2px;">58.3% serious · $271.7M</div></div>
+    <div style="padding:20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:var(--white);line-height:1;">18K</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-top:4px;">Retail</div><div style="font-size:10px;color:var(--steel);margin-top:2px;">40.6% serious · $37.7M</div></div>
+    <div style="padding:20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:var(--white);line-height:1;">15K</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-top:4px;">Public Admin</div><div style="font-size:10px;color:var(--steel);margin-top:2px;">61.7% serious · $15.8M</div></div>
+    <div style="padding:20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:var(--white);line-height:1;">15K</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-top:4px;">Wholesale</div><div style="font-size:10px;color:var(--steel);margin-top:2px;">51.3% serious · $37.4M</div></div>
+  </div>
+</div>
+</section>
+
+<!-- BACK COVER -->
+<section class="back-cover">
+  <div style="display:flex;flex-direction:column;gap:32px;">
+    <svg viewBox="0 0 48 84" width="56" height="98" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="13" height="84" fill="var(--white)"/><rect x="13" y="0" width="35" height="13" fill="var(--white)"/><rect x="35" y="13" width="13" height="27" fill="var(--white)"/><rect x="0" y="40" width="48" height="10" fill="var(--crimson)"/></svg>
+    <div><div class="back-brand">PROT<span class="k">E</span>KON</div><div class="back-tg" style="margin-top:8px;">Compliance, Commanded.</div></div>
+    <div><div style="width:32px;height:1px;background:rgba(255,255,255,0.08);margin-bottom:16px;"></div><div class="back-url">protekon.io · 2026 · Confidential</div></div>
+  </div>
+  <div class="back-right">
+    <div class="blabel">Contents</div>
+    <ul class="blist">
+      <li>Logo System — The Mark &amp; Wordmark</li>
+      <li>Color System — The Command Palette</li>
+      <li>Typography — Barlow Condensed + DM Sans</li>
+      <li>Tagline Architecture — Five Approved Variants</li>
+      <li>Brand Voice — Four Pillars + Do/Don't</li>
+      <li>Sample Copy — Hero, Email, Social, Ads</li>
+      <li>Applications — Card, Signature, App Icon</li>
+      <li>Data &amp; Regulatory Scope — Intelligence Platform</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>

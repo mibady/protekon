@@ -23,7 +23,7 @@
 
 5. **Cross-vertical templates are multi-listed.** In the TS registry, templates that apply to multiple verticals appear in each vertical's bucket (same object reference). In the DB, `applicable_verticals` is a `text[]` array containing all verticals. Example: `bbp-exposure-control` → `{healthcare, hospitality}`.
 
-### Template Counts (37 total — expanded 2026-04 to cover all 27 advertised industries)
+### Template Counts (37 total — expanded 2026-04 to cover all 27 advertised industry slugs)
 
 ```
 Platform-wide (9): wvpp, iipp, eap, hazcom, heat-illness-prevention,
@@ -97,6 +97,18 @@ by `VERTICAL_ALIASES` in `lib/document-templates.ts`; applied by
 
 Aliases should also be represented in `document_template_meta`'s `applicable_verticals` array so DB-side gap analysis works for both the marketing slug and the canonical key.
 
+### Verticals Surface (27 advertised slugs = 26 canonical + 1 alias)
+
+Authoritative source: `supabase/migrations/022_verticals_reference.sql`. Marketing list: `app/industries/industries-client.tsx`. The 27 slugs resolve to **25 `TEMPLATE_REGISTRY` buckets** (security has no vertical-specific extras; `logistics` aliases to `wholesale`).
+
+**Featured — `has_detail_page = true` (10 canonical + 1 alias = 11 slugs):**
+`construction`, `manufacturing`, `healthcare`, `hospitality`, `agriculture`, `retail`, `transportation`, `real-estate`, `auto-services`, `wholesale`, + `logistics` (alias → wholesale, surfaces as "Warehouse & Logistics").
+
+**Other — `has_detail_page = false` (16 canonical):**
+`utilities`, `education`, `waste_environmental`, `arts_entertainment`, `public_admin`, `building_services`, `equipment_repair`, `facilities_mgmt`, `information`, `laundry`, `mining`, `professional_services`, `staffing`, `business_support`, `personal_services`, `security`.
+
+Don't double-count `wholesale` and `logistics`: they share a `TEMPLATE_REGISTRY` bucket and the same template set. On the marketing site only one label appears ("Warehouse & Logistics" at slug `logistics`) — `wholesale` is the internal canonical key used by documents and gap analysis.
+
 ### DB Schema
 
 ```sql
@@ -165,4 +177,5 @@ LEFT JOIN documents d ON d.client_id = c.id AND d.template_key = 'wvpp';
 
 - **2026-04-15 (baseline)** — ADR ratified. 26 templates, 10 verticals, hybrid model adopted.
 - **2026-04-15 (commit `22cf44a`)** — Expanded to 37 templates / 25 vertical buckets to close the 17-industry demo gap. 11 specialized templates authored: electrical-safety, ergonomics, respiratory-protection, hazwoper, msha-mining-safety, multi-employer-worksite, event-safety, campus-safety, janitorial-chemical, drycleaning-solvent, salon-personal-services. Cross-vertical resolution fixed (bbp, confined-space, pit-safety, wildfire-smoke now multi-listed). `VERTICAL_ALIASES { logistics → wholesale }` added. Tests: `__tests__/document-templates.test.ts` — 8 passing.
+- **2026-04-17** — Reconciled coverage summary against authoritative sources. Added "Verticals Surface" section clarifying **27 advertised slugs = 26 canonical + 1 alias** (logistics → wholesale), split into 10 featured + 16 other + 1 alias. Corrected shorthand "27 advertised industries" → "27 advertised industry slugs" to avoid implying 27 distinct buckets (actual: 25 `TEMPLATE_REGISTRY` buckets). No template-count changes.
 - **Pending** — Follow-up migration to upsert the 11 new templates into `document_template_meta` with matching `applicable_verticals` arrays, preserving the one-way code → DB sync rule.
