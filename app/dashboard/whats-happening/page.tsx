@@ -1,11 +1,34 @@
-import { UnderConstruction } from "@/components/v2/UnderConstruction"
+import { getOshaNearbyData, getOshaIndustryData } from "@/lib/actions/osha"
+import { PageHeader } from "@/components/v2/primitives/PageHeader"
+import { NearbyEnforcementCard } from "@/components/v2/enforcement/NearbyEnforcementCard"
+import { IndustryPatternsCard } from "@/components/v2/enforcement/IndustryPatternsCard"
+import type { OshaNearbyEnforcement, OshaIndustryProfile } from "@/lib/types"
 
-export default function WhatsHappeningPage() {
+export const dynamic = "force-dynamic"
+
+export default async function WhatsHappeningPage() {
+  const [nearbyResult, industryResult] = await Promise.allSettled([
+    getOshaNearbyData(),
+    getOshaIndustryData(),
+  ])
+
+  const nearby: OshaNearbyEnforcement[] =
+    nearbyResult.status === "fulfilled" ? nearbyResult.value : []
+  const industry: OshaIndustryProfile | null =
+    industryResult.status === "fulfilled" ? industryResult.value : null
+
   return (
-    <UnderConstruction
-      surface="What's Happening"
-      description="Narrated industry stories, regulatory updates, and peer activity that matter for your vertical will live here. Every story comes with an officer's paragraph on what it means for you specifically. Briefing shows the top items in the meantime."
-      linearIssue="NGE-418"
-    />
+    <div className="px-10 py-10" style={{ maxWidth: 1400 }}>
+      <PageHeader
+        eyebrow="INTELLIGENCE · ENFORCEMENT FEED"
+        title="Citations, violations, and penalties in your trade and region."
+        subtitle="Updated nightly from federal and state enforcement feeds."
+      />
+
+      <div className="space-y-6">
+        <NearbyEnforcementCard rows={nearby} />
+        <IndustryPatternsCard profile={industry} />
+      </div>
+    </div>
   )
 }

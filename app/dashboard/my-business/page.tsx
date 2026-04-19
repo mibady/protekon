@@ -1,11 +1,33 @@
-import { UnderConstruction } from "@/components/v2/UnderConstruction"
+import { PageHeader } from "@/components/v2/primitives/PageHeader"
+import {
+  getClientProfile,
+  getNotificationPreferences,
+} from "@/lib/actions/settings"
+import { listSites } from "@/lib/actions/sites"
+import { SettingsPageClient } from "@/components/v2/settings/SettingsPageClient"
 
-export default function MyBusinessPage() {
+export const dynamic = "force-dynamic"
+
+export default async function MyBusinessPage() {
+  const [profile, sites, notificationPrefs] = await Promise.all([
+    getClientProfile(),
+    listSites(),
+    getNotificationPreferences(),
+  ])
+
   return (
-    <UnderConstruction
-      surface="My Business"
-      description="Your account home — profile, sites, team, billing, integrations, notifications, security — will live here as tabs. For now, your existing settings remain at /dashboard/settings."
-      linearIssue="NGE-419"
-    />
+    <div className="px-8 pt-10 pb-16 max-w-6xl w-full mx-auto">
+      <PageHeader
+        eyebrow="ACCOUNT · MY BUSINESS"
+        title="Your account, your rules."
+        subtitle="Profile, sites, billing, notifications, security, and data retention — every lever that shapes how Protekon works for you."
+      />
+
+      <SettingsPageClient
+        profile={profile}
+        sites={sites}
+        notificationPrefs={notificationPrefs}
+      />
+    </div>
   )
 }

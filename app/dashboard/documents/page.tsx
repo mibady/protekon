@@ -1,11 +1,24 @@
-import { UnderConstruction } from "@/components/v2/UnderConstruction"
+import { PageHeader } from "@/components/v2/primitives/PageHeader"
+import { getDocuments, getAvailableDocTypesForUser } from "@/lib/actions/documents"
+import { DocumentsPageClient } from "@/components/v2/documents/DocumentsPageClient"
 
-export default function DocumentsPage() {
+export const dynamic = "force-dynamic"
+
+export default async function DocumentsPage() {
+  const [documents, docTypes] = await Promise.all([
+    getDocuments(),
+    getAvailableDocTypesForUser(),
+  ])
+
   return (
-    <UnderConstruction
-      surface="Documents"
-      description="Your full document library will live here — current plans, drafts in progress, archived versions, and audit packages. For now, your existing documents are still available at /dashboard/documents."
-      linearIssue="NGE-416"
-    />
+    <div className="px-8 pt-10 pb-16 max-w-6xl w-full mx-auto">
+      <PageHeader
+        eyebrow="MY BUSINESS · DOCUMENTS"
+        title="Every plan you own, in one library."
+        subtitle="Request a new plan, revisit past versions, and see what's current, in review, or past due — all in one place."
+      />
+
+      <DocumentsPageClient documents={documents} docTypes={docTypes} />
+    </div>
   )
 }
