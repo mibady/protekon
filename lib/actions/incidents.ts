@@ -157,3 +157,90 @@ export async function updateIncident(
 
   return { success: true }
 }
+
+/**
+ * Mark an incident as reported to the regulatory authority.
+ * Sets reported_at = now() and writes audit_log row.
+ *
+ * Used by the ReportingBanner "Report now" CTA flow.
+ */
+export async function markIncidentReported(
+  incidentId: string
+): Promise<ActionResult> {
+  const auth = await requirePaidAuth()
+  if (auth.error) return { error: auth.message }
+  const { supabase, user } = auth
+
+  // Fetch the incident first for audit logging context
+  const { data: existing, error: fetchError } = await supabase
+    .from("incidents")
+    .select("id, incident_id, severity")
+    .eq("id", incidentId)
+    .eq("client_id", user.id)
+    .single()
+
+  if (fetchError || !existing) {
+    return { error: "Incident not found." }
+  }
+
+  const { error: updateError } = await supabase
+    .from("incidents")
+    .update({ reported_at: new Date().toISOString() })
+    .eq("id", incidentId)
+    .eq("client_id", user.id)
+
+  if (updateError) {
+    return { error: updateError.message }
+  }
+
+  // Mirror existing audit_log write pattern from createIncident / updateIncident
+  const { error: auditError } = await supabase.from("audit_log").insert({
+    client_id: user.id,
+    event_type: "incident.reported_to_authority",
+    description: `Marked incident ${existing.incident_id} as reported to authority`,
+    metadata: { incident_id: existing.incident_id, severity: existing.severity },
+  })
+  if (auditError) console.error("[markIncidentReported] Audit log failed:", auditError.message)
+
+  return { success: true }
+}
+
+/**
+ * Returns the most recent open reportable incident for a client.
+ * Used by app/dashboard/layout.tsx to feed the jurisdiction/role-aware ReportingBanner.
+ *
+ * "Open" = reported_at IS NULL.
+ * "Reportable" = severity in a list that matches both new-spec values
+ *                (fatality/hospitalization/amputation/eye_loss) AND existing
+ *                shipped values that map to reportable (serious/in_patient/fatal).
+ *
+ * Returns null when no such incident exists (no banner rendered).
+ */
+export async function getOpenReportableIncident(
+  clientId: string
+): Promise<Incident | null> {
+  const supabase = await createClient()
+
+  const REPORTABLE_SEVERITIES = [
+    "fatality",
+    "hospitalization",
+    "amputation",
+    "eye_loss",
+    "serious",
+    "in_patient",
+    "fatal",
+  ]
+
+  const { data, error } = await supabase
+    .from("incidents")
+    .select("*")
+    .eq("client_id", clientId)
+    .is("reported_at", null)
+    .in("severity", REPORTABLE_SEVERITIES)
+    .order("incident_date", { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (error || !data) return null
+  return data as Incident
+}
