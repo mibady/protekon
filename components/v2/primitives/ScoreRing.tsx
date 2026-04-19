@@ -74,14 +74,13 @@ export function ScoreRing({
         viewBox={`0 0 ${config.ring} ${config.ring}`}
         className="-rotate-90"
       >
-        {/* Track */}
+        {/* Track — explicit rgba so it's visible on both light and dark backgrounds */}
         <circle
           cx={config.ring / 2}
           cy={config.ring / 2}
           r={radius}
           fill="none"
-          stroke="currentColor"
-          strokeOpacity={0.08}
+          stroke="rgba(250, 250, 248, 0.1)"
           strokeWidth={config.stroke}
         />
         {/* Progress */}
@@ -100,7 +99,7 @@ export function ScoreRing({
       </svg>
       <div
         className="absolute font-display font-bold leading-none"
-        style={{ fontSize: config.fontSize }}
+        style={{ fontSize: config.fontSize, color }}
       >
         {score}
       </div>

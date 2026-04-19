@@ -30,10 +30,18 @@ export type SidebarProps = {
 }
 
 // ──────────────────────────────────────────────────────────────────────────
-// Surface map — 25 keys / 4 groups (Today/Briefing removed per one-dashboard rule)
+// Surface map — 26 keys / 5 groups (Today/Briefing is the officer-narrated
+// daily brief; the My Business → Dashboard route is the posture-at-a-glance
+// registry view. Both exist side-by-side.)
 // ──────────────────────────────────────────────────────────────────────────
 
 export const SIDEBAR_GROUPS: SidebarGroup[] = [
+  {
+    label: "Today",
+    items: [
+      { key: "briefing", name: "Briefing", href: "/dashboard/briefing" },
+    ],
+  },
   {
     label: "My Business",
     items: [
