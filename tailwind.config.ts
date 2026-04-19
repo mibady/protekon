@@ -10,20 +10,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // PROTEKON Brand Colors
-        void: "var(--void)",
-        midnight: "var(--midnight)",
-        crimson: "var(--crimson)",
-        gold: "var(--gold)",
-        parchment: "var(--parchment)",
-        ash: "var(--ash)",
-        steel: "var(--steel)",
-        fog: "var(--fog)",
-        "brand-white": "var(--white)",
+        // PROTEKON Official Brand Tokens
+        void: "#070F1E",
+        parchment: "#F4EFE6",
+        enforcement: "#C8102E",
+        sand: "#C9B27A",
+        steel: "#3C506B",
+        ink: "#0A1323",
+        // Neutrals
+        midnight: "#0B1D3A",
+        ash: "#E8E2D8",
+        fog: "#B8C5D1",
+        "brand-white": "#FAFAF8",
+        // Back-compat aliases (Remix-era names → official tokens)
+        crimson: "#C8102E",
+        gold: "#C9B27A",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)", "DM Sans", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Barlow Condensed", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         widest: "0.25em",

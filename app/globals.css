@@ -3,20 +3,25 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* PROTEKON Brand Colors - Exact hex values as CSS variables */
+/* PROTEKON Brand Colors - Official 6-token palette + neutrals */
 :root {
-  /* Primary Brand Colors */
+  /* Primary Brand Tokens (official) */
   --void: #070F1E;
-  --midnight: #0B1D3A;
-  --crimson: #C41230;
-  --gold: #C9A84C;
-  
-  /* Neutral Colors */
   --parchment: #F4EFE6;
+  --enforcement: #C8102E;
+  --sand: #C9B27A;
+  --steel: #3C506B;
+  --ink: #0A1323;
+
+  /* Neutral Tokens */
+  --midnight: #0B1D3A;
   --ash: #E8E2D8;
-  --steel: #7A8FA5;
   --fog: #B8C5D1;
   --white: #FAFAF8;
+
+  /* Back-compat aliases (Remix-era names → official brand tokens) */
+  --crimson: var(--enforcement);
+  --gold: var(--sand);
   
   /* Semantic Mappings */
   --background: var(--parchment);
@@ -126,6 +131,9 @@
   /* PROTEKON Brand Colors for direct use */
   --color-void: var(--void);
   --color-midnight: var(--midnight);
+  --color-enforcement: var(--enforcement);
+  --color-sand: var(--sand);
+  --color-ink: var(--ink);
   --color-crimson: var(--crimson);
   --color-gold: var(--gold);
   --color-parchment: var(--parchment);
@@ -141,12 +149,17 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans), 'DM Sans', system-ui, sans-serif;
   }
 }
 
 /* PROTEKON Typography Utilities */
 .font-display {
-  font-family: var(--font-display);
+  font-family: var(--font-display), 'Barlow Condensed', system-ui, sans-serif;
+}
+
+.font-sans {
+  font-family: var(--font-sans), 'DM Sans', system-ui, sans-serif;
 }
 
 /* Eyebrow text style */

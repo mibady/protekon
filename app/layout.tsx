@@ -5,14 +5,14 @@ import './globals.css'
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ['latin'],
-  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  weight: ['400', '600', '700'],
   variable: '--font-display',
   display: 'swap',
 })
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500'],
+  weight: ['400', '500', '700'],
   variable: '--font-sans',
   display: 'swap',
 })

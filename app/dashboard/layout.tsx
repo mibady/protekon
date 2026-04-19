@@ -1,9 +1,67 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
-import { Sidebar } from "@/components/v2/Sidebar"
-import { coverageSubItemsFor } from "@/lib/v2/coverage-sub-items"
-import type { V2Client } from "@/lib/v2/types"
+import { Sidebar, type SidebarClient, type SidebarPosture } from "@/components/v2/Sidebar"
+import {
+  ReportingBanner,
+  type ReportingBannerIncident,
+  type ReportingBannerSeverity,
+} from "@/components/v2/ReportingBanner"
+import { getUnreadCount } from "@/lib/actions/alerts"
+import { getOpenReportableIncident } from "@/lib/actions/incidents"
+import { getUserRole } from "@/lib/auth/roles"
+
+// Map the DB `severity` string onto the banner's constrained union. The
+// banner only cares about the reportable-to-Cal/OSHA severities; anything
+// else degrades to "other" which short-circuits banner rendering.
+function toBannerSeverity(severity: string): ReportingBannerSeverity {
+  switch (severity) {
+    case "fatality":
+    case "fatal":
+      return "fatality"
+    case "hospitalization":
+    case "in_patient":
+      return "hospitalization"
+    case "amputation":
+      return "amputation"
+    case "eye_loss":
+      return "eye_loss"
+    default:
+      return "other"
+  }
+}
+
+// Vertical slug → human display. Scraper DB ships display strings; app stores
+// slugs. Centralised here so the sidebar can stay presentation-only.
+const VERTICAL_DISPLAY: Record<string, string> = {
+  construction: "Construction",
+  manufacturing: "Manufacturing",
+  healthcare: "Healthcare",
+  hospitality: "Hospitality",
+  warehouse: "Warehouse & logistics",
+  wholesale: "Warehouse & logistics",
+  agriculture: "Agriculture",
+  retail: "Retail",
+  transportation: "Transportation",
+  "real-estate": "Real estate",
+  "auto-services": "Auto services",
+}
+
+function verticalDisplay(slug: string): string {
+  return VERTICAL_DISPLAY[slug] ?? slug.replace(/-/g, " ")
+}
+
+/**
+ * Posture rule for the sidebar pill. Matches the spec contract:
+ *   >= 80 → STRONG, 60-79 → NEEDS WORK, < 60 → AT RISK, null → null.
+ * The full briefing narrative lives in Briefing.tsx — this is orientation only.
+ */
+function postureFor(score: number | null): SidebarPosture | null {
+  if (score === null) return null
+  if (score >= 80) return "STRONG"
+  if (score >= 60) return "NEEDS WORK"
+  return "AT RISK"
+}
 
 /**
  * Auth gate for all /v2/* routes.
@@ -71,24 +129,61 @@ export default async function V2Layout({
     redirect("/login?error=unauthorized")
   }
 
-  const typed = {
-    ...client,
-    state: null,
-    onboarding_completed_at: null,
-  } as V2Client
+  const sidebarClient: SidebarClient = {
+    business_name: client.business_name,
+    vertical_display: verticalDisplay(client.vertical),
+    compliance_score: client.compliance_score,
+    posture_label: postureFor(client.compliance_score),
+  }
 
-  // Primary Coverage sub-items for this vertical. Rendered as indented nav
-  // entries under the Coverage item when the user is on a /v2/coverage/*
-  // route. Query runs unconditionally — Sidebar decides whether to show them
-  // based on pathname.
-  const coverageSubItems = await coverageSubItemsFor(typed.vertical)
+  // Wire notification unread count and most-recent-open-reportable incident
+  // in parallel. Both helpers are resilient (return 0 / null on error) so
+  // the layout never breaks if either lookup fails.
+  const [criticalCountResult, rawIncident] = await Promise.all([
+    getUnreadCount().catch(() => ({ count: 0 })),
+    getOpenReportableIncident(user.id).catch(() => null),
+  ])
+  const criticalCount = criticalCountResult.count ?? 0
+
+  // Adapt the DB Incident row onto the banner's prop contract. The banner
+  // takes `occurred_at` (ISO) and a `site.state` 2-letter code; the DB
+  // row carries `incident_date` (date or datetime) and doesn't surface a
+  // site row through this query yet. Falling back to the client's vertical
+  // state is a future wire — for Wave 1 we default to the CA ruleset since
+  // every seat today operates in California. If no site context is
+  // available the banner still renders correctly.
+  const incident: ReportingBannerIncident | null = rawIncident
+    ? {
+        id: rawIncident.id,
+        occurred_at:
+          rawIncident.incident_date ?? rawIncident.created_at ?? new Date().toISOString(),
+        severity: toBannerSeverity(rawIncident.severity),
+        reported_at:
+          (rawIncident as { reported_at?: string | null }).reported_at ?? null,
+        site: { state: "CA" },
+      }
+    : null
+
+  // Resolve the caller's role via the user_roles table (migration 047).
+  // Existing single-user-per-client seats are seeded as 'owner', so no
+  // behavior regresses. Default to least-privilege field_lead if the
+  // caller has no activated role row — keeps the banner copy honest.
+  const userRole = (await getUserRole()) ?? "field_lead"
 
   return (
-    <div className="min-h-screen bg-parchment text-midnight font-sans">
-      <div className="flex">
-        <Sidebar client={typed} coverageSubItems={coverageSubItems} />
-        <main className="flex-1 min-w-0 min-h-screen">{children}</main>
-      </div>
+    <div
+      className="flex min-h-screen"
+      style={{ background: "var(--parchment)" }}
+    >
+      <Sidebar client={sidebarClient} criticalCount={criticalCount} />
+      <main className="flex-1 min-w-0 min-h-screen flex flex-col">
+        <ReportingBanner
+          incident={incident}
+          userRole={userRole}
+          serverNow={new Date().toISOString()}
+        />
+        {children}
+      </main>
     </div>
   )
 }

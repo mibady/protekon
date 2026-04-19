@@ -2,216 +2,247 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  House,
-  ShieldCheck,
-  FileText,
-  ClockCounterClockwise,
-  Newspaper,
-  Storefront,
-  Gear,
-  SignOut,
-} from "@phosphor-icons/react"
-import { signOut } from "@/lib/actions/auth"
+import { Bell } from "@phosphor-icons/react/dist/ssr"
 import { ScoreRing } from "@/components/v2/primitives/ScoreRing"
-import type { V2Client } from "@/lib/v2/types"
-import type { CoverageSubItem } from "@/lib/v2/coverage-sub-items"
 
 // ──────────────────────────────────────────────────────────────────────────
-// Nav configuration
+// Types
 // ──────────────────────────────────────────────────────────────────────────
 
-/**
- * The new IA: 6 items grouped into 3 sections. Voice-correct labels —
- * "My Business" not "Settings", "What's Happening" not "News Feed".
- *
- * "My Business" appears twice: once as the surface for coverage-adjacent work
- * (Coverage, Documents, Activity sit under this umbrella conceptually) and
- * once as the account settings tab. Rendered as two sections of the sidebar
- * to keep the visual model clear.
- */
-const NAV_GROUPS = [
-  {
-    label: "TODAY",
-    items: [
-      { name: "Briefing", href: "/dashboard", icon: House },
-    ],
-  },
-  {
-    label: "MY BUSINESS",
-    items: [
-      { name: "Coverage", href: "/dashboard/coverage", icon: ShieldCheck },
-      { name: "Documents", href: "/dashboard/documents", icon: FileText },
-      { name: "Activity", href: "/dashboard/activity", icon: ClockCounterClockwise },
-    ],
-  },
-  {
-    label: "INTELLIGENCE",
-    items: [
-      { name: "What's Happening", href: "/dashboard/whats-happening", icon: Newspaper },
-      { name: "Marketplace", href: "/dashboard/marketplace", icon: Storefront },
-    ],
-  },
-] as const
+export type SidebarPosture = "STRONG" | "AT RISK" | "NEEDS WORK"
 
-// ──────────────────────────────────────────────────────────────────────────
-// Verdict copy — computed from the client record, not stored
-// ──────────────────────────────────────────────────────────────────────────
+export type SidebarClient = {
+  business_name: string
+  vertical_display: string
+  compliance_score: number | null
+  posture_label: SidebarPosture | null
+}
 
-/**
- * One-word status shown under the business name. Intentionally vague —
- * Briefing.tsx renders the full posture narrative. This is just orientation.
- */
-function computeVerdictLabel(client: V2Client): {
+export type SidebarGroup = {
   label: string
-  tone: "strong" | "watch" | "attention" | "onboarding"
-} {
-  if (client.onboarding_completed_at === null || client.compliance_score === null) {
-    return { label: "Setting up", tone: "onboarding" }
-  }
-  if (client.compliance_score >= 75) {
-    return { label: "Strong", tone: "strong" }
-  }
-  if (client.compliance_score >= 50) {
-    return { label: "Needs a look", tone: "watch" }
-  }
-  return { label: "At risk", tone: "attention" }
+  items: Array<{ key: string; name: string; href: string }>
+}
+
+export type SidebarProps = {
+  client: SidebarClient
+  criticalCount: number
+  onBellClick?: () => void
 }
 
 // ──────────────────────────────────────────────────────────────────────────
-// Vertical display name — scraper DB uses display names, app uses slugs
+// Surface map — 25 keys / 4 groups (Today/Briefing removed per one-dashboard rule)
 // ──────────────────────────────────────────────────────────────────────────
 
-const VERTICAL_DISPLAY: Record<string, string> = {
-  construction: "Construction",
-  manufacturing: "Manufacturing",
-  healthcare: "Healthcare",
-  hospitality: "Hospitality",
-  warehouse: "Warehouse & logistics",
-  wholesale: "Warehouse & logistics",
-  agriculture: "Agriculture",
-  retail: "Retail",
-  transportation: "Transportation",
-  "real-estate": "Real estate",
-  "auto-services": "Auto services",
+export const SIDEBAR_GROUPS: SidebarGroup[] = [
+  {
+    label: "My Business",
+    items: [
+      { key: "dashboard", name: "Dashboard", href: "/dashboard" },
+      { key: "coverage", name: "Coverage", href: "/dashboard/coverage" },
+      { key: "documents", name: "Documents", href: "/dashboard/documents" },
+      { key: "training", name: "Training log", href: "/dashboard/training" },
+      { key: "incidents", name: "Incident log", href: "/dashboard/incidents" },
+      { key: "acknowledgments", name: "Acknowledgments", href: "/dashboard/acknowledgments" },
+      { key: "calendar", name: "Calendar", href: "/dashboard/calendar" },
+      { key: "activity", name: "Activity", href: "/dashboard/activity" },
+    ],
+  },
+  {
+    label: "My Subs",
+    items: [
+      { key: "projects", name: "Projects", href: "/dashboard/projects" },
+      { key: "vendor_risk", name: "Vendor risk score", href: "/dashboard/vendor-risk" },
+      { key: "coi_verification", name: "COI verification", href: "/dashboard/coi-verification" },
+      { key: "sub_onboarding", name: "Sub onboarding", href: "/dashboard/sub-onboarding" },
+      { key: "safety_programs", name: "Safety programs", href: "/dashboard/safety-programs" },
+      { key: "form_1099", name: "1099-NEC", href: "/dashboard/form-1099" },
+    ],
+  },
+  {
+    label: "Intelligence",
+    items: [
+      { key: "whats_happening", name: "Enforcement feed", href: "/dashboard/whats-happening" },
+      { key: "reg_changes", name: "Regulatory changes", href: "/dashboard/reg-changes" },
+      { key: "benchmarks", name: "Peer benchmarks", href: "/dashboard/benchmarks" },
+      { key: "pipeline", name: "Rulemaking & history", href: "/dashboard/pipeline" },
+      { key: "knowledge", name: "Knowledge base", href: "/dashboard/knowledge" },
+      { key: "marketplace", name: "Marketplace", href: "/dashboard/marketplace" },
+    ],
+  },
+  {
+    label: "Account",
+    items: [
+      { key: "audit_trail", name: "Audit trail", href: "/dashboard/audit-trail" },
+      { key: "team", name: "Team & permissions", href: "/dashboard/team" },
+      { key: "scheduled_reports", name: "Scheduled reports", href: "/dashboard/scheduled-reports" },
+      { key: "integrations", name: "Integrations", href: "/dashboard/integrations" },
+      { key: "my_business", name: "My business settings", href: "/dashboard/my-business" },
+    ],
+  },
+]
+
+// ──────────────────────────────────────────────────────────────────────────
+// Helpers
+// ──────────────────────────────────────────────────────────────────────────
+
+/**
+ * Active detection. `/dashboard` must match exactly (otherwise every dashboard
+ * child would light it up). All other hrefs use prefix-with-slash to preserve
+ * highlight on nested routes like `/dashboard/coverage/subcontractors`.
+ */
+function isActive(pathname: string | null, href: string): boolean {
+  if (!pathname) return false
+  if (href === "/dashboard") return pathname === "/dashboard"
+  if (pathname === href) return true
+  return pathname.startsWith(href + "/")
 }
 
-function formatVertical(slug: string): string {
-  return VERTICAL_DISPLAY[slug] ?? slug.replace(/-/g, " ")
+/** Posture pill palette — STRONG is sand, AT RISK / NEEDS WORK are enforcement. */
+function postureColor(label: SidebarPosture): string {
+  return label === "STRONG" ? "var(--sand)" : "var(--enforcement)"
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 // Component
 // ──────────────────────────────────────────────────────────────────────────
 
-export function Sidebar({
-  client,
-  coverageSubItems = [],
-}: {
-  client: V2Client
-  coverageSubItems?: CoverageSubItem[]
-}) {
+export function Sidebar({ client, criticalCount, onBellClick }: SidebarProps) {
   const pathname = usePathname()
-  const verdict = computeVerdictLabel(client)
-  const coverageExpanded =
-    pathname?.startsWith("/dashboard/coverage") ?? false
+  const borderColor = "rgba(250, 250, 248, 0.06)"
+  const inactiveText = "rgba(250, 250, 248, 0.5)"
 
   return (
     <aside
-      className="w-72 bg-void text-parchment min-h-screen flex flex-col sticky top-0"
+      className="flex flex-col flex-shrink-0"
+      style={{
+        background: "var(--void)",
+        width: "260px",
+        minHeight: "100vh",
+      }}
       aria-label="Primary navigation"
     >
       {/* Wordmark */}
-      <div className="px-6 pt-6 pb-4">
-        <Link href="/dashboard" className="inline-block group">
-          <div className="font-display text-2xl tracking-tight leading-none">
-            PROT<span className="text-crimson">E</span>KON
-          </div>
-          <div className="text-[10px] tracking-[0.3em] text-gold mt-1 font-sans">
+      <div className="px-6 py-5" style={{ borderBottom: `1px solid ${borderColor}` }}>
+        <Link href="/dashboard" className="inline-flex flex-col">
+          <span
+            className="font-display"
+            style={{
+              color: "var(--white)",
+              fontSize: "22px",
+              letterSpacing: "4px",
+              fontWeight: 700,
+              lineHeight: 1,
+            }}
+          >
+            PROT<span style={{ color: "var(--crimson)" }}>E</span>KON
+          </span>
+          <span
+            className="font-display"
+            style={{
+              color: "var(--sand)",
+              fontSize: "9px",
+              letterSpacing: "3px",
+              marginTop: "4px",
+            }}
+          >
             YOUR COMPLIANCE OFFICER
-          </div>
+          </span>
         </Link>
       </div>
 
       {/* Client identity block */}
-      <div className="px-6 pt-4 pb-6 border-b border-white/5">
+      <Link
+        href="/dashboard"
+        className="block px-6 py-5 transition-colors"
+        style={{
+          borderBottom: `1px solid ${borderColor}`,
+          background: pathname === "/dashboard" ? "rgba(196,18,48,0.08)" : "transparent",
+        }}
+      >
         <div className="flex items-center gap-4">
           <ScoreRing score={client.compliance_score} size="sm" />
-          <div className="min-w-0">
-            <div className="font-display text-base truncate" title={client.business_name}>
+          <div className="flex flex-col gap-1 min-w-0">
+            <span
+              className="font-sans truncate"
+              style={{ color: "var(--white)", fontSize: "13px" }}
+              title={client.business_name}
+            >
               {client.business_name}
-            </div>
-            <div className="text-[11px] text-parchment/45 tracking-wide mt-0.5">
-              {formatVertical(client.vertical)}
-            </div>
-            <VerdictPill verdict={verdict} />
+            </span>
+            <span
+              className="font-sans truncate"
+              style={{ color: "rgba(250, 250, 248, 0.5)", fontSize: "11px" }}
+            >
+              {client.vertical_display}
+            </span>
+            {client.posture_label && (
+              <div className="flex items-center gap-2 mt-1">
+                <span
+                  className="rounded-full"
+                  style={{
+                    width: 8,
+                    height: 8,
+                    background: postureColor(client.posture_label),
+                  }}
+                />
+                <span
+                  className="font-display uppercase"
+                  style={{
+                    color: postureColor(client.posture_label),
+                    fontSize: "9px",
+                    letterSpacing: "2px",
+                    fontWeight: 500,
+                  }}
+                >
+                  {client.posture_label}
+                </span>
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      </Link>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 overflow-y-auto">
-        {NAV_GROUPS.map((group) => (
-          <div key={group.label} className="mb-6">
-            <div className="px-3 text-[10px] tracking-[0.25em] text-parchment/35 mb-2">
+      <nav className="flex-1 overflow-y-auto px-4 py-4">
+        {SIDEBAR_GROUPS.map((group) => (
+          <div key={group.label} className="mb-5">
+            <span
+              className="block px-3 mb-2 font-display uppercase"
+              style={{
+                color: "var(--fog)",
+                fontSize: "10px",
+                letterSpacing: "3px",
+                fontWeight: 500,
+              }}
+            >
               {group.label}
-            </div>
-            <ul className="space-y-0.5">
+            </span>
+            <ul className="flex flex-col" style={{ gap: "2px" }}>
               {group.items.map((item) => {
-                const Icon = item.icon
                 const active = isActive(pathname, item.href)
-                const showCoverageSubs =
-                  item.href === "/dashboard/coverage" &&
-                  coverageExpanded &&
-                  coverageSubItems.length > 0
                 return (
-                  <li key={item.href}>
+                  <li key={item.key}>
                     <Link
                       href={item.href}
-                      className={`
-                        flex items-center gap-3 px-3 py-2 text-sm rounded-none
-                        border-l-2 transition-colors
-                        ${
-                          active
-                            ? "bg-crimson/[.07] border-crimson text-parchment"
-                            : "border-transparent text-parchment/55 hover:text-parchment hover:bg-white/[.03]"
-                        }
-                      `}
+                      className="block w-full px-3 py-2.5 transition-colors"
+                      style={{
+                        background: active ? "rgba(196, 18, 48, 0.07)" : "transparent",
+                        borderLeft: `3px solid ${active ? "var(--enforcement)" : "transparent"}`,
+                      }}
                       aria-current={active ? "page" : undefined}
                     >
-                      <Icon
-                        size={18}
-                        weight={active ? "fill" : "regular"}
-                        className={active ? "text-crimson" : ""}
-                      />
-                      <span>{item.name}</span>
+                      <span
+                        className="font-display"
+                        style={{
+                          color: active ? "var(--white)" : inactiveText,
+                          fontSize: "12px",
+                          letterSpacing: "1px",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {item.name}
+                      </span>
                     </Link>
-                    {showCoverageSubs && (
-                      <ul className="mt-0.5 mb-1 ml-8 space-y-0 border-l border-white/10">
-                        {coverageSubItems.map((sub) => {
-                          const subActive = pathname === sub.href
-                          return (
-                            <li key={sub.href}>
-                              <Link
-                                href={sub.href}
-                                className={`
-                                  block pl-4 pr-3 py-1.5 text-[13px]
-                                  border-l-2 -ml-[2px] transition-colors
-                                  ${
-                                    subActive
-                                      ? "border-crimson text-parchment"
-                                      : "border-transparent text-parchment/45 hover:text-parchment/80"
-                                  }
-                                `}
-                                aria-current={subActive ? "page" : undefined}
-                              >
-                                {sub.label}
-                              </Link>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    )}
                   </li>
                 )
               })}
@@ -220,67 +251,64 @@ export function Sidebar({
         ))}
       </nav>
 
-      {/* Account footer */}
-      <div className="px-3 py-3 border-t border-white/5">
-        <Link
-          href="/dashboard/my-business"
-          className={`
-            flex items-center gap-3 px-3 py-2 text-sm rounded-none
-            border-l-2 transition-colors
-            ${
-              isActive(pathname, "/dashboard/my-business")
-                ? "bg-crimson/[.07] border-crimson text-parchment"
-                : "border-transparent text-parchment/55 hover:text-parchment hover:bg-white/[.03]"
-            }
-          `}
+      {/* Footer: bell + version line */}
+      <div
+        className="px-4 py-3 flex items-center justify-between"
+        style={{ borderTop: `1px solid ${borderColor}` }}
+      >
+        <span
+          className="font-sans truncate"
+          style={{ color: "var(--fog)", fontSize: "10px" }}
+          title={`Protekon v3 — ${client.business_name}`}
         >
-          <Gear size={18} />
-          <span>My Business</span>
-        </Link>
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="w-full flex items-center gap-3 px-3 py-2 text-sm text-parchment/40 hover:text-parchment/70 border-l-2 border-transparent transition-colors"
-          >
-            <SignOut size={18} />
-            <span>Sign out</span>
-          </button>
-        </form>
+          Protekon v3 — {client.business_name}
+        </span>
+        <button
+          type="button"
+          onClick={onBellClick}
+          aria-label={
+            criticalCount > 0
+              ? `Notifications — ${criticalCount} critical`
+              : "Notifications"
+          }
+          className="relative flex items-center justify-center flex-shrink-0 transition-colors"
+          style={{
+            width: 32,
+            height: 32,
+            background: "rgba(250,250,248,0.06)",
+            color: "var(--fog)",
+            border: "1px solid rgba(250,250,248,0.08)",
+            cursor: "pointer",
+          }}
+        >
+          <Bell size={14} weight="regular" />
+          {criticalCount > 0 && (
+            <span
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                top: -6,
+                right: -6,
+                minWidth: 18,
+                height: 18,
+                padding: "0 5px",
+                borderRadius: 9,
+                background: "var(--enforcement)",
+                color: "var(--parchment)",
+                fontSize: "10px",
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "2px solid var(--void)",
+                lineHeight: 1,
+              }}
+            >
+              {criticalCount > 99 ? "99+" : criticalCount}
+            </span>
+          )}
+        </button>
       </div>
     </aside>
-  )
-}
-
-// ──────────────────────────────────────────────────────────────────────────
-// Helpers
-// ──────────────────────────────────────────────────────────────────────────
-
-/**
- * "Active" means the current pathname equals the href OR starts with href + "/".
- * This keeps /v2/coverage/subcontractors from un-highlighting the Coverage item.
- * But /v2/briefing must NOT match /v2/ (exact check for namespace roots).
- */
-function isActive(pathname: string | null, href: string): boolean {
-  if (!pathname) return false
-  if (pathname === href) return true
-  return pathname.startsWith(href + "/")
-}
-
-function VerdictPill({
-  verdict,
-}: {
-  verdict: { label: string; tone: "strong" | "watch" | "attention" | "onboarding" }
-}) {
-  const toneClass = {
-    strong: "text-gold",
-    watch: "text-gold/80",
-    attention: "text-crimson",
-    onboarding: "text-parchment/50",
-  }[verdict.tone]
-
-  return (
-    <div className={`text-[11px] font-medium mt-1 tracking-wide ${toneClass}`}>
-      {verdict.label}
-    </div>
   )
 }
