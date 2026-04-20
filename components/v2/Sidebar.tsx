@@ -130,7 +130,7 @@ export function Sidebar({ client, criticalCount, onBellClick }: SidebarProps) {
       aria-label="Primary navigation"
     >
       {/* Wordmark */}
-      <div className="px-6 py-5" style={{ borderBottom: `1px solid ${borderColor}` }}>
+      <div className="px-6 pt-5 pb-4">
         <Link href="/dashboard" className="inline-flex flex-col">
           <span
             className="font-display"
@@ -158,10 +158,10 @@ export function Sidebar({ client, criticalCount, onBellClick }: SidebarProps) {
         </Link>
       </div>
 
-      {/* Client identity block */}
+      {/* Client identity block — merged visually with the wordmark as the masthead */}
       <Link
         href="/dashboard"
-        className="block px-6 py-5 transition-colors"
+        className="block px-6 pt-2 pb-5 transition-colors"
         style={{
           borderBottom: `1px solid ${borderColor}`,
           background: pathname === "/dashboard" ? "rgba(196,18,48,0.08)" : "transparent",
@@ -211,7 +211,7 @@ export function Sidebar({ client, criticalCount, onBellClick }: SidebarProps) {
       </Link>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-4 py-4">
+      <nav className="flex-1 overflow-y-auto px-4 pt-5 pb-4">
         {SIDEBAR_GROUPS.map((group) => (
           <div key={group.label} className="mb-5">
             <span

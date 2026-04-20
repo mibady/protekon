@@ -16,7 +16,7 @@ export default async function IntegrationsPage({
 }) {
   const [integrations, sp] = await Promise.all([listIntegrations(), searchParams])
   return (
-    <>
+    <div className="px-8 pt-12 pb-12 max-w-6xl w-full mx-auto">
       <PageHeader
         eyebrow="ACCOUNT · INTEGRATIONS"
         title="The systems you already use. Wired in."
@@ -29,6 +29,6 @@ export default async function IntegrationsPage({
         errorProvider={sp.provider ?? null}
         errorDetail={sp.detail ?? null}
       />
-    </>
+    </div>
   )
 }
