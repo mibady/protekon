@@ -3,6 +3,12 @@ import type { TradeLandingConfig } from "../types"
 /**
  * Electrical — federal OSHA trade landing page config.
  * NAICS 238210. Dominant risk: 1910 Subpart S (electrical safety) + 1926 Subpart K.
+ *
+ * TODO: Replace testimonials + aggregate stats with real scraper data.
+ * Scraper DB (vizmtkfpxxjzlpzibate, top-200 high-penalty sample) has ZERO
+ * NAICS 238210 matches. LOTO (1910.147) citations exist in the sample but
+ * attributed to non-electrical employers. Requires broader federal OSHA
+ * data pull keyed on NAICS 238210 before this page ships.
  */
 export const electricalConfig: TradeLandingConfig = {
   slug: "electrical",

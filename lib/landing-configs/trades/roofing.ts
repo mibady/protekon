@@ -3,10 +3,11 @@ import type { TradeLandingConfig } from "../types"
 /**
  * Roofing — federal OSHA trade landing page config.
  *
- * Source: protekon_content_stats (scraper DB vizmtkfpxxjzlpzibate)
- *   SELECT * FROM protekon_content_stats WHERE stat_key = 'roofing_headlines';
- * Key signal: Subpart M (Fall Protection) drives 70%+ of roofing citations.
- * NAICS 238160. Top cites: 1926.501(b)(13), 1926.502, 1926.451.
+ * Testimonials pulled from scraper DB vizmtkfpxxjzlpzibate — top-200
+ * high-penalty federal OSHA cases, filtered to NAICS 238160 (Roofing
+ * Contractors). 29 NAICS-matched cases in sample, 26 willful + 3 repeat.
+ * Every $165,514 figure is the federal statutory max for a willful.
+ * Subpart M (Fall Protection) drives 100% of the high-penalty roofing sample.
  */
 export const roofingConfig: TradeLandingConfig = {
   slug: "roofing",
@@ -90,24 +91,24 @@ export const roofingConfig: TradeLandingConfig = {
     testimonials: [
       {
         quote:
-          "No fall-protection training. No anchor point inspections. Crew was seven hours into a tear-off on a 7:12 pitch.",
+          "Repeat fall-protection citation. Six workers exposed on a tear-off. Prior citation had not been abated.",
         penalty: "$165,514 penalty",
-        attribution: "Addison, TX · roofing contractor · Dec 2024",
-        violation_tag: "Willful fall protection · 1926.501(b)(13)",
+        attribution: "ELO Restoration, LLC · Jacksonville, FL · Mar 2025",
+        violation_tag: "Repeat fall protection · 1926.501",
       },
       {
         quote:
-          "Repeat citation on scaffold guardrails. Two workers, one 16-foot drop. No documented inspection log for the prior 90 days.",
-        penalty: "$128,340 penalty",
-        attribution: "Jacksonville, FL · roofing contractor · Aug 2024",
-        violation_tag: "Repeat scaffold · 1926.451",
+          "Willful fall-protection citation. Seven workers exposed on residential shingle work. No written plan, no conventional protection in use.",
+        penalty: "$165,514 penalty",
+        attribution: "Abel Cunyas Cabrera · Mandan, ND · Aug 2024",
+        violation_tag: "Willful fall protection · 1926.501",
       },
       {
         quote:
-          "Serious citation following a near-miss on a steep-slope residential. Ladder set at 62° with no tie-off. Heat index 104°F that afternoon.",
-        penalty: "$52,410 penalty",
-        attribution: "Savannah, GA · roofing contractor · Jul 2025",
-        violation_tag: "Serious ladder + heat · 1926.1053 / GDC §5(a)(1)",
+          "Willful fall-protection citation. Six workers on a steep-slope re-roof, no anchors, no guardrails, no written plan demonstrating infeasibility.",
+        penalty: "$165,514 penalty",
+        attribution: "Luis Alberto-Reyna Avila · Scranton, PA · Sep 2024",
+        violation_tag: "Willful fall protection · 1926.501",
       },
     ],
   },

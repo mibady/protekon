@@ -3,6 +3,12 @@ import type { TradeLandingConfig } from "../types"
 /**
  * Masonry — federal OSHA trade landing page config.
  * NAICS 238140. Dominant risk: 1926 Subpart Q (masonry construction) + scaffolds + silica.
+ *
+ * TODO: Replace testimonials + aggregate stats with real scraper data.
+ * Scraper DB top-200 high-penalty sample has ZERO NAICS 238140 matches.
+ * Scaffold (1926.451) and LAZ (1926.706) citations exist but attributed to
+ * highway contractors and GCs. Requires broader federal OSHA data pull
+ * keyed on NAICS 238140 before this page ships.
  */
 export const masonryConfig: TradeLandingConfig = {
   slug: "masonry",

@@ -2,7 +2,11 @@ import type { TradeLandingConfig } from "../types"
 
 /**
  * Framing — federal OSHA trade landing page config.
- * NAICS 238130. Dominant risk: Subpart M (Fall Protection) + Subpart L (Scaffolds).
+ *
+ * Testimonials pulled from scraper DB vizmtkfpxxjzlpzibate — top-200
+ * high-penalty federal OSHA cases, filtered to NAICS 238130 (Framing
+ * Contractors). 12 NAICS-matched cases in sample, 10 willful + 2 repeat.
+ * Subpart M (Fall Protection) drives 100% of the high-penalty framing sample.
  */
 export const framingConfig: TradeLandingConfig = {
   slug: "framing",
@@ -82,24 +86,24 @@ export const framingConfig: TradeLandingConfig = {
     testimonials: [
       {
         quote:
-          "Crew running sub-floor sheathing on a second-story. No guardrails at the stair opening. Inspector walked in mid-shift.",
-        penalty: "$145,832 penalty",
-        attribution: "Tampa, FL · framing contractor · Mar 2025",
-        violation_tag: "Willful fall · 1926.501(b)(4)",
+          "Willful fall-protection citation. Two framers exposed on a second-story deck, no guardrails, no personal fall arrest.",
+        penalty: "$165,514 penalty",
+        attribution: "Hernandez Remodeling & Construction, Inc. · Addison, TX · Dec 2024",
+        violation_tag: "Willful fall protection · 1926.501",
       },
       {
         quote:
-          "Scaffold above 10 feet without guardrails. Frame fabricator followed the old manual — no documented inspection in 120 days.",
-        penalty: "$98,217 penalty",
-        attribution: "Austin, TX · framing contractor · Oct 2024",
-        violation_tag: "Repeat scaffold · 1926.451",
+          "Willful fall-protection citation. Carpenter framing roof trusses above 6 feet, no conventional protection, no written plan.",
+        penalty: "$165,514 penalty",
+        attribution: "Colossus Contracting Group LLC · Parrish, FL · Jun 2025",
+        violation_tag: "Willful fall protection · 1926.501",
       },
       {
         quote:
-          "Serious citation after a ladder slipped off a header. 62° angle, no tie-off, no documented daily inspection.",
-        penalty: "$41,650 penalty",
-        attribution: "Phoenix, AZ · framing contractor · Jun 2025",
-        violation_tag: "Serious ladder · 1926.1053",
+          "Willful fall-protection citation. Framer working at leading edge above 6 feet. Crew uniform, no documented safety program.",
+        penalty: "$161,323 penalty",
+        attribution: "Adrian Construction Group LLC · Franklin Lakes, NJ · Jul 2023",
+        violation_tag: "Willful fall protection · 1926.501",
       },
     ],
   },

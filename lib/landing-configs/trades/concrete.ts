@@ -3,6 +3,12 @@ import type { TradeLandingConfig } from "../types"
 /**
  * Concrete — federal OSHA trade landing page config.
  * NAICS 238110. Dominant risk: 1926 Subpart Q (concrete construction) + silica + falls.
+ *
+ * TODO: Replace testimonials + aggregate stats with real scraper data.
+ * Scraper DB top-200 high-penalty sample has ZERO NAICS 238110 matches.
+ * Nearby NAICS 237310 (highway/street construction) has real Subpart Q
+ * citations but isn't a clean proxy for commercial/residential concrete.
+ * Requires broader federal OSHA data pull keyed on NAICS 238110.
  */
 export const concreteConfig: TradeLandingConfig = {
   slug: "concrete",

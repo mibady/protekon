@@ -2,8 +2,12 @@ import type { TradeLandingConfig } from "../types"
 
 /**
  * General Contractor — federal OSHA trade landing page config.
- * NAICS 236220 (commercial/institutional) and 236115/236118 (residential).
- * Dominant risk: multi-employer citation policy across all of 1926.
+ *
+ * Testimonials pulled from scraper DB vizmtkfpxxjzlpzibate — top-200
+ * high-penalty federal OSHA cases, filtered to NAICS 236220/236115/236118
+ * (General Contractors) and standards 1910/1926 (federal-only, excluding
+ * state-plan codes). 22 federal-standard cases in sample across 3 unique
+ * employers. Controlling-employer doctrine is the animating risk.
  */
 export const gcConfig: TradeLandingConfig = {
   slug: "gc",
@@ -83,24 +87,24 @@ export const gcConfig: TradeLandingConfig = {
     testimonials: [
       {
         quote:
-          "Roofing sub had no fall protection. OSHA cited US as controlling employer. We had the sub contract but no safety orientation records.",
-        penalty: "$165,514 penalty",
-        attribution: "Orlando, FL · general contractor · Apr 2025",
-        violation_tag: "Willful multi-employer · 1926.16",
+          "Willful steel-erection citation. 25 workers exposed across multiple trade partners on site. GC was controlling employer.",
+        penalty: "$161,323 penalty",
+        attribution: "Big D Builders, Inc. · Boise, ID · Feb 2024",
+        violation_tag: "Willful steel erection · 1926.754",
       },
       {
         quote:
-          "Excavation sub working in 8-foot trench with no protective system. Our site superintendent walked past it twice that day.",
-        penalty: "$118,900 penalty",
-        attribution: "Seattle, WA · general contractor · Sep 2024",
-        violation_tag: "Repeat controlling · 1926.652",
+          "Willful scaffold citation. Sub's scaffold above 10 feet without guardrails. GC's site super had walked past it.",
+        penalty: "$154,696 penalty",
+        attribution: "Paramount Builders, Ltd. · Pago Pago, AS · Jan 2023",
+        violation_tag: "Willful scaffold · 1926.451",
       },
       {
         quote:
-          "Serious citation for a silica violation by a core-drilling sub. We had no written policy requiring subs to submit exposure plans.",
-        penalty: "$52,400 penalty",
-        attribution: "Chicago, IL · general contractor · Jul 2025",
-        violation_tag: "Serious multi-employer · 1926.1153",
+          "Willful fall-protection citation. Four workers on a leading edge, no conventional protection. GC named as controlling employer alongside the exposing sub.",
+        penalty: "$153,742 penalty",
+        attribution: "Thomas Builders of Virginia, Inc. · Roanoke, VA · Aug 2023",
+        violation_tag: "Willful fall protection · 1926.501",
       },
     ],
   },

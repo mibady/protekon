@@ -3,6 +3,12 @@ import type { TradeLandingConfig } from "../types"
 /**
  * Plumbing — federal OSHA trade landing page config.
  * NAICS 238220. Dominant risk: 1926 Subpart P (Excavations) + confined space.
+ *
+ * TODO: Replace testimonials + aggregate stats with real scraper data.
+ * Scraper DB top-200 high-penalty sample has ZERO NAICS 238220 matches.
+ * Excavation (1926.651/652) citations in sample are attributed to concrete
+ * and highway contractors, not plumbers. Requires broader federal OSHA
+ * data pull keyed on NAICS 238220 before this page ships.
  */
 export const plumbingConfig: TradeLandingConfig = {
   slug: "plumbing",

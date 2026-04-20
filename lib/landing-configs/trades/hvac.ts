@@ -3,6 +3,12 @@ import type { TradeLandingConfig } from "../types"
 /**
  * HVAC — federal OSHA trade landing page config.
  * NAICS 238220. Dominant risk: 1910.147 LOTO + refrigerant + fall protection on rooftops.
+ *
+ * TODO: Replace testimonials + aggregate stats with real scraper data.
+ * Scraper DB top-200 high-penalty sample has ZERO NAICS 238220 matches for
+ * HVAC. LOTO and rooftop-fall citations exist but attributed to other
+ * industries (leather processing, solar installers, etc). Requires broader
+ * federal OSHA data pull keyed on NAICS 238220 before this page ships.
  */
 export const hvacConfig: TradeLandingConfig = {
   slug: "hvac",
