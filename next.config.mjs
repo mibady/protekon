@@ -41,6 +41,10 @@ const nextConfig = {
       { source: '/score/concrete',   destination: '/score/trade/concrete',   permanent: true },
       { source: '/score/masonry',    destination: '/score/trade/masonry',    permanent: true },
       { source: '/score/gc',         destination: '/score/trade/gc',         permanent: true },
+      // Short state URLs → /score/state/<slug> (lib/landing-configs/states registry)
+      { source: '/score/michigan',   destination: '/score/state/michigan',   permanent: true },
+      { source: '/score/oregon',     destination: '/score/state/oregon',     permanent: true },
+      { source: '/score/washington', destination: '/score/state/washington', permanent: true },
     ]
   },
 }

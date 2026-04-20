@@ -102,6 +102,102 @@ export interface TradeLandingConfig {
   }
 }
 
+/**
+ * StateLandingConfig — editorial content contract for one state-plan landing page.
+ *
+ * Mirrors TradeLandingConfig but scoped to a state-plan jurisdiction (MIOSHA,
+ * OR-OSHA, DOSH, etc.) instead of a trade NAICS. Consumed by
+ * components/score/landing/StateLanding.tsx.
+ *
+ * California is NOT driven by this config — it remains its own special-case
+ * page (app/score/california/page.tsx) because its SB 553 / Cal/OSHA framing
+ * predates the template and includes bespoke sections.
+ */
+export interface StateLandingConfig {
+  /** URL slug. e.g. "michigan", "oregon", "washington". */
+  slug: string
+
+  meta: {
+    title: string
+    description: string
+    canonical?: string
+  }
+
+  /** Data-provenance banner above the hero. */
+  header: {
+    state_title: string                   // "Michigan"
+    state_agency: string                  // "MIOSHA" / "OR-OSHA" / "DOSH"
+    state_code_label: string              // "Michigan Part 408" / "OAR 437" / "WAC 296"
+    stats_line: string
+    top_cites: string
+  }
+
+  hero: {
+    eyebrow: string
+    h1: [string, string, string]
+    h1_crimson_accent?: string
+    subhead_uppercase: string
+    lede_body: string
+    lede_body_accent: string
+    pills: [string, string, string, string]
+    scorecard: {
+      score: number
+      denom: number
+      posture_label: string
+      fine_range: string
+      gaps: [string, string, string, string]
+    }
+  }
+
+  agg: Array<{
+    n: number
+    prefix: string
+    suffix: string
+    label: string
+  }>
+
+  transformation: {
+    h2: [string, string]
+    lede_qualifier: string                // "Michigan-specific", "Oregon-specific", "Washington-specific"
+    step01_desc: string
+    step02_state_plural: string           // "Michigan employers", "Oregon contractors"
+  }
+
+  benefits: {
+    state_code_refs: string               // "Part 408, Part 11, Part 490"
+    risk_range: string
+    specialty_card_title: string
+    specialty_card_desc: string
+    employer_plural: string               // "Michigan employers"
+  }
+
+  desire: {
+    h2: [string, string]
+    hook_num: string
+    hook_desc: ReactNode
+    testimonials: [Testimonial, Testimonial, Testimonial]
+  }
+
+  compare: {
+    rows: [CompareRow, CompareRow, CompareRow, CompareRow]
+    risk_range_inspected: string
+    risk_range_diy: string
+  }
+
+  faq: {
+    state_specific: [FaqEntry, FaqEntry]
+    employer_facts: string
+    close_reg: string                     // "MIOSHA Part 11" / "OR-OSHA OAR 437-003" / "DOSH WAC 296-880"
+  }
+
+  cta: {
+    eyebrow: string
+    h2: [string, string, string]
+    lede_state_plural: string             // "Michigan employers"
+    pills: [string, string, string, string]
+  }
+}
+
 export interface Testimonial {
   quote: string
   penalty: string
