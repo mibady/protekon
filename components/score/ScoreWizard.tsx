@@ -144,6 +144,14 @@ function ScoreWizardInner() {
     getVerticals().then(setVerticals)
   }, [])
 
+  /* ─── Deep-link from trade landing pages: ?industry=<slug> pre-selects once verticals load ─── */
+  useEffect(() => {
+    if (industry || verticals.length === 0) return
+    const slug = searchParams.get("industry")
+    if (!slug) return
+    if (verticals.some((v) => v.slug === slug)) setIndustry(slug)
+  }, [searchParams, verticals, industry])
+
   /* ─── When industry changes, load benchmark + vertical questions ─── */
   useEffect(() => {
     if (!industry) return

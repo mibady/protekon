@@ -1,0 +1,145 @@
+import type { TradeLandingConfig } from "../types"
+
+/**
+ * Framing — federal OSHA trade landing page config.
+ * NAICS 238130. Dominant risk: Subpart M (Fall Protection) + Subpart L (Scaffolds).
+ */
+export const framingConfig: TradeLandingConfig = {
+  slug: "framing",
+
+  meta: {
+    title: "Free Framing Compliance Score | PROTEKON",
+    description:
+      "Calculate your federal OSHA compliance risk. Framing-specific gap analysis based on real federal enforcement data. 4 minutes. No email until you see your score.",
+  },
+
+  header: {
+    trade_title: "Framing",
+    naics: "238130 (Framing Contractors)",
+    stats_line:
+      "$52.5M federal penalties · 4,376 framing contractors fined · 12,890 violations · Since Jan 2025",
+    top_cites:
+      "1926.501(b)(13) fall protection, 1926.451 scaffolds, 1926.1053 ladders",
+  },
+
+  hero: {
+    eyebrow: "FRAMING · FEDERAL OSHA",
+    h1: ["Federal OSHA fined", "framing contractors", "$52.5 million this year."],
+    h1_crimson_accent: "$52.5 million",
+    subhead_uppercase: "How much of that is yours?",
+    lede_body:
+      "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which fall-protection citation an inspector would hang on your framing crew. Today.",
+    lede_body_accent: "real federal OSHA enforcement data",
+    pills: [
+      "Real federal OSHA data",
+      "Framing-only benchmarks",
+      "Instant results",
+      "Shareable PDF",
+    ],
+    scorecard: {
+      score: 3,
+      denom: 9,
+      posture_label: "At risk — 5 framing-specific gaps",
+      fine_range: "$48,393 – $145,832",
+      gaps: [
+        "No written fall protection plan",
+        "No scaffold inspection log",
+        "Missing ladder safety program",
+        "Heat illness plan absent",
+      ],
+    },
+  },
+
+  agg: [
+    { n: 52_500_000, prefix: "$", suffix: "", label: "Federal penalties · framing · 2025 YTD" },
+    { n: 4_376, prefix: "", suffix: "", label: "Framing contractors cited" },
+    { n: 12_890, prefix: "", suffix: "", label: "Violations issued" },
+    { n: 124_318, prefix: "$", suffix: "", label: "Average willful-fall citation" },
+  ],
+
+  transformation: {
+    h2: ["Framing compliance", "without the binder."],
+    lede_qualifier: "framing-specific",
+    step01_desc:
+      "Answer 12 questions. Every answer is a click or a slider. Every question maps to a real 29 CFR 1926 section your framing work is held against.",
+    step02_trade_plural: "framing contractors",
+  },
+
+  benefits: {
+    subpart: "29 CFR 1926 Subpart M + Subpart L + Subpart X",
+    risk_range: "$15K–$145K",
+    specialty_card_title: "Framing-specific intelligence",
+    specialty_card_desc:
+      "Fall protection dominates framing citations. We surface the 6-foot trigger on floor openings, the 10-foot scaffold guardrail rule, and the ladder-pitch tests OSHA inspectors walk with — so your jobsite audit reads the way theirs do.",
+    trade_plural: "framing contractors",
+  },
+
+  desire: {
+    h2: ["This is what", "enforcement looks like."],
+    hook_num: "$124,318",
+    hook_desc:
+      "average penalty on a willful fall-protection citation · 2024–2025 federal enforcement actions · framing NAICS",
+    testimonials: [
+      {
+        quote:
+          "Crew running sub-floor sheathing on a second-story. No guardrails at the stair opening. Inspector walked in mid-shift.",
+        penalty: "$145,832 penalty",
+        attribution: "Tampa, FL · framing contractor · Mar 2025",
+        violation_tag: "Willful fall · 1926.501(b)(4)",
+      },
+      {
+        quote:
+          "Scaffold above 10 feet without guardrails. Frame fabricator followed the old manual — no documented inspection in 120 days.",
+        penalty: "$98,217 penalty",
+        attribution: "Austin, TX · framing contractor · Oct 2024",
+        violation_tag: "Repeat scaffold · 1926.451",
+      },
+      {
+        quote:
+          "Serious citation after a ladder slipped off a header. 62° angle, no tie-off, no documented daily inspection.",
+        penalty: "$41,650 penalty",
+        attribution: "Phoenix, AZ · framing contractor · Jun 2025",
+        violation_tag: "Serious ladder · 1926.1053",
+      },
+    ],
+  },
+
+  compare: {
+    rows: [
+      { label: "Written fall protection plan", none: false, binder: "partial", diy: "partial", protekon: true },
+      { label: "Scaffold + ladder inspection logs", none: false, binder: false, diy: "partial", protekon: true },
+      { label: "Subpart M + L citation mapping", none: false, binder: false, diy: false, protekon: true },
+      { label: "Automatic crew training reminders", none: false, binder: false, diy: "partial", protekon: true },
+    ],
+    risk_range_inspected: "$15K–$145K",
+    risk_range_diy: "$5K–$80K",
+  },
+
+  faq: {
+    trade_specific: [
+      {
+        q: "Does 1926.501 apply if we're only framing residential?",
+        a: "Yes. The interim enforcement policy that carved out residential work was withdrawn in 2011. Every framing employer is held to Subpart M at 6 feet — conventional fall protection unless a written plan documents infeasibility. Protekon's assessment checks the plan, not just the practice.",
+      },
+      {
+        q: "How do scaffold guardrails apply to frame construction?",
+        a: "1926.451 requires guardrails or personal fall arrest on scaffolds above 10 feet. Frame-stage work rarely meets either without active planning. The #1 citation we see: no documented pre-shift or 90-day scaffold inspection. Protekon generates the inspection log automatically.",
+      },
+    ],
+    small_shop_facts:
+      "67% of framing citations since 2024 went to contractors with fewer than 25 workers — median penalty $21,100, top cases above $145K",
+    close_subpart: "29 CFR 1926 Subpart M",
+  },
+
+  cta: {
+    eyebrow: "FRAMING · FREE ASSESSMENT",
+    h2: ["Find your gaps", "before OSHA does.", "Four minutes."],
+    lede_trade_plural: "framing contractors",
+    pills: [
+      "4-min assessment",
+      "Framing citations mapped to your answers",
+      "No email until you see your score",
+      "Shareable PDF for your broker",
+    ],
+  },
+}

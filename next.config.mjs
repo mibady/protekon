@@ -32,6 +32,15 @@ const nextConfig = {
       { source: '/industries/property-management', destination: '/industries/real-estate', permanent: true },
       // Partner portal: /partner is the dashboard
       { source: '/partner/dashboard', destination: '/partner', permanent: true },
+      // Short trade URLs → /score/trade/<slug> (lib/landing-configs/trades registry)
+      { source: '/score/roofing',    destination: '/score/trade/roofing',    permanent: true },
+      { source: '/score/framing',    destination: '/score/trade/framing',    permanent: true },
+      { source: '/score/electrical', destination: '/score/trade/electrical', permanent: true },
+      { source: '/score/plumbing',   destination: '/score/trade/plumbing',   permanent: true },
+      { source: '/score/hvac',       destination: '/score/trade/hvac',       permanent: true },
+      { source: '/score/concrete',   destination: '/score/trade/concrete',   permanent: true },
+      { source: '/score/masonry',    destination: '/score/trade/masonry',    permanent: true },
+      { source: '/score/gc',         destination: '/score/trade/gc',         permanent: true },
     ]
   },
 }
