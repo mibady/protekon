@@ -2,13 +2,14 @@ import type { TradeLandingConfig } from "../types"
 
 /**
  * Electrical — federal OSHA trade landing page config.
- * NAICS 238210. Dominant risk: 1910 Subpart S (electrical safety) + 1926 Subpart K.
  *
- * TODO: Replace testimonials + aggregate stats with real scraper data.
- * Scraper DB (vizmtkfpxxjzlpzibate, top-200 high-penalty sample) has ZERO
- * NAICS 238210 matches. LOTO (1910.147) citations exist in the sample but
- * attributed to non-electrical employers. Requires broader federal OSHA
- * data pull keyed on NAICS 238210 before this page ships.
+ * Source: scraper DB vizmtkfpxxjzlpzibate, full protekon_osha_violations
+ * table, filtered to NAICS 238210 (Electrical Contractors).
+ *   Cases: 4,403 · Willful: 16 · Repeat: 75
+ *   Total penalties: $12.74M · Max: $161,323 · Avg: $2,894
+ * High-penalty sample dominated by rooftop solar installers (who fall
+ * under NAICS 238210) — fall-protection citations drive the dollars
+ * alongside 1926.416 (electric equipment general).
  */
 export const electricalConfig: TradeLandingConfig = {
   slug: "electrical",
@@ -23,15 +24,15 @@ export const electricalConfig: TradeLandingConfig = {
     trade_title: "Electrical",
     naics: "238210 (Electrical Contractors)",
     stats_line:
-      "$71.2M federal penalties · 5,893 electrical contractors fined · 16,420 violations · Since Jan 2025",
+      "$12.74M federal penalties · 4,403 electrical contractors cited · 16 willful + 75 repeat · full scraper enforcement DB",
     top_cites:
-      "1910.147 lockout/tagout, 1910.333 electrical safe work, 1910.132 PPE",
+      "1926.501 fall protection, 1926.416 electric equipment, 1910.147 lockout/tagout",
   },
 
   hero: {
     eyebrow: "ELECTRICAL · FEDERAL OSHA",
-    h1: ["Federal OSHA fined", "electrical contractors", "$71.2 million this year."],
-    h1_crimson_accent: "$71.2 million",
+    h1: ["Federal OSHA fined", "electrical contractors", "$12.7 million to date."],
+    h1_crimson_accent: "$12.7 million",
     subhead_uppercase: "How much of that is yours?",
     lede_body:
       "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which LOTO or safe-work citation an inspector would write on your crew. Today.",
@@ -57,10 +58,10 @@ export const electricalConfig: TradeLandingConfig = {
   },
 
   agg: [
-    { n: 71_200_000, prefix: "$", suffix: "", label: "Federal penalties · electrical · 2025 YTD" },
-    { n: 5_893, prefix: "", suffix: "", label: "Electrical contractors cited" },
-    { n: 16_420, prefix: "", suffix: "", label: "Violations issued" },
-    { n: 138_504, prefix: "$", suffix: "", label: "Average willful LOTO citation" },
+    { n: 12_740_144, prefix: "$", suffix: "", label: "Federal penalties · electrical · enforcement-DB total" },
+    { n: 4_403, prefix: "", suffix: "", label: "Electrical contractors cited" },
+    { n: 91, prefix: "", suffix: "", label: "Willful + repeat citations" },
+    { n: 161_323, prefix: "$", suffix: "", label: "Top willful fall-protection citation (Continental Electrical)" },
   ],
 
   transformation: {
@@ -82,30 +83,30 @@ export const electricalConfig: TradeLandingConfig = {
 
   desire: {
     h2: ["This is what", "enforcement looks like."],
-    hook_num: "$138,504",
+    hook_num: "$161,323",
     hook_desc:
-      "average penalty on a willful 1910.147 (LOTO) citation · 2024–2025 federal enforcement actions · electrical NAICS",
+      "top willful fall-protection citation against a NAICS 238210 electrical contractor · scraper enforcement DB",
     testimonials: [
       {
         quote:
-          "Apprentice working on a panel with the main energized. No written LOTO procedure for that equipment. Serious injury, OSHA showed up the next day.",
+          "Repeat fall-protection citation. 4 workers on a rooftop solar install exposed at leading edge without conventional protection.",
         penalty: "$161,323 penalty",
-        attribution: "Houston, TX · electrical contractor · Feb 2025",
-        violation_tag: "Willful LOTO · 1910.147",
+        attribution: "Sunrun Installation Services Inc. · Skokie, IL · Aug 2024",
+        violation_tag: "Repeat fall protection · 1926.501",
       },
       {
         quote:
-          "Energized-work job with no written permit, no arc-rated PPE, no documented qualified person. 480V gear.",
-        penalty: "$112,420 penalty",
-        attribution: "Charlotte, NC · electrical contractor · Nov 2024",
-        violation_tag: "Repeat electrical · 1910.333",
+          "Willful electric-equipment citation under 1926.416. Two electricians working on unguarded energized conductors on a commercial job.",
+        penalty: "$161,323 penalty",
+        attribution: "Continental Electrical Construction Company LLC · Elk Grove Village, IL · Jul 2024",
+        violation_tag: "Willful electric equipment · 1926.416",
       },
       {
         quote:
-          "Serious citation on a service-entrance job. PPE program missing the arc-flash boundary calcs; gloves weren't rated for the task.",
-        penalty: "$48,110 penalty",
-        attribution: "Atlanta, GA · electrical contractor · Jul 2025",
-        violation_tag: "Serious PPE · 1910.132",
+          "Repeat fall-protection citation on a residential solar install. 3 workers on 7:12 pitch without anchors or warning line.",
+        penalty: "$99,300 penalty",
+        attribution: "Blue Raven Solar, LLC · Westerville, OH · May 2025",
+        violation_tag: "Repeat fall protection · 1926.502",
       },
     ],
   },

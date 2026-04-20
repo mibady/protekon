@@ -2,13 +2,13 @@ import type { TradeLandingConfig } from "../types"
 
 /**
  * Masonry — federal OSHA trade landing page config.
- * NAICS 238140. Dominant risk: 1926 Subpart Q (masonry construction) + scaffolds + silica.
  *
- * TODO: Replace testimonials + aggregate stats with real scraper data.
- * Scraper DB top-200 high-penalty sample has ZERO NAICS 238140 matches.
- * Scaffold (1926.451) and LAZ (1926.706) citations exist but attributed to
- * highway contractors and GCs. Requires broader federal OSHA data pull
- * keyed on NAICS 238140 before this page ships.
+ * Source: scraper DB vizmtkfpxxjzlpzibate, full protekon_osha_violations
+ * table, filtered to NAICS 238140 (Masonry Contractors).
+ *   Cases: 8,649 · Willful: 23 · Repeat: 225
+ *   Total penalties: $17.72M · Max: $112,500
+ * Scaffold (1926.451) dominates the high-penalty willful masonry sample —
+ * LAZ (1926.706) violations show up as smaller repeats.
  */
 export const masonryConfig: TradeLandingConfig = {
   slug: "masonry",
@@ -23,15 +23,15 @@ export const masonryConfig: TradeLandingConfig = {
     trade_title: "Masonry",
     naics: "238140 (Masonry Contractors)",
     stats_line:
-      "$34.6M federal penalties · 2,480 masonry contractors fined · 7,320 violations · Since Jan 2025",
+      "$17.72M federal penalties · 8,649 masonry contractors cited · 23 willful + 225 repeat · full scraper enforcement DB",
     top_cites:
-      "1926.706 masonry construction, 1926.451 scaffolds, 1926.1153 silica",
+      "1926.451 scaffolds, 1926.706 masonry construction (LAZ), 1926.1153 silica",
   },
 
   hero: {
     eyebrow: "MASONRY · FEDERAL OSHA",
-    h1: ["Federal OSHA fined", "masonry contractors", "$34.6 million this year."],
-    h1_crimson_accent: "$34.6 million",
+    h1: ["Federal OSHA fined", "masonry contractors", "$17.7 million to date."],
+    h1_crimson_accent: "$17.7 million",
     subhead_uppercase: "How much of that is yours?",
     lede_body:
       "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which limited-access zone, scaffold, or silica citation an inspector would write on your crew. Today.",
@@ -57,10 +57,10 @@ export const masonryConfig: TradeLandingConfig = {
   },
 
   agg: [
-    { n: 34_600_000, prefix: "$", suffix: "", label: "Federal penalties · masonry · 2025 YTD" },
-    { n: 2_480, prefix: "", suffix: "", label: "Masonry contractors cited" },
-    { n: 7_320, prefix: "", suffix: "", label: "Violations issued" },
-    { n: 112_840, prefix: "$", suffix: "", label: "Average willful-scaffold citation" },
+    { n: 17_717_767, prefix: "$", suffix: "", label: "Federal penalties · masonry · enforcement-DB total" },
+    { n: 8_649, prefix: "", suffix: "", label: "Masonry contractors cited" },
+    { n: 248, prefix: "", suffix: "", label: "Willful + repeat citations" },
+    { n: 82_757, prefix: "$", suffix: "", label: "Top willful-scaffold citation (Jose Calle)" },
   ],
 
   transformation: {
@@ -82,30 +82,30 @@ export const masonryConfig: TradeLandingConfig = {
 
   desire: {
     h2: ["This is what", "enforcement looks like."],
-    hook_num: "$112,840",
+    hook_num: "$82,757",
     hook_desc:
-      "average penalty on a willful scaffold or LAZ citation · 2024–2025 federal enforcement actions · masonry NAICS",
+      "top willful-scaffold citation against a NAICS 238140 masonry contractor · scraper enforcement DB",
     testimonials: [
       {
         quote:
-          "CMU wall construction, 14 feet tall. No limited-access zone. Laborers walked into the fall zone during lift.",
-        penalty: "$128,420 penalty",
-        attribution: "Houston, TX · masonry contractor · Mar 2025",
-        violation_tag: "Willful LAZ · 1926.706",
+          "Willful scaffold citation under 1926.451. 7 masons on a scaffold without guardrails at multiple levels.",
+        penalty: "$82,757 penalty",
+        attribution: "Jose Calle · Philadelphia, PA · Apr 2025",
+        violation_tag: "Willful scaffold · 1926.451",
       },
       {
         quote:
-          "Tubular frame scaffold above 10 feet, no guardrails, no documented inspection. Mason fell 14 feet onto rebar.",
-        penalty: "$88,100 penalty",
-        attribution: "Atlanta, GA · masonry contractor · Jul 2024",
-        violation_tag: "Repeat scaffold · 1926.451",
+          "Willful scaffold citation. 9 workers on a masonry scaffold above 10 feet without fall protection.",
+        penalty: "$72,826 penalty",
+        attribution: "United Builders Group Co. · Niles, IL · Mar 2025",
+        violation_tag: "Willful scaffold · 1926.451",
       },
       {
         quote:
-          "Brick cutting with a dry saw, no water, no vac attachment, no respirators, no exposure plan. Dust visible from 50 feet.",
-        penalty: "$41,200 penalty",
-        attribution: "Nashville, TN · masonry contractor · Oct 2024",
-        violation_tag: "Serious silica · 1926.1153",
+          "Willful scaffold citation. 5 workers on an improperly-constructed scaffold with structural defects.",
+        penalty: "$54,000 penalty",
+        attribution: "Creative Masonry, Inc. · Jonesborough, TN · Oct 2025",
+        violation_tag: "Willful scaffold · 1926.451",
       },
     ],
   },

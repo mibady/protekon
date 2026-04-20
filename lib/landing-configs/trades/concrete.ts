@@ -2,13 +2,13 @@ import type { TradeLandingConfig } from "../types"
 
 /**
  * Concrete — federal OSHA trade landing page config.
- * NAICS 238110. Dominant risk: 1926 Subpart Q (concrete construction) + silica + falls.
  *
- * TODO: Replace testimonials + aggregate stats with real scraper data.
- * Scraper DB top-200 high-penalty sample has ZERO NAICS 238110 matches.
- * Nearby NAICS 237310 (highway/street construction) has real Subpart Q
- * citations but isn't a clean proxy for commercial/residential concrete.
- * Requires broader federal OSHA data pull keyed on NAICS 238110.
+ * Source: scraper DB vizmtkfpxxjzlpzibate, full protekon_osha_violations
+ * table, filtered to NAICS 238110 (Concrete Foundation & Structure).
+ *   Cases: 3,254 · Willful: 17 · Repeat: 48
+ *   Total penalties: $8.03M · Max: $112,500
+ * High-penalty sample shows excavation (1926.651/652) citations dominant —
+ * foundation work puts crews in trenches, formwork violations are second.
  */
 export const concreteConfig: TradeLandingConfig = {
   slug: "concrete",
@@ -23,15 +23,15 @@ export const concreteConfig: TradeLandingConfig = {
     trade_title: "Concrete",
     naics: "238110 (Concrete Foundation & Structure Contractors)",
     stats_line:
-      "$58.4M federal penalties · 3,940 concrete contractors fined · 11,210 violations · Since Jan 2025",
+      "$8.03M federal penalties · 3,254 concrete contractors cited · 17 willful + 48 repeat · full scraper enforcement DB",
     top_cites:
-      "1926.701 concrete construction, 1926.1153 silica, 1926.501 falls",
+      "1926.651/652 excavation, 1926.701-706 concrete construction, 1926.1153 silica",
   },
 
   hero: {
     eyebrow: "CONCRETE · FEDERAL OSHA",
-    h1: ["Federal OSHA fined", "concrete contractors", "$58.4 million this year."],
-    h1_crimson_accent: "$58.4 million",
+    h1: ["Federal OSHA fined", "concrete contractors", "$8.03 million to date."],
+    h1_crimson_accent: "$8.03 million",
     subhead_uppercase: "How much of that is yours?",
     lede_body:
       "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which formwork, silica, or rebar citation an inspector would write on your pour. Today.",
@@ -57,10 +57,10 @@ export const concreteConfig: TradeLandingConfig = {
   },
 
   agg: [
-    { n: 58_400_000, prefix: "$", suffix: "", label: "Federal penalties · concrete · 2025 YTD" },
-    { n: 3_940, prefix: "", suffix: "", label: "Concrete contractors cited" },
-    { n: 11_210, prefix: "", suffix: "", label: "Violations issued" },
-    { n: 128_670, prefix: "$", suffix: "", label: "Average willful-formwork citation" },
+    { n: 8_029_976, prefix: "$", suffix: "", label: "Federal penalties · concrete · enforcement-DB total" },
+    { n: 3_254, prefix: "", suffix: "", label: "Concrete contractors cited" },
+    { n: 65, prefix: "", suffix: "", label: "Willful + repeat citations" },
+    { n: 104_860, prefix: "$", suffix: "", label: "Top willful-excavation citation (Alecksandro Pereira)" },
   ],
 
   transformation: {
@@ -82,30 +82,30 @@ export const concreteConfig: TradeLandingConfig = {
 
   desire: {
     h2: ["This is what", "enforcement looks like."],
-    hook_num: "$128,670",
+    hook_num: "$104,860",
     hook_desc:
-      "average penalty on a willful 1926.703 (formwork) citation · 2024–2025 federal enforcement actions · concrete NAICS",
+      "top willful-excavation citation against a NAICS 238110 concrete contractor · scraper enforcement DB",
     testimonials: [
       {
         quote:
-          "Formwork collapse during a second-floor pour. No qualified person stamp on the design, no shoring inspection. Two workers hospitalized.",
-        penalty: "$148,200 penalty",
-        attribution: "San Antonio, TX · concrete contractor · Feb 2025",
-        violation_tag: "Willful formwork · 1926.703",
+          "Willful excavation citation under 1926.651. Worker in a foundation trench without protective system.",
+        penalty: "$104,860 penalty",
+        attribution: "Alecksandro Tomaz Pereira · Hanson, MA · Feb 2024",
+        violation_tag: "Willful excavation · 1926.651",
       },
       {
         quote:
-          "Core-drilling a 40-foot wall. No silica control plan, no written exposure assessment, no respirators. Dust visible from the street.",
-        penalty: "$102,530 penalty",
-        attribution: "Miami, FL · concrete contractor · Dec 2024",
-        violation_tag: "Repeat silica · 1926.1153",
+          "Repeat excavation citation on a poured-wall project. 2 workers in an 8-ft trench, no sloping, no shield.",
+        penalty: "$57,930 penalty",
+        attribution: "Lacko Poured Walls, LLC · Grove City, OH · Mar 2025",
+        violation_tag: "Repeat excavation · 1926.651",
       },
       {
         quote:
-          "Serious citation on a foundation pour. Vertical rebar exposed, no caps or bent tops. Inspector watched a worker trip nearby.",
-        penalty: "$48,100 penalty",
-        attribution: "Denver, CO · concrete contractor · Aug 2025",
-        violation_tag: "Serious impalement · 1926.701(b)",
+          "Repeat excavation citation. 3 workers at the bottom of a foundation trench without protective system.",
+        penalty: "$55,000 penalty",
+        attribution: "DBS, Inc. · Vail, CO · Jun 2023",
+        violation_tag: "Repeat excavation · 1926.652",
       },
     ],
   },

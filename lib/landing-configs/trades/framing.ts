@@ -21,15 +21,15 @@ export const framingConfig: TradeLandingConfig = {
     trade_title: "Framing",
     naics: "238130 (Framing Contractors)",
     stats_line:
-      "$52.5M federal penalties · 4,376 framing contractors fined · 12,890 violations · Since Jan 2025",
+      "$88.89M federal penalties · 28,920 framing contractors cited · 302 willful + 3,087 repeat · full scraper enforcement DB",
     top_cites:
       "1926.501(b)(13) fall protection, 1926.451 scaffolds, 1926.1053 ladders",
   },
 
   hero: {
     eyebrow: "FRAMING · FEDERAL OSHA",
-    h1: ["Federal OSHA fined", "framing contractors", "$52.5 million this year."],
-    h1_crimson_accent: "$52.5 million",
+    h1: ["Federal OSHA fined", "framing contractors", "$88.9 million to date."],
+    h1_crimson_accent: "$88.9 million",
     subhead_uppercase: "How much of that is yours?",
     lede_body:
       "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which fall-protection citation an inspector would hang on your framing crew. Today.",
@@ -55,10 +55,10 @@ export const framingConfig: TradeLandingConfig = {
   },
 
   agg: [
-    { n: 52_500_000, prefix: "$", suffix: "", label: "Federal penalties · framing · 2025 YTD" },
-    { n: 4_376, prefix: "", suffix: "", label: "Framing contractors cited" },
-    { n: 12_890, prefix: "", suffix: "", label: "Violations issued" },
-    { n: 124_318, prefix: "$", suffix: "", label: "Average willful-fall citation" },
+    { n: 88_886_831, prefix: "$", suffix: "", label: "Federal penalties · framing · enforcement-DB total" },
+    { n: 28_920, prefix: "", suffix: "", label: "Framing contractors cited" },
+    { n: 3_389, prefix: "", suffix: "", label: "Willful + repeat citations" },
+    { n: 165_514, prefix: "$", suffix: "", label: "Top willful fall-protection penalty (statutory max)" },
   ],
 
   transformation: {
@@ -80,9 +80,9 @@ export const framingConfig: TradeLandingConfig = {
 
   desire: {
     h2: ["This is what", "enforcement looks like."],
-    hook_num: "$124,318",
+    hook_num: "$165,514",
     hook_desc:
-      "average penalty on a willful fall-protection citation · 2024–2025 federal enforcement actions · framing NAICS",
+      "federal statutory max for a willful fall-protection citation — 302 such citations issued against framing contractors in the scraper enforcement DB",
     testimonials: [
       {
         quote:

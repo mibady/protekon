@@ -2,13 +2,14 @@ import type { TradeLandingConfig } from "../types"
 
 /**
  * HVAC — federal OSHA trade landing page config.
- * NAICS 238220. Dominant risk: 1910.147 LOTO + refrigerant + fall protection on rooftops.
  *
- * TODO: Replace testimonials + aggregate stats with real scraper data.
- * Scraper DB top-200 high-penalty sample has ZERO NAICS 238220 matches for
- * HVAC. LOTO and rooftop-fall citations exist but attributed to other
- * industries (leather processing, solar installers, etc). Requires broader
- * federal OSHA data pull keyed on NAICS 238220 before this page ships.
+ * Source: scraper DB vizmtkfpxxjzlpzibate, full protekon_osha_violations
+ * table, filtered to NAICS 238220 (Plumbing/Heating/Air-Conditioning
+ * Contractors — shared with plumbing).
+ *   Cases: 5,369 combined · Willful: 18 · Repeat: 79
+ *   Total penalties: $11.34M · Max: $112,926
+ * HVAC-specific high-penalty sample is rooftop fall protection — solar
+ * installers and commercial mechanical contractors both cited under 238220.
  */
 export const hvacConfig: TradeLandingConfig = {
   slug: "hvac",
@@ -23,15 +24,15 @@ export const hvacConfig: TradeLandingConfig = {
     trade_title: "HVAC",
     naics: "238220 (Mechanical / HVAC Contractors)",
     stats_line:
-      "$38.9M federal penalties · 2,960 HVAC contractors fined · 8,810 violations · Since Jan 2025",
+      "$11.34M federal penalties · 5,369 mechanical contractors cited · 18 willful + 79 repeat · full scraper enforcement DB",
     top_cites:
-      "1910.147 lockout/tagout, 1926.501 rooftop falls, 1910.1000 air contaminants",
+      "1926.501/502 rooftop fall protection, 1910.147 lockout/tagout, 1926.651 excavation",
   },
 
   hero: {
     eyebrow: "HVAC · FEDERAL OSHA",
-    h1: ["Federal OSHA fined", "HVAC contractors", "$38.9 million this year."],
-    h1_crimson_accent: "$38.9 million",
+    h1: ["Federal OSHA fined", "HVAC contractors", "$11.3 million to date."],
+    h1_crimson_accent: "$11.3 million",
     subhead_uppercase: "How much of that is yours?",
     lede_body:
       "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which LOTO, rooftop-fall, or refrigerant citation an inspector would write on your techs. Today.",
@@ -57,10 +58,10 @@ export const hvacConfig: TradeLandingConfig = {
   },
 
   agg: [
-    { n: 38_900_000, prefix: "$", suffix: "", label: "Federal penalties · HVAC · 2025 YTD" },
-    { n: 2_960, prefix: "", suffix: "", label: "HVAC contractors cited" },
-    { n: 8_810, prefix: "", suffix: "", label: "Violations issued" },
-    { n: 118_320, prefix: "$", suffix: "", label: "Average willful LOTO/fall citation" },
+    { n: 11_336_316, prefix: "$", suffix: "", label: "Federal penalties · 238220 · enforcement-DB total" },
+    { n: 5_369, prefix: "", suffix: "", label: "Mechanical contractors cited" },
+    { n: 97, prefix: "", suffix: "", label: "Willful + repeat citations" },
+    { n: 106_000, prefix: "$", suffix: "", label: "Top repeat rooftop-fall citation (Geoscape Solar)" },
   ],
 
   transformation: {
@@ -82,30 +83,30 @@ export const hvacConfig: TradeLandingConfig = {
 
   desire: {
     h2: ["This is what", "enforcement looks like."],
-    hook_num: "$118,320",
+    hook_num: "$106,000",
     hook_desc:
-      "average penalty on a willful LOTO or rooftop-fall citation · 2024–2025 federal enforcement actions · HVAC NAICS",
+      "top repeat rooftop-fall citation against a NAICS 238220 mechanical contractor · scraper enforcement DB",
     testimonials: [
       {
         quote:
-          "Tech on a commercial rooftop changing out a condenser. 14 feet to the edge, no guardrails, no personal fall arrest, no warning line.",
-        penalty: "$124,850 penalty",
-        attribution: "Dallas, TX · HVAC contractor · Apr 2025",
-        violation_tag: "Willful rooftop fall · 1926.501",
+          "Repeat fall-protection citation. 10 workers on a commercial roof without conventional protection during a rooftop install.",
+        penalty: "$106,000 penalty",
+        attribution: "Geoscape Solar LLC · Parsippany, NJ · Apr 2023",
+        violation_tag: "Repeat rooftop fall · 1926.501",
       },
       {
         quote:
-          "Service call on a packaged unit. Tech energized the disconnect with the access panel open. No written LOTO for that model.",
-        penalty: "$88,410 penalty",
-        attribution: "Phoenix, AZ · HVAC contractor · Aug 2024",
-        violation_tag: "Repeat LOTO · 1910.147",
+          "Repeat fall-protection citation. 2 techs on a commercial rooftop unit changeout, edge within 6 ft, no guardrails or personal fall arrest.",
+        penalty: "$15,970 penalty",
+        attribution: "CM3 Inc. · Wichita, KS · Mar 2024",
+        violation_tag: "Repeat rooftop fall · 1926.501",
       },
       {
         quote:
-          "Serious citation on a restaurant duct job. Respirator program missing fit-test records; techs doing cleaning without protection.",
-        penalty: "$42,100 penalty",
-        attribution: "Las Vegas, NV · HVAC contractor · Jun 2025",
-        violation_tag: "Serious respiratory · 1910.134",
+          "Repeat fall-protection citation. 5 techs on a commercial rooftop doing mechanical install without edge protection.",
+        penalty: "$9,000 penalty",
+        attribution: "Direct Mechanical, Inc. · Wheeling, IL · Apr 2023",
+        violation_tag: "Repeat rooftop fall · 1926.501",
       },
     ],
   },

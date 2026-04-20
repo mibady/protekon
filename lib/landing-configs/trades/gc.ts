@@ -22,15 +22,15 @@ export const gcConfig: TradeLandingConfig = {
     trade_title: "General Contractor",
     naics: "236220 / 236115 (General Contractors)",
     stats_line:
-      "$186.4M federal penalties · 11,840 GCs cited · 31,520 violations · Since Jan 2025",
+      "$45.09M federal penalties · 17,855 GCs cited · 125 willful + 559 repeat · NAICS 236220 + 236115, full scraper enforcement DB",
     top_cites:
       "1926.16 multi-employer worksite, 1926.501 falls, 1926.1153 silica, 1926.651 excavations",
   },
 
   hero: {
     eyebrow: "GENERAL CONTRACTOR · FEDERAL OSHA",
-    h1: ["Federal OSHA fined", "general contractors", "$186.4 million this year."],
-    h1_crimson_accent: "$186.4 million",
+    h1: ["Federal OSHA fined", "general contractors", "$45.1 million to date."],
+    h1_crimson_accent: "$45.1 million",
     subhead_uppercase: "How much of that is yours?",
     lede_body:
       "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which multi-employer citation an inspector would hang on you for a sub's violation. Today.",
@@ -56,10 +56,10 @@ export const gcConfig: TradeLandingConfig = {
   },
 
   agg: [
-    { n: 186_400_000, prefix: "$", suffix: "", label: "Federal penalties · GC · 2025 YTD" },
-    { n: 11_840, prefix: "", suffix: "", label: "General contractors cited" },
-    { n: 31_520, prefix: "", suffix: "", label: "Violations issued" },
-    { n: 141_280, prefix: "$", suffix: "", label: "Average multi-employer citation" },
+    { n: 45_090_042, prefix: "$", suffix: "", label: "Federal penalties · GC · enforcement-DB total" },
+    { n: 17_855, prefix: "", suffix: "", label: "GCs cited (236220 + 236115)" },
+    { n: 684, prefix: "", suffix: "", label: "Willful + repeat citations" },
+    { n: 165_514, prefix: "$", suffix: "", label: "Top willful citation (statutory max)" },
   ],
 
   transformation: {
@@ -81,9 +81,9 @@ export const gcConfig: TradeLandingConfig = {
 
   desire: {
     h2: ["This is what", "enforcement looks like."],
-    hook_num: "$141,280",
+    hook_num: "$165,514",
     hook_desc:
-      "average penalty on a multi-employer controlling-employer citation · 2024–2025 federal enforcement actions · GC NAICS",
+      "federal statutory max for a willful citation — 125 such citations issued against GCs in the scraper enforcement DB (NAICS 236220 + 236115)",
     testimonials: [
       {
         quote:

@@ -2,13 +2,14 @@ import type { TradeLandingConfig } from "../types"
 
 /**
  * Plumbing — federal OSHA trade landing page config.
- * NAICS 238220. Dominant risk: 1926 Subpart P (Excavations) + confined space.
  *
- * TODO: Replace testimonials + aggregate stats with real scraper data.
- * Scraper DB top-200 high-penalty sample has ZERO NAICS 238220 matches.
- * Excavation (1926.651/652) citations in sample are attributed to concrete
- * and highway contractors, not plumbers. Requires broader federal OSHA
- * data pull keyed on NAICS 238220 before this page ships.
+ * Source: scraper DB vizmtkfpxxjzlpzibate, full protekon_osha_violations
+ * table, filtered to NAICS 238220 (Plumbing/Heating/Air-Conditioning
+ * Contractors — shared with HVAC).
+ *   Cases: 5,369 combined · Willful: 18 · Repeat: 79
+ *   Total penalties: $11.34M · Max: $112,926
+ * High-penalty plumbing sample dominated by excavation (1926.651/652)
+ * citations — trench cave-ins are the outsize risk in the trade.
  */
 export const plumbingConfig: TradeLandingConfig = {
   slug: "plumbing",
@@ -23,15 +24,15 @@ export const plumbingConfig: TradeLandingConfig = {
     trade_title: "Plumbing",
     naics: "238220 (Plumbing, Heating & A/C Contractors)",
     stats_line:
-      "$41.8M federal penalties · 3,210 plumbing contractors fined · 9,475 violations · Since Jan 2025",
+      "$11.34M federal penalties · 5,369 plumbing/HVAC contractors cited · 18 willful + 79 repeat · full scraper enforcement DB",
     top_cites:
-      "1926.651 excavation protection, 1910.146 confined space, 1926.501 falls",
+      "1926.651/652 excavation protection, 1926.501 falls, 1910.146 confined space",
   },
 
   hero: {
     eyebrow: "PLUMBING · FEDERAL OSHA",
-    h1: ["Federal OSHA fined", "plumbing contractors", "$41.8 million this year."],
-    h1_crimson_accent: "$41.8 million",
+    h1: ["Federal OSHA fined", "plumbing contractors", "$11.3 million to date."],
+    h1_crimson_accent: "$11.3 million",
     subhead_uppercase: "How much of that is yours?",
     lede_body:
       "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which excavation or confined-space citation an inspector would write on your crew. Today.",
@@ -57,10 +58,10 @@ export const plumbingConfig: TradeLandingConfig = {
   },
 
   agg: [
-    { n: 41_800_000, prefix: "$", suffix: "", label: "Federal penalties · plumbing · 2025 YTD" },
-    { n: 3_210, prefix: "", suffix: "", label: "Plumbing contractors cited" },
-    { n: 9_475, prefix: "", suffix: "", label: "Violations issued" },
-    { n: 132_410, prefix: "$", suffix: "", label: "Average willful-excavation citation" },
+    { n: 11_336_316, prefix: "$", suffix: "", label: "Federal penalties · 238220 · enforcement-DB total" },
+    { n: 5_369, prefix: "", suffix: "", label: "Contractors cited in NAICS 238220" },
+    { n: 97, prefix: "", suffix: "", label: "Willful + repeat citations" },
+    { n: 112_926, prefix: "$", suffix: "", label: "Top willful-excavation citation (Pyles Plumbing)" },
   ],
 
   transformation: {
@@ -82,30 +83,30 @@ export const plumbingConfig: TradeLandingConfig = {
 
   desire: {
     h2: ["This is what", "enforcement looks like."],
-    hook_num: "$132,410",
+    hook_num: "$112,926",
     hook_desc:
-      "average penalty on a willful 1926.651 (excavation) citation · 2024–2025 federal enforcement actions · plumbing NAICS",
+      "top willful-excavation citation against a NAICS 238220 plumbing contractor · scraper enforcement DB",
     testimonials: [
       {
         quote:
-          "Sewer lateral replacement. 7-foot trench, no sloping, no shield, no competent person on site. Crew working at the bottom.",
-        penalty: "$132,410 penalty",
-        attribution: "Sacramento, CA · plumbing contractor · May 2025",
+          "Willful excavation citation under 1926.652. 3 workers in a utility trench without protective system — no shoring, no sloping, no shield.",
+        penalty: "$112,926 penalty",
+        attribution: "Pyles Plumbing and Utility Contractors, Inc. · Perry, GA · Aug 2023",
         violation_tag: "Willful excavation · 1926.652",
       },
       {
         quote:
-          "Tech entered a lift station pump vault without a permit. No atmospheric testing, no rescue plan, no attendant.",
-        penalty: "$92,180 penalty",
-        attribution: "Orlando, FL · plumbing contractor · Jan 2025",
-        violation_tag: "Serious confined space · 1910.146",
+          "Repeat excavation citation. Same trench-protection failure as a prior inspection, not abated.",
+        penalty: "$79,048 penalty",
+        attribution: "Pyles Plumbing and Utility Contractors, Inc. · Perry, GA · Aug 2023",
+        violation_tag: "Repeat excavation · 1926.652",
       },
       {
         quote:
-          "Serious citation on a trench job. Protective system chose tab A, soil was tab C. Crew didn't know the difference.",
-        penalty: "$38,440 penalty",
-        attribution: "Columbus, OH · plumbing contractor · Sep 2024",
-        violation_tag: "Serious trench · 1926.651",
+          "Willful excavation citation on a sewer lateral. Crew working at the bottom of a trench with no protective system.",
+        penalty: "$57,000 penalty",
+        attribution: "American Rooter LLC · Moosic, PA · May 2025",
+        violation_tag: "Willful excavation · 1926.652",
       },
     ],
   },

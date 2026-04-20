@@ -22,7 +22,7 @@ export const roofingConfig: TradeLandingConfig = {
     trade_title: "Roofing",
     naics: "238160 (Roofing Contractors)",
     stats_line:
-      "$147.8M federal penalties · 9,421 roofing contractors fined · 28,160 violations · Since Jan 2025",
+      "$151.83M federal penalties · 44,781 roofing contractors cited · 518 willful + 4,971 repeat · full scraper enforcement DB",
     top_cites:
       "1926.501(b)(13) residential fall protection, 1926.502 fall protection systems, 1926.451 scaffolds",
   },
@@ -32,9 +32,9 @@ export const roofingConfig: TradeLandingConfig = {
     h1: [
       "Federal OSHA fined",
       "roofing contractors",
-      "$147.8 million this year.",
+      "$151.8 million to date.",
     ],
-    h1_crimson_accent: "$147.8 million",
+    h1_crimson_accent: "$151.8 million",
     subhead_uppercase: "How much of that is yours?",
     lede_body:
       "Get your compliance score calculated against real federal OSHA enforcement data — and see exactly which Subpart M violation an inspector would cite you for. Today.",
@@ -60,10 +60,10 @@ export const roofingConfig: TradeLandingConfig = {
   },
 
   agg: [
-    { n: 147_800_000, prefix: "$", suffix: "", label: "Federal penalties · roofing · 2025 YTD" },
-    { n: 9_421, prefix: "", suffix: "", label: "Roofing contractors cited" },
-    { n: 28_160, prefix: "", suffix: "", label: "Violations issued" },
-    { n: 145_191, prefix: "$", suffix: "", label: "Average willful-fall citation" },
+    { n: 151_830_824, prefix: "$", suffix: "", label: "Federal penalties · roofing · enforcement-DB total" },
+    { n: 44_781, prefix: "", suffix: "", label: "Roofing contractors cited" },
+    { n: 5_489, prefix: "", suffix: "", label: "Willful + repeat citations" },
+    { n: 165_514, prefix: "$", suffix: "", label: "Top willful fall-protection penalty (statutory max)" },
   ],
 
   transformation: {
@@ -85,9 +85,9 @@ export const roofingConfig: TradeLandingConfig = {
 
   desire: {
     h2: ["This is what", "enforcement looks like."],
-    hook_num: "$145,191",
+    hook_num: "$165,514",
     hook_desc:
-      "average penalty on a willful Subpart M citation · 2024–2025 federal enforcement actions · roofing NAICS",
+      "federal statutory max for a willful Subpart M citation — 518 such citations issued against roofing contractors in the scraper enforcement DB",
     testimonials: [
       {
         quote:
