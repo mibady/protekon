@@ -107,7 +107,9 @@ export default async function V2Layout({
   const admin = createAdminClient()
   const { data: client, error: clientErr } = await admin
     .from("clients")
-    .select("id, business_name, vertical, compliance_score, v2_enabled")
+    .select(
+      "id, business_name, vertical, compliance_score, v2_enabled, onboarding_status, partner_id",
+    )
     .eq("email", user.email!)
     .maybeSingle()
 
@@ -127,6 +129,16 @@ export default async function V2Layout({
     }
 
     redirect("/login?error=unauthorized")
+  }
+
+  // Direct-signup clients with no completed onboarding get routed to the
+  // wizard. Partner-provisioned clients (partner_id set) skip this guard —
+  // their onboarding is a separate concern handled outside /dashboard.
+  if (
+    client.onboarding_status === "not_started" &&
+    client.partner_id === null
+  ) {
+    redirect("/onboarding/business")
   }
 
   const sidebarClient: SidebarClient = {
