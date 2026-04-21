@@ -96,7 +96,7 @@ export default async function V2Layout({
   }
 
   // Admin client bypasses RLS for the self-lookup. Identity is already
-  // verified via auth.getUser() above. Same pattern as lib/actions/intake.ts.
+  // verified via auth.getUser() above.
   //
   // Column list MUST match the actual prod schema. `state` and
   // `onboarding_completed_at` are V2Client-typed optionals but DO NOT
