@@ -23,6 +23,7 @@ import { retentionScanner } from "@/inngest/functions/retention-scanner"
 import { coiExpirationScanner } from "@/inngest/functions/coi-expiration-scanner"
 import { reminderProcessor } from "@/inngest/functions/reminder-processor"
 import { mirrorIntelligenceNightly } from "@/inngest/functions/mirror-intelligence-nightly"
+import { onboardingPrebuildContext } from "@/inngest/functions/onboarding/prebuild-context"
 
 export const maxDuration = 300
 
@@ -53,5 +54,6 @@ export const { GET, POST, PUT } = serve({
     coiExpirationScanner,
     reminderProcessor,
     mirrorIntelligenceNightly,
+    onboardingPrebuildContext,
   ],
 })
