@@ -83,4 +83,23 @@ export type Events = {
       automations: Record<string, boolean>
     }
   }
+  "onboarding/sites.submitted": {
+    data: {
+      clientId: string
+      siteIds: string[]
+    }
+  }
+  "onboarding/third-parties.imported": {
+    data: {
+      clientId: string
+      subIds: string[]
+    }
+  }
+  "sub_onboarding.invite.sent": {
+    data: {
+      clientId: string
+      subId: string
+      token: string
+    }
+  }
 }
