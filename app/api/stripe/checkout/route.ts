@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
         { price: prices.data[0].id, quantity: 1 },
         ...(setupFeeLineItem ? [setupFeeLineItem] : []),
       ],
-      success_url: `${origin}/login?welcome=true`,
+      success_url: `${origin}/login?welcome=true&next=/onboarding/business`,
       cancel_url: `${origin}/pricing?checkout=cancelled`,
       customer_email: bodyEmail,
       metadata: {

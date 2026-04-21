@@ -63,4 +63,24 @@ export type Events = {
       partner_ref?: string
     }
   }
+  "onboarding/business.snapshot.submitted": {
+    data: {
+      clientId: string
+      vertical: string
+      operatingStates: string[]
+    }
+  }
+  "onboarding/people.imported": {
+    data: {
+      clientId: string
+      invitedUserIds: string[]
+      importedWorkerIds: string[]
+    }
+  }
+  "onboarding/automations.configured": {
+    data: {
+      clientId: string
+      automations: Record<string, boolean>
+    }
+  }
 }

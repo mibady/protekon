@@ -86,7 +86,7 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
     }, { onConflict: "id" })
   }
 
-  redirect("/dashboard")
+  redirect("/onboarding/business")
 }
 
 export async function forgotPassword(formData: FormData): Promise<ActionResult> {
