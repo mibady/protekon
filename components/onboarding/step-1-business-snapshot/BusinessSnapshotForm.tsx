@@ -119,9 +119,8 @@ export function BusinessSnapshotForm({ verticals, initial }: Props) {
         return
       }
 
-      // Phase 1A: subsequent steps don't exist yet. Land on dashboard.
-      toast.success("Snapshot saved. More onboarding steps coming soon.")
-      router.push("/dashboard")
+      toast.success("Business snapshot saved.")
+      router.push("/onboarding/tools")
     })
   }
 
