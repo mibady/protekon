@@ -98,12 +98,11 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Article body */}
-        <section className="bg-parchment py-16">
-          <div className="mx-auto max-w-3xl px-6">
-            {/* Cover Image */}
-            {post.coverImage && (
-              <div className="mb-10 overflow-hidden rounded-xl">
+        {/* Cover Image bridge */}
+        {post.coverImage && (
+          <section className="bg-parchment">
+            <div className="mx-auto max-w-4xl px-6 -mt-8">
+              <div className="overflow-hidden rounded-xl shadow-lg">
                 <Image
                   src={urlFor(post.coverImage).width(1200).height(630).url()}
                   alt={post.title}
@@ -113,8 +112,13 @@ export default async function BlogPostPage({ params }: Props) {
                   priority
                 />
               </div>
-            )}
+            </div>
+          </section>
+        )}
 
+        {/* Article body */}
+        <section className="bg-parchment py-16">
+          <div className="mx-auto max-w-3xl px-6">
             {/* Body Content */}
             {post.body && (
               <article className="prose prose-lg max-w-none text-void/90">
