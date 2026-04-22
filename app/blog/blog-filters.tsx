@@ -20,25 +20,19 @@ const CONTENT_TIERS = [
 
 interface BlogFiltersProps {
   posts: any[]
-  categories: any[]
 }
 
-export default function BlogFilters({ posts, categories }: BlogFiltersProps) {
+export default function BlogFilters({ posts }: BlogFiltersProps) {
   const [activeTier, setActiveTier] = useState('all')
-  const [activeCategory, setActiveCategory] = useState('all')
 
   const filtered = posts.filter((post: any) => {
-    const tierMatch = activeTier === 'all' || post.contentTier === activeTier
-    const catMatch =
-      activeCategory === 'all' ||
-      post.categories?.some((c: any) => c.slug?.current === activeCategory)
-    return tierMatch && catMatch
+    return activeTier === 'all' || post.contentTier === activeTier
   })
 
   return (
     <>
       {/* Tier tabs */}
-      <div className="mb-6 flex flex-wrap gap-2">
+      <div className="mb-10 flex flex-wrap gap-2">
         {CONTENT_TIERS.map((tier) => (
           <button
             key={tier.value}
@@ -54,40 +48,10 @@ export default function BlogFilters({ posts, categories }: BlogFiltersProps) {
         ))}
       </div>
 
-      {/* Category filter row */}
-      <div className="mb-10 flex flex-wrap gap-2">
-        <button
-          onClick={() => setActiveCategory('all')}
-          className={`px-3 py-1.5 text-xs font-medium transition-all ${
-            activeCategory === 'all'
-              ? 'bg-crimson/10 text-crimson border border-crimson/20'
-              : 'border border-fog text-steel hover:text-void'
-          }`}
-        >
-          All Categories
-        </button>
-        {categories
-          ?.filter((cat: any) => cat.postCount > 0)
-          .map((cat: any) => (
-            <button
-              key={cat._id}
-              onClick={() => setActiveCategory(cat.slug.current)}
-              className={`px-3 py-1.5 text-xs font-medium transition-all ${
-                activeCategory === cat.slug.current
-                  ? 'bg-crimson/10 text-crimson border border-crimson/20'
-                  : 'border border-fog text-steel hover:text-void'
-              }`}
-            >
-              {cat.title}
-            </button>
-          ))}
-      </div>
-
       {/* Results count */}
       <p className="mb-6 font-mono text-sm text-steel">
         {filtered.length} {filtered.length === 1 ? 'article' : 'articles'}
         {activeTier !== 'all' && ` in ${CONTENT_TIERS.find((t) => t.value === activeTier)?.label}`}
-        {activeCategory !== 'all' && ` — ${categories?.find((c: any) => c.slug?.current === activeCategory)?.title}`}
       </p>
 
       {/* Article grid */}
