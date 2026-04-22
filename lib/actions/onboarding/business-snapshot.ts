@@ -57,16 +57,16 @@ export async function submitBusinessSnapshot(
   // if the TypeScript union drifts from the DB.
   const { data: verticalRow, error: vertErr } = await supabase
     .from("verticals")
-    .select("slug, alias_of")
+    .select("slug")
     .eq("slug", parsed.data.vertical)
-    .maybeSingle<{ slug: string; alias_of: string | null }>()
+    .eq("status", "active")
+    .maybeSingle<{ slug: string }>()
 
   if (vertErr || !verticalRow) {
     return { ok: false, error: "unknown_vertical" }
   }
 
-  // Resolve alias → canonical (logistics → wholesale).
-  const canonical = (verticalRow.alias_of ?? verticalRow.slug) as VerticalSlug
+  const canonical = verticalRow.slug as VerticalSlug
 
   const { error: updateErr } = await supabase
     .from("clients")
