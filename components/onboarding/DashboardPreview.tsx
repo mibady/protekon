@@ -11,9 +11,14 @@ type Props = {
  * distinct (dashed border, muted) so users see the preview grow.
  */
 export function DashboardPreview({ state, businessName }: Props) {
-  const { config, preview, client } = state
+  const { config, preview, client, completedSteps } = state
   const showThirdParties = config.stepVisibility.thirdParties
   const showSites = config.stepVisibility.sites
+  const step1Done = completedSteps.includes(1)
+  const step3Done = completedSteps.includes(3)
+  const step4Done = completedSteps.includes(4)
+  const step5Done = completedSteps.includes(5)
+  const step6Done = completedSteps.includes(6)
 
   return (
     <aside className="flex h-full flex-col gap-4 border-l border-brand-white/[0.08] bg-midnight/40 p-6">
@@ -24,43 +29,62 @@ export function DashboardPreview({ state, businessName }: Props) {
         <h2 className="font-display text-[16px] font-bold text-parchment">Your dashboard</h2>
       </header>
 
-      <PreviewCard
-        label="Company"
-        primary={businessName ?? "Unnamed Company"}
-        secondary={config.label}
-        badges={client.operatingStates}
-      />
+      {step1Done ? (
+        <PreviewCard
+          label="Company"
+          primary={businessName ?? "Unnamed Company"}
+          secondary={config.label}
+          badges={client.operatingStates}
+        />
+      ) : (
+        <PreviewEmptyCard
+          label="Company"
+          placeholder="Will populate after Step 1 (Business)"
+        />
+      )}
 
       {showSites ? (
         <PreviewCountCard
           label={`${pluralize("Site", preview.sitesCount)}`}
-          count={preview.sitesCount}
+          count={step3Done ? preview.sitesCount : 0}
           placeholder="Will populate after Step 3 (Sites)"
         />
       ) : null}
 
       <PreviewCountCard
         label={`${pluralize(config.peopleTerminology.worker, preview.workersCount)}`}
-        count={preview.workersCount}
+        count={step4Done ? preview.workersCount : 0}
         placeholder="Will populate after Step 4 (People)"
       />
 
       {showThirdParties && config.peopleTerminology.thirdParty ? (
         <PreviewCountCard
           label={`${pluralize(config.peopleTerminology.thirdParty, preview.thirdPartiesCount)}`}
-          count={preview.thirdPartiesCount}
+          count={step5Done ? preview.thirdPartiesCount : 0}
           placeholder="Will populate after Step 5"
         />
       ) : null}
 
       <PreviewCountCard
         label={`${pluralize("Document", preview.documentsCount)}`}
-        count={preview.documentsCount}
+        count={step6Done ? preview.documentsCount : 0}
         placeholder="Will populate after Step 6 (Documents)"
       />
 
-      <PostureCard score={preview.postureScore} />
+      <PostureCard score={step6Done ? preview.postureScore : null} />
     </aside>
+  )
+}
+
+function PreviewEmptyCard({ label, placeholder }: { label: string; placeholder: string }) {
+  return (
+    <div className="border border-dashed border-steel/20 bg-transparent p-4">
+      <div className="font-display text-[10px] font-semibold tracking-[2px] uppercase text-steel">
+        {label}
+      </div>
+      <div className="mt-1 font-display text-[22px] font-bold text-steel/50">—</div>
+      <div className="mt-1 font-sans text-[11px] italic text-steel/60">{placeholder}</div>
+    </div>
   )
 }
 

@@ -24,6 +24,8 @@ import { coiExpirationScanner } from "@/inngest/functions/coi-expiration-scanner
 import { reminderProcessor } from "@/inngest/functions/reminder-processor"
 import { mirrorIntelligenceNightly } from "@/inngest/functions/mirror-intelligence-nightly"
 import { onboardingPrebuildContext } from "@/inngest/functions/onboarding/prebuild-context"
+import { onboardingSendTeamInvites } from "@/inngest/functions/onboarding/send-team-invites"
+import { onboardingFinalizeOnboarding } from "@/inngest/functions/onboarding/finalize-onboarding"
 
 export const maxDuration = 300
 
@@ -55,5 +57,7 @@ export const { GET, POST, PUT } = serve({
     reminderProcessor,
     mirrorIntelligenceNightly,
     onboardingPrebuildContext,
+    onboardingSendTeamInvites,
+    onboardingFinalizeOnboarding,
   ],
 })

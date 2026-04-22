@@ -1677,3 +1677,96 @@ No state changes this session — Linear not connected via `.linear_project.json
 - `4f33a9d` — `feat(v2): assets drill-down — inspection countdowns + scope section (NGE-475 v1)`
 - `25c1f56` — `feat(v2): inspections drill-down — lifecycle-aware countdowns + scope (NGE-477 v1)`
 - `91051c0` — `feat(v2): materials drill-down — staleness clock + scope section (NGE-478 v1)`
+
+
+## Session 31 — 2026-04-21
+
+### Completed
+- **Onboarding Wizard Phase 1A shipped** — PR #14 squash-merged to main (migration 051 + types + vertical configs + state/business-snapshot actions + Inngest prebuild-context + wizard UI + Step 1 + signup trim)
+- Built for all 27 verticals flexibly (code-driven config files per `docs/TEMPLATE-ARCHITECTURE.md` hybrid pattern); 3 configured (construction, manufacturing, healthcare) + DEFAULT fallback for the other 23
+- **Migration 051 applied to prod DB** (`yfkledwhwsembikpjynu`) via transient `pg` client + `POSTGRES_URL_NON_POOLING` — bypassed the timestamp-vs-NNN migration-history drift discovered mid-session (remote has 73 dashboard-applied migrations, local has curated `NNN_` exports)
+- **Live smoke test passed**: `/`, `/login`, `/onboarding`, `/onboarding/business` all render or redirect correctly
+- **Entry integration fix (B+C)**: Stripe `checkout.session.completed` `success_url` → `/login?welcome=true&next=/onboarding/business`; dashboard layout guards direct-signup clients with `onboarding_status='not_started'` AND `partner_id IS NULL` into the wizard (safety net for magic-link + admin-created accounts)
+- Removed the partner auto-skip I had initially added — per user direction, `/onboarding/*` is client-only; partner onboarding is an entirely separate product concern (separate `partner_profiles` table, separate `/partner/*` routes)
+
+### Audit Snapshot
+- Dashboard pages: 28
+- Onboarding pages: 2 (+ layout)
+- API routes: 26
+- Server action files: 56 top-level + 2 in `lib/actions/onboarding/` = 58
+- Server action exports: 167
+- Components (total): 220
+- Onboarding components: 6
+- Migrations: 45 files (highest: 051_onboarding_wizard.sql; gaps at 035-037, 040-043 — established pattern, not a concern)
+- Inngest functions: 24
+
+### Decisions Made
+- **Partner is a separate entity** (`partner_profiles` + `partner_branding` + `partner_clients`), NOT a role on clients. `clients.partner_id` = referral attribution only. `/onboarding/*` client-only; no partner branching. Any future partner onboarding is a separate initiative with its own routes.
+- **Code-driven vertical config** in `lib/onboarding/verticals/<slug>.ts` — mirrors `docs/TEMPLATE-ARCHITECTURE.md` hybrid pattern. Not DB-driven JSONB.
+- **Doc-category slugs** match existing `TEMPLATE_REGISTRY` kebab-case; dropped `ppe_program` because it's not in the registry. Don't fabricate template slugs.
+- **Migration application pattern confirmed**: this project has always applied migrations via Supabase Dashboard (remote history uses auto-timestamp names) with `supabase/migrations/NNN_*.sql` as curated exports. `supabase db push` doesn't fit. Direct psql/node-pg or Dashboard SQL Editor are the working paths.
+- **`primary_trade` dropped** — `clients.vertical` is the single source; `vertical_metadata JSONB` reserved for future sub-classification. "trade" in `lib/landing-configs/trades/*` is construction-only landing-page routing, unrelated to client records.
+
+### Known Issues
+- **Phase 1B queue unstarted** — Steps 2-7 (connect-tools, sites, people, third-parties, documents, automations), `/intake` deletion, Playwright E2E, full quality pipeline, feature audit. All tracked in `specs/onboarding-wizard-plan.md`.
+- **Wave 2 subagents hit API rate limits mid-session** — had to take over directly and write server actions + frontend inline. Phase 1B should expect the same if run in a heavy session; consider splitting across multiple `/build` sessions.
+- **Pre-existing carried gaps** (not introduced this session):
+  - `auth/user.signed-up` event never fires anywhere in-app (handlers exist, senders don't)
+  - Stripe webhook new-signup path creates auth user directly, sends welcome twice
+  - 23 verticals still fall through to `DEFAULT_CONFIG` — each needs user research + config
+  - Scraper service-role key (`vizmtkfpxxjzlpzibate`) still unrotated (carried from Session 29/30)
+  - 12-PR stack from Session 29/30 (v2 drill-downs) — still unmerged per Session 30 log; unclear if this session's merge to main made that status worse/better
+
+### Next Session Should
+1. **Run `/prime`** — will surface the new memory entry `project_session_31_onboarding_phase_1a.md`
+2. **Execute Phase 1B** via `/build specs/onboarding-wizard-plan.md` — spawns backend + frontend builders for T6-T12 (server actions), T15-T20 (step pages), T25 (delete `/intake`), T26 (Playwright E2E), T27 (quality pipeline), T28 (feature audit). Start from a fresh feature branch off main.
+3. **Alternative first task**: resolve the 12-PR stack from Session 29/30 if not yet merged (check `gh pr list`)
+4. **Rotate scraper key** still outstanding — 3 sessions carried; worth a separate small PR
+
+### Linear
+- Not connected (`.linear_project.json` has `"project": null`). Session-to-session tracking lives in this log + git.
+
+## Session 32 — 2026-04-21 (Phase 1B)
+
+### Completed
+- **Onboarding Wizard Phase 1B shipped** — all of Steps 2–7 (tools, sites, people, subs, documents, automations) wired end-to-end on top of the Phase 1A foundation
+- Spawned 2 strict-ownership team builders (Backend + Frontend, sequential); both shipped tsc+lint-clean on first pass
+- **Backend** (13 files): 7 new server actions (`connect-tools.ts`, `sites.ts`, `workers.ts`, `third-parties.ts`, `documents.ts`, `automations.ts`), `integration-providers.ts` map, 2 API routes (`app/api/onboarding/documents/upload/route.ts`, `app/api/onboarding/workers/csv/route.ts`), 2 Inngest handlers (`send-team-invites.ts`, `finalize-onboarding.ts`), event additions in `inngest/types.ts`, Inngest registration in `app/api/inngest/route.ts`
+- **Frontend** (13 files): 6 step pages (`app/onboarding/{tools,sites,people,subs,documents,automations}/page.tsx`) + 6 client form components (`components/onboarding/step-{2,3,4,5,6,7}-*/`)
+- **Cleanup** (T25): deleted `lib/actions/intake.ts` + `__tests__/lib/intake.test.ts`; scrubbed stale comment in `app/dashboard/layout.tsx`. `compliance/intake.submitted` now fires from `finalize-onboarding.ts` (durable/retryable) with 6-boolean payload matching the existing `intake-pipeline.ts` contract
+- **Validation gates**: `tsc --noEmit` 0 errors; `next build` compiled successfully in 52s, 110/110 static pages, all 8 `/onboarding/*` routes present in build manifest; ESLint clean on all onboarding files when targeted directly
+
+### Audit Snapshot
+- Onboarding pages: 8 (Phase 1A: 2, Phase 1B: 6)
+- Onboarding components: 12 (Phase 1A: 6 shell, Phase 1B: 6 step forms)
+- Onboarding server actions: 8 files (state, business-snapshot + 6 new)
+- Onboarding API routes: 2 (CSV + docs upload)
+- Onboarding Inngest handlers: 3 (prebuild-context + send-team-invites + finalize-onboarding)
+- Build output: 110 routes compile, 0 build errors
+
+### Decisions Made
+- **6 intake booleans derived conservatively** in `finalize-onboarding.ts` from wizard signals: `wvpp_drafted` from IIPP/WVPP doc in approved/generated/active; `training_completed` from training-category doc; `incident_log_active` from any incident OR satisfied doc; `hazards_identified` from any site with employee_count>0; `reporting_policy` from expirationSweep OR regulatoryAlerts toggle; `union_confirmed=false` (no wizard field). Unknown defaults to `false` so posture score reflects incomplete setup.
+- **Inngest registration lives in `app/api/inngest/route.ts`**, not `inngest/client.ts` — matched existing pattern (spec had it wrong). `onboardingPrebuildContext` was already registered in Phase 1A; the survey's claim it was missed was incorrect.
+- **Third-parties persistence**: `construction_subs` schema has only `company_name` + `trade_type` columns. UI captures richer contact fields but backend persists only what columns exist. Phase 2 rename + column expansion picks up the extras.
+- **Frontend read patterns**: where no dedicated list server action existed, page Server Components query Supabase directly with RLS (sites, workers/user_roles, construction_subs, documents). Swap to dedicated `list*` actions is mechanical when needed.
+- **CSV parser inline RFC-4180-ish** — `papaparse` not installed; didn't add a dep for a single route.
+- **Stale worktree `.claude/worktrees/sleepy-goldstine`** is not a registered `git worktree` (only main appears in `git worktree list`). Leave in place — destructive cleanup deferred; contaminates `npm run lint` project-wide but individual file ESLint runs clean.
+
+### Known Issues
+- **Not executed** (deferred for live-run validation): T26 Playwright E2E (`e2e/onboarding-wizard.spec.ts`), T28 `/audit` feature audit on `/onboarding/*`. Both need a running dev server + seeded DB — safer to run manually.
+- **T27 full quality-pipeline partial**: tsc ✅, build ✅, ESLint on onboarding files ✅. Project-wide `npm run lint` blocked by the stale-worktree parser error (pre-existing; not introduced this session).
+- **Step 5 re-hydration is partial** — returning visitor sees only `company_name` + `trade_type` per row; contact fields blank (backend persists `company_name` only).
+- **Step 6 status strings assumed** — "Needs eye" = {requested, imported, uploaded, pending_review}; "Looks good" = {approved, generated}. May need adjustment if the existing doc-pipeline writes different values.
+- **Pre-existing carryovers (unchanged this session)**: `auth/user.signed-up` senders still missing; Stripe webhook double-welcome; 23 verticals still use DEFAULT_CONFIG; scraper service-role key (`vizmtkfpxxjzlpzibate`) still unrotated; 12-PR v2 stack status from Session 29/30.
+- **Inngest client is untyped** — `Events` in `inngest/types.ts` is declared but not applied to `new Inngest({})`. `.send()` calls work without event-name type-checking. Not introduced by this session; flagged for follow-up.
+
+### Next Session Should
+1. **Live smoke test** the wizard end-to-end: sign up → complete all 7 steps as construction client → confirm `/dashboard` lands with posture score; repeat for healthcare (Step 5 should be hidden).
+2. **Playwright E2E** (T26) — write `e2e/onboarding-wizard.spec.ts` covering the two vertical flows + skip-step SkipConsequencesDialog path.
+3. **Feature audit** — `/audit Onboarding --fix` targeting 0 critical, ≥95% functional.
+4. **PR + merge** — current state is uncommitted on `main`. Create a feature branch + PR before merging.
+5. **Stale worktree cleanup** — prune `.claude/worktrees/sleepy-goldstine` to unblock project-wide lint (confirm with user first).
+6. **Carryovers**: scraper key rotation, 12-PR v2 stack status, `auth/user.signed-up` wiring.
+
+### Linear
+- Not connected. Tracking lives in this log + git.

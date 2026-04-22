@@ -11,9 +11,9 @@ export default async function BusinessSnapshotPage() {
   const supabase = await createClient()
   const { data: verticals } = await supabase
     .from("verticals")
-    .select("slug, label, risk_tier")
-    .is("alias_of", null)
-    .order("label", { ascending: true })
+    .select("slug, label:display_name, risk_tier:tier")
+    .eq("status", "active")
+    .order("display_name", { ascending: true })
 
   const current = stateResult.data.client
 
