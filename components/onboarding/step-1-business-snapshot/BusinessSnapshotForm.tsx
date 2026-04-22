@@ -3,8 +3,20 @@
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { Check, ChevronsUpDown } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
 import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import {
   Select,
   SelectContent,
@@ -73,7 +85,7 @@ type Props = {
 export function BusinessSnapshotForm({ verticals, initial }: Props) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-  const [vertical, setVertical] = useState<string>(initial.vertical ?? "")
+  const [vertical, setVertical] = useState<string | undefined>(initial.vertical ?? undefined)
   const [states, setStates] = useState<string[]>(initial.operatingStates)
   const [workerRange, setWorkerRange] = useState<WorkerCountRange | "">(
     initial.workerCountRange ?? "",
@@ -127,7 +139,7 @@ export function BusinessSnapshotForm({ verticals, initial }: Props) {
               Primary industry
             </Label>
             <Select value={vertical} onValueChange={setVertical}>
-              <SelectTrigger id="vertical" className="bg-midnight/50 border-brand-white/[0.1] h-12">
+              <SelectTrigger id="vertical" className="bg-midnight/50 border-brand-white/[0.1] h-12 w-full">
                 <SelectValue placeholder="Select your industry" />
               </SelectTrigger>
               <SelectContent>
@@ -148,31 +160,73 @@ export function BusinessSnapshotForm({ verticals, initial }: Props) {
               Select every state where you have workers or job sites. We&apos;ll tune
               regulatory monitoring to match.
             </p>
-            <div className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
-              {US_STATES.map((s) => {
-                const selected = states.includes(s.code)
-                return (
-                  <button
-                    type="button"
-                    key={s.code}
-                    onClick={() => toggleState(s.code)}
-                    className={[
-                      "border px-2 py-2 font-display text-[12px] font-semibold tracking-[1px] transition-colors",
-                      selected
-                        ? "border-gold bg-gold/10 text-gold"
-                        : "border-brand-white/[0.1] text-steel hover:border-brand-white/[0.2] hover:text-parchment",
-                    ].join(" ")}
-                    aria-pressed={selected}
-                  >
-                    {s.code}
-                  </button>
-                )
-              })}
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="mt-2 h-12 w-full justify-between bg-midnight/50 border-brand-white/[0.1] font-display text-[13px] tracking-[1px] uppercase"
+                >
+                  {states.length === 0 ? (
+                    <span className="text-steel">Select states</span>
+                  ) : (
+                    <span className="text-parchment">
+                      {states.length} state{states.length === 1 ? "" : "s"} selected
+                    </span>
+                  )}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-[--radix-popover-trigger-width] p-0"
+                align="start"
+              >
+                <Command>
+                  <CommandInput placeholder="Search states..." />
+                  <CommandList>
+                    <CommandEmpty>No matches.</CommandEmpty>
+                    <CommandGroup>
+                      {US_STATES.map((s) => {
+                        const selected = states.includes(s.code)
+                        return (
+                          <CommandItem
+                            key={s.code}
+                            value={`${s.name} ${s.code}`}
+                            onSelect={() => toggleState(s.code)}
+                          >
+                            <Check
+                              className={[
+                                "mr-2 h-4 w-4",
+                                selected ? "opacity-100" : "opacity-0",
+                              ].join(" ")}
+                            />
+                            <span className="flex-1">{s.name}</span>
+                            <span className="ml-2 text-xs text-steel">{s.code}</span>
+                          </CommandItem>
+                        )
+                      })}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
             {states.length > 0 ? (
-              <p className="mt-1 font-sans text-[12px] text-gold">
-                {states.length} state{states.length === 1 ? "" : "s"} selected
-              </p>
+              <div className="mt-2 flex flex-wrap gap-1">
+                {states.slice(0, 10).map((code) => (
+                  <Badge
+                    key={code}
+                    variant="secondary"
+                    className="font-display text-[11px] tracking-[1px]"
+                  >
+                    {code}
+                  </Badge>
+                ))}
+                {states.length > 10 ? (
+                  <Badge variant="secondary" className="font-display text-[11px]">
+                    +{states.length - 10} more
+                  </Badge>
+                ) : null}
+              </div>
             ) : null}
           </div>
 
