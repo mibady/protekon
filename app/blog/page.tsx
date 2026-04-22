@@ -211,7 +211,7 @@ export default async function BlogPage() {
             </div>
 
             {/* Client-side filters */}
-            <BlogFilters posts={allOtherPosts} categories={categories} />
+            <BlogFilters posts={allOtherPosts} />
           </div>
         </section>
       </main>
