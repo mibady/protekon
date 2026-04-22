@@ -103,12 +103,11 @@ export default async function ResourcePage({ params }: Props) {
           </div>
         </section>
 
-        {/* Body */}
-        <section className="bg-parchment py-16">
-          <div className="mx-auto max-w-3xl px-6">
-            {/* Cover Image */}
-            {resource.coverImage && (
-              <div className="mb-10 overflow-hidden rounded-xl">
+        {/* Cover Image bridge */}
+        {resource.coverImage && (
+          <section className="bg-parchment">
+            <div className="mx-auto max-w-4xl px-6 -mt-8">
+              <div className="overflow-hidden rounded-xl shadow-lg">
                 <Image
                   src={urlFor(resource.coverImage).width(1200).height(630).url()}
                   alt={resource.title}
@@ -118,8 +117,13 @@ export default async function ResourcePage({ params }: Props) {
                   priority
                 />
               </div>
-            )}
+            </div>
+          </section>
+        )}
 
+        {/* Body */}
+        <section className="bg-parchment py-16">
+          <div className="mx-auto max-w-3xl px-6">
             {/* Download Link */}
             {resource.downloadUrl && (
               <div className="mb-10 rounded-lg border border-gold/20 bg-gold/5 p-6">
