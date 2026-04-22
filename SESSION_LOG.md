@@ -1770,3 +1770,56 @@ No state changes this session — Linear not connected via `.linear_project.json
 
 ### Linear
 - Not connected. Tracking lives in this log + git.
+
+## Session 33 — 2026-04-22 (Phase 1B hardening + prod cleanup)
+
+### Completed
+- **PR #15 Phase 1B merged** (squash commit `2ae5f7d`) at session start. Wizard routes verified live on prod (`/onboarding/{business,tools,sites,people,subs,documents,automations}` all return 307 → /login, no 404s).
+- **Step 1 industry dropdown fix (PR #16 → wait, actually this was a Step 1 subset)** — Radix Select v2 rejected empty-string `value`, placeholder disappeared, trigger collapsed to a tiny empty square. Initialized `vertical` state as `undefined` instead of `""`, added `w-full` to SelectTrigger. Commit `5483337`.
+- **States picker rebuilt** — replaced the 51-button grid in `BusinessSnapshotForm.tsx` with a searchable Popover + Command multi-select using existing shadcn primitives. Badge chips show selected codes under the trigger. Same commit `5483337`.
+- **Verticals schema drift discovered + fixed** (commit `1dca563`) — prod `public.verticals` table had columns `{slug, display_name, tier, status}` not `{slug, label, risk_tier, alias_of}` as migration 022 intended. Page query was silently returning `[]`. Fixed with PostgREST aliases: `label:display_name`, `risk_tier:tier`; drop the nonexistent `alias_of` filter; filter on `status='active'`. Simplified server action's fail-closed check to drop the no-op alias resolution.
+- **Dashboard preview gated by step completion** — Company/Sites/Workers/Subs/Documents/Posture cards now show placeholders ("Will populate after Step N") until `state.completedSteps.includes(N)`. Previously rendered live DB counts, which on the demo account showed stale "Coastal Health Group / Healthcare / 3 sites / 8 docs / 78 posture" before the user picked anything.
+- **Migration 052 applied to prod** — reconciled 3 drifted slugs in prod verticals with the TS `VerticalSlug` union: `automotive → auto-services`, `real_estate → real-estate`, `warehouse → inactive`. Five FK-bound dependent tables updated (clients, compliance_calendar, enforcement_alerts, industry_enforcement_stats, nearby_enforcement_actions, resource_type_vertical_map) via insert-new/update-deps/delete-old pattern inside one transaction. Applied via node-pg against `POSTGRES_URL_NON_POOLING` — `supabase db query --file` choked on multi-statement files ("cannot insert multiple commands into a prepared statement"); `psql` not installed in sandbox; node-pg via `/tmp/pg-runner` (npm `pg` + `NODE_TLS_REJECT_UNAUTHORIZED=0`) worked.
+- **PR #18 shipped** — Step 1 Continue button was still running Phase 1A's placeholder `router.push("/dashboard")` even after Phase 1B merged, skipping Steps 2–7 entirely. Changed target to `/onboarding/tools` and updated the toast copy. Merged as commit `6e45851`.
+- **Migrations 047 + 050 applied to prod** — `user_roles` and `integrations` tables didn't exist despite Phase 1B code writing to them (migrations drift from source tree to prod, same pattern as `verticals`). 047 had an FK-seed line assuming `clients.id = auth.users.id`; 6 of 14 clients were seed fixtures without auth users so the seed failed. Patched the seed in-memory at apply time to add `WHERE EXISTS(SELECT 1 FROM auth.users WHERE id = clients.id)`. Seeded 8 owner rows for the auth-backed clients. 050 applied clean. Integrations table + user_roles table now round-trip via admin client (verified with test insert/delete).
+- **PR #16 shipped** — cover-image bridge extracted from the stranded `claude/fix-header-article-image-wy24u` branch and applied fresh on top of main's existing dark-hero work. `app/blog/[slug]/page.tsx` + `app/resources/[slug]/page.tsx` now render cover image in its own `bg-parchment` section with `-mt-8` negative margin, overlapping the hero↓body boundary. Squash-merged as `c8bcdb2`.
+- **PR #17 shipped** — `/blog` index had category filter row duplicated (hero pills + BlogFilters row above article grid). Dropped the BlogFilters category row and `activeCategory` state; kept hero pills (shareable URLs) and tier tabs (different axis — content type). Merged as `b326b14`.
+- **PR #19 shipped** — `scripts/reset-onboarding.ts` dev-helper that resets any client's onboarding state by email. Deletes rows from 14 tables that FK-reference sites (so sites delete last), preserves the clients row + auth user + NOT NULL `vertical`. Merged as `4763d9a`.
+- **Branch hygiene** — deleted 14 branches total: 13 `v2/*` zombies from Session 29/30's squash merges (PRs #1–#13 all showed `git cherry` already-applied), 1 stale `claude/regulatory-info-requirements-G5KlE` (trivial MCP config drift, 225 commits behind), and `claude/fix-header-article-image-wy24u` after PR #16 captured its contribution.
+- **6 orphan clients purged** — `ops@valleyfreshfarms.com`, `mike@goldenstateplumbing.com`, `lisa@bayareaautobody.com`, `director@sunrisesenior.com`, `admin@pacificcoastdental.com`, `ops@summiturgentcare.com`. All were seed-only fixtures with no Supabase Auth users and zero dependent rows (never signed up, never walked wizard). Deleted in single transaction. `clients` count dropped 14 → 8.
+- **Demo account unstuck + reset for testing** — `admin@coastalhealthgroup.com` was wedged at `onboarding_status='in_progress'`, `last_onboarding_step_completed=1` because the Step 1 → /dashboard bug (pre-PR #18) never let anyone reach Step 7 to stamp `onboarding_status='completed'`. Manually flipped to completed, then reset via the new script for fresh wizard testing.
+
+### Audit Snapshot
+- PRs merged this session: **4** (#16, #17, #18, #19) on top of the **2** from prior session (#14, #15)
+- Prod migrations applied: **3** (052 slug reconcile, 047 user_roles + team_invite_tokens, 050 integrations)
+- Branches deleted: **15** (14 zombies + 1 feature source branch)
+- Orphan rows purged: **6 clients**
+- Prod `clients` count: 14 → 8
+- Open PRs at session end: **0**
+- Unmerged remote branches: **0**
+
+### Decisions Made
+- **Prod schema drift is the norm, not the exception** — migration files in `supabase/migrations/` are aspirational source-of-truth for the code but prod history has diverged. `verticals`, `user_roles`, `integrations` all needed either schema fixes in code (PostgREST aliasing) or in-session prod migrations to catch up. Future migrations should still ship as `NNN_*.sql` files AND be applied via node-pg (Session 31's pattern) immediately so drift doesn't compound.
+- **FK-unsafe seeds pattern** — when a migration seeds via `INSERT ... SELECT ... FROM clients` and assumes every clients row has a matching auth.users row, wrap in `WHERE EXISTS(SELECT 1 FROM auth.users WHERE id = clients.id)` so the migration survives historic seed-fixture contamination.
+- **Dashboard preview gating is by `completedSteps` array, not by `last_onboarding_step_completed`** — the array is derived server-side but reflects per-step completion granularity.
+- **Reset-onboarding script preserves `clients.vertical`** — prod has NOT NULL on that column with no default, so it can't be nulled. Step 1 will pre-fill with prior value on next run; user can change if testing a different industry.
+- **Don't bypass Stripe in testing** (per Ian) — fresh account test runs go through the real paid flow from signup to wizard to dashboard.
+
+### Known Issues / Carryovers
+- **Stale worktree `.claude/worktrees/sleepy-goldstine`** — still contaminates project-wide `npm run lint` with tsconfigRootDir ambiguity. Per-file `npx eslint <path>` works fine. Pruning requires user confirmation (destructive); still deferred.
+- **Inngest `Events` type not applied** to `new Inngest({})` — `.send()` calls untyped for event names. Pre-existing.
+- **`auth/user.signed-up` senders still missing** — event handlers exist but nothing fires the event. Onboarding emails, onboarding notifications etc. never send.
+- **Stripe webhook double-welcome email** — pre-existing bug.
+- **23 verticals still use `DEFAULT_CONFIG`** — only construction/manufacturing/healthcare have dedicated per-vertical configs. User research needed per remaining slug.
+- **Scraper service-role key (`vizmtkfpxxjzlpzibate`)** — 4 sessions carried without rotation now.
+- **Playwright E2E + `/audit` feature audit** on onboarding — still deferred; need live dev server + seed data.
+
+### Next Session Should
+1. **Live smoke test the full wizard end-to-end** — Ian to sign up via Stripe with a fresh email, walk Steps 1-7, confirm `onboarding_status='completed'` + `onboarded_at` stamped. Second login should bypass wizard straight to /dashboard.
+2. **Fix `auth/user.signed-up` event firing** — real user-visible gap; wire the `.send()` call from the signup flow (probably in `app/auth/callback/route.ts` or the Stripe webhook handler).
+3. **Scraper key rotation** — 4 sessions carried; smallest-risk outstanding security item. Needs Supabase dashboard access for `vizmtkfpxxjzlpzibate` project + Vercel env var update.
+4. **Playwright E2E** — `e2e/onboarding-wizard.spec.ts` for construction + healthcare vertical flows + SkipConsequencesDialog path.
+5. **Per-vertical configs** for the 23 slugs that still use `DEFAULT_CONFIG` — incremental per-ticket work, each needs terminology + required-docs research.
+
+### Linear
+- Not connected. Tracking lives in this log + git.
