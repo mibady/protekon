@@ -109,21 +109,105 @@ export default function Hero() {
 
         {/* RIGHT PANEL - Visual */}
         <div className="relative bg-midnight flex flex-col overflow-hidden min-h-[50vh] lg:min-h-0">
-          {/* Dashboard screenshot */}
-          <motion.div
-            className="flex-1 relative"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            <Image
-              src="/images/protekon-dashboard2.png"
-              alt="Protekon compliance dashboard"
-              fill
-              className="object-cover object-left-top"
-              priority
-            />
-          </motion.div>
+          {/* Background image */}
+          <Image
+            src="/images/hero/dashboard-glow.jpg"
+            alt="Compliance command dashboard"
+            fill
+            className="object-cover opacity-30"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/60 to-midnight/40" />
+
+          {/* Grid lines */}
+          <div className="absolute inset-0">
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={`h-${i}`}
+                className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/10 to-transparent"
+                style={{ top: `${(i + 1) * 14}%` }}
+                initial={{ opacity: 0, scaleX: 0 }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{ duration: 1, delay: 0.8 + i * 0.1 }}
+              />
+            ))}
+            {[...Array(4)].map((_, i) => (
+              <motion.div
+                key={`v-${i}`}
+                className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-crimson/10 to-transparent"
+                style={{ left: `${(i + 1) * 20}%` }}
+                initial={{ opacity: 0, scaleY: 0 }}
+                animate={{ opacity: 1, scaleY: 1 }}
+                transition={{ duration: 1, delay: 1 + i * 0.1 }}
+              />
+            ))}
+          </div>
+
+          {/* Radial glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `radial-gradient(ellipse 70% 60% at 50% 40%, rgba(196,18,48,0.06) 0%, transparent 60%)`
+            }}
+          />
+
+          {/* Central P-Mark */}
+          <div className="flex-1 flex items-center justify-center relative">
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              {/* Pulsing rings */}
+              <motion.div
+                className="absolute -inset-10 border border-crimson/20 rounded-full"
+                animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute -inset-16 border border-gold/10 rounded-full"
+                animate={{ scale: [1, 1.08, 1], opacity: [0.2, 0.05, 0.2] }}
+                transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
+              />
+
+              {/* P-mark */}
+              <svg viewBox="0 0 48 84" className="w-[80px] h-[140px]">
+                <motion.rect
+                  x="0" y="0" width="13" height="84"
+                  fill="#FAFAF8"
+                  initial={{ scaleY: 0 }}
+                  animate={{ scaleY: 1 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  style={{ transformOrigin: "top" }}
+                />
+                <motion.rect
+                  x="13" y="0" width="35" height="13"
+                  fill="#FAFAF8"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.4, delay: 0.9 }}
+                  style={{ transformOrigin: "left" }}
+                />
+                <motion.rect
+                  x="35" y="13" width="13" height="27"
+                  fill="#FAFAF8"
+                  initial={{ scaleY: 0 }}
+                  animate={{ scaleY: 1 }}
+                  transition={{ duration: 0.3, delay: 1.1 }}
+                  style={{ transformOrigin: "top" }}
+                />
+                <motion.rect
+                  x="0" y="40" width="48" height="10"
+                  fill="#C41230"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.4, delay: 1.3 }}
+                  style={{ transformOrigin: "left" }}
+                />
+              </svg>
+            </motion.div>
+          </div>
 
           {/* Stats Grid - Bottom */}
           <motion.div 
