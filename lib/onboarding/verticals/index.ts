@@ -16,12 +16,16 @@ import { DEFAULT_CONFIG } from './default';
 import { CONSTRUCTION_CONFIG } from './construction';
 import { MANUFACTURING_CONFIG } from './manufacturing';
 import { HEALTHCARE_CONFIG } from './healthcare';
+import { MINING_CONFIG } from './mining';
+import { WASTE_ENVIRONMENTAL_CONFIG } from './waste_environmental';
 import type { OnboardingVerticalConfig, VerticalSlug } from './types';
 
 const REGISTRY: Partial<Record<VerticalSlug, OnboardingVerticalConfig>> = {
   construction: CONSTRUCTION_CONFIG,
   manufacturing: MANUFACTURING_CONFIG,
   healthcare: HEALTHCARE_CONFIG,
+  mining: MINING_CONFIG,
+  waste_environmental: WASTE_ENVIRONMENTAL_CONFIG,
 };
 
 /**
@@ -43,5 +47,7 @@ export {
   CONSTRUCTION_CONFIG,
   MANUFACTURING_CONFIG,
   HEALTHCARE_CONFIG,
+  MINING_CONFIG,
+  WASTE_ENVIRONMENTAL_CONFIG,
 };
 export type { OnboardingVerticalConfig, VerticalSlug } from './types';
