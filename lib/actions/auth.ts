@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 import type { ActionResult } from "@/lib/types"
 import { safeRedirect } from "@/lib/safe-redirect"
 import { resolveLandingPath } from "@/lib/auth/landing"
+import { inngest } from "@/inngest/client"
 
 export async function signIn(formData: FormData): Promise<ActionResult> {
   const supabase = await createClient()
@@ -84,6 +85,13 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
       risk_level: "high",
       status: "active",
     }, { onConflict: "id" })
+
+    // Fire the post-signup durable workflow (welcome email + reminder seeding).
+    // Safe to await — Inngest send is a lightweight HTTP call; failure is non-fatal.
+    await inngest.send({
+      name: "auth/user.signed-up",
+      data: { userId: data.user.id, email },
+    })
   }
 
   redirect("/onboarding/business")
