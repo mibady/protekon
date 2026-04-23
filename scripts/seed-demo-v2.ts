@@ -830,17 +830,15 @@ async function seedDocumentTemplates(): Promise<number> {
   return 1
 }
 
-async function seedDocuments(ctx: AuthContext): Promise<Map<string, string>> {
+async function seedDocuments(ctx: AuthContext): Promise<void> {
   console.log("📑 Seeding documents...")
 
   const sierraId = ctx.orgUserIds.get("admin@sierraridgebuilders.com")
-  const summitId = ctx.orgUserIds.get("admin@summitmunicipal.com")
-  if (!sierraId || !summitId) {
-    throw new Error("seedDocuments: missing client ids for Sierra Ridge or Summit Municipal")
+  if (!sierraId) {
+    throw new Error("seedDocuments: missing client id for Sierra Ridge")
   }
 
-  // Sierra Ridge (construction): 3 docs for demo. Summit: 1 policy doc so the
-  // acknowledgment_requests FK has a valid target.
+  // Sierra Ridge (construction): 3 docs for demo.
   const rows = [
     {
       client_id: sierraId,
@@ -869,37 +867,12 @@ async function seedDocuments(ctx: AuthContext): Promise<Map<string, string>> {
       priority: "standard",
       pages: 2,
     },
-    {
-      client_id: summitId,
-      document_id: makeCodeId("DOC"),
-      type: "hearing_conservation_policy",
-      filename: "Hearing Conservation Policy.pdf",
-      status: "completed",
-      priority: "standard",
-      pages: 6,
-    },
   ]
 
-  const { data, error } = await admin
-    .from("documents")
-    .insert(rows)
-    .select("id, client_id, type")
+  const { error } = await admin.from("documents").insert(rows)
   if (error) throw new Error(`seedDocuments: insert failed: ${error.message}`)
 
-  // Map clientId -> a representative document uuid. For Summit we use its
-  // hearing-conservation policy so the ack request can FK to it.
-  const docIdByClient = new Map<string, string>()
-  for (const d of data ?? []) {
-    const clientId = d.client_id as string
-    const docUuid = d.id as string
-    // Prefer the policy-type rows; otherwise first one wins.
-    if (d.type === "hearing_conservation_policy" || !docIdByClient.has(clientId)) {
-      docIdByClient.set(clientId, docUuid)
-    }
-  }
-
-  console.log(`   ✅ ${rows.length} documents (3 Sierra Ridge + 1 Summit policy)`)
-  return docIdByClient
+  console.log(`   ✅ ${rows.length} documents (Sierra Ridge)`)
 }
 
 async function seedIncidents(ctx: AuthContext): Promise<void> {
@@ -916,8 +889,9 @@ async function seedIncidents(ctx: AuthContext): Promise<void> {
   const fiveDaysAgo = new Date(now.getTime() - 5 * 24 * 3600 * 1000)
   const tenDaysAgo = new Date(now.getTime() - 10 * 24 * 3600 * 1000)
 
-  // Note: the incidents schema (001 + 011 + 045) does not include columns for
-  // status / reported_by / assigned_to_client. Store those hints in metadata.
+  // Real prod incidents schema: id, client_id, incident_id, description,
+  // location, incident_date, severity, follow_up_id, created_at, metadata, site_id.
+  // Everything else (status, reported_at, reported_by, type) lives in metadata.
   const rows = [
     {
       client_id: sierraId,
@@ -927,10 +901,10 @@ async function seedIncidents(ctx: AuthContext): Promise<void> {
       location: "Riverside HQ — 3rd floor exterior scaffold",
       incident_date: fiveDaysAgo.toISOString().slice(0, 10),
       severity: "near-miss",
-      reported_at: fiveDaysAgo.toISOString(),
       metadata: {
         status: "submitted",
         type: "near_miss",
+        reported_at: fiveDaysAgo.toISOString(),
         reported_by_user_id: fieldLeadUserId,
         assigned_to_client_id: sierraId,
         injuryOccurred: false,
@@ -945,11 +919,11 @@ async function seedIncidents(ctx: AuthContext): Promise<void> {
       location: "Downtown SF Location — front desk",
       incident_date: tenDaysAgo.toISOString().slice(0, 10),
       severity: "type_2_wvp",
-      reported_at: tenDaysAgo.toISOString(),
       metadata: {
         status: "open",
         type: "workplace_violence",
         wvp_type: 2,
+        reported_at: tenDaysAgo.toISOString(),
         injuryOccurred: false,
         medicalTreatment: false,
       },
@@ -1038,45 +1012,16 @@ async function seedRegulatoryUpdates(): Promise<string> {
   return data.id as string
 }
 
+// TODO(phase-b): acknowledgment_requests table does not exist in prod public
+// schema (0 columns found via information_schema.columns on yfkledwhwsembikpjynu).
+// Scenario #6 (Summit hearing-conservation sign-off) is manual for now.
+// Left unused for future wiring once the table lands.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function seedAcknowledgmentRequests(
-  ctx: AuthContext,
-  regulatoryUpdateId: string,
-  docIdByClient: Map<string, string>
+  _ctx: AuthContext,
+  _regulatoryUpdateId: string
 ): Promise<void> {
-  console.log("✍️  Seeding acknowledgment_requests...")
-
-  // Silence unused-var: regulatory_updates and ack_requests are logically linked
-  // via cohort_note but the schema does not FK them. We keep the parameter for
-  // future wiring.
-  void regulatoryUpdateId
-
-  const summitId = ctx.orgUserIds.get("admin@summitmunicipal.com")
-  if (!summitId) throw new Error("seedAcknowledgmentRequests: missing Summit client id")
-
-  const policyDocId = docIdByClient.get(summitId)
-  if (!policyDocId) {
-    throw new Error(
-      "seedAcknowledgmentRequests: Summit policy document missing — seedDocuments must insert a policy doc for Summit first"
-    )
-  }
-
-  const dueDate = new Date()
-  dueDate.setDate(dueDate.getDate() + 14)
-
-  const rows = [
-    {
-      client_id: summitId,
-      policy_document_id: policyDocId,
-      policy_version: "v1.0",
-      cohort_note:
-        "All field crews working around sustained noise ≥85 dBA. Pending sign-off per [DEMO] OSHA hearing conservation amendment.",
-      due_date: dueDate.toISOString(),
-    },
-  ]
-
-  const { error } = await admin.from("acknowledgment_requests").insert(rows)
-  if (error) throw new Error(`seedAcknowledgmentRequests: insert failed: ${error.message}`)
-  console.log(`   ✅ ${rows.length} ack request (Summit hearing conservation)`)
+  console.log("↷  Skipping acknowledgment_requests — table missing in prod schema (scenario #6 manual)")
 }
 
 async function seedIntakeSubmissions(): Promise<void> {
@@ -1259,12 +1204,12 @@ async function main(): Promise<void> {
 
     // Phase B — vertical tables, logs, intake, commissions
     await seedDocumentTemplates()
-    const docIdByClient = await seedDocuments(ctx)
+    await seedDocuments(ctx)
     await seedIncidents(ctx)
     await seedTrainingRecords(ctx)
     await seedBaaAgreements(ctx)
-    const regulatoryUpdateId = await seedRegulatoryUpdates()
-    await seedAcknowledgmentRequests(ctx, regulatoryUpdateId, docIdByClient)
+    await seedRegulatoryUpdates()
+    // acknowledgment_requests skipped — table does not exist in prod schema.
     await seedIntakeSubmissions()
     await seedAuditLog(ctx)
     await seedActionItems(ctx)
@@ -1273,8 +1218,11 @@ async function main(): Promise<void> {
     // siteIdByOrgSite is reserved for future per-site seeders (projects, poster
     // compliance, etc.). Keep the reference so tsc doesn't complain.
     void siteIdByOrgSite
+    // Reference the stubbed ack seeder so tsc doesn't flag it as unused while
+    // the table is missing from prod.
+    void seedAcknowledgmentRequests
 
-    console.log("\n✅ Seed Phase A + B complete (auth + clients + RBAC + sites + partners + docs + incidents + training + BAAs + regs + acks + intake + audit log + action items + commissions)")
+    console.log("\n✅ Seed Phase A + B complete (auth + clients + RBAC + sites + partners + docs + incidents + training + BAAs + regs + intake + audit log + action items + commissions)")
     console.log("\n🔑 Logins:")
     for (const org of DEMO_ORGS) {
       console.log(`   ${org.email.padEnd(42)} / ${org.password}  [${org.vertical}/${org.plan}/${org.status}]`)
