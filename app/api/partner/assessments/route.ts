@@ -51,7 +51,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const result = await sendAssessment(parsed.data)
 
     if (result.error) {
-      return NextResponse.json({ error: result.error }, { status: 500 })
+      console.error("[api/partner/assessments POST] sendAssessment failed:", result.error)
+      return NextResponse.json(
+        { error: "Unable to send assessment. Please try again." },
+        { status: 500 }
+      )
     }
 
     return NextResponse.json({ success: true })

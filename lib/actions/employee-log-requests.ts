@@ -144,7 +144,7 @@ export async function releaseEmployeeLogRequest(
   }
 
   const filename = `employee-log-${req.id}.json`
-  let packetUrl: string | null = null
+  let packetUrl: string | null
 
   try {
     const { put } = await import("@vercel/blob")

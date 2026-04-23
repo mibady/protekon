@@ -26,6 +26,8 @@ export default tseslint.config(
       // Disable react-compiler rules — flags common patterns in shadcn/UI libs
       "react-hooks/purity": "off",
       "react-hooks/set-state-in-effect": "off",
+      // next.js core-web-vitals config references this rule without registering eslint-plugin-react base
+      "react/no-unknown-property": "off",
     },
     languageOptions: {
       globals: {
@@ -37,10 +39,12 @@ export default tseslint.config(
   {
     ignores: [
       ".next/",
+      ".claude/",
       "node_modules/",
       "out/",
       "coverage/",
       "opensrc/",
+      "_archive/",
       "*.config.js",
       "*.config.mjs",
       "*.config.ts",

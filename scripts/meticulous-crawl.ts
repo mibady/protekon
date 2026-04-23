@@ -99,7 +99,9 @@ async function crawlRoute(
           await new Promise((r) => setTimeout(r, 300))
         }
       }
-    } catch {}
+    } catch {
+      // best-effort click; swallow missing selector / detached-node errors
+    }
 
     await new Promise((r) => setTimeout(r, 1500))
   } catch (err: any) {

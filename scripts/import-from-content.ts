@@ -165,7 +165,7 @@ function parseContentFile(filePath: string): ContentFile | null {
   // Parse frontmatter if present
   const fmMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
 
-  let frontmatter: Record<string, any> = {}
+  const frontmatter: Record<string, any> = {}
   let body: string
 
   if (fmMatch) {

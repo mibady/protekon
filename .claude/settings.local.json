@@ -105,7 +105,17 @@
       "Bash(wsl -d Ubuntu -- bash -lc \"cd ~/business/ngeniuspro/protekon && vercel --version && ls ~/.local/share/com.vercel.cli/auth.json ~/.vercel/auth.json 2>&1 | head -5; echo ---; vercel whoami 2>&1 | tail -5\")",
       "Bash(wsl -d Ubuntu -- bash -lc \"cd ~/business/ngeniuspro/protekon && npx vercel whoami 2>&1 | tail -5\")",
       "Bash(wsl -d Ubuntu -- bash -lc \"cd ~/business/ngeniuspro/protekon && npx vercel whoami 2>&1 | grep -vE 'Update|Changelog|npm i -g|╭|╰|│' | tail -10\")",
-      "Bash(wsl -d Ubuntu -- bash -lc \"cd ~/business/ngeniuspro/protekon && npx vercel deploy --yes --archive=tgz 2>&1 | tee ~/vercel-deploy.log | tail -30\")"
+      "Bash(wsl -d Ubuntu -- bash -lc \"cd ~/business/ngeniuspro/protekon && npx vercel deploy --yes --archive=tgz 2>&1 | tee ~/vercel-deploy.log | tail -30\")",
+      "Bash(cd \"\\\\\\\\wsl.localhost\\\\Ubuntu\\\\home\\\\info\\\\business\\\\ngeniuspro\\\\protekon\")",
+      "Read(///wsl.localhost/Ubuntu/wsl.localhost/Ubuntu/home/info/business/ngeniuspro/protekon/app/**)",
+      "Read(///wsl.localhost/Ubuntu/wsl.localhost/Ubuntu/home/info/business/ngeniuspro/protekon/**)",
+      "mcp__c157ddd0-3f9e-4f4a-bc69-8811088e7fc9__list_branches",
+      "mcp__c157ddd0-3f9e-4f4a-bc69-8811088e7fc9__list_projects",
+      "mcp__c157ddd0-3f9e-4f4a-bc69-8811088e7fc9__get_cost",
+      "mcp__c157ddd0-3f9e-4f4a-bc69-8811088e7fc9__confirm_cost",
+      "mcp__c157ddd0-3f9e-4f4a-bc69-8811088e7fc9__create_branch",
+      "mcp__c157ddd0-3f9e-4f4a-bc69-8811088e7fc9__get_logs",
+      "mcp__c157ddd0-3f9e-4f4a-bc69-8811088e7fc9__delete_branch"
     ]
   }
 }
