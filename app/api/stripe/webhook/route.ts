@@ -2,9 +2,6 @@ import { NextRequest, NextResponse } from "next/server"
 import { getStripe } from "@/lib/stripe"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { inngest } from "@/inngest/client"
-import { sendEmail } from "@/lib/resend"
-import { welcomeEmail } from "@/lib/email-templates"
-import crypto from "crypto"
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
@@ -77,8 +74,10 @@ export async function POST(request: NextRequest) {
           break
         }
 
-        // Generate a secure temporary password
-        const tempPassword = crypto.randomBytes(16).toString("base64url")
+        // Generate a secure temporary password (Web Crypto API — no import needed)
+        const tempPassword = Buffer.from(
+          globalThis.crypto.getRandomValues(new Uint8Array(16))
+        ).toString("base64url")
 
         // Create Supabase auth user
         const { data: authData, error: authError } = await supabase.auth.admin.createUser({
@@ -139,39 +138,18 @@ export async function POST(request: NextRequest) {
           },
         })
 
-        // Send welcome email with password reset link
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || "https://protekon.vercel.app"
-
-        // Generate a password reset link so user sets their own password
-        const { data: resetData } = await supabase.auth.admin.generateLink({
-          type: "magiclink",
-          email,
-          options: { redirectTo: `${siteUrl}/dashboard/intake` },
-        })
-
-        const loginUrl = resetData?.properties?.action_link || `${siteUrl}/login`
-
-        await sendEmail({
-          to: email,
-          subject: "Welcome to Protekon — Set Up Your Account",
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 560px;">
-              <h2 style="color: #0A0F1C;">Welcome to Protekon</h2>
-              <p>Your <strong>${planId.charAt(0).toUpperCase() + planId.slice(1)}</strong> subscription is active.</p>
-              <p>Click below to set your password and start your compliance intake:</p>
-              <p style="margin: 24px 0;">
-                <a href="${loginUrl}" style="background: #C41230; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; letter-spacing: 1px;">
-                  SET UP MY ACCOUNT
-                </a>
-              </p>
-              <p style="color: #7A8FA5; font-size: 13px;">
-                Once you log in, you'll complete a quick compliance assessment. Protekon generates
-                your first compliance documents within 48 hours.
-              </p>
-              <p style="color: #7A8FA5; font-size: 13px;">— Protekon</p>
-            </div>
-          `,
-        })
+        // Fire the post-signup durable workflow (welcome email + reminder seeding).
+        // The Inngest handler owns welcome email delivery for this path.
+        // Never block the webhook response on Inngest dispatch — it is non-fatal.
+        try {
+          await inngest.send({
+            name: "auth/user.signed-up",
+            data: { userId, email },
+          })
+        } catch (err) {
+          // Never block signup on welcome-workflow dispatch
+          console.error("[auth/user.signed-up] inngest dispatch failed:", err)
+        }
       }
       break
     }

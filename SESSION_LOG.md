@@ -1823,3 +1823,60 @@ No state changes this session — Linear not connected via `.linear_project.json
 
 ### Linear
 - Not connected. Tracking lives in this log + git.
+
+
+## Session 34 — 2026-04-23 (Phase 1B closeout + team-orchestrated build)
+
+### Completed
+- **Merged PR #21** — Tier 1 vertical configs (mining + waste_environmental) + `docs/vertical-architecture-research.md` (27-vertical reference brief)
+- **Merged PR #22** — Batch A+B security mechanicals + `.github/workflows/ci.yml` (first automated gate on every PR — tsc/lint/vitest/build)
+- **Merged PR #23** — `scripts/seed-demo-v2.ts` (Phase A) + `specs/demo-validation-handoff.md`
+- **Built & opened PR #24** (Phase 1B closeout) via `/plan_team` → `/build` with a 6-agent team (3 parallel builders + Validator + Fixer + Auditor):
+  - `feat(auth)`: fire `auth/user.signed-up` on both self-serve `signUp()` and Stripe `new_signup` webhook branch
+  - `test(e2e)`: `e2e/onboarding-wizard.spec.ts` — construction + healthcare happy paths + new `onboarding` Playwright project
+  - 9 Tier-2 vertical configs: hospitality, agriculture, transportation, auto-services, wholesale, utilities, equipment_repair, laundry, staffing (5/26 → 14/26 coverage pending merge)
+  - Fixer loop: wrapped `inngest.send` in try/catch so signup can't be blocked by Inngest outage; stale `/dashboard/intake` test expectation fixed (it was Phase 1A dead code masked by the Inngest throw)
+  - Welcome email: handler generates a Supabase magic link in its own retriable step; `welcomeEmail(email, loginUrl?)` uses the link as CTA so Stripe-admin-created users (random password) can actually log in
+- Team orchestration pattern validated: 3 parallel builders on disjoint file paths (`inngest/` vs `e2e/` vs `lib/onboarding/verticals/`) → Validator → narrow-scope Fixer → Auditor. Net result: +1 vitest (299/353 vs 298/353 baseline) — Fixer's try/catch unmasked a test that was previously passing-for-wrong-reason
+
+### Audit Snapshot (main branch at session close)
+| Metric | Count |
+|---|---|
+| Dashboard pages | 28 |
+| Onboarding pages | 8 |
+| Partner pages | 6 |
+| Total app pages | 80 |
+| API routes | 28 |
+| Server action files | 63 (177 exports) |
+| Components total | 226 (12 onboarding) |
+| Vertical configs | 5 on main (14 pending PR #24) |
+| Migrations | 46 |
+| Inngest functions | 26 |
+| E2E specs | 16 on main (17 pending PR #24) |
+| Quality gates (PR #24) | tsc ✅ / lint ✅ / vitest 299-54 ✅ / build 110 pages ✅ / static audit 9/9 ✅ / playwright ⏸ preview |
+
+### Decisions Made
+- **Inngest dispatch on signup paths is fire-and-forget** — wrap `inngest.send` in try/catch + `console.error`. Inngest availability is not part of the signup transaction; a momentary outage must not block user creation. Applied to both `lib/actions/auth.ts` signUp() and `app/api/stripe/webhook/route.ts` new_signup branch.
+- **Stripe-admin-created users get a magic-link CTA in welcome email** — they are created via `admin.createUser` with a random password they never see, so a plain "/dashboard" CTA locks them out. The `post-signup` Inngest handler generates `admin.generateLink({type:'magiclink'})` in its own retriable step and passes `action_link` to `welcomeEmail(email, loginUrl?: string | null)`. Self-serve signups get the same link and can ignore it.
+- **Team-plan pattern for independent multi-track work** — when tracks have zero file overlap AND zero shared runtime contract, 3 parallel builders on path-prefix ownership alone is sufficient. No coordination beyond the final Validator join was needed.
+- **Narrow-scope Fixer beats broad-scope Fixer** — instructing Fixer "source code only, don't touch tests" exposed a legitimately stale test that Validator's original baseline had missed. The test was "passing for the wrong reason" because an Inngest throw fired before the assertion. Forcing the try/catch made the masked bug visible.
+- **CI unlock pattern confirmed** — the PR that adds `.github/workflows/ci.yml` runs its own first gate on itself. No bootstrap problem.
+
+### Known Issues / Carryovers
+- **PR #24 open, awaiting review** — 15 commits, all gates green, static audit 9/9.
+- **Scraper service-role key (`vizmtkfpxxjzlpzibate`)** — **5 sessions carried** without rotation. Smallest-risk outstanding security item.
+- **Live paid-signup smoke test** — still outstanding; requires real Stripe card. Human-gated.
+- **E2E spec gaps** flagged in the spec itself: Step 3 uses label-heuristic selector (no data-testid in source), Step 4 CSV import bypassed, Step 6 file upload bypassed (both need mocked blob storage).
+- **Playwright not run locally** — deferred to Vercel preview post-PR #24 merge.
+- **12 Tier-3 verticals still on DEFAULT_CONFIG** — `retail, real-estate, education, arts_entertainment, public_admin, building_services, facilities_mgmt, information, professional_services, business_support, personal_services, security`. Low priority per rollout plan.
+- **Stale worktree `.claude/worktrees/sleepy-goldstine`** — still blocks project-wide `npm run lint` with tsconfigRootDir ambiguity. Carryover since Session 32.
+
+### Next Session Should
+1. **Review + merge PR #24** — no surprises expected; Vercel preview will run the Playwright spec on first deploy.
+2. **Post-merge: live paid-signup smoke test** — Ian signs up via Stripe, confirms welcome email arrives with a working magic link that lands on /dashboard logged in.
+3. **Post-merge: update `MEMORY.md` vertical coverage to 14/26**.
+4. **Scraper key rotation** (`vizmtkfpxxjzlpzibate`) — 5 sessions carried.
+5. **Optional: Tier 3 configs** — 12 slugs, pace at 1/week is fine.
+
+### Linear
+- Not connected. Tracking in this log + GitHub PRs.

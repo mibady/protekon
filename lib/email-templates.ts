@@ -50,13 +50,19 @@ export function layoutWrapper(content: string, branding?: BrandingContext): stri
 </html>`
 }
 
-export function welcomeEmail(email: string) {
+// Stripe-checkout signups are created via supabase.auth.admin.createUser()
+// with a random password the user never sees, so they need a magic link to
+// log in the first time. Self-serve signups have their own password and can
+// ignore the link. The handler generates the link and passes it here; if
+// generation fails we fall back to /dashboard so the email still ships.
+export function welcomeEmail(email: string, loginUrl?: string | null) {
+  const href = loginUrl || `${getSiteUrl()}/dashboard`
   return {
     subject: "Your AI compliance officer is now active",
     html: layoutWrapper(`
       <h2 style="color:#1a1a2e;margin:0 0 16px;">Your AI Compliance Officer Is Online</h2>
-      <p style="color:#555;line-height:1.6;">Your AI compliance officer is online and monitoring California workplace regulations for your business. Here's what happens next: log in to your dashboard (${email}) to complete your compliance intake questionnaire and activate full monitoring.</p>
-      <a href="${getSiteUrl()}/dashboard" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">GO TO DASHBOARD</a>
+      <p style="color:#555;line-height:1.6;">Your AI compliance officer is online and monitoring California workplace regulations for your business. Click below to log in to your dashboard (${email}) and complete your compliance intake questionnaire.</p>
+      <a href="${href}" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">LOG IN TO DASHBOARD</a>
     `),
   }
 }

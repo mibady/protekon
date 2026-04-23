@@ -104,7 +104,7 @@ describe("auth actions", () => {
       locationCount: "5",
     })
 
-    await expect(signUp(fd)).rejects.toThrow("REDIRECT:/dashboard/intake")
+    await expect(signUp(fd)).rejects.toThrow("REDIRECT:/onboarding/business")
 
     expect(mockSignUp).toHaveBeenCalledWith({
       email: "new@co.com",
