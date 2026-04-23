@@ -44,6 +44,12 @@ export default defineConfig({
       testMatch: /dashboard.*\.spec\.ts/,
       dependencies: ["setup"],
     },
+    // Onboarding wizard: injects its own cookies per-test (varies vertical)
+    {
+      name: "onboarding",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: /onboarding-wizard\.spec\.ts/,
+    },
   ],
   webServer: {
     command: "npm run dev",
