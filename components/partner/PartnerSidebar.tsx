@@ -14,6 +14,7 @@ import {
   SignOut,
   List,
   X,
+  CurrencyDollar,
 } from "@phosphor-icons/react"
 import { signOut } from "@/lib/actions/auth"
 import type { PartnerProfile } from "@/lib/types/partner"
@@ -35,6 +36,7 @@ const TIER_BG: Record<PartnerProfile["tier"], string> = {
 const navItems = [
   { name: "Dashboard", href: "/partner", icon: House, exact: true },
   { name: "Assessments", href: "/partner/assessments", icon: ClipboardText, exact: false },
+  { name: "Commissions", href: "/partner/commissions", icon: CurrencyDollar, exact: false },
   { name: "Enablement", href: "/partner/enablement", icon: BookOpen, exact: false },
   { name: "Branding", href: "/partner/branding", icon: Palette, exact: false },
   { name: "Boot Camp", href: "/partners/boot-camp", icon: GraduationCap, exact: false, external: true },
