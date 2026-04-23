@@ -2,9 +2,10 @@
  * Onboarding vertical-config registry.
  *
  * Phase 1A ships 3 fully-configured verticals. Phase 1B adds Tier 1
- * (mining, waste_environmental) and Tier 2 (9 verticals). Any vertical not
- * in the registry (and null/undefined) resolves to `DEFAULT_CONFIG`. Add a
- * new vertical by:
+ * (mining, waste_environmental) and Tier 2 (9 verticals). Tier 3 adds the
+ * remaining 12 canonical slugs so every vertical in `VerticalSlug` now has
+ * a researched config. Any slug not in the registry (and null/undefined)
+ * still resolves to `DEFAULT_CONFIG`. Add a new vertical by:
  *   1. creating `lib/onboarding/verticals/<slug>.ts` that exports a
  *      typed `<SLUG>_CONFIG: OnboardingVerticalConfig`,
  *   2. importing + registering it below.
@@ -29,6 +30,19 @@ import { UTILITIES_CONFIG } from './utilities';
 import { EQUIPMENT_REPAIR_CONFIG } from './equipment_repair';
 import { LAUNDRY_CONFIG } from './laundry';
 import { STAFFING_CONFIG } from './staffing';
+// Tier 3 verticals
+import { RETAIL_CONFIG } from './retail';
+import { REAL_ESTATE_CONFIG } from './real-estate';
+import { EDUCATION_CONFIG } from './education';
+import { ARTS_ENTERTAINMENT_CONFIG } from './arts_entertainment';
+import { PUBLIC_ADMIN_CONFIG } from './public_admin';
+import { BUILDING_SERVICES_CONFIG } from './building_services';
+import { FACILITIES_MGMT_CONFIG } from './facilities_mgmt';
+import { INFORMATION_CONFIG } from './information';
+import { PROFESSIONAL_SERVICES_CONFIG } from './professional_services';
+import { BUSINESS_SUPPORT_CONFIG } from './business_support';
+import { PERSONAL_SERVICES_CONFIG } from './personal_services';
+import { SECURITY_CONFIG } from './security';
 import type { OnboardingVerticalConfig, VerticalSlug } from './types';
 
 const REGISTRY: Partial<Record<VerticalSlug, OnboardingVerticalConfig>> = {
@@ -47,6 +61,19 @@ const REGISTRY: Partial<Record<VerticalSlug, OnboardingVerticalConfig>> = {
   equipment_repair: EQUIPMENT_REPAIR_CONFIG,
   laundry: LAUNDRY_CONFIG,
   staffing: STAFFING_CONFIG,
+  // Tier 3
+  retail: RETAIL_CONFIG,
+  'real-estate': REAL_ESTATE_CONFIG,
+  education: EDUCATION_CONFIG,
+  arts_entertainment: ARTS_ENTERTAINMENT_CONFIG,
+  public_admin: PUBLIC_ADMIN_CONFIG,
+  building_services: BUILDING_SERVICES_CONFIG,
+  facilities_mgmt: FACILITIES_MGMT_CONFIG,
+  information: INFORMATION_CONFIG,
+  professional_services: PROFESSIONAL_SERVICES_CONFIG,
+  business_support: BUSINESS_SUPPORT_CONFIG,
+  personal_services: PERSONAL_SERVICES_CONFIG,
+  security: SECURITY_CONFIG,
 };
 
 /**
@@ -79,5 +106,17 @@ export {
   EQUIPMENT_REPAIR_CONFIG,
   LAUNDRY_CONFIG,
   STAFFING_CONFIG,
+  RETAIL_CONFIG,
+  REAL_ESTATE_CONFIG,
+  EDUCATION_CONFIG,
+  ARTS_ENTERTAINMENT_CONFIG,
+  PUBLIC_ADMIN_CONFIG,
+  BUILDING_SERVICES_CONFIG,
+  FACILITIES_MGMT_CONFIG,
+  INFORMATION_CONFIG,
+  PROFESSIONAL_SERVICES_CONFIG,
+  BUSINESS_SUPPORT_CONFIG,
+  PERSONAL_SERVICES_CONFIG,
+  SECURITY_CONFIG,
 };
 export type { OnboardingVerticalConfig, VerticalSlug } from './types';
