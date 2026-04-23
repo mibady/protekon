@@ -274,7 +274,6 @@ export default function ScoreLandingPage() {
       }}
     >
       <Nav />
-      {/* eslint-disable-next-line react/no-unknown-property */}
       <style jsx global>{`
         .cta-cmd {
           display: inline-flex;

@@ -146,8 +146,8 @@ export async function POST(
   // Upload to Vercel Blob (installed: @vercel/blob ^2.3.2).
   // Falls back to Supabase Storage (bucket "acknowledgments") if Blob fails
   // at runtime (e.g., missing BLOB_READ_WRITE_TOKEN in some envs).
-  let signedPdfUrl = ""
-  let signatureImageUrl = ""
+  let signedPdfUrl: string
+  let signatureImageUrl: string
   try {
     const { put } = await import("@vercel/blob")
     const pdfBlob = await put(`ack-signed/${crypto.randomUUID()}.pdf`, pdfBuffer, {

@@ -69,8 +69,14 @@ export async function GET(
   try {
     authorizeUrl = buildAuthorizeUrl(providerId, state, redirectUri)
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "authorize-url build failed"
-    return NextResponse.json({ error: msg }, { status: 500 })
+    console.error(
+      `[GET /api/integrations/${providerId}/authorize] buildAuthorizeUrl failed:`,
+      e
+    )
+    return NextResponse.json(
+      { error: "Unable to start integration. Please try again." },
+      { status: 500 }
+    )
   }
 
   const cookieStore = await cookies()

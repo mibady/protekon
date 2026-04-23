@@ -38,7 +38,10 @@ export async function POST(request: Request) {
 
   if (error) {
     console.error("[POST /api/contact] Supabase insert error:", error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json(
+      { error: "Unable to submit your message. Please try again." },
+      { status: 500 }
+    )
   }
 
   return NextResponse.json({ success: true })
