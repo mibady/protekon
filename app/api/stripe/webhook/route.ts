@@ -140,10 +140,16 @@ export async function POST(request: NextRequest) {
 
         // Fire the post-signup durable workflow (welcome email + reminder seeding).
         // The Inngest handler owns welcome email delivery for this path.
-        await inngest.send({
-          name: "auth/user.signed-up",
-          data: { userId, email },
-        })
+        // Never block the webhook response on Inngest dispatch — it is non-fatal.
+        try {
+          await inngest.send({
+            name: "auth/user.signed-up",
+            data: { userId, email },
+          })
+        } catch (err) {
+          // Never block signup on welcome-workflow dispatch
+          console.error("[auth/user.signed-up] inngest dispatch failed:", err)
+        }
       }
       break
     }

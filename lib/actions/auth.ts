@@ -87,11 +87,17 @@ export async function signUp(formData: FormData): Promise<ActionResult> {
     }, { onConflict: "id" })
 
     // Fire the post-signup durable workflow (welcome email + reminder seeding).
-    // Safe to await — Inngest send is a lightweight HTTP call; failure is non-fatal.
-    await inngest.send({
-      name: "auth/user.signed-up",
-      data: { userId: data.user.id, email },
-    })
+    // Never block signup on Inngest dispatch — if the event key is missing or
+    // the service is unreachable, the user should still land on onboarding.
+    try {
+      await inngest.send({
+        name: "auth/user.signed-up",
+        data: { userId: data.user.id, email },
+      })
+    } catch (err) {
+      // Never block signup on welcome-workflow dispatch
+      console.error("[auth/user.signed-up] inngest dispatch failed:", err)
+    }
   }
 
   redirect("/onboarding/business")
