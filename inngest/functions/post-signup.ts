@@ -1,6 +1,6 @@
 import { inngest } from "../client"
 import { createAdminClient } from "@/lib/supabase/admin"
-import { sendEmail } from "@/lib/resend"
+import { sendEmail, getSiteUrl } from "@/lib/resend"
 import { welcomeEmail } from "@/lib/email-templates"
 
 export const postSignup = inngest.createFunction(
@@ -34,9 +34,27 @@ export const postSignup = inngest.createFunction(
       if (error) throw new Error(`fn_generate_client_reminders failed: ${error.message}`)
     })
 
-    // Step 3: Send welcome email
+    // Step 3: Generate a magic login link so Stripe-path users (created via
+    // admin.createUser with a random password) can log in the first time.
+    // Self-serve signups can use their own password and ignore this link.
+    // Undefined on failure — welcomeEmail() falls back to /dashboard.
+    const loginUrl = await step.run("generate-login-link", async () => {
+      try {
+        const { data, error } = await supabase.auth.admin.generateLink({
+          type: "magiclink",
+          email,
+          options: { redirectTo: `${getSiteUrl()}/dashboard` },
+        })
+        if (error) return undefined
+        return data?.properties?.action_link ?? undefined
+      } catch {
+        return undefined
+      }
+    })
+
+    // Step 4: Send welcome email with magic-link CTA
     await step.run("send-welcome-notification", async () => {
-      await sendEmail({ to: email, ...welcomeEmail(email) })
+      await sendEmail({ to: email, ...welcomeEmail(email, loginUrl) })
     })
 
     return { success: true, userId, email, status: "onboarded" }
