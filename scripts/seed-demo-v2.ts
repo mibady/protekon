@@ -514,7 +514,11 @@ async function cleanAll(): Promise<void> {
     .delete()
     .in("email", DEMO_ORGS.map((o) => o.email))
 
-  // 4. Auth users — delete by email for a clean reset.
+  // 4. Regulatory updates are NOT cascaded from clients (they're public).
+  //    Delete our [DEMO]-prefixed rows explicitly.
+  await admin.from("regulatory_updates").delete().like("title", "[DEMO]%")
+
+  // 5. Auth users — delete by email for a clean reset.
   const { data: existingAuth } = await admin.auth.admin.listUsers({ perPage: 1000 })
   const toDelete = (existingAuth?.users ?? []).filter((u) =>
     u.email ? ALL_DEMO_EMAILS.includes(u.email) : false
@@ -778,6 +782,463 @@ async function seedPartnerAssessments(partnerIdByEmail: Map<string, string>): Pr
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
+// Phase B — vertical tables, logs, intake, partner commissions
+// ──────────────────────────────────────────────────────────────────────────────
+
+// ID generators matching the format used in lib/actions/incidents.ts + lib/actions/documents.ts.
+// Collision-safe 5-char suffix; safe for seed volume (< 10 rows per namespace).
+function makeCodeId(prefix: "INC" | "DOC"): string {
+  const year = new Date().getFullYear()
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789" // no 0/O/1/I
+  let suffix = ""
+  for (let i = 0; i < 5; i++) {
+    suffix += chars[Math.floor(Math.random() * chars.length)]
+  }
+  return `${prefix}-${year}-${suffix}`
+}
+
+async function seedDocumentTemplates(): Promise<number> {
+  console.log("📄 Seeding document_template_meta (WVPP for construction)...")
+
+  // Idempotent: skip if template_key already present.
+  const { data: existing, error: selErr } = await admin
+    .from("document_template_meta")
+    .select("template_key")
+    .eq("template_key", "wvpp_construction")
+    .maybeSingle()
+  if (selErr) throw new Error(`seedDocumentTemplates: select failed: ${selErr.message}`)
+
+  if (existing) {
+    console.log("   ↷ wvpp_construction already present — skipping")
+    return 0
+  }
+
+  const row = {
+    template_key: "wvpp_construction",
+    display_name: "Workplace Violence Prevention Plan (Construction)",
+    category: "vertical_specific" as const,
+    applicable_verticals: ["construction"],
+    legal_authority: "CA SB 553 — Labor Code § 6401.9",
+    retention_years: 5,
+    review_frequency: "annual" as const,
+    is_active: true,
+  }
+
+  const { error } = await admin.from("document_template_meta").insert(row)
+  if (error) throw new Error(`seedDocumentTemplates: insert failed: ${error.message}`)
+  console.log("   ✅ 1 row (wvpp_construction)")
+  return 1
+}
+
+async function seedDocuments(ctx: AuthContext): Promise<Map<string, string>> {
+  console.log("📑 Seeding documents...")
+
+  const sierraId = ctx.orgUserIds.get("admin@sierraridgebuilders.com")
+  const summitId = ctx.orgUserIds.get("admin@summitmunicipal.com")
+  if (!sierraId || !summitId) {
+    throw new Error("seedDocuments: missing client ids for Sierra Ridge or Summit Municipal")
+  }
+
+  // Sierra Ridge (construction): 3 docs for demo. Summit: 1 policy doc so the
+  // acknowledgment_requests FK has a valid target.
+  const rows = [
+    {
+      client_id: sierraId,
+      document_id: makeCodeId("DOC"),
+      type: "wvpp",
+      filename: "Workplace Violence Prevention Plan.pdf",
+      status: "draft",
+      priority: "standard",
+      pages: 18,
+    },
+    {
+      client_id: sierraId,
+      document_id: makeCodeId("DOC"),
+      type: "safety_meeting_minutes",
+      filename: "Safety Meeting Minutes — April 2026.pdf",
+      status: "completed",
+      priority: "standard",
+      pages: 4,
+    },
+    {
+      client_id: sierraId,
+      document_id: makeCodeId("DOC"),
+      type: "coi",
+      filename: "Certificate of Insurance — ACME Framing.pdf",
+      status: "completed",
+      priority: "standard",
+      pages: 2,
+    },
+    {
+      client_id: summitId,
+      document_id: makeCodeId("DOC"),
+      type: "hearing_conservation_policy",
+      filename: "Hearing Conservation Policy.pdf",
+      status: "completed",
+      priority: "standard",
+      pages: 6,
+    },
+  ]
+
+  const { data, error } = await admin
+    .from("documents")
+    .insert(rows)
+    .select("id, client_id, type")
+  if (error) throw new Error(`seedDocuments: insert failed: ${error.message}`)
+
+  // Map clientId -> a representative document uuid. For Summit we use its
+  // hearing-conservation policy so the ack request can FK to it.
+  const docIdByClient = new Map<string, string>()
+  for (const d of data ?? []) {
+    const clientId = d.client_id as string
+    const docUuid = d.id as string
+    // Prefer the policy-type rows; otherwise first one wins.
+    if (d.type === "hearing_conservation_policy" || !docIdByClient.has(clientId)) {
+      docIdByClient.set(clientId, docUuid)
+    }
+  }
+
+  console.log(`   ✅ ${rows.length} documents (3 Sierra Ridge + 1 Summit policy)`)
+  return docIdByClient
+}
+
+async function seedIncidents(ctx: AuthContext): Promise<void> {
+  console.log("🚨 Seeding incidents...")
+
+  const sierraId = ctx.orgUserIds.get("admin@sierraridgebuilders.com")
+  const goldenId = ctx.orgUserIds.get("admin@goldenstatehospitality.com")
+  const fieldLeadUserId = ctx.teamUserIds.get("field@sierraridgebuilders.com")
+  if (!sierraId || !goldenId || !fieldLeadUserId) {
+    throw new Error("seedIncidents: missing client/team ids")
+  }
+
+  const now = new Date()
+  const fiveDaysAgo = new Date(now.getTime() - 5 * 24 * 3600 * 1000)
+  const tenDaysAgo = new Date(now.getTime() - 10 * 24 * 3600 * 1000)
+
+  // Note: the incidents schema (001 + 011 + 045) does not include columns for
+  // status / reported_by / assigned_to_client. Store those hints in metadata.
+  const rows = [
+    {
+      client_id: sierraId,
+      incident_id: makeCodeId("INC"),
+      description:
+        "Near-miss: unsecured scaffold plank shifted when a worker stepped on it. No contact, no injury. Plank was re-pinned immediately and pre-shift inspection checklist updated.",
+      location: "Riverside HQ — 3rd floor exterior scaffold",
+      incident_date: fiveDaysAgo.toISOString().slice(0, 10),
+      severity: "near-miss",
+      reported_at: fiveDaysAgo.toISOString(),
+      metadata: {
+        status: "submitted",
+        type: "near_miss",
+        reported_by_user_id: fieldLeadUserId,
+        assigned_to_client_id: sierraId,
+        injuryOccurred: false,
+        medicalTreatment: false,
+      },
+    },
+    {
+      client_id: goldenId,
+      incident_id: makeCodeId("INC"),
+      description:
+        "SB 553 Type 2 workplace violence: guest became verbally aggressive toward front-desk staff after being asked to leave the lobby. Police were called; no physical contact.",
+      location: "Downtown SF Location — front desk",
+      incident_date: tenDaysAgo.toISOString().slice(0, 10),
+      severity: "type_2_wvp",
+      reported_at: tenDaysAgo.toISOString(),
+      metadata: {
+        status: "open",
+        type: "workplace_violence",
+        wvp_type: 2,
+        injuryOccurred: false,
+        medicalTreatment: false,
+      },
+    },
+  ]
+
+  const { error } = await admin.from("incidents").insert(rows)
+  if (error) throw new Error(`seedIncidents: insert failed: ${error.message}`)
+  console.log(`   ✅ ${rows.length} incidents (Sierra Ridge near-miss + Golden State WVP)`)
+}
+
+async function seedTrainingRecords(ctx: AuthContext): Promise<void> {
+  console.log("🎓 Seeding training_records...")
+
+  const coastalId = ctx.orgUserIds.get("admin@coastalhealthgroup.com")
+  if (!coastalId) throw new Error("seedTrainingRecords: missing Coastal Health client id")
+
+  const dueDate = new Date()
+  dueDate.setMonth(dueDate.getMonth() + 1)
+
+  const rows = [
+    {
+      client_id: coastalId,
+      employee_name: "Dr. Lena Ortiz",
+      training_type: "HIPAA Annual Refresher",
+      due_date: dueDate.toISOString().slice(0, 10),
+      status: "pending",
+    },
+  ]
+
+  const { error } = await admin.from("training_records").insert(rows)
+  if (error) throw new Error(`seedTrainingRecords: insert failed: ${error.message}`)
+  console.log(`   ✅ ${rows.length} training record (Coastal HIPAA annual)`)
+}
+
+async function seedBaaAgreements(ctx: AuthContext): Promise<void> {
+  console.log("📝 Seeding baa_agreements...")
+
+  const coastalId = ctx.orgUserIds.get("admin@coastalhealthgroup.com")
+  if (!coastalId) throw new Error("seedBaaAgreements: missing Coastal Health client id")
+
+  const rows = [
+    {
+      client_id: coastalId,
+      vendor_name: "CloudChart EMR Services",
+      service_type: "EMR Hosting",
+      phi_types: ["clinical_notes", "billing"],
+      baa_status: "remediation_required",
+      signed_date: "2023-07-15",
+      expiration_date: "2026-07-14",
+    },
+  ]
+
+  const { error } = await admin.from("baa_agreements").insert(rows)
+  if (error) throw new Error(`seedBaaAgreements: insert failed: ${error.message}`)
+  console.log(`   ✅ ${rows.length} BAA (Coastal vendor, remediation_required)`)
+}
+
+async function seedRegulatoryUpdates(): Promise<string> {
+  console.log("📢 Seeding regulatory_updates...")
+
+  // No unique constraint on this table — pre-delete our [DEMO] rows so
+  // re-runs don't accumulate duplicates.
+  await admin.from("regulatory_updates").delete().like("title", "[DEMO]%")
+
+  const row = {
+    jurisdiction: "Federal",
+    category: "municipal",
+    title: "[DEMO] OSHA Hearing Conservation Amendment — Municipal Operations",
+    summary:
+      "OSHA finalized an amendment to 29 CFR 1910.95 tightening noise-exposure action levels for municipal public-works crews. Affected employers must update their hearing conservation programs and deliver refresher training within 90 days.",
+    effective_date: "2026-06-01",
+    source_url: "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.95",
+    severity: "high",
+  }
+
+  const { data, error } = await admin
+    .from("regulatory_updates")
+    .insert(row)
+    .select("id")
+    .single()
+  if (error || !data) {
+    throw new Error(`seedRegulatoryUpdates: insert failed: ${error?.message ?? "no row returned"}`)
+  }
+  console.log("   ✅ 1 regulatory update ([DEMO] OSHA hearing conservation)")
+  return data.id as string
+}
+
+async function seedAcknowledgmentRequests(
+  ctx: AuthContext,
+  regulatoryUpdateId: string,
+  docIdByClient: Map<string, string>
+): Promise<void> {
+  console.log("✍️  Seeding acknowledgment_requests...")
+
+  // Silence unused-var: regulatory_updates and ack_requests are logically linked
+  // via cohort_note but the schema does not FK them. We keep the parameter for
+  // future wiring.
+  void regulatoryUpdateId
+
+  const summitId = ctx.orgUserIds.get("admin@summitmunicipal.com")
+  if (!summitId) throw new Error("seedAcknowledgmentRequests: missing Summit client id")
+
+  const policyDocId = docIdByClient.get(summitId)
+  if (!policyDocId) {
+    throw new Error(
+      "seedAcknowledgmentRequests: Summit policy document missing — seedDocuments must insert a policy doc for Summit first"
+    )
+  }
+
+  const dueDate = new Date()
+  dueDate.setDate(dueDate.getDate() + 14)
+
+  const rows = [
+    {
+      client_id: summitId,
+      policy_document_id: policyDocId,
+      policy_version: "v1.0",
+      cohort_note:
+        "All field crews working around sustained noise ≥85 dBA. Pending sign-off per [DEMO] OSHA hearing conservation amendment.",
+      due_date: dueDate.toISOString(),
+    },
+  ]
+
+  const { error } = await admin.from("acknowledgment_requests").insert(rows)
+  if (error) throw new Error(`seedAcknowledgmentRequests: insert failed: ${error.message}`)
+  console.log(`   ✅ ${rows.length} ack request (Summit hearing conservation)`)
+}
+
+async function seedIntakeSubmissions(): Promise<void> {
+  console.log("📥 Seeding intake_submissions...")
+
+  const rows = [
+    {
+      email: "admin@lonestarbuilders.com",
+      business_name: "Lone Star Builders",
+      vertical: "construction",
+      answers: {
+        employee_count: 8,
+        has_wvpp: false,
+        has_heat_plan: false,
+        subs_count: 3,
+      },
+      compliance_score: 42,
+      risk_level: "high",
+      status: "pending",
+    },
+  ]
+
+  const { error } = await admin.from("intake_submissions").insert(rows)
+  if (error) throw new Error(`seedIntakeSubmissions: insert failed: ${error.message}`)
+  console.log(`   ✅ ${rows.length} intake submission (Lone Star)`)
+}
+
+async function seedAuditLog(ctx: AuthContext): Promise<void> {
+  console.log("📜 Seeding audit_log...")
+
+  const sierraId = ctx.orgUserIds.get("admin@sierraridgebuilders.com")
+  const auditorId = ctx.teamUserIds.get("auditor@sierraridgebuilders.com")
+  if (!sierraId || !auditorId) throw new Error("seedAuditLog: missing Sierra Ridge ids")
+
+  const now = Date.now()
+  const daysAgo = (n: number) => new Date(now - n * 24 * 3600 * 1000).toISOString()
+
+  const rows = [
+    {
+      client_id: sierraId,
+      event_type: "user.login",
+      description: "Owner logged in from Riverside HQ",
+      metadata: { user_id: sierraId, ip_hint: "CA" },
+      created_at: daysAgo(28),
+    },
+    {
+      client_id: sierraId,
+      event_type: "document.created",
+      description: "Drafted Workplace Violence Prevention Plan",
+      metadata: { user_id: sierraId, document_type: "wvpp" },
+      created_at: daysAgo(22),
+    },
+    {
+      client_id: sierraId,
+      event_type: "incident.reported",
+      description: "Field lead logged near-miss on Riverside scaffold",
+      metadata: { user_id: ctx.teamUserIds.get("field@sierraridgebuilders.com") ?? sierraId },
+      created_at: daysAgo(14),
+    },
+    {
+      client_id: sierraId,
+      event_type: "audit.exported",
+      description: "Auditor exported Q1 compliance audit PDF",
+      metadata: { user_id: auditorId, format: "pdf" },
+      created_at: daysAgo(7),
+    },
+    {
+      client_id: sierraId,
+      event_type: "training.assigned",
+      description: "Assigned Heat Illness Prevention refresher to 12 employees",
+      metadata: { user_id: sierraId, employee_count: 12 },
+      created_at: daysAgo(2),
+    },
+  ]
+
+  const { error } = await admin.from("audit_log").insert(rows)
+  if (error) throw new Error(`seedAuditLog: insert failed: ${error.message}`)
+  console.log(`   ✅ ${rows.length} audit log rows (Sierra Ridge, last 30 days)`)
+}
+
+async function seedActionItems(ctx: AuthContext): Promise<void> {
+  console.log("✅ Seeding action_items...")
+
+  const pacificId = ctx.orgUserIds.get("admin@pacificcoastproperty.com")
+  if (!pacificId) throw new Error("seedActionItems: missing Pacific Coast client id")
+
+  const rows = [
+    {
+      client_id: pacificId,
+      action_type: "general",
+      title: "Quarterly property walkthrough scheduled",
+      description:
+        "Baseline action item for the Santa Monica Office. Use for tracking the Q2 walkthrough prep tasks.",
+      status: "open",
+      created_by: pacificId,
+    },
+  ]
+
+  const { error } = await admin.from("action_items").insert(rows)
+  if (error) throw new Error(`seedActionItems: insert failed: ${error.message}`)
+  console.log(`   ✅ ${rows.length} action item (Pacific Coast baseline)`)
+}
+
+async function seedPartnerCommissions(
+  partnerIdByEmail: Map<string, string>
+): Promise<void> {
+  console.log("💰 Seeding partner_commissions...")
+
+  const safeguardId = partnerIdByEmail.get("hello@safeguardadvisors.com")
+  if (!safeguardId) throw new Error("seedPartnerCommissions: missing Safeguard partner id")
+
+  // Month-boundary helpers relative to now.
+  const now = new Date()
+  const monthStart = (offset: number): Date => {
+    const d = new Date(now.getFullYear(), now.getMonth() + offset, 1)
+    return d
+  }
+  const monthEnd = (offset: number): Date => {
+    const d = new Date(now.getFullYear(), now.getMonth() + offset + 1, 0)
+    return d
+  }
+  const iso = (d: Date): string => d.toISOString().slice(0, 10)
+
+  // Period offsets: -3, -2, -1 (three complete months prior).
+  const rows = [
+    {
+      partner_id: safeguardId,
+      period_start: iso(monthStart(-3)),
+      period_end: iso(monthEnd(-3)),
+      amount_cents: 50000,
+      currency: "usd",
+      status: "paid",
+      paid_at: monthEnd(-3).toISOString(),
+      notes: "Demo: 2 active referrals",
+    },
+    {
+      partner_id: safeguardId,
+      period_start: iso(monthStart(-2)),
+      period_end: iso(monthEnd(-2)),
+      amount_cents: 75000,
+      currency: "usd",
+      status: "paid",
+      paid_at: monthEnd(-2).toISOString(),
+      notes: "Demo: 3 active referrals",
+    },
+    {
+      partner_id: safeguardId,
+      period_start: iso(monthStart(-1)),
+      period_end: iso(monthEnd(-1)),
+      amount_cents: 50000,
+      currency: "usd",
+      status: "pending",
+      notes: "Demo: awaiting month-end close",
+    },
+  ]
+
+  const { error } = await admin.from("partner_commissions").insert(rows)
+  if (error) throw new Error(`seedPartnerCommissions: insert failed: ${error.message}`)
+  console.log(`   ✅ ${rows.length} commission rows (Safeguard, 2 paid + 1 pending)`)
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 // Main
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -796,21 +1257,24 @@ async function main(): Promise<void> {
     await seedPartnerClients(ctx, partnerIdByEmail)
     await seedPartnerAssessments(partnerIdByEmail)
 
-    // TODO (next turn): vertical-specific seeders
-    //   - incidents, documents, audits, training_records (all orgs)
-    //   - construction_subs, projects, project_subs, sub_safety_programs,
-    //     vendor_payments (construction orgs)
-    //   - phi_assets, baa_agreements (healthcare org)
-    //   - property_portfolio (property org)
-    //   - poster_compliance, acknowledgment_requests, integrations
-    //   - regulatory_updates, municipal_ordinances
-    //   - audit_log, intake_submissions
+    // Phase B — vertical tables, logs, intake, commissions
+    await seedDocumentTemplates()
+    const docIdByClient = await seedDocuments(ctx)
+    await seedIncidents(ctx)
+    await seedTrainingRecords(ctx)
+    await seedBaaAgreements(ctx)
+    const regulatoryUpdateId = await seedRegulatoryUpdates()
+    await seedAcknowledgmentRequests(ctx, regulatoryUpdateId, docIdByClient)
+    await seedIntakeSubmissions()
+    await seedAuditLog(ctx)
+    await seedActionItems(ctx)
+    await seedPartnerCommissions(partnerIdByEmail)
 
-    // Silence unused-var lint for now — siteIdByOrgSite is wired into Turn 2 seeders.
+    // siteIdByOrgSite is reserved for future per-site seeders (projects, poster
+    // compliance, etc.). Keep the reference so tsc doesn't complain.
     void siteIdByOrgSite
 
-    console.log("\n✅ Seed Phase A complete (auth + clients + RBAC + sites + partners)")
-    console.log("   Next: run Phase B for vertical-specific tables.")
+    console.log("\n✅ Seed Phase A + B complete (auth + clients + RBAC + sites + partners + docs + incidents + training + BAAs + regs + acks + intake + audit log + action items + commissions)")
     console.log("\n🔑 Logins:")
     for (const org of DEMO_ORGS) {
       console.log(`   ${org.email.padEnd(42)} / ${org.password}  [${org.vertical}/${org.plan}/${org.status}]`)
