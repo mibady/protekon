@@ -1043,7 +1043,7 @@ export default function ScoreNationalPage() {
             }}
           >
             <Image
-              src="/images/hero/dashboard-glow.jpg"
+              src="/images/protekon-dashboard2.png"
               alt="Protekon compliance dashboard showing real-time score and gap analysis"
               width={1200}
               height={675}
