@@ -1880,3 +1880,48 @@ No state changes this session — Linear not connected via `.linear_project.json
 
 ### Linear
 - Not connected. Tracking in this log + GitHub PRs.
+
+---
+
+## Session 35 — 2026-04-24
+
+### Completed
+- **Shipped to production: `/score` dashboard image swap (PR #27, 25de587).** Replaced `/images/hero/dashboard-glow.jpg` with `/images/protekon-dashboard2.png` across all 14 scoring landings (California, National, 3 state slugs, 8 trade slugs). 4 files × 1 line each. Squash-merged to main; Vercel prod deploy confirmed live.
+- **Authored `onboarding-portable/`** — self-contained export of the 7-step wizard UI (pages + components + 26 vertical configs + 12 shadcn primitives + stub lib/actions + stub Supabase client) with companion `DESIGN-TOKENS.md` covering brand palette, typography, spacing, shadcn + Lucide inventory.
+- **Cut `feat/onboarding-ui-only` for v0 redesign work** — stripped 997 files from a main-cut branch, kept 117: `app/onboarding`, `components/onboarding`, `lib/onboarding`, 12 shadcn primitives, stubbed server actions, stubbed Supabase client. Dropped 30+ heavy deps (Sanity, Sentry, Stripe, Inngest, Resend, pdf-lib, AI SDKs, Playwright, Vitest). `/` redirects to `/onboarding`. `npm run build` passes clean (10 routes, all static-prerender). Pushed to origin.
+
+### Audit Snapshot (on main)
+- SESSION_LOG sessions: 35
+- Pages on main: unchanged from Session 34
+- `/score` landings: 14 URLs (all now show real dashboard image)
+
+### Audit Snapshot (on `feat/onboarding-ui-only`)
+- Onboarding pages: 9
+- Onboarding components: 12
+- Shadcn primitives: 12
+- Vertical configs: 29 (26 verticals + default + types + index)
+- Stubbed server actions: 8
+- Total tracked files: 117
+- Build: pass (10 static routes)
+
+### Decisions Made
+- **v0 branch strategy = dedicated stripped branch + cherry-path merge-back.** `git merge feat/onboarding-ui-only` into main would delete ~1000 files; the correct flow is `git checkout feat/onboarding-ui-only -- app/onboarding components/onboarding lib/onboarding lib/types/onboarding.ts`. Documented in the branch's `README.md`.
+- **Supabase stub shape = Proxy-backed `StubQuery<T>` with explicit generic interface.** After three build cycles whack-a-moling individual methods (`.single`, `.returns<T>`, `.filter`), the Proxy + typed interface handles any chain method in one shot. Runtime: every await resolves `{ data: [], error: null }`; type level: generic methods accept their type args cleanly.
+- **`--no-verify` allowed as a one-off for the branch-strip commit only.** 997 files vs. hook's 20-file limit. TSC + lint passed manually; user explicitly approved via AskUserQuestion. Main's hook stays intact for normal feature work.
+- **`feat/onboarding-ui-redesign` kept untouched as full-repo branch.** Separate branch from `feat/onboarding-ui-only` so the user has both: a standard working branch AND a v0-import-friendly stripped branch.
+
+### Known Issues / Carryovers
+- **Scraper service-role key (`vizmtkfpxxjzlpzibate`) — 6 sessions carried** without rotation. Still the smallest-risk outstanding security item.
+- **PR #24 status** — not revisited this session; carry forward from Session 34.
+- **Live paid-signup smoke test** — still outstanding; requires real Stripe card. Human-gated.
+- **12 Tier-3 verticals still on DEFAULT_CONFIG** — unchanged.
+- **`feat/onboarding-ui-redesign` branch orphaned on origin** — no planned use for it; can be deleted once v0 work merges back via the stripped branch.
+
+### Next Session Should
+1. **Wait for v0 redesign output** on `feat/onboarding-ui-only`, then run the cherry-path merge-back from that branch's README.
+2. **Scraper key rotation** (`vizmtkfpxxjzlpzibate`) — 6 sessions carried.
+3. **Delete `feat/onboarding-ui-redesign`** once v0 work is merged back (orphan branch).
+4. Optional: Tier 3 configs — 12 slugs, pace at 1/week is fine.
+
+### Linear
+- Not connected. Tracking in this log + GitHub PRs.
