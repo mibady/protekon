@@ -1,66 +1,85 @@
-# protekon-fy
+# Protekon Onboarding — UI Redesign Workspace
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+A stripped-down copy of the Protekon repo containing **only** the 7-step
+onboarding wizard. This branch (`feat/onboarding-ui-only`) is imported into
+[v0](https://v0.app) for UI redesign work. Do **not** merge this branch into
+`main` — see "Merging changes back" below.
 
-## Built with v0
+## What's here
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+```
+app/
+  layout.tsx          Minimal root layout (fonts + Toaster only)
+  globals.css         Brand tokens (void / midnight / crimson / gold / …)
+  page.tsx            Redirects /  →  /onboarding
+  onboarding/         7 step pages + layout (the whole point of this branch)
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_jhOXEp1epOGR3dU1yGhzenUis18y)
+components/
+  onboarding/         WizardLayout, ProgressRail, 7 step forms
+  ui/                 12 shadcn primitives actually used by the wizard
 
-## Getting Started
+lib/
+  onboarding/         26 vertical configs + integration providers
+  types/onboarding.ts Contract types (ActionResult envelopes, etc.)
+  actions/onboarding/ STUBBED server actions — all return success with mock data
+  supabase/server.ts  STUBBED supabase client — fake user, empty rows
+  utils.ts            shadcn cn() helper
+```
 
-First, run the development server:
+No Supabase, Inngest, Stripe, Resend, Sentry, Sanity, or Blob storage. No
+marketing pages, no dashboard, no /score tree. Dev server runs with zero
+env vars.
+
+## Running locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` → it redirects to `/onboarding` → which loads
+Step 1 (Business Snapshot). Every form submits to a stub that returns a
+canned success response, so you can click through all 7 steps end-to-end.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Merging changes back to `main`
 
-## Learn More
-
-To learn more, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
-
-<a href="https://v0.app/chat/api/kiro/clone/mibady/protekon-fy" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
-
-## Environment Variables
-
-Copy `.env.example` to `.env.local` and fill in real values for local development. On Vercel, set every variable for Production, Preview, and Development environments.
-
-### Scraper Project (NGE-481)
-
-The nightly intelligence mirror (`inngest/functions/mirror-intelligence-nightly.ts`) pulls from the external scraper Supabase project (`vizmtkfpxxjzlpzibate`) into the app DB table `client_intelligence_items`.
-
-| Var | Purpose |
-|---|---|
-| `SCRAPER_SUPABASE_URL` | Scraper project URL (e.g. `https://vizmtkfpxxjzlpzibate.supabase.co`). |
-| `SCRAPER_SUPABASE_SERVICE_ROLE_KEY` | Service-role key for the scraper project. Never exposed to the browser. Only consumed by the nightly mirror function via `lib/supabase/scraper.ts#createScraperServiceClient`. |
-
-Rotate these keys at the Supabase dashboard for project `vizmtkfpxxjzlpzibate`, then update all Vercel environments.
-
-## Inngest Cron Catalog
-
-| Function | Cron (UTC) | Local | Purpose |
-|---|---|---|---|
-| `mirror-intelligence-nightly` | `0 10 * * *` | 2 AM PST / 3 AM PDT | Mirror scraper intelligence (`protekon_v_notable_stories`, `protekon_regulatory_updates`, `protekon_anomaly_events`) into the app DB for Briefing's intelligence block. 24h staleness acceptable. |
-
-Manual trigger via Inngest dashboard "Invoke" or:
+This branch is **not mergeable to main** — it's missing half the repo.
+Instead, cherry-pick the redesigned UI files:
 
 ```bash
-curl -X POST "$INNGEST_URL/e/$INNGEST_EVENT_KEY" \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"inngest/function.invoked","data":{"function_id":"mirror-intelligence-nightly"}}'
+git checkout main
+git pull --ff-only
+git checkout -b feat/onboarding-redesign-import
+git checkout feat/onboarding-ui-only -- \
+  app/onboarding \
+  components/onboarding \
+  lib/onboarding \
+  lib/types/onboarding.ts
+# optional — only if shadcn primitives were customised
+# git checkout feat/onboarding-ui-only -- components/ui
+
+git commit -m "feat(onboarding): import v0 UI redesign"
+git push -u origin feat/onboarding-redesign-import
+gh pr create --base main
 ```
 
-First-run catchup: the 14/30/14-day windows backfill automatically.
+Only the redesigned UI flows back. The stubs stay on the v0 branch; real
+server actions and Supabase client stay on `main`.
+
+## What to redesign
+
+Work freely inside:
+
+- `components/onboarding/**` — all 7 step forms + wizard shell + progress
+  rail + dashboard preview
+- `app/onboarding/**` — page shells (but most live in the form components)
+- `app/globals.css` — brand tokens if you want to shift the palette
+
+**Do not touch:**
+- `lib/actions/onboarding/*` — stubs; redesigning UI doesn't need this
+- `lib/supabase/server.ts` — stub
+- `lib/onboarding/verticals/*` — pure config data, shared with `main`
+
+Changing form behavior (new fields, new steps, reordering) is fine and will
+flow back cleanly. Changing the `ActionResult<T>` shape of a server action
+is **not** fine — `main` still expects the original signatures.
