@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
 import { getOnboardingState } from "@/lib/actions/onboarding/state"
+import { getVisibleOnboardingSteps } from "@/lib/onboarding/steps"
 import { DocumentsBoard } from "@/components/onboarding/step-6-documents/DocumentsBoard"
 import type { DocumentCard } from "@/components/onboarding/step-6-documents/DocumentsBoard"
 
@@ -32,6 +33,7 @@ export default async function DocumentsPage() {
   if (stateResult.data.currentStep === 0) redirect("/onboarding/business")
 
   const state = stateResult.data
+  const visibleSteps = getVisibleOnboardingSteps(state.config)
   const supabase = await createClient()
 
   const { data: docs } = await supabase
@@ -77,6 +79,9 @@ export default async function DocumentsPage() {
       skippedCategories={skippedCategories}
       stepIntro={state.config.stepCopy.documents.intro}
       templateLibraryCta={state.config.stepCopy.documents.templateLibraryCta}
+      backHref={state.config.stepVisibility.thirdParties ? "/onboarding/subs" : "/onboarding/people"}
+      stepNumber={visibleSteps.length}
+      totalSteps={visibleSteps.length}
     />
   )
 }

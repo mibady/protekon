@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
 import { getOnboardingState } from "@/lib/actions/onboarding/state"
+import { getVisibleOnboardingSteps } from "@/lib/onboarding/steps"
 import { SitesForm } from "@/components/onboarding/step-3-sites/SitesForm"
 
 type SiteRowDb = {
@@ -21,9 +22,6 @@ export default async function SitesPage() {
   if (stateResult.data.currentStep === 0) redirect("/onboarding/business")
 
   const state = stateResult.data
-  if (!state.config.stepVisibility.sites) {
-    redirect("/onboarding/people")
-  }
 
   const supabase = await createClient()
   const { data } = await supabase
@@ -49,8 +47,10 @@ export default async function SitesPage() {
     <SitesForm
       initialSites={initialSites}
       operatingStates={state.client.operatingStates}
+      plan={state.client.plan}
       stepIntro={state.config.stepCopy.sites.intro}
       addButtonLabel={state.config.stepCopy.sites.addButtonLabel}
+      totalSteps={getVisibleOnboardingSteps(state.config).length}
     />
   )
 }

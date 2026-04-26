@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { getOnboardingConfig } from "@/lib/onboarding/verticals"
+import { getVisibleOnboardingSteps } from "@/lib/onboarding/steps"
 import type {
   ActionResult,
   AdvanceStepResult,
@@ -17,6 +18,7 @@ import type {
 
 type ClientRowSelection = {
   id: string
+  plan: string | null
   vertical: string | null
   operating_states: string[] | null
   worker_count_range: string | null
@@ -68,7 +70,7 @@ export async function getOnboardingState(): Promise<ActionResult<OnboardingState
   const { data: clientRow, error: clientErr } = await supabase
     .from("clients")
     .select(
-      "id, vertical, operating_states, worker_count_range, onboarding_status, last_onboarding_step_completed, compliance_score",
+      "id, plan, vertical, operating_states, worker_count_range, onboarding_status, last_onboarding_step_completed, compliance_score",
     )
     .eq("id", user.id)
     .single<ClientRowSelection>()
@@ -113,6 +115,7 @@ export async function getOnboardingState(): Promise<ActionResult<OnboardingState
 
   const stateClient: OnboardingStateClient = {
     id: clientRow.id,
+    plan: clientRow.plan ?? "core",
     vertical,
     operatingStates: clientRow.operating_states ?? [],
     workerCountRange: asWorkerRange(clientRow.worker_count_range),
@@ -125,8 +128,14 @@ export async function getOnboardingState(): Promise<ActionResult<OnboardingState
     completed.push(i as OnboardingStepNumber)
   }
 
+  const visibleSteps = getVisibleOnboardingSteps(config)
+  const currentStep =
+    visibleSteps.find((step) => !completed.includes(step.number))?.number ??
+    visibleSteps[visibleSteps.length - 1]?.number ??
+    1
+
   const state: OnboardingState = {
-    currentStep: completedThrough >= 7 ? 7 : ((completedThrough + 1) as OnboardingStepNumber),
+    currentStep,
     completedSteps: completed,
     skippedSteps: [],
     client: stateClient,

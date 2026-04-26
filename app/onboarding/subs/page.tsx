@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
 import { getOnboardingState } from "@/lib/actions/onboarding/state"
+import { getVisibleOnboardingSteps } from "@/lib/onboarding/steps"
 import { ThirdPartiesForm } from "@/components/onboarding/step-5-third-parties/ThirdPartiesForm"
 
 type SubRow = {
@@ -35,10 +36,8 @@ export default async function ThirdPartiesPage() {
     localId: row.id,
     id: row.id,
     name: row.company_name ?? "",
-    classification: null,
     contactEmail: null,
-    contactPhone: null,
-    tradeOrCategory: row.trade_type,
+    selected: Boolean(row.company_name),
   }))
 
   const stepCopy = state.config.stepCopy.thirdParties ?? {
@@ -54,6 +53,7 @@ export default async function ThirdPartiesPage() {
       termPlural={termPlural}
       stepIntro={stepCopy.intro}
       classificationHelp={stepCopy.classificationHelp}
+      totalSteps={getVisibleOnboardingSteps(state.config).length}
     />
   )
 }

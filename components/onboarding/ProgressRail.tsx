@@ -1,29 +1,6 @@
 import { Check } from "lucide-react"
+import { getVisibleOnboardingSteps } from "@/lib/onboarding/steps"
 import type { OnboardingStepNumber, OnboardingVerticalConfig } from "@/lib/types/onboarding"
-
-type Step = {
-  number: OnboardingStepNumber
-  title: string
-  shortTitle: string
-}
-
-const ALL_STEPS: Step[] = [
-  { number: 1, title: "Business Snapshot", shortTitle: "Business" },
-  { number: 2, title: "Connect Your Tools", shortTitle: "Tools" },
-  { number: 3, title: "Sites", shortTitle: "Sites" },
-  { number: 4, title: "Your People", shortTitle: "People" },
-  { number: 5, title: "Third-Party Vendors", shortTitle: "Vendors" },
-  { number: 6, title: "Confirm Documents", shortTitle: "Docs" },
-  { number: 7, title: "Automations", shortTitle: "Automate" },
-]
-
-export function getVisibleSteps(config: OnboardingVerticalConfig): Step[] {
-  return ALL_STEPS.filter((s) => {
-    if (s.number === 3) return config.stepVisibility.sites
-    if (s.number === 5) return config.stepVisibility.thirdParties
-    return true
-  })
-}
 
 type Props = {
   currentStep: OnboardingStepNumber
@@ -33,53 +10,45 @@ type Props = {
 }
 
 export function ProgressRail({ currentStep, completedSteps, skippedSteps, config }: Props) {
-  const steps = getVisibleSteps(config)
+  const steps = getVisibleOnboardingSteps(config)
 
   return (
-    <nav
-      aria-label="Onboarding progress"
-      className="w-full overflow-x-auto border-b border-brand-white/[0.08] bg-midnight/60 backdrop-blur"
-    >
-      <ol className="mx-auto flex min-w-max items-center gap-2 px-6 py-4">
-        {steps.map((step, idx) => {
+    <nav aria-label="Onboarding progress" className="hidden w-20 shrink-0 lg:block">
+      <ol className="sticky top-8 flex flex-col items-center">
+        {steps.map((step, index) => {
           const isComplete = completedSteps.includes(step.number)
           const isSkipped = skippedSteps.includes(step.number)
           const isCurrent = currentStep === step.number
+          const nextStep = steps[index + 1]
+          const lineComplete = Boolean(nextStep && completedSteps.includes(nextStep.number))
 
           return (
-            <li key={step.number} className="flex items-center gap-2">
-              <div className="flex items-center gap-2">
+            <li key={step.number} className="flex flex-col items-center">
+              <div className="group relative flex h-10 w-10 items-center justify-center">
                 <span
                   className={[
-                    "flex h-7 w-7 items-center justify-center border text-[11px] font-display font-bold tracking-[1px]",
+                    "flex h-8 w-8 items-center justify-center rounded-full border font-display text-[11px] font-bold tracking-[1px] transition-all",
                     isComplete
-                      ? "border-gold bg-gold/10 text-gold"
+                      ? "border-gold bg-gold text-void shadow-[0_0_10px_rgba(255,215,0,0.5)]"
                       : isCurrent
-                        ? "border-crimson bg-crimson text-parchment ring-2 ring-crimson/30"
+                        ? "border-gold bg-midnight text-gold shadow-[0_0_10px_rgba(255,215,0,0.25)]"
                         : isSkipped
-                          ? "border-dashed border-steel/40 text-steel/40"
-                          : "border-steel/30 text-steel/60",
+                          ? "border-dashed border-brand-white/[0.2] bg-void text-steel/50"
+                          : "border-brand-white/[0.2] bg-void text-steel",
                   ].join(" ")}
                   aria-current={isCurrent ? "step" : undefined}
                 >
-                  {isComplete ? <Check className="h-3.5 w-3.5" /> : step.number}
+                  {isComplete ? <Check className="h-4 w-4" /> : index + 1}
                 </span>
-                <span
-                  className={[
-                    "font-display text-[11px] tracking-[2px] uppercase",
-                    isCurrent ? "text-parchment" : isComplete ? "text-gold/80" : "text-steel/60",
-                  ].join(" ")}
-                >
+                <span className="pointer-events-none absolute left-11 top-1/2 z-10 -translate-y-1/2 whitespace-nowrap border border-brand-white/[0.08] bg-midnight px-2 py-1 font-display text-[10px] tracking-[2px] text-parchment opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
                   {step.shortTitle}
                 </span>
               </div>
-              {idx < steps.length - 1 ? (
+              {index < steps.length - 1 ? (
                 <span
                   className={[
-                    "h-px w-6",
-                    completedSteps.includes(steps[idx + 1].number) || isComplete
-                      ? "bg-gold/40"
-                      : "bg-steel/20",
+                    "h-16 w-px transition-colors",
+                    lineComplete || isComplete ? "bg-gold shadow-[0_0_10px_rgba(255,215,0,0.35)]" : "bg-brand-white/[0.12]",
                   ].join(" ")}
                   aria-hidden
                 />
@@ -91,3 +60,4 @@ export function ProgressRail({ currentStep, completedSteps, skippedSteps, config
     </nav>
   )
 }
+
