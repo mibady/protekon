@@ -1,29 +1,19 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useMemo, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { CheckCircle2, FileText, Upload, X } from "lucide-react"
+import { CheckCircle2, FileText, Rocket, ShieldCheck, XCircle } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { StepShell } from "@/components/onboarding/StepShell"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { StepShell, StepFooterNext } from "@/components/onboarding/StepShell"
-import { SkipConsequencesDialog } from "@/components/onboarding/SkipConsequencesDialog"
-import {
-  approveImportedDocument,
   adoptTemplate,
+  approveImportedDocument,
+  finalizeOnboarding,
   markDocumentSkipped,
 } from "@/lib/actions/onboarding/documents"
-import { advanceStep } from "@/lib/actions/onboarding/state"
 
 export type DocumentCard = {
   id: string
@@ -42,6 +32,9 @@ type Props = {
   skippedCategories: string[]
   stepIntro: string
   templateLibraryCta: string
+  backHref: string
+  stepNumber: number
+  totalSteps: number
 }
 
 function humanizeCategory(category: string): string {
@@ -59,16 +52,26 @@ export function DocumentsBoard({
   skippedCategories,
   stepIntro,
   templateLibraryCta,
+  backHref,
+  stepNumber,
+  totalSteps,
 }: Props) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-  const [uploadCategory, setUploadCategory] = useState<string | null>(null)
-  const [pendingUpload, setPendingUpload] = useState<File | null>(null)
-  const [isUploading, setIsUploading] = useState(false)
-  const [skipCategory, setSkipCategory] = useState<string | null>(null)
+  const [reviewQueue, setReviewQueue] = useState(needsReview)
+  const [swipeTone, setSwipeTone] = useState<"approve" | "reject" | null>(null)
+  const [generating, setGenerating] = useState<string | null>(null)
+  const [generated, setGenerated] = useState<Set<string>>(new Set())
+  const [launching, setLaunching] = useState(false)
 
-  const covered = new Set(coveredCategories.map((c) => c.toLowerCase()))
-  const skipped = new Set(skippedCategories.map((c) => c.toLowerCase()))
+  const covered = useMemo(
+    () => new Set([...coveredCategories, ...Array.from(generated)].map((c) => c.toLowerCase())),
+    [coveredCategories, generated],
+  )
+  const skipped = useMemo(
+    () => new Set(skippedCategories.map((c) => c.toLowerCase())),
+    [skippedCategories],
+  )
 
   const stillNeeded = [
     ...requiredCategories.map((c) => ({ category: c, required: true })),
@@ -79,11 +82,23 @@ export function DocumentsBoard({
       !skipped.has(item.category.toLowerCase()),
   )
 
+  const activeDoc = reviewQueue[0]
+
+  const dismissCard = (tone: "approve" | "reject") => {
+    setSwipeTone(tone)
+    window.setTimeout(() => {
+      setReviewQueue((prev) => prev.slice(1))
+      setSwipeTone(null)
+    }, 220)
+  }
+
   const handleApprove = (doc: DocumentCard) => {
+    dismissCard("approve")
     startTransition(async () => {
       const result = await approveImportedDocument({ documentId: doc.id })
       if (!result.ok) {
         toast.error("Couldn't approve document.")
+        router.refresh()
         return
       }
       toast.success("Document approved.")
@@ -92,6 +107,7 @@ export function DocumentsBoard({
   }
 
   const handleReject = (doc: DocumentCard) => {
+    dismissCard("reject")
     startTransition(async () => {
       const result = await markDocumentSkipped({
         category: doc.type,
@@ -99,6 +115,7 @@ export function DocumentsBoard({
       })
       if (!result.ok) {
         toast.error("Couldn't reject document.")
+        router.refresh()
         return
       }
       toast.success("Document rejected.")
@@ -106,348 +123,188 @@ export function DocumentsBoard({
     })
   }
 
-  const handleAdopt = (category: string) => {
-    startTransition(async () => {
-      const result = await adoptTemplate({ category })
-      if (!result.ok) {
-        toast.error("Couldn't adopt template.")
-        return
-      }
-      toast.success(`${humanizeCategory(category)} template adopted.`)
-      router.refresh()
-    })
-  }
-
-  const confirmSkip = (category: string) => {
-    startTransition(async () => {
-      const result = await markDocumentSkipped({
-        category,
-        reason: "user_skipped_phase_1",
+  const handleGenerate = (category: string) => {
+    setGenerating(category)
+    window.setTimeout(() => {
+      startTransition(async () => {
+        const result = await adoptTemplate({ category })
+        setGenerating(null)
+        if (!result.ok) {
+          toast.error("Couldn't generate that document.")
+          return
+        }
+        setGenerated((prev) => new Set([...prev, category]))
+        toast.success(`${humanizeCategory(category)} generated.`)
+        router.refresh()
       })
-      if (!result.ok) {
-        toast.error("Couldn't skip category.")
-        return
-      }
-      toast.success(`${humanizeCategory(category)} skipped.`)
-      setSkipCategory(null)
-      router.refresh()
-    })
+    }, 1500)
   }
 
-  const triggerSkip = (category: string, required: boolean) => {
-    if (required) {
-      setSkipCategory(category)
-      return
-    }
-    confirmSkip(category)
-  }
-
-  const openUpload = (category: string) => {
-    setUploadCategory(category)
-    setPendingUpload(null)
-  }
-
-  const closeUpload = () => {
-    if (isUploading) return
-    setUploadCategory(null)
-    setPendingUpload(null)
-  }
-
-  const submitUpload = async () => {
-    if (!uploadCategory || !pendingUpload) return
-    setIsUploading(true)
-    try {
-      const form = new FormData()
-      form.append("file", pendingUpload)
-      form.append("category", uploadCategory)
-      const response = await fetch("/api/onboarding/documents/upload", {
-        method: "POST",
-        body: form,
-      })
-      if (!response.ok) {
-        const body = (await response.json().catch(() => ({}))) as { error?: string }
-        toast.error(body.error ?? "Upload failed.")
-        return
-      }
-      toast.success("File uploaded. Review it in the Needs eye column.")
-      setUploadCategory(null)
-      setPendingUpload(null)
-      router.refresh()
-    } finally {
-      setIsUploading(false)
-    }
-  }
-
-  const continueToNext = () => {
+  const launchDashboard = () => {
+    setLaunching(true)
     startTransition(async () => {
-      const result = await advanceStep(6)
+      const result = await finalizeOnboarding()
       if (!result.ok) {
-        toast.error("Couldn't save progress.")
+        setLaunching(false)
+        toast.error("Couldn't launch dashboard. Please try again.")
         return
       }
-      router.push("/onboarding/automations")
+      router.push(result.data.href)
     })
   }
 
   return (
     <StepShell
-      stepNumber={6}
-      totalSteps={7}
-      title="Confirm your compliance library"
+      stepNumber={stepNumber}
+      totalSteps={totalSteps}
+      title="Finalize your compliance library"
       intro={stepIntro}
-      backHref="/onboarding/subs"
+      backHref={backHref}
     >
       <div className="flex flex-col gap-8">
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          <section className="flex flex-col gap-3 border border-brand-white/[0.1] bg-midnight/40 p-5">
-            <header className="flex items-center justify-between">
-              <h3 className="font-display text-[14px] font-bold tracking-[1px] uppercase text-parchment">
-                Needs eye
+        <section className="border border-brand-white/[0.1] bg-midnight/40 p-5">
+          <div className="mb-5 flex items-center justify-between gap-3">
+            <div>
+              <h3 className="font-display text-[14px] font-bold tracking-[1px] text-parchment uppercase">
+                Needs Eye
               </h3>
-              <Badge variant="secondary">{needsReview.length}</Badge>
-            </header>
-            <p className="font-sans text-[12px] text-steel">
-              Imported documents awaiting your approval.
-            </p>
-            <ul className="flex flex-col gap-3">
-              {needsReview.length === 0 ? (
-                <li className="border border-dashed border-brand-white/[0.1] p-3 font-sans text-[12px] text-steel">
-                  Nothing to review.
-                </li>
-              ) : (
-                needsReview.map((doc) => (
-                  <li
-                    key={doc.id}
-                    className="flex flex-col gap-3 border border-brand-white/[0.08] bg-void/40 p-3"
-                  >
-                    <div className="flex items-start gap-2">
-                      <FileText className="mt-0.5 h-4 w-4 text-gold" aria-hidden="true" />
-                      <div className="flex flex-col">
-                        <span className="font-display text-[13px] font-semibold text-parchment">
-                          {humanizeCategory(doc.type)}
-                        </span>
-                        {doc.filename ? (
-                          <span className="font-sans text-[12px] text-steel">
-                            {doc.filename}
-                          </span>
-                        ) : null}
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        type="button"
-                        size="sm"
-                        onClick={() => handleApprove(doc)}
-                        disabled={isPending}
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleReject(doc)}
-                        disabled={isPending}
-                      >
-                        Reject
-                      </Button>
-                    </div>
-                  </li>
-                ))
-              )}
-            </ul>
-          </section>
+              <p className="mt-1 font-sans text-[12px] text-steel">
+                Review one document at a time.
+              </p>
+            </div>
+            <Badge variant="secondary">{reviewQueue.length}</Badge>
+          </div>
 
-          <section className="flex flex-col gap-3 border border-brand-white/[0.1] bg-midnight/40 p-5">
-            <header className="flex items-center justify-between">
-              <h3 className="font-display text-[14px] font-bold tracking-[1px] uppercase text-parchment">
-                Looks good
-              </h3>
-              <Badge variant="secondary">{approved.length}</Badge>
-            </header>
-            <p className="font-sans text-[12px] text-steel">Already approved.</p>
-            <ul className="flex flex-col gap-3">
-              {approved.length === 0 ? (
-                <li className="border border-dashed border-brand-white/[0.1] p-3 font-sans text-[12px] text-steel">
-                  No approved documents yet.
-                </li>
-              ) : (
-                approved.map((doc) => (
-                  <li
-                    key={doc.id}
-                    className="flex items-center gap-3 border border-brand-white/[0.08] bg-void/40 p-3"
-                  >
-                    <CheckCircle2 className="h-4 w-4 text-gold" aria-hidden="true" />
-                    <div className="flex flex-col">
-                      <span className="font-display text-[13px] font-semibold text-parchment">
-                        {humanizeCategory(doc.type)}
-                      </span>
-                      {doc.filename ? (
-                        <span className="font-sans text-[12px] text-steel">
-                          {doc.filename}
-                        </span>
-                      ) : null}
-                    </div>
-                  </li>
-                ))
-              )}
-            </ul>
-          </section>
+          {activeDoc ? (
+            <div
+              className={[
+                "flex min-h-72 flex-col justify-between border border-brand-white/[0.1] bg-void/50 p-6 transition-all duration-200",
+                swipeTone === "approve" ? "translate-x-8 opacity-0" : "",
+                swipeTone === "reject" ? "-translate-x-8 opacity-0" : "",
+              ].join(" ")}
+            >
+              <div className="flex flex-col gap-4">
+                <FileText className="h-8 w-8 text-gold" />
+                <div>
+                  <div className="font-display text-[24px] font-bold leading-tight text-parchment">
+                    {humanizeCategory(activeDoc.type)}
+                  </div>
+                  {activeDoc.filename ? (
+                    <div className="mt-2 font-sans text-[13px] text-fog">{activeDoc.filename}</div>
+                  ) : null}
+                </div>
+              </div>
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Button
+                  type="button"
+                  onClick={() => handleApprove(activeDoc)}
+                  disabled={isPending}
+                  className="h-16 gap-2 bg-gold/20 font-display text-[13px] tracking-[1px] text-gold hover:bg-gold/30"
+                >
+                  <CheckCircle2 className="h-5 w-5" />
+                  Approve
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => handleReject(activeDoc)}
+                  disabled={isPending}
+                  className="h-16 gap-2 bg-crimson/10 font-display text-[13px] tracking-[1px] text-crimson hover:bg-crimson/20"
+                >
+                  <XCircle className="h-5 w-5" />
+                  Reject
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="border border-dashed border-brand-white/[0.1] p-8 text-center font-sans text-[13px] text-steel">
+              Nothing needs review.
+            </div>
+          )}
+        </section>
 
-          <section className="flex flex-col gap-3 border border-brand-white/[0.1] bg-midnight/40 p-5">
-            <header className="flex items-center justify-between">
-              <h3 className="font-display text-[14px] font-bold tracking-[1px] uppercase text-parchment">
-                Still needed
+        <section className="border border-brand-white/[0.1] bg-midnight/40 p-5">
+          <div className="mb-5 flex items-center justify-between gap-3">
+            <div>
+              <h3 className="font-display text-[14px] font-bold tracking-[1px] text-parchment uppercase">
+                Still Needed
               </h3>
-              <Badge variant="secondary">{stillNeeded.length}</Badge>
-            </header>
-            <p className="font-sans text-[12px] text-steel">{templateLibraryCta}</p>
-            <ul className="flex flex-col gap-3">
-              {stillNeeded.length === 0 ? (
-                <li className="border border-dashed border-brand-white/[0.1] p-3 font-sans text-[12px] text-steel">
-                  Your library is complete.
-                </li>
-              ) : (
-                stillNeeded.map(({ category, required }) => (
+              <p className="mt-1 font-sans text-[12px] text-steel">{templateLibraryCta}</p>
+            </div>
+            <Badge variant="secondary">{stillNeeded.length}</Badge>
+          </div>
+
+          <ul className="flex flex-col gap-3">
+            {stillNeeded.length === 0 ? (
+              <li className="border border-dashed border-brand-white/[0.1] p-4 font-sans text-[13px] text-steel">
+                Your library is complete.
+              </li>
+            ) : (
+              stillNeeded.map(({ category, required }) => {
+                const isGenerating = generating === category
+                return (
                   <li
                     key={category}
-                    className="flex flex-col gap-3 border border-brand-white/[0.08] bg-void/40 p-3"
+                    className="flex flex-col gap-3 border border-brand-white/[0.08] bg-void/40 p-4 sm:flex-row sm:items-center sm:justify-between"
                   >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-display text-[13px] font-semibold text-parchment">
+                    <div>
+                      <div className="font-display text-[13px] font-semibold text-parchment">
                         {humanizeCategory(category)}
-                      </span>
-                      {required ? (
-                        <Badge variant="destructive">Required</Badge>
-                      ) : (
-                        <Badge variant="secondary">Recommended</Badge>
-                      )}
+                      </div>
+                      <div className="mt-1">
+                        <Badge variant={required ? "destructive" : "secondary"}>
+                          {required ? "Required" : "Recommended"}
+                        </Badge>
+                      </div>
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    {isGenerating ? (
+                      <div className="h-9 w-40 animate-pulse bg-midnight" />
+                    ) : (
                       <Button
                         type="button"
-                        size="sm"
-                        onClick={() => handleAdopt(category)}
+                        onClick={() => handleGenerate(category)}
                         disabled={isPending}
+                        className="gap-2 border border-gold bg-midnight text-gold hover:bg-gold/10"
                       >
-                        Use template
+                        <ShieldCheck className="h-4 w-4" />
+                        Generate for me
                       </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={() => openUpload(category)}
-                      >
-                        Upload my own
-                      </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => triggerSkip(category, required)}
-                        disabled={isPending}
-                        className="text-steel"
-                      >
-                        Skip
-                      </Button>
-                    </div>
+                    )}
                   </li>
-                ))
-              )}
-            </ul>
+                )
+              })
+            )}
+          </ul>
+        </section>
+
+        {approved.length > 0 ? (
+          <section className="border border-brand-white/[0.08] bg-midnight/40 p-5">
+            <div className="mb-3 font-display text-[12px] tracking-[2px] text-steel uppercase">
+              Approved
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {approved.slice(0, 12).map((doc) => (
+                <Badge key={doc.id} className="border border-gold/20 bg-gold/10 text-gold">
+                  {humanizeCategory(doc.type)}
+                </Badge>
+              ))}
+            </div>
           </section>
-        </div>
+        ) : null}
 
-        <div className="flex justify-end">
-          <Button
-            type="button"
-            onClick={continueToNext}
-            disabled={isPending}
-            className="gap-2"
-          >
-            <StepFooterNext loading={isPending} label="Continue" />
-          </Button>
-        </div>
+        <Button
+          type="button"
+          onClick={launchDashboard}
+          disabled={launching || isPending}
+          className="group h-auto w-full bg-gold py-6 font-display text-[16px] font-bold tracking-[2px] text-void uppercase transition-all hover:brightness-110"
+        >
+          {launching ? (
+            <span className="h-5 w-5 animate-spin rounded-full border-2 border-void/30 border-t-void" />
+          ) : (
+            <Rocket className="h-5 w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+          )}
+          Activate Compliance Autopilot & Launch Dashboard
+        </Button>
       </div>
-
-      <Dialog open={uploadCategory !== null} onOpenChange={(open) => !open && closeUpload()}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              Upload {uploadCategory ? humanizeCategory(uploadCategory) : "document"}
-            </DialogTitle>
-            <DialogDescription>
-              Files up to 20 MB. We&apos;ll store it securely in your compliance library.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-4 py-2">
-            <label className="flex cursor-pointer flex-col items-center gap-2 border border-dashed border-brand-white/[0.2] p-6 text-center hover:border-gold">
-              <Upload className="h-6 w-6 text-gold" aria-hidden="true" />
-              <span className="font-display text-[13px] font-semibold text-parchment">
-                {pendingUpload ? pendingUpload.name : "Click to choose a file"}
-              </span>
-              <span className="font-sans text-[11px] text-steel">PDF, DOCX, or image</span>
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
-                className="sr-only"
-                onChange={(e) => setPendingUpload(e.target.files?.[0] ?? null)}
-                disabled={isUploading}
-              />
-            </label>
-            {pendingUpload ? (
-              <button
-                type="button"
-                onClick={() => setPendingUpload(null)}
-                className="inline-flex items-center gap-1 self-start font-sans text-[12px] text-steel hover:text-parchment"
-              >
-                <X className="h-3 w-3" />
-                Clear
-              </button>
-            ) : null}
-            {isUploading ? (
-              <div className="flex items-center gap-2 font-sans text-[12px] text-gold">
-                <span className="h-3 w-3 animate-spin rounded-full border-2 border-gold/30 border-t-gold" />
-                Uploading...
-              </div>
-            ) : null}
-          </div>
-          <Label id="upload-hint" className="sr-only">
-            Upload a compliance document for the selected category.
-          </Label>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={closeUpload}
-              disabled={isUploading}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              onClick={submitUpload}
-              disabled={!pendingUpload || isUploading}
-            >
-              Upload
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <SkipConsequencesDialog
-        open={skipCategory !== null}
-        onOpenChange={(open) => !open && setSkipCategory(null)}
-        stepTitle={`${skipCategory ? humanizeCategory(skipCategory) : "Document"}`}
-        consequences={[
-          "Your compliance posture score will show this gap.",
-          "Audits and partners may flag the missing document.",
-          "You can come back and add it from Documents at any time.",
-        ]}
-        onConfirm={() => {
-          if (skipCategory) confirmSkip(skipCategory)
-        }}
-      />
     </StepShell>
   )
 }

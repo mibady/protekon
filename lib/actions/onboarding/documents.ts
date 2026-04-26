@@ -3,7 +3,10 @@
 import { z } from "zod"
 
 import { createClient } from "@/lib/supabase/server"
+import { configureAutomations } from "@/lib/actions/onboarding/automations"
+import { getOnboardingState, markComplete } from "@/lib/actions/onboarding/state"
 import type {
+  ActionResult,
   ApproveImportedDocumentInput,
   AdoptTemplateInput,
   DocumentStepActionResult,
@@ -157,4 +160,18 @@ export async function markDocumentSkipped(
     ok: true,
     data: { documentId: inserted.id, category: inserted.type },
   }
+}
+
+export async function finalizeOnboarding(): Promise<ActionResult<{ href: string }>> {
+  const state = await getOnboardingState()
+  if (!state.ok) return state
+
+  const automations = state.data.config.automations
+  const configured = await configureAutomations({ toggles: automations })
+  if (!configured.ok) return { ok: false, error: configured.error }
+
+  const completed = await markComplete()
+  if (!completed.ok) return { ok: false, error: completed.error }
+
+  return { ok: true, data: { href: "/dashboard" } }
 }
