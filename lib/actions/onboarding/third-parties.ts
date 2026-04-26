@@ -9,6 +9,8 @@ import { inngest } from "@/inngest/client"
 import { getOnboardingState } from "./state"
 import type {
   RequestOnboardingPacketResult,
+  SendThirdPartyPacketsInput,
+  SendThirdPartyPacketsResult,
   UpsertThirdPartiesInput,
   UpsertThirdPartiesResult,
 } from "@/lib/types/onboarding"
@@ -28,6 +30,16 @@ const thirdPartySchema = z.object({
 
 const upsertSchema = z.object({
   records: z.array(thirdPartySchema).min(1).max(200),
+})
+
+const packetRecordSchema = z.object({
+  id: z.string().uuid().optional(),
+  name: z.string().min(1, "Company name required"),
+  contactEmail: z.string().email("Email required"),
+})
+
+const packetSchema = z.object({
+  records: z.array(packetRecordSchema).min(1).max(200),
 })
 
 type SubRowSelection = { id: string }
@@ -174,4 +186,81 @@ export async function requestOnboardingPacket(
   })
 
   return { ok: true, data: { tokenId: token } }
+}
+
+export async function sendThirdPartyPackets(
+  input: SendThirdPartyPacketsInput,
+): Promise<SendThirdPartyPacketsResult> {
+  const gate = await assertThirdPartiesEnabled()
+  if (!gate.ok) return { ok: false, error: gate.error }
+
+  const parsed = packetSchema.safeParse(input)
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "invalid_input" }
+  }
+
+  const supabase = await createClient()
+  const {
+    data: { user },
+    error: authErr,
+  } = await supabase.auth.getUser()
+
+  if (authErr || !user) {
+    return { ok: false, error: "unauthenticated" }
+  }
+
+  const admin = createAdminClient()
+  const queued: Array<{ thirdPartyId: string; tokenId: string }> = []
+
+  for (const record of parsed.data.records) {
+    let subId = record.id
+    if (subId) {
+      const { error } = await supabase
+        .from("construction_subs")
+        .update({ company_name: record.name })
+        .eq("id", subId)
+        .eq("client_id", user.id)
+      if (error) return { ok: false, error: error.message }
+    } else {
+      const { data: inserted, error } = await supabase
+        .from("construction_subs")
+        .insert({ client_id: user.id, company_name: record.name })
+        .select("id")
+        .single<SubRowSelection>()
+      if (error || !inserted) return { ok: false, error: error?.message ?? "insert_failed" }
+      subId = inserted.id
+    }
+
+    const token = crypto.randomBytes(24).toString("base64url")
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+
+    const { error: tokErr } = await admin.from("sub_onboarding_tokens").insert({
+      token,
+      client_id: user.id,
+      sub_id: subId,
+      sub_company_name: record.name,
+      contact_email: record.contactEmail,
+      contact_name: null,
+      expires_at: expiresAt,
+      invited_by: user.id,
+    })
+
+    if (tokErr) {
+      return { ok: false, error: tokErr.message }
+    }
+
+    await inngest.send({
+      name: "sub_onboarding.invite.sent",
+      data: { clientId: user.id, subId, token },
+    })
+
+    queued.push({ thirdPartyId: subId, tokenId: token })
+  }
+
+  await inngest.send({
+    name: "onboarding/third-parties.imported",
+    data: { clientId: user.id, subIds: queued.map((item) => item.thirdPartyId) },
+  })
+
+  return { ok: true, data: { queued } }
 }

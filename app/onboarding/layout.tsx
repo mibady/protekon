@@ -14,10 +14,6 @@ export default async function OnboardingLayout({ children }: { children: ReactNo
 
   const state = stateResult.data
 
-  if (state.client.onboardingStatus === "completed") {
-    redirect("/dashboard")
-  }
-
   const supabase = await createClient()
   const { data: clientMeta } = await supabase
     .from("clients")

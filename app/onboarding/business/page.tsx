@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
 import { getOnboardingState } from "@/lib/actions/onboarding/state"
+import { getVisibleOnboardingSteps } from "@/lib/onboarding/steps"
 import { BusinessSnapshotForm } from "@/components/onboarding/step-1-business-snapshot/BusinessSnapshotForm"
 
 export default async function BusinessSnapshotPage() {
@@ -25,6 +26,7 @@ export default async function BusinessSnapshotPage() {
         operatingStates: current.operatingStates,
         workerCountRange: current.workerCountRange,
       }}
+      totalSteps={getVisibleOnboardingSteps(stateResult.data.config).length}
     />
   )
 }

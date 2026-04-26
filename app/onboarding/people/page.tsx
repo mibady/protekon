@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
 import { getOnboardingState } from "@/lib/actions/onboarding/state"
+import { getVisibleOnboardingSteps } from "@/lib/onboarding/steps"
 import { PeopleForm } from "@/components/onboarding/step-4-people/PeopleForm"
 import type { TeamMemberRole } from "@/lib/types/onboarding"
 
@@ -51,6 +52,8 @@ export default async function PeoplePage() {
       importHelp={state.config.stepCopy.people.workerImportHelp}
       stepIntro={state.config.stepCopy.people.intro}
       initialInvites={initialInvites}
+      nextHref={state.config.stepVisibility.thirdParties ? "/onboarding/subs" : "/onboarding/documents"}
+      totalSteps={getVisibleOnboardingSteps(state.config).length}
     />
   )
 }

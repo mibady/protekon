@@ -31,6 +31,10 @@ type SiteRowSelection = {
   is_primary: boolean
 }
 
+type ClientPlanSelection = {
+  plan: string | null
+}
+
 /**
  * Coerce the primary-flag invariant: exactly one site is primary per client.
  *
@@ -85,6 +89,17 @@ export async function upsertSites(
 
   if (authErr || !user) {
     return { ok: false, error: "unauthenticated" }
+  }
+
+  const { data: client } = await supabase
+    .from("clients")
+    .select("plan")
+    .eq("id", user.id)
+    .single<ClientPlanSelection>()
+
+  const plan = client?.plan ?? "core"
+  if (plan !== "multi-site" && parsed.data.sites.length > 1) {
+    return { ok: false, error: "multi_site_required" }
   }
 
   const { data: existing, error: readErr } = await supabase

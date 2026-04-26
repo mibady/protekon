@@ -13,15 +13,17 @@ type Props = {
 export function DashboardPreview({ state, businessName }: Props) {
   const { config, preview, client, completedSteps } = state
   const showThirdParties = config.stepVisibility.thirdParties
-  const showSites = config.stepVisibility.sites
+  const showSites = true
   const step1Done = completedSteps.includes(1)
   const step3Done = completedSteps.includes(3)
   const step4Done = completedSteps.includes(4)
   const step5Done = completedSteps.includes(5)
-  const step6Done = completedSteps.includes(6)
+  const step6Done = completedSteps.includes(6) || client.onboardingStatus === "completed"
 
   return (
-    <aside className="flex h-full flex-col gap-4 border-l border-brand-white/[0.08] bg-midnight/40 p-6">
+    <aside className="relative flex h-full flex-col gap-4 overflow-hidden border-l border-brand-white/[0.08] bg-midnight/40 p-6">
+      <div className="pointer-events-none absolute inset-0 z-10 bg-midnight/40 backdrop-blur-[2px]" aria-hidden />
+      <div className="relative z-20 flex flex-col gap-4">
       <header className="flex flex-col gap-1 pb-3">
         <span className="font-display text-[10px] font-semibold tracking-[3px] uppercase text-steel">
           Live Preview
@@ -72,6 +74,7 @@ export function DashboardPreview({ state, businessName }: Props) {
       />
 
       <PostureCard score={step6Done ? preview.postureScore : null} />
+      </div>
     </aside>
   )
 }

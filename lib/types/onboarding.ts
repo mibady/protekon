@@ -48,6 +48,7 @@ export type TeamMemberRole =
  */
 export type ClientOnboardingRow = {
   id: string;
+  plan: string;
   vertical: VerticalSlug | null;
   operating_states: string[];
   worker_count_range: WorkerCountRange | null;
@@ -72,6 +73,7 @@ export type OnboardingPreview = {
 
 export type OnboardingStateClient = {
   id: string;
+  plan: string;
   vertical: VerticalSlug | null;
   operatingStates: string[];
   workerCountRange: WorkerCountRange | null;
@@ -220,6 +222,21 @@ export type RequestOnboardingPacketInput = {
 
 export type RequestOnboardingPacketResult = ActionResult<{
   tokenId: string;
+}>;
+
+export type SendThirdPartyPacketsInput = {
+  records: Array<{
+    id?: string;
+    name: string;
+    contactEmail: string;
+  }>;
+};
+
+export type SendThirdPartyPacketsResult = ActionResult<{
+  queued: Array<{
+    thirdPartyId: string;
+    tokenId: string;
+  }>;
 }>;
 
 // --- Step 6: documents ----------------------------------------------------
