@@ -1880,7 +1880,6 @@ No state changes this session — Linear not connected via `.linear_project.json
 
 ### Linear
 - Not connected. Tracking in this log + GitHub PRs.
-
 ## Session 35 — 2026-04-24
 
 ### Completed
@@ -2013,3 +2012,52 @@ No state changes this session — Linear not connected via `.linear_project.json
 
 ### Linear
 - Not connected. Tracking in this log + GitHub PRs.
+
+---
+
+## Session 39 — 2026-04-27 (Production readiness blockers fixed + deployed)
+
+### Completed
+- **Fixed production dashboard readiness blockers.** Existing seeded/demo clients now skip onboarding when they already have real setup data, even if `clients.onboarding_status` is stale `not_started`.
+- **Restored `/dashboard/settings`.** Added a real dashboard settings route backed by the existing My Business settings implementation; production build now lists `/dashboard/settings` as a dynamic route.
+- **Cleared the 54 failing Vitest cases.** Updated stale auth-error expectations, server-action cookie mocks, Stripe/Resend/Upstash test environment behavior, construction/document/training assertions, and score expectation drift.
+- **Hardened missing-env behavior.** RAG retrieval now lazily initializes Upstash Vector and returns no context when vector env vars are absent; Resend compliance-officer fallback remains strict in production and safe in non-production.
+- **Pushed 5 commits to `origin/main` and redeployed production.** Vercel deployment `dpl_4PJS5euf4F73GxAjjj9oDsCrV1Hn` completed and was aliased to `https://www.protekon.org`.
+- **Authenticated production smoke passed.** All 5 demo admins returned HTTP 200 for `/dashboard`, `/dashboard/action-items`, and `/dashboard/settings`, with no login redirect, onboarding redirect, 404, or 500.
+- **Stripe + Inngest smoke passed.** `/api/inngest` returned 200; unauthenticated test-mode Stripe checkout created a `checkout.stripe.com` session URL.
+
+### Audit Snapshot
+- Pages: 84 total app pages
+- Dashboard pages: 31
+- Auth/onboarding/partner account pages: 18
+- API routes: 29
+- Wired dashboard pages using `useEffect`: 0/31 (dashboard pages are primarily server-rendered/action-backed)
+- Actions: 57 files, 164 `export async function` exports
+- Components: 226
+- Build: pass
+- Tests: 57 files / 362 tests passed
+- Lint: 0 errors, 135 warnings
+
+### Decisions Made
+- **Onboarding redirect should not rely solely on `onboarding_status`.** Existing accounts with seeded or real operational data are treated as already set up and allowed into `/dashboard`.
+- **`/dashboard/settings` remains a supported alias.** Email CTAs and Stripe portal return URLs still point there, so the route must exist even though sidebar navigation labels the settings surface as `/dashboard/my-business`.
+- **Missing Upstash Vector env should degrade gracefully.** Chat/RAG can return an empty retrieval context in test or incomplete envs instead of crashing at import time.
+- **Production readiness score improvement path is evidence-driven.** The score moved from blocked to materially stronger by closing C1, restoring dashboard access, getting unit/build/lint green, deploying, and proving authenticated prod smoke.
+
+### Known Issues / Carryovers
+- **`.claude/settings.local.json` remains locally modified** with a tool allowlist tweak. It is local operator config and was intentionally not committed.
+- **Lint warnings remain**: 135 warnings, mostly existing unused vars / `any` in tests, blog/resources pages, and scripts.
+- **Full manual click sweep is still not complete.** Read-only authenticated route smoke passed, but a 30-page × 5-vertical click-through was not run.
+- **Full Stripe customer journey still needs browser completion.** Checkout session creation works in test mode; card entry and post-checkout account verification remain human/browser smoke.
+- **Scraper service-role key (`vizmtkfpxxjzlpzibate`) remains unrotated.**
+- **Broader live-schema migration drift remains.** Migration `055` captures the C1 RLS fix, but other live DB drift still needs forward migrations.
+
+### Next Session Should
+1. Run a manual browser click sweep as `admin@sierraridgebuilders.com` across dashboard, coverage, action-items, third-party-risk, sub-onboarding, safety-programs, form-1099, settings, and briefing.
+2. Complete the Stripe checkout journey in-browser on `https://www.protekon.org/pricing` with test card `4242 4242 4242 4242`, then verify Stripe, app DB client status, email/Inngest, and dashboard landing.
+3. Decide whether to clean up the remaining 135 lint warnings now or track them as a lower-risk hardening pass.
+4. Continue backfilling live DB drift into forward migrations beyond `055`.
+5. Rotate the scraper service-role key.
+
+### Linear
+- Not connected. Tracking in this log + GitHub/Git/Vercel.
