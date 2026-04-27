@@ -82,7 +82,7 @@ describe("document actions", () => {
     const fd = makeFormData({ type: "iipp" })
     const result = await requestDocument(fd)
 
-    expect(result).toEqual({ error: "You must be logged in to request a document." })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("requestDocument validates type is required -> returns error when missing", async () => {
@@ -111,15 +111,15 @@ describe("document actions", () => {
   it("requestDocument inserts into 'documents' table with correct fields", async () => {
     const { requestDocument } = await import("@/lib/actions/documents")
 
-    const fd = makeFormData({ type: "sb553", notes: "Urgent", priority: "rush" })
+    const fd = makeFormData({ type: "wvpp", notes: "Urgent", priority: "rush" })
     await requestDocument(fd)
 
     expect(mockFrom).toHaveBeenCalledWith("documents")
     expect(mockInsert).toHaveBeenCalledWith(
       expect.objectContaining({
         client_id: "user-123",
-        type: "sb553",
-        filename: "SB 553 Workplace Violence Prevention.pdf",
+        type: "wvpp",
+        filename: "Workplace Violence Prevention Plan.pdf",
         status: "requested",
         notes: "Urgent",
         priority: "rush",

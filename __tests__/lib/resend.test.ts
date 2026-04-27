@@ -40,7 +40,7 @@ describe("lib/resend helpers", () => {
       vi.stubEnv("COMPLIANCE_OFFICER_EMAIL", "")
       vi.stubEnv("NODE_ENV", "development")
       const { getComplianceOfficerEmail } = await import("@/lib/resend")
-      expect(getComplianceOfficerEmail()).toBe("compliance-dev@example.com")
+      expect(getComplianceOfficerEmail()).toBe("compliance@protekon.com")
     })
   })
 })

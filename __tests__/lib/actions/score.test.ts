@@ -96,7 +96,7 @@ describe("submitScore", () => {
 
     expect(mockInsert).toHaveBeenCalledWith(
       expect.objectContaining({
-        score: 4,
+        score: 9,
         score_tier: "yellow",
         gaps: validLead.result.gaps,
         estimated_fine_low: 35000,
@@ -161,7 +161,7 @@ describe("saveAnonymousScore", () => {
       expect.objectContaining({
         industry: "construction",
         posture_has_wvpp: true,
-        score: 4,
+        score: 9,
       })
     )
     // Should NOT include email

@@ -57,8 +57,14 @@ vi.mock("@/lib/supabase/admin", () => ({
 const mockCheckoutCreate = vi.fn()
 const mockPortalCreate = vi.fn()
 const mockConstructEvent = vi.fn()
+const mockPricesList = vi.fn()
+const mockPricesRetrieve = vi.fn()
 vi.mock("@/lib/stripe", () => ({
   getStripe: vi.fn().mockReturnValue({
+    prices: {
+      list: (...args: unknown[]) => mockPricesList(...args),
+      retrieve: (...args: unknown[]) => mockPricesRetrieve(...args),
+    },
     checkout: {
       sessions: { create: (...args: unknown[]) => mockCheckoutCreate(...args) },
     },
@@ -98,16 +104,18 @@ describe("POST /api/stripe/checkout", () => {
     vi.resetModules()
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null })
     mockSingle.mockResolvedValue({ data: { id: "client-1", stripe_customer_id: "cus_123", email: "test@example.com" } })
+    mockPricesList.mockResolvedValue({ data: [{ id: "price_core_123" }] })
+    mockPricesRetrieve.mockResolvedValue({ id: "setup_123", active: false })
     mockCheckoutCreate.mockResolvedValue({ url: "https://checkout.stripe.com/session_123" })
   })
 
-  it("returns 401 when not authenticated", async () => {
+  it("requires email when unauthenticated signup checkout has no email", async () => {
     mockGetUser.mockResolvedValueOnce({ data: { user: null }, error: null })
 
     const { POST } = await import("@/app/api/stripe/checkout/route")
     const res = await POST(makePostRequest("http://localhost/api/stripe/checkout", { planId: "core" }) as never)
 
-    expect(res.status).toBe(401)
+    expect(res.status).toBe(400)
   })
 
   it("returns { url } on success", async () => {
@@ -120,6 +128,7 @@ describe("POST /api/stripe/checkout", () => {
   })
 
   it("maps planId to correct priceId", async () => {
+    mockPricesList.mockResolvedValueOnce({ data: [{ id: "price_pro_456" }] })
     const { POST } = await import("@/app/api/stripe/checkout/route")
     await POST(makePostRequest("http://localhost/api/stripe/checkout", { planId: "professional" }) as never)
 
@@ -165,6 +174,7 @@ describe("POST /api/stripe/webhook", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     vi.resetModules()
+    vi.stubEnv("STRIPE_WEBHOOK_SECRET", "whsec_test")
     mockSingle.mockResolvedValue({ data: { id: "client-1", email: "test@example.com", business_name: "Test Co" } })
   })
 

@@ -1,11 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-const mockSelect = vi.fn().mockReturnValue({
-  eq: vi.fn().mockReturnValue({
-    order: vi.fn().mockResolvedValue({ data: [], error: null }),
-  }),
+const selectChain: Record<string, unknown> = {}
+selectChain.eq = vi.fn().mockReturnValue(selectChain)
+selectChain.order = vi.fn().mockResolvedValue({ data: [], error: null })
+selectChain.single = vi.fn().mockResolvedValue({ data: { license_number: "LIC-001" }, error: null })
+const mockSelect = vi.fn().mockReturnValue(selectChain)
+const mockInsertSelect = vi.fn().mockReturnValue({
+  single: vi.fn().mockResolvedValue({ data: { id: "new-id" }, error: null }),
 })
-const mockInsert = vi.fn().mockResolvedValue({ data: [{ id: "new-id" }], error: null })
+const mockInsert = vi.fn().mockReturnValue({ select: mockInsertSelect })
 const mockDelete = vi.fn().mockReturnValue({
   eq: vi.fn().mockReturnValue({
     eq: vi.fn().mockResolvedValue({ error: null }),
@@ -47,7 +50,7 @@ describe("construction actions", () => {
   it("getSubcontractors queries construction_subs table", async () => {
     const { getSubcontractors } = await import("@/lib/actions/construction")
     await getSubcontractors()
-    expect(mockFrom).toHaveBeenCalledWith("construction_subs")
+    expect(mockFrom).toHaveBeenCalledWith("v_construction_subs_dashboard")
   })
 
   it("addSubcontractor returns error when not authenticated", async () => {
@@ -56,7 +59,7 @@ describe("construction actions", () => {
     const { addSubcontractor } = await import("@/lib/actions/construction")
     const fd = new FormData()
     const result = await addSubcontractor(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addSubcontractor inserts into construction_subs with client_id", async () => {

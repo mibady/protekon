@@ -39,6 +39,10 @@ vi.mock("@/lib/supabase/admin", () => ({
   })),
 }))
 
+vi.mock("@/lib/auth/landing", () => ({
+  resolveLandingPath: vi.fn().mockResolvedValue("/dashboard"),
+}))
+
 vi.mock("next/navigation", () => ({
   redirect: vi.fn((url: string) => {
     throw new Error(`REDIRECT:${url}`)
@@ -62,7 +66,10 @@ describe("auth actions", () => {
   // --- signIn ---
 
   it("signIn success -> calls signInWithPassword, redirects to /dashboard", async () => {
-    mockSignInWithPassword.mockResolvedValue({ error: null })
+    mockSignInWithPassword.mockResolvedValue({
+      data: { user: mockUser },
+      error: null,
+    })
     const { signIn } = await import("@/lib/actions/auth")
 
     const fd = makeFormData({ email: "a@b.com", password: "pass123" })

@@ -10,6 +10,14 @@
  */
 import { vi } from "vitest"
 
+vi.mock("next/headers", () => ({
+  cookies: vi.fn(async () => ({
+    get: vi.fn(() => undefined),
+    set: vi.fn(),
+    delete: vi.fn(),
+  })),
+}))
+
 vi.mock("@/lib/billing-guard", () => {
   const TEST_USER = {
     id: "00000000-0000-0000-0000-000000000001",
@@ -17,7 +25,10 @@ vi.mock("@/lib/billing-guard", () => {
     aud: "authenticated",
     role: "authenticated",
     app_metadata: {},
-    user_metadata: {},
+    user_metadata: {
+      business_name: "Test Co",
+      vertical: "construction",
+    },
     created_at: new Date().toISOString(),
   }
 

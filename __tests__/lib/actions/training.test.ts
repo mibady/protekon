@@ -56,7 +56,7 @@ describe("training actions", () => {
     const { addTrainingRecord } = await import("@/lib/actions/training")
     const fd = new FormData()
     const result = await addTrainingRecord(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addTrainingRecord inserts with correct fields", async () => {
@@ -73,6 +73,7 @@ describe("training actions", () => {
       training_type: "OSHA 10",
       due_date: "2025-06-01",
       status: "pending",
+      site_id: null,
     })
   })
 
@@ -81,7 +82,7 @@ describe("training actions", () => {
     vi.mocked(getAuth).mockResolvedValueOnce({ supabase: { from: mockFrom } as any, clientId: null })
     const { completeTraining } = await import("@/lib/actions/training")
     const result = await completeTraining("some-id")
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("completeTraining updates status to completed", async () => {
@@ -98,7 +99,7 @@ describe("training actions", () => {
     vi.mocked(getAuth).mockResolvedValueOnce({ supabase: { from: mockFrom } as any, clientId: null })
     const { deleteTrainingRecord } = await import("@/lib/actions/training")
     const result = await deleteTrainingRecord("some-id")
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("deleteTrainingRecord deletes from training_records", async () => {

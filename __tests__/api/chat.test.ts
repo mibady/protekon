@@ -12,16 +12,21 @@ vi.mock("@/lib/supabase/server", () => ({
     from: vi.fn(() => ({
       select: vi.fn((...args: unknown[]) => {
         mockSelect(...args)
-        return {
-          eq: vi.fn(() => ({
-            single: () => mockSingle(),
-            order: vi.fn(() => ({
-              limit: (...lArgs: unknown[]) => {
-                mockLimit(...lArgs)
-                return mockOrder
-              },
-            })),
+        const eqChain = {
+          maybeSingle: vi.fn().mockResolvedValue({
+            data: { stripe_customer_id: "cus_test", status: "active" },
+            error: null,
+          }),
+          single: () => mockSingle(),
+          order: vi.fn(() => ({
+            limit: (...lArgs: unknown[]) => {
+              mockLimit(...lArgs)
+              return mockOrder
+            },
           })),
+        }
+        return {
+          eq: vi.fn(() => eqChain),
           order: vi.fn(() => ({
             limit: (...lArgs: unknown[]) => {
               mockLimit(...lArgs)
