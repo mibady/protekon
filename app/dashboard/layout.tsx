@@ -64,6 +64,38 @@ function postureFor(score: number | null): SidebarPosture | null {
   return "AT RISK"
 }
 
+async function hasExistingClientFootprint(
+  admin: ReturnType<typeof createAdminClient>,
+  clientId: string,
+): Promise<boolean> {
+  const tables = [
+    "documents",
+    "incidents",
+    "training_records",
+    "team_members",
+    "assets",
+    "permits",
+    "materials",
+    "inspections",
+    "findings",
+    "third_parties",
+  ]
+
+  const checks = await Promise.all(
+    tables.map(async (table) => {
+      const { count, error } = await admin
+        .from(table)
+        .select("id", { count: "exact", head: true })
+        .eq("client_id", clientId)
+        .limit(1)
+      if (error) return false
+      return (count ?? 0) > 0
+    }),
+  )
+
+  return checks.some(Boolean)
+}
+
 /**
  * Auth gate for all /v2/* routes.
  *
@@ -137,7 +169,8 @@ export default async function V2Layout({
   // their onboarding is a separate concern handled outside /dashboard.
   if (
     client.onboarding_status === "not_started" &&
-    client.partner_id === null
+    client.partner_id === null &&
+    !(await hasExistingClientFootprint(admin, client.id))
   ) {
     redirect("/onboarding/business")
   }

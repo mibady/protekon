@@ -1,4 +1,4 @@
-export interface VectorMetadata {
+export interface VectorMetadata extends Record<string, unknown> {
   type: "knowledge" | "regulatory" | "document"
   vertical?: string
   source?: string

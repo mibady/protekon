@@ -44,7 +44,7 @@ export function getComplianceOfficerEmail(): string {
     if (process.env.NODE_ENV === "production") {
       throw new Error("COMPLIANCE_OFFICER_EMAIL env var is required in production")
     }
-    throw new Error("COMPLIANCE_OFFICER_EMAIL env var is required")
+    return "compliance@protekon.com"
   }
   return email
 }

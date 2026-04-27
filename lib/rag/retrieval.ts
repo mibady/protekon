@@ -2,16 +2,28 @@ import { Index } from "@upstash/vector"
 import { embedText } from "./embeddings"
 import type { RetrievedChunk, VectorMetadata } from "./types"
 
-const index = new Index({
-  url: process.env.UPSTASH_VECTOR_REST_URL!,
-  token: process.env.UPSTASH_VECTOR_REST_TOKEN!,
-})
+let index: Index<VectorMetadata> | null | undefined
+
+function getIndex(): Index<VectorMetadata> | null {
+  if (index !== undefined) return index
+  const url = process.env.UPSTASH_VECTOR_REST_URL
+  const token = process.env.UPSTASH_VECTOR_REST_TOKEN
+  if (!url || !token) {
+    index = null
+    return index
+  }
+  index = new Index<VectorMetadata>({ url, token })
+  return index
+}
 
 export async function retrieveContext(
   query: string,
   filters?: { vertical?: string; clientId?: string },
   topK: number = 8
 ): Promise<RetrievedChunk[]> {
+  const vectorIndex = getIndex()
+  if (!vectorIndex) return []
+
   const queryVector = await embedText(query)
 
   let filter: string | undefined
@@ -26,7 +38,7 @@ export async function retrieveContext(
     filter = conditions.join(" AND ")
   }
 
-  const results = await index.query({
+  const results = await vectorIndex.query({
     vector: queryVector,
     topK,
     includeMetadata: true,

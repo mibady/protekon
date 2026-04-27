@@ -16,11 +16,11 @@ const AnswersSchema = z.object({
   training_current: z.boolean(),
   audit_ready: z.boolean(),
   // Phase 1: Platform-wide
-  has_iipp: z.boolean(),
-  iipp_current: z.boolean(),
-  has_eap: z.boolean(),
-  has_hazcom: z.boolean(),
-  osha_300_current: z.boolean(),
+  has_iipp: z.boolean().default(false),
+  iipp_current: z.boolean().default(false),
+  has_eap: z.boolean().default(false),
+  has_hazcom: z.boolean().default(false),
+  osha_300_current: z.boolean().default(false),
   // Phase 2: Vertical-specific
   vertical_answers: z.record(z.boolean()).optional(),
 })
