@@ -15,7 +15,7 @@ export default async function DocumentsPage() {
       <PageHeader
         eyebrow="MY BUSINESS · DOCUMENTS"
         title="Every plan you own, in one library."
-        subtitle="Request a new plan, revisit past versions, and see what's current, in review, or past due — all in one place."
+        subtitle="Generate a new plan in seconds, revisit past versions, and see what's current, in review, or past due — all in one place."
       />
 
       <DocumentsPageClient documents={documents} docTypes={docTypes} />

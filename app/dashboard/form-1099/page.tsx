@@ -51,7 +51,7 @@ export default async function Form1099Page({ searchParams }: PageProps) {
   )
 
   return (
-    <>
+    <div className="px-8 pt-10 pb-16 max-w-6xl w-full mx-auto">
       <PageHeader
         eyebrow="MY SUBS · 1099-NEC"
         title="Every sub over six hundred dollars — surfaced before January."
@@ -63,6 +63,6 @@ export default async function Form1099Page({ searchParams }: PageProps) {
         payments={payments}
         subs={subs}
       />
-    </>
+    </div>
   )
 }

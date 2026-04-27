@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation"
+import { Toaster } from "sonner"
 import { createClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { Sidebar, type SidebarClient, type SidebarPosture } from "@/components/v2/Sidebar"
@@ -143,6 +144,7 @@ export default async function V2Layout({
 
   const sidebarClient: SidebarClient = {
     business_name: client.business_name,
+    vertical: client.vertical ?? null,
     vertical_display: verticalDisplay(client.vertical),
     compliance_score: client.compliance_score,
     posture_label: postureFor(client.compliance_score),
@@ -196,6 +198,7 @@ export default async function V2Layout({
         />
         {children}
       </main>
+      <Toaster position="top-right" richColors closeButton />
     </div>
   )
 }

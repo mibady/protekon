@@ -16,7 +16,7 @@ export default async function SubOnboardingPage() {
   const { submissions, pending } = await listOnboardingSubmissions()
 
   return (
-    <>
+    <div className="px-8 pt-10 pb-16 max-w-6xl w-full mx-auto">
       <PageHeader
         eyebrow="MY SUBS · SUB ONBOARDING"
         title="Onboard subs without chasing them."
@@ -26,6 +26,6 @@ export default async function SubOnboardingPage() {
         submissions={submissions}
         pending={pending}
       />
-    </>
+    </div>
   )
 }

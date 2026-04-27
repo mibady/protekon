@@ -65,7 +65,7 @@ export function RequestDocumentModal({ open, onClose, docTypes }: RequestDocumen
               letterSpacing: "3px",
             }}
           >
-            Request a document
+            Generate a document
           </div>
           <h2
             className="font-display"
@@ -180,7 +180,7 @@ export function RequestDocumentModal({ open, onClose, docTypes }: RequestDocumen
               Cancel
             </CTAButton>
             <CTAButton type="submit" icon={false} disabled={pending}>
-              {pending ? "Requesting…" : "Request"}
+              {pending ? "Generating…" : "Generate"}
             </CTAButton>
           </div>
         </form>

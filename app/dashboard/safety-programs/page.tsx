@@ -38,7 +38,7 @@ export default async function SafetyProgramsPage() {
   )
 
   return (
-    <>
+    <div className="px-8 pt-10 pb-16 max-w-6xl w-full mx-auto">
       <PageHeader
         eyebrow="MY SUBS · SAFETY PROGRAMS"
         title="IIPP, HazCom, Heat — every plan per sub, every deadline visible."
@@ -49,6 +49,6 @@ export default async function SafetyProgramsPage() {
         programs={programs}
         templates={programTemplates}
       />
-    </>
+    </div>
   )
 }

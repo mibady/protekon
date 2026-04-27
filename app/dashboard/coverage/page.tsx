@@ -64,11 +64,54 @@ export default async function CoveragePage() {
         />
 
         {/* Primary tiles — always visible */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-          {primaries.map((row) => (
-            <CoverageTile key={row.resource_type} row={row} />
-          ))}
-        </div>
+        {primaries.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            {primaries.map((row) => (
+              <CoverageTile key={row.resource_type} row={row} />
+            ))}
+          </div>
+        )}
+        {enabledRows.length === 0 && (
+          <div
+            className="bg-white p-10 mb-10 text-center"
+            style={{ border: "1px solid rgba(11,29,58,0.08)" }}
+          >
+            <div className="font-display text-xl text-midnight mb-2">
+              Nothing covered yet.
+            </div>
+            <p className="font-sans text-steel max-w-md mx-auto" style={{ fontSize: 14, lineHeight: 1.55 }}>
+              I&apos;ll start tracking the resource types that apply to your business as soon as you finish onboarding. Generate your first document or add a site to populate this view.
+            </p>
+            <div className="mt-5 flex items-center justify-center gap-3">
+              <Link
+                href="/dashboard/documents"
+                className="font-display uppercase px-4 py-2"
+                style={{
+                  fontSize: 11,
+                  letterSpacing: "2px",
+                  fontWeight: 600,
+                  color: "var(--parchment)",
+                  background: "var(--enforcement)",
+                }}
+              >
+                Generate document
+              </Link>
+              <Link
+                href="/dashboard"
+                className="font-display uppercase px-4 py-2"
+                style={{
+                  fontSize: 11,
+                  letterSpacing: "2px",
+                  fontWeight: 600,
+                  color: "var(--midnight)",
+                  border: "1px solid rgba(11,29,58,0.15)",
+                }}
+              >
+                Back to dashboard
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Secondary tiles — only when the vertical has any */}
         {secondaries.length > 0 && (

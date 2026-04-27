@@ -11,10 +11,11 @@
  * everything else still uses mocks with TODO(wave-3) markers.
  */
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { PageHeader } from "@/components/v2/primitives/PageHeader"
 import type { DashboardSurfaceData } from "@/lib/v2/actions/dashboard-surface"
 import type { UserRole } from "@/lib/auth/roles"
+import { getDashboardTerminology } from "@/lib/v2/terminology"
 import { ViewToggle, type DashboardView } from "./atoms/ViewToggle"
 import { TabToggle, type DashboardTab } from "./atoms/TabToggle"
 import { SiteSwitcher } from "./blocks/SiteSwitcher"
@@ -26,6 +27,7 @@ import { ManagerSubcontractorRisk } from "./views/ManagerSubcontractorRisk"
 type DashboardSurfaceProps = {
   data: DashboardSurfaceData
   userRole: UserRole | null
+  verticalSlug: string | null
 }
 
 const STORAGE_TAB = "protekon.dash.tab"
@@ -51,11 +53,25 @@ function writeStored(key: string, value: string): void {
   }
 }
 
-export function DashboardSurface({ data, userRole }: DashboardSurfaceProps) {
-  // Owners and compliance managers can flip to Manager view; everyone else
-  // keeps the existing toast-gate behavior inside ViewToggle.
-  const allowManagerView =
-    userRole === "owner" || userRole === "compliance_manager"
+export function DashboardSurface({ data, userRole, verticalSlug }: DashboardSurfaceProps) {
+  // userRole is still threaded for downstream consumers (e.g., audit logging,
+  // sensitive server actions); the dashboard chrome no longer gates Manager
+  // view on it. Both views are always reachable from the toggle.
+  void userRole
+  const terminology = useMemo(
+    () => getDashboardTerminology(verticalSlug),
+    [verticalSlug],
+  )
+  const tabLabels = useMemo(
+    () => ({
+      internal: { title: "Internal Posture", note: "Your documents" },
+      subs: {
+        title: `${terminology.thirdParty} Risk`,
+        note: "External liability",
+      },
+    }),
+    [terminology],
+  )
   // Initialize from sensible defaults; hydrate from localStorage after mount
   // to avoid SSR/CSR mismatches.
   const [tab, setTab] = useState<DashboardTab>("internal")
@@ -100,11 +116,7 @@ export function DashboardSurface({ data, userRole }: DashboardSurfaceProps) {
           />
         </div>
         <div className="flex flex-col items-end gap-2 pt-2" style={{ flexShrink: 0 }}>
-          <ViewToggle
-            view={view}
-            onChange={onView}
-            allowManagerView={allowManagerView}
-          />
+          <ViewToggle view={view} onChange={onView} />
           <span
             className="font-sans italic"
             style={{ color: "var(--steel)", fontSize: "11px", maxWidth: 220, textAlign: "right" }}
@@ -116,7 +128,7 @@ export function DashboardSurface({ data, userRole }: DashboardSurfaceProps) {
 
       <SiteSwitcher siteKey={siteKey} onChange={onSite} sites={data.sites} />
 
-      <TabToggle active={tab} onChange={onTab} />
+      <TabToggle active={tab} onChange={onTab} labels={tabLabels} />
 
       <div className="pt-8">
         {tab === "internal" ? (
@@ -134,10 +146,15 @@ export function DashboardSurface({ data, userRole }: DashboardSurfaceProps) {
           <OwnerSubcontractorRisk
             siteKey={siteKey}
             sites={data.sites}
+            terminology={terminology}
             onSwitchToManager={switchToManager}
           />
         ) : (
-          <ManagerSubcontractorRisk siteKey={siteKey} sites={data.sites} />
+          <ManagerSubcontractorRisk
+            siteKey={siteKey}
+            sites={data.sites}
+            terminology={terminology}
+          />
         )}
       </div>
     </div>

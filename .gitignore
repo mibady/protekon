@@ -25,8 +25,12 @@ tsconfig.tsbuildinfo
 
 # Agent / tool temp artifacts
 .claude/worktrees/
+.codex
 supabase/.temp/
 osha datasets/
+
+# Generated audit reports (timestamped runs, may contain PII)
+reports/live-*.json
 
 # Dev screenshots (not assets)
 public/images/Screenshot*

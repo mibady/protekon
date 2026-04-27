@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Bell } from "@phosphor-icons/react/dist/ssr"
 import { ScoreRing } from "@/components/v2/primitives/ScoreRing"
+import { getDashboardTerminology } from "@/lib/v2/terminology"
 
 // ──────────────────────────────────────────────────────────────────────────
 // Types
@@ -13,6 +14,7 @@ export type SidebarPosture = "STRONG" | "AT RISK" | "NEEDS WORK"
 
 export type SidebarClient = {
   business_name: string
+  vertical: string | null
   vertical_display: string
   compliance_score: number | null
   posture_label: SidebarPosture | null
@@ -30,64 +32,75 @@ export type SidebarProps = {
 }
 
 // ──────────────────────────────────────────────────────────────────────────
-// Surface map — 26 keys / 5 groups (Today/Briefing is the officer-narrated
-// daily brief; the My Business → Dashboard route is the posture-at-a-glance
-// registry view. Both exist side-by-side.)
+// Navigation builder — condensed from 26 links to 7–8 top-level modules.
+//
+// Granular construction routes (Projects, Sub onboarding, COI verification,
+// 1099-NEC, Vendor risk score, Safety programs) are demoted from the sidebar
+// and surfaced through the /dashboard/third-party-risk hub instead. The
+// standalone routes are still deeplinkable — only the sidebar shrinks.
+//
+// Demoted (still routable, hidden from sidebar): Training log, Acknowledgments,
+// Calendar, Activity, Regulatory changes, Peer benchmarks, Rulemaking,
+// Knowledge base, Marketplace, Audit trail, Team & permissions,
+// Scheduled reports, Integrations. Follow-up PRs will surface these inside
+// Documents / Intelligence / Settings hub pages.
 // ──────────────────────────────────────────────────────────────────────────
 
-export const SIDEBAR_GROUPS: SidebarGroup[] = [
-  {
-    label: "Today",
-    items: [
-      { key: "briefing", name: "Briefing", href: "/dashboard/briefing" },
-    ],
-  },
-  {
-    label: "My Business",
-    items: [
-      { key: "dashboard", name: "Dashboard", href: "/dashboard" },
-      { key: "coverage", name: "Coverage", href: "/dashboard/coverage" },
-      { key: "documents", name: "Documents", href: "/dashboard/documents" },
-      { key: "training", name: "Training log", href: "/dashboard/training" },
-      { key: "incidents", name: "Incident log", href: "/dashboard/incidents" },
-      { key: "acknowledgments", name: "Acknowledgments", href: "/dashboard/acknowledgments" },
-      { key: "calendar", name: "Calendar", href: "/dashboard/calendar" },
-      { key: "activity", name: "Activity", href: "/dashboard/activity" },
-    ],
-  },
-  {
-    label: "My Subs",
-    items: [
-      { key: "projects", name: "Projects", href: "/dashboard/projects" },
-      { key: "vendor_risk", name: "Vendor risk score", href: "/dashboard/vendor-risk" },
-      { key: "coi_verification", name: "COI verification", href: "/dashboard/coi-verification" },
-      { key: "sub_onboarding", name: "Sub onboarding", href: "/dashboard/sub-onboarding" },
-      { key: "safety_programs", name: "Safety programs", href: "/dashboard/safety-programs" },
-      { key: "form_1099", name: "1099-NEC", href: "/dashboard/form-1099" },
-    ],
-  },
-  {
-    label: "Intelligence",
-    items: [
-      { key: "whats_happening", name: "Enforcement feed", href: "/dashboard/whats-happening" },
-      { key: "reg_changes", name: "Regulatory changes", href: "/dashboard/reg-changes" },
-      { key: "benchmarks", name: "Peer benchmarks", href: "/dashboard/benchmarks" },
-      { key: "pipeline", name: "Rulemaking & history", href: "/dashboard/pipeline" },
-      { key: "knowledge", name: "Knowledge base", href: "/dashboard/knowledge" },
-      { key: "marketplace", name: "Marketplace", href: "/dashboard/marketplace" },
-    ],
-  },
-  {
-    label: "Account",
-    items: [
-      { key: "audit_trail", name: "Audit trail", href: "/dashboard/audit-trail" },
-      { key: "team", name: "Team & permissions", href: "/dashboard/team" },
-      { key: "scheduled_reports", name: "Scheduled reports", href: "/dashboard/scheduled-reports" },
-      { key: "integrations", name: "Integrations", href: "/dashboard/integrations" },
-      { key: "my_business", name: "My business settings", href: "/dashboard/my-business" },
-    ],
-  },
-]
+export function getSidebarGroups(verticalSlug: string | null): SidebarGroup[] {
+  const t = getDashboardTerminology(verticalSlug)
+
+  const groups: SidebarGroup[] = [
+    {
+      label: "Today",
+      items: [
+        { key: "briefing", name: "Briefing", href: "/dashboard/briefing" },
+      ],
+    },
+    {
+      label: "My Business",
+      items: [
+        { key: "dashboard", name: "Dashboard", href: "/dashboard" },
+        { key: "coverage", name: "Coverage", href: "/dashboard/coverage" },
+        { key: "documents", name: "Documents", href: "/dashboard/documents" },
+        { key: "incidents", name: "Incidents", href: "/dashboard/incidents" },
+      ],
+    },
+  ]
+
+  if (t.isConstructionFamily) {
+    groups.push({
+      label: t.thirdPartyGroupLabel,
+      items: [
+        {
+          key: "third_party_risk",
+          name: `${t.thirdParty} Risk`,
+          href: "/dashboard/third-party-risk",
+        },
+      ],
+    })
+  }
+
+  groups.push(
+    {
+      label: "Intelligence",
+      items: [
+        {
+          key: "whats_happening",
+          name: "Enforcement feed",
+          href: "/dashboard/whats-happening",
+        },
+      ],
+    },
+    {
+      label: "Account",
+      items: [
+        { key: "my_business", name: "Settings", href: "/dashboard/my-business" },
+      ],
+    },
+  )
+
+  return groups
+}
 
 // ──────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -118,6 +131,7 @@ export function Sidebar({ client, criticalCount, onBellClick }: SidebarProps) {
   const pathname = usePathname()
   const borderColor = "rgba(250, 250, 248, 0.06)"
   const inactiveText = "rgba(250, 250, 248, 0.5)"
+  const groups = getSidebarGroups(client.vertical)
 
   return (
     <aside
@@ -212,7 +226,7 @@ export function Sidebar({ client, criticalCount, onBellClick }: SidebarProps) {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-4 pt-5 pb-4">
-        {SIDEBAR_GROUPS.map((group) => (
+        {groups.map((group) => (
           <div key={group.label} className="mb-5">
             <span
               className="block px-3 mb-2 font-display uppercase"

@@ -9,18 +9,21 @@
 import { Warning, Buildings as Building, ArrowRight } from "@phosphor-icons/react/dist/ssr"
 import { SectionLabel } from "@/components/v2/primitives/SectionLabel"
 import type { SiteRollupRow } from "@/lib/actions/rollup"
+import type { DashboardTerminology } from "@/lib/v2/terminology"
 import { SUBCONTRACTORS } from "../mocks"
 import { SiteFilterBanner } from "../blocks/SiteFilterBanner"
 
 type OwnerSubcontractorRiskProps = {
   siteKey: string
   sites: SiteRollupRow[]
+  terminology: DashboardTerminology
   onSwitchToManager: () => void
 }
 
 export function OwnerSubcontractorRisk({
   siteKey,
   sites,
+  terminology,
   onSwitchToManager,
 }: OwnerSubcontractorRiskProps) {
   const expired = SUBCONTRACTORS.filter(
@@ -58,7 +61,7 @@ export function OwnerSubcontractorRisk({
             className="font-display uppercase mb-3"
             style={{ color: "var(--steel)", fontSize: "11px", letterSpacing: "3px", fontWeight: 500 }}
           >
-            Subcontractor Risk · External liability
+            {terminology.thirdParty} Risk · External liability
           </div>
           <h2
             className="font-display"

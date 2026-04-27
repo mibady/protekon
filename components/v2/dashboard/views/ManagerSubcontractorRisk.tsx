@@ -10,6 +10,7 @@ import { useMemo } from "react"
 import { Warning, Download, Check } from "@phosphor-icons/react/dist/ssr"
 import { SectionLabel } from "@/components/v2/primitives/SectionLabel"
 import type { SiteRollupRow } from "@/lib/actions/rollup"
+import type { DashboardTerminology } from "@/lib/v2/terminology"
 import { SUBCONTRACTORS } from "../mocks"
 import { SiteFilterBanner } from "../blocks/SiteFilterBanner"
 import { MetaLabel } from "../atoms/MetaLabel"
@@ -19,6 +20,7 @@ import { SubRiskBadge } from "../atoms/SubRiskBadge"
 type ManagerSubcontractorRiskProps = {
   siteKey: string
   sites: SiteRollupRow[]
+  terminology: DashboardTerminology
 }
 
 const HEADERS = [
@@ -32,7 +34,11 @@ const HEADERS = [
   "",
 ] as const
 
-export function ManagerSubcontractorRisk({ siteKey, sites }: ManagerSubcontractorRiskProps) {
+export function ManagerSubcontractorRisk({
+  siteKey,
+  sites,
+  terminology,
+}: ManagerSubcontractorRiskProps) {
   const stats = useMemo(() => {
     const total = SUBCONTRACTORS.length
     const coi_expired = SUBCONTRACTORS.filter((s) => s.coi_status === "expired").length
@@ -49,7 +55,7 @@ export function ManagerSubcontractorRisk({ siteKey, sites }: ManagerSubcontracto
       {/* Vendor posture header */}
       <div className="flex items-start justify-between gap-8" style={{ flexWrap: "wrap" }}>
         <div className="flex-1" style={{ minWidth: 320 }}>
-          <MetaLabel>Vendor Chain Tracker</MetaLabel>
+          <MetaLabel>{terminology.thirdParty} Chain Tracker</MetaLabel>
           <h2
             className="font-display mt-2"
             style={{

@@ -28,7 +28,7 @@ export function DocumentsPageClient({ documents, docTypes }: DocumentsPageClient
     <>
       <div className="mb-6 flex items-center justify-end">
         <CTAButton onClick={() => setRequestOpen(true)} icon={false}>
-          Request document
+          Generate document
         </CTAButton>
       </div>
 
