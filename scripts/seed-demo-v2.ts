@@ -1184,6 +1184,483 @@ async function seedPartnerCommissions(
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
+// Phase C — Vertical showcase
+//
+// Fills the canonical resource tables (assets / permits / materials /
+// inspections / findings / team_members / credentials / third_parties) plus
+// construction-family extras (subs, safety programs, vendor payments,
+// projects) so every demo login renders meaningful tile counts and drill-down
+// rows. Each table insert is wrapped in `safeInsert` — column drift logs a
+// warning rather than aborting the whole seed.
+// ──────────────────────────────────────────────────────────────────────────────
+
+const daysFromNow = (n: number): string => {
+  const d = new Date()
+  d.setDate(d.getDate() + n)
+  return d.toISOString().slice(0, 10)
+}
+
+const tsFromNow = (n: number): string => {
+  const d = new Date()
+  d.setDate(d.getDate() + n)
+  return d.toISOString()
+}
+
+async function safeInsert(
+  table: string,
+  rows: Record<string, unknown>[]
+): Promise<Array<{ id: string }> | null> {
+  if (rows.length === 0) return []
+  const { data, error } = await admin.from(table).insert(rows).select("id")
+  if (error) {
+    console.warn(`   ⚠️  ${table}: ${error.message} (${rows.length} rows skipped)`)
+    return null
+  }
+  return (data as Array<{ id: string }> | null) ?? []
+}
+
+interface ShowcaseSpec {
+  team: Array<{
+    full_name: string
+    role: string
+    is_supervisor?: boolean
+    email?: string
+    start_date?: string
+  }>
+  credentials: Array<{
+    credential_type: string
+    issuing_authority: string
+    credential_number?: string
+    issued_date?: string
+    expires_date: string
+    status: "active" | "expired" | "expiring"
+    holderIndex: number
+  }>
+  assets: Array<{
+    asset_name: string
+    asset_type: string
+    manufacturer?: string
+    model?: string
+    serial_number?: string
+    last_inspected_at?: string
+    next_inspection_due: string
+    certification_status: "certified" | "due" | "overdue" | "out_of_service"
+  }>
+  permits: Array<{
+    permit_name: string
+    permit_number?: string
+    issuing_agency: string
+    issued_date?: string
+    expires_date: string
+    status: "active" | "expired"
+    renewal_window_days?: number
+  }>
+  materials: Array<{
+    material_name: string
+    material_type: string
+    quantity_on_hand?: number
+    storage_location?: string
+    sds_url?: string
+    last_inventory_at?: string
+    vertical_data?: Record<string, unknown>
+  }>
+  inspections: Array<{
+    inspection_type: string
+    scheduled_date: string
+    status: "scheduled" | "completed" | "overdue"
+    outcome?: "pass" | "fail" | "citation"
+  }>
+  findings: Array<{
+    source_type: "inspection" | "incident" | "internal_audit" | "protekon_audit" | "regulatory_notice"
+    classification: "other_than_serious" | "serious" | "willful" | "informational"
+    description: string
+    citation_text?: string
+    citation_standard?: string
+    penalty_amount?: number
+    abatement_due_date?: string
+    abatement_status: "open" | "in_progress" | "abated"
+  }>
+  thirdParties: Array<{
+    entity_name: string
+    relationship_type: string
+    license_number?: string
+    license_status?: string
+    coi_status?: string
+    coi_expires_at?: string
+    ein?: string
+  }>
+}
+
+const SHOWCASE: Record<string, ShowcaseSpec> = {
+  construction: {
+    team: [
+      { full_name: "Marcus Reyes", role: "Site Supervisor", is_supervisor: true, email: "marcus@sierraridgebuilders.com", start_date: "2023-04-12" },
+      { full_name: "Elena Vasquez", role: "Compliance Manager", is_supervisor: true, email: "elena@sierraridgebuilders.com", start_date: "2022-09-01" },
+      { full_name: "Diego Patel", role: "Foreman", start_date: "2024-02-19" },
+    ],
+    credentials: [
+      { credential_type: "OSHA 30", issuing_authority: "OSHA", credential_number: "OSHA-30-887421", issued_date: "2024-08-12", expires_date: daysFromNow(380), status: "active", holderIndex: 0 },
+      { credential_type: "First Aid / CPR", issuing_authority: "American Red Cross", expires_date: daysFromNow(20), status: "expiring", holderIndex: 1 },
+      { credential_type: "Forklift Operator", issuing_authority: "OSHA 1910.178", expires_date: daysFromNow(-15), status: "expired", holderIndex: 2 },
+    ],
+    assets: [
+      { asset_name: "Skytrak 10054 Telehandler", asset_type: "Heavy equipment", manufacturer: "JLG", model: "Skytrak 10054", serial_number: "B021154", last_inspected_at: tsFromNow(-12), next_inspection_due: daysFromNow(80), certification_status: "certified" },
+      { asset_name: "Generac XG10000E Generator", asset_type: "Power equipment", manufacturer: "Generac", model: "XG10000E", next_inspection_due: daysFromNow(8), certification_status: "due" },
+      { asset_name: "Multiquip MQ80 Plate Compactor", asset_type: "Compaction", manufacturer: "Multiquip", next_inspection_due: daysFromNow(-22), certification_status: "overdue" },
+    ],
+    permits: [
+      { permit_name: "Building Permit — Riverside HQ", permit_number: "BLD-2026-1183", issuing_agency: "City of Riverside", issued_date: "2025-11-10", expires_date: daysFromNow(220), status: "active", renewal_window_days: 60 },
+      { permit_name: "Excavation / Trenching Permit", permit_number: "EXC-2026-091", issuing_agency: "Cal/OSHA", issued_date: "2026-01-05", expires_date: daysFromNow(45), status: "active", renewal_window_days: 30 },
+    ],
+    materials: [
+      { material_name: "Diesel Fuel (#2 ULSD)", material_type: "Fuel", quantity_on_hand: 280, storage_location: "Riverside HQ — fuel cabinet B", sds_url: "https://demo.protekon.com/sds/diesel.pdf", last_inventory_at: tsFromNow(-9), vertical_data: { hazard_class: "Combustible Liquid", cas_number: "68476-34-6", container_type: "55-gal drum" } },
+      { material_name: "Acetylene", material_type: "Compressed gas", quantity_on_hand: 4, storage_location: "Welding cage", last_inventory_at: tsFromNow(-2), vertical_data: { hazard_class: "Flammable Gas", cas_number: "74-86-2", container_type: "Cylinder" } },
+    ],
+    inspections: [
+      { inspection_type: "Daily scaffold inspection", scheduled_date: daysFromNow(-1), status: "completed", outcome: "pass" },
+      { inspection_type: "Weekly fall-protection audit", scheduled_date: daysFromNow(3), status: "scheduled" },
+      { inspection_type: "Monthly fire-extinguisher check", scheduled_date: daysFromNow(-10), status: "overdue" },
+    ],
+    findings: [
+      { source_type: "internal_audit", classification: "other_than_serious", description: "Two ladder-tags missing on east wing scaffolding. Remediated same day; weekly walk-throughs added.", abatement_due_date: daysFromNow(7), abatement_status: "in_progress" },
+      { source_type: "protekon_audit", classification: "serious", description: "Heat illness training records older than 12 months for 3 crew members.", citation_text: "8 CCR §3395 — Heat Illness Prevention", citation_standard: "8 CCR §3395", penalty_amount: 0, abatement_due_date: daysFromNow(14), abatement_status: "open" },
+    ],
+    thirdParties: [
+      { entity_name: "ACME Framing & Drywall", relationship_type: "Subcontractor", license_number: "CSLB-942711", license_status: "active", coi_status: "current", coi_expires_at: daysFromNow(180), ein: "84-1112233" },
+      { entity_name: "Inland Empire Concrete Co", relationship_type: "Subcontractor", license_number: "CSLB-880124", license_status: "active", coi_status: "expired", coi_expires_at: daysFromNow(-12), ein: "84-3344112" },
+    ],
+  },
+  property: {
+    team: [
+      { full_name: "Anika Joshi", role: "Property Manager", is_supervisor: true, email: "anika@pacificcoastproperty.com", start_date: "2022-03-04" },
+      { full_name: "Robert Kim", role: "Building Engineer", start_date: "2023-07-15" },
+    ],
+    credentials: [
+      { credential_type: "CPM (Certified Property Manager)", issuing_authority: "IREM", expires_date: daysFromNow(420), status: "active", holderIndex: 0 },
+      { credential_type: "Universal EPA 608", issuing_authority: "EPA", expires_date: daysFromNow(-40), status: "expired", holderIndex: 1 },
+    ],
+    assets: [
+      { asset_name: "Otis Gen2 Elevator (Bank A)", asset_type: "Elevator", manufacturer: "Otis", model: "Gen2", serial_number: "OT-883-A", last_inspected_at: tsFromNow(-25), next_inspection_due: daysFromNow(340), certification_status: "certified" },
+      { asset_name: "Notifier NFS2-3030 Fire Panel", asset_type: "Life safety", manufacturer: "Notifier", model: "NFS2-3030", next_inspection_due: daysFromNow(12), certification_status: "due" },
+      { asset_name: "Trane RTAC 130 Chiller", asset_type: "HVAC", manufacturer: "Trane", model: "RTAC 130", next_inspection_due: daysFromNow(-7), certification_status: "overdue" },
+    ],
+    permits: [
+      { permit_name: "Annual Fire-Alarm Operating Permit", permit_number: "FAO-2026-0188", issuing_agency: "Santa Monica Fire Marshal", issued_date: "2026-01-01", expires_date: daysFromNow(330), status: "active", renewal_window_days: 30 },
+      { permit_name: "Elevator Operating Certificate", permit_number: "EOC-441920", issuing_agency: "CA Dept of Industrial Relations", issued_date: "2025-09-15", expires_date: daysFromNow(60), status: "active", renewal_window_days: 60 },
+    ],
+    materials: [
+      { material_name: "Cooling Tower Biocide", material_type: "Industrial chemical", quantity_on_hand: 30, storage_location: "Roof mechanical room", sds_url: "https://demo.protekon.com/sds/biocide.pdf", last_inventory_at: tsFromNow(-15), vertical_data: { hazard_class: "Corrosive", container_type: "5-gal pail" } },
+    ],
+    inspections: [
+      { inspection_type: "Quarterly fire-alarm inspection", scheduled_date: daysFromNow(-5), status: "completed", outcome: "pass" },
+      { inspection_type: "Backflow preventer inspection", scheduled_date: daysFromNow(20), status: "scheduled" },
+    ],
+    findings: [
+      { source_type: "regulatory_notice", classification: "informational", description: "Fire marshal noted exit signage in parking garage requires re-illumination test.", abatement_due_date: daysFromNow(45), abatement_status: "open" },
+    ],
+    thirdParties: [
+      { entity_name: "WestCoast Janitorial Services", relationship_type: "Vendor", license_number: "JS-44193", license_status: "active", coi_status: "current", coi_expires_at: daysFromNow(290), ein: "95-1180022" },
+      { entity_name: "Apex Elevator Maintenance", relationship_type: "Vendor", license_number: "EL-99284", license_status: "active", coi_status: "current", coi_expires_at: daysFromNow(160), ein: "95-2294411" },
+    ],
+  },
+  hipaa: {
+    team: [
+      { full_name: "Dr. Lena Ortiz", role: "HIPAA Privacy Officer", is_supervisor: true, email: "lortiz@coastalhealthgroup.com", start_date: "2021-05-01" },
+      { full_name: "Maya Chen, RN", role: "Clinical Manager", start_date: "2023-01-09" },
+      { full_name: "Andre Mitchell", role: "IT Security Lead", is_supervisor: true, start_date: "2024-06-22" },
+    ],
+    credentials: [
+      { credential_type: "HIPAA Privacy Officer Certification", issuing_authority: "HCISPP / (ISC)²", expires_date: daysFromNow(280), status: "active", holderIndex: 0 },
+      { credential_type: "BLS — Basic Life Support", issuing_authority: "American Heart Association", expires_date: daysFromNow(45), status: "active", holderIndex: 1 },
+      { credential_type: "CompTIA Security+", issuing_authority: "CompTIA", expires_date: daysFromNow(-30), status: "expired", holderIndex: 2 },
+    ],
+    assets: [
+      { asset_name: "GE Healthcare Carescape B450 Monitor", asset_type: "Medical device", manufacturer: "GE Healthcare", model: "B450", serial_number: "B450-21133", last_inspected_at: tsFromNow(-30), next_inspection_due: daysFromNow(150), certification_status: "certified" },
+      { asset_name: "Sharps Disposal Cabinet — Exam 3", asset_type: "Biohazard", manufacturer: "Stericycle", next_inspection_due: daysFromNow(2), certification_status: "due" },
+      { asset_name: "Welch Allyn Spot Vital Signs 4400", asset_type: "Medical device", manufacturer: "Welch Allyn", next_inspection_due: daysFromNow(-12), certification_status: "overdue" },
+    ],
+    permits: [
+      { permit_name: "CLIA Certificate of Waiver", permit_number: "CLIA-05D2118827", issuing_agency: "CMS", issued_date: "2025-03-01", expires_date: daysFromNow(420), status: "active", renewal_window_days: 90 },
+      { permit_name: "California Lab Field Services Registration", permit_number: "LFS-CA-882", issuing_agency: "CDPH", expires_date: daysFromNow(-5), status: "expired" },
+    ],
+    materials: [
+      { material_name: "Isopropyl Alcohol 70%", material_type: "Disinfectant", quantity_on_hand: 24, storage_location: "Supply room A", sds_url: "https://demo.protekon.com/sds/ipa.pdf", last_inventory_at: tsFromNow(-7), vertical_data: { hazard_class: "Flammable Liquid", cas_number: "67-63-0", container_type: "1-gal jug" } },
+      { material_name: "Glutaraldehyde", material_type: "Sterilant", quantity_on_hand: 6, storage_location: "Sterilization suite", last_inventory_at: tsFromNow(-21), vertical_data: { hazard_class: "Toxic — sensitizer", cas_number: "111-30-8" } },
+    ],
+    inspections: [
+      { inspection_type: "Annual HIPAA risk assessment", scheduled_date: daysFromNow(15), status: "scheduled" },
+      { inspection_type: "Quarterly access-log audit", scheduled_date: daysFromNow(-3), status: "completed", outcome: "pass" },
+      { inspection_type: "Semi-annual EMR backup test", scheduled_date: daysFromNow(-21), status: "overdue" },
+    ],
+    findings: [
+      { source_type: "internal_audit", classification: "serious", description: "Two terminated employee accounts retained EMR access for 9 days post-termination. Now revoked; access-review cadence tightened to weekly.", citation_text: "45 CFR §164.308(a)(3)(ii)(C) — Termination procedures", citation_standard: "45 CFR §164.308(a)(3)(ii)(C)", abatement_due_date: daysFromNow(10), abatement_status: "in_progress" },
+      { source_type: "protekon_audit", classification: "other_than_serious", description: "BAA agreement with CloudChart EMR Services lapses in 90 days. Renewal in negotiation.", abatement_due_date: daysFromNow(80), abatement_status: "open" },
+    ],
+    thirdParties: [
+      { entity_name: "CloudChart EMR Services", relationship_type: "Business Associate", coi_status: "current", coi_expires_at: daysFromNow(220), ein: "47-4419822" },
+      { entity_name: "Stericycle Medical Waste", relationship_type: "Business Associate", coi_status: "current", coi_expires_at: daysFromNow(95), ein: "26-0823371" },
+    ],
+  },
+  municipal: {
+    team: [
+      { full_name: "Helena Vargas", role: "Public Works Director", is_supervisor: true, email: "hvargas@summitmunicipal.com", start_date: "2018-11-12" },
+      { full_name: "Tom Reilly", role: "Streets Foreman", is_supervisor: true, start_date: "2020-04-08" },
+    ],
+    credentials: [
+      { credential_type: "Class A Commercial Driver's License", issuing_authority: "CA DMV", expires_date: daysFromNow(280), status: "active", holderIndex: 1 },
+      { credential_type: "Confined-Space Entry Certified", issuing_authority: "Cal/OSHA 8 CCR §5157", expires_date: daysFromNow(60), status: "active", holderIndex: 1 },
+    ],
+    assets: [
+      { asset_name: "Vactor 2100i Combo Sewer Truck", asset_type: "Heavy vehicle", manufacturer: "Vactor", model: "2100i", serial_number: "VAC-7733", last_inspected_at: tsFromNow(-18), next_inspection_due: daysFromNow(180), certification_status: "certified" },
+      { asset_name: "Generac SD175 Standby Generator", asset_type: "Standby power", manufacturer: "Generac", model: "SD175", next_inspection_due: daysFromNow(5), certification_status: "due" },
+      { asset_name: "Stihl MS 462 C-M Chainsaws (×4)", asset_type: "Hand-tool fleet", manufacturer: "Stihl", next_inspection_due: daysFromNow(-30), certification_status: "overdue" },
+    ],
+    permits: [
+      { permit_name: "Air Quality — Generator Operating Permit", permit_number: "SCAQMD-77192", issuing_agency: "SCAQMD", issued_date: "2025-07-01", expires_date: daysFromNow(150), status: "active", renewal_window_days: 60 },
+      { permit_name: "NPDES Storm-water Discharge", permit_number: "NPDES-CA-PW-2200", issuing_agency: "State Water Board", issued_date: "2024-04-15", expires_date: daysFromNow(720), status: "active", renewal_window_days: 90 },
+    ],
+    materials: [
+      { material_name: "Sodium Hypochlorite 12.5%", material_type: "Disinfectant", quantity_on_hand: 220, storage_location: "Water-treatment containment", sds_url: "https://demo.protekon.com/sds/hypo.pdf", last_inventory_at: tsFromNow(-4), vertical_data: { hazard_class: "Corrosive", cas_number: "7681-52-9" } },
+      { material_name: "Asphalt Emulsion CSS-1H", material_type: "Roadway material", quantity_on_hand: 600, storage_location: "Yard tank #2", last_inventory_at: tsFromNow(-11) },
+    ],
+    inspections: [
+      { inspection_type: "Daily pre-trip vehicle inspection", scheduled_date: daysFromNow(-1), status: "completed", outcome: "pass" },
+      { inspection_type: "Quarterly hearing-conservation noise survey", scheduled_date: daysFromNow(10), status: "scheduled" },
+      { inspection_type: "Annual NPDES SWPPP walkthrough", scheduled_date: daysFromNow(-14), status: "overdue" },
+    ],
+    findings: [
+      { source_type: "regulatory_notice", classification: "other_than_serious", description: "OSHA noted insufficient hearing-protection postings at chip-seal yard. Postings updated; documentation forwarded.", citation_text: "29 CFR §1910.95(k)(6)", citation_standard: "29 CFR §1910.95", abatement_due_date: daysFromNow(20), abatement_status: "in_progress" },
+    ],
+    thirdParties: [
+      { entity_name: "Inland Asphalt Services", relationship_type: "Contractor", license_number: "CSLB-441199", license_status: "active", coi_status: "current", coi_expires_at: daysFromNow(200), ein: "33-1129944" },
+      { entity_name: "ClearStream Water Testing Lab", relationship_type: "Vendor", license_number: "ELAP-2218", license_status: "active", coi_status: "expired", coi_expires_at: daysFromNow(-22), ein: "33-7733991" },
+    ],
+  },
+  hospitality: {
+    team: [
+      { full_name: "Jasmine Park", role: "Executive Chef", is_supervisor: true, email: "jpark@goldenstatehospitality.com", start_date: "2022-08-22" },
+      { full_name: "Carlos Mendoza", role: "Front-of-House Manager", is_supervisor: true, start_date: "2023-12-11" },
+      { full_name: "Priya Singh", role: "Housekeeping Lead", start_date: "2024-04-03" },
+    ],
+    credentials: [
+      { credential_type: "ServSafe Food Manager Certification", issuing_authority: "National Restaurant Association", expires_date: daysFromNow(310), status: "active", holderIndex: 0 },
+      { credential_type: "California Food Handler Card", issuing_authority: "ANSI-Accredited Provider", expires_date: daysFromNow(15), status: "expiring", holderIndex: 2 },
+      { credential_type: "Responsible Beverage Service (RBS)", issuing_authority: "CA ABC", expires_date: daysFromNow(-8), status: "expired", holderIndex: 1 },
+    ],
+    assets: [
+      { asset_name: "Hobart AM16T Dishmachine", asset_type: "Dishwashing", manufacturer: "Hobart", model: "AM16T", last_inspected_at: tsFromNow(-22), next_inspection_due: daysFromNow(120), certification_status: "certified" },
+      { asset_name: "Hoshizaki KM-901MAJ Ice Machine", asset_type: "Refrigeration", manufacturer: "Hoshizaki", model: "KM-901MAJ", next_inspection_due: daysFromNow(4), certification_status: "due" },
+      { asset_name: "Ansul R-102 Hood Suppression", asset_type: "Life safety", manufacturer: "Ansul", model: "R-102", next_inspection_due: daysFromNow(-18), certification_status: "overdue" },
+    ],
+    permits: [
+      { permit_name: "Food Facility Health Permit", permit_number: "FF-SF-228114", issuing_agency: "SF Dept of Public Health", issued_date: "2025-12-01", expires_date: daysFromNow(220), status: "active", renewal_window_days: 30 },
+      { permit_name: "ABC Type-47 On-Sale General License", permit_number: "ABC-47-228114", issuing_agency: "CA ABC", expires_date: daysFromNow(-2), status: "expired" },
+    ],
+    materials: [
+      { material_name: "Chlorine-Based Sanitizer Concentrate", material_type: "Sanitizer", quantity_on_hand: 18, storage_location: "Dish room chemical closet", sds_url: "https://demo.protekon.com/sds/sanitizer.pdf", last_inventory_at: tsFromNow(-3), vertical_data: { hazard_class: "Corrosive", cas_number: "7681-52-9" } },
+      { material_name: "Quat Ammonium Surface Cleaner", material_type: "Sanitizer", quantity_on_hand: 12, storage_location: "Housekeeping cart prep", last_inventory_at: tsFromNow(-9) },
+    ],
+    inspections: [
+      { inspection_type: "Daily kitchen line check", scheduled_date: daysFromNow(0), status: "scheduled" },
+      { inspection_type: "Weekly hood-suppression visual", scheduled_date: daysFromNow(-3), status: "completed", outcome: "pass" },
+      { inspection_type: "Quarterly health-department inspection", scheduled_date: daysFromNow(-30), status: "completed", outcome: "fail" },
+    ],
+    findings: [
+      { source_type: "regulatory_notice", classification: "serious", description: "Health inspector cited improper hot-holding temperatures at carving station. Equipment serviced same day; line-check cadence tightened.", citation_text: "Cal. Code Regs. Title 17 §114149.1", citation_standard: "17 CCR §114149.1", penalty_amount: 0, abatement_due_date: daysFromNow(7), abatement_status: "in_progress" },
+      { source_type: "protekon_audit", classification: "informational", description: "Quarterly SB 553 WVPP refresher overdue for evening front-desk team.", abatement_due_date: daysFromNow(20), abatement_status: "open" },
+    ],
+    thirdParties: [
+      { entity_name: "Bay Area Food Distributors", relationship_type: "Vendor", license_number: "FD-99412", license_status: "active", coi_status: "current", coi_expires_at: daysFromNow(160), ein: "94-1129830" },
+      { entity_name: "Premier Linen Services", relationship_type: "Vendor", license_number: "LIN-7740", license_status: "active", coi_status: "current", coi_expires_at: daysFromNow(220), ein: "94-7733992" },
+    ],
+  },
+}
+
+const REGULATORY_BODY_BY_VERTICAL: Record<string, string> = {
+  construction: "Cal/OSHA",
+  property: "City Fire Marshal",
+  hipaa: "Office for Civil Rights (HHS)",
+  municipal: "Cal/OSHA",
+  hospitality: "County Health Department",
+}
+
+async function seedVerticalShowcase(
+  ctx: AuthContext,
+  siteIdByOrgSite: Map<string, Map<string, string>>
+): Promise<void> {
+  console.log("🎨 Seeding vertical showcase (assets/permits/materials/inspections/findings/team/credentials/third_parties)...")
+
+  for (const org of DEMO_ORGS) {
+    const clientId = ctx.orgUserIds.get(org.email)
+    if (!clientId) continue
+    const spec = SHOWCASE[org.vertical]
+    if (!spec) continue
+
+    const siteMap = siteIdByOrgSite.get(org.email)
+    const primarySite = org.sites.find((s) => s.isPrimary) ?? org.sites[0]
+    const siteId = siteMap?.get(primarySite?.name ?? "") ?? null
+
+    console.log(`   → ${org.businessName} (${org.vertical})`)
+
+    const teamRows = spec.team.map((t) => ({
+      client_id: clientId,
+      site_id: siteId,
+      full_name: t.full_name,
+      role: t.role,
+      is_supervisor: t.is_supervisor ?? false,
+      email: t.email ?? null,
+      start_date: t.start_date ?? null,
+      status: "active",
+    }))
+    const teamData = await safeInsert("team_members", teamRows)
+    const teamIds = (teamData ?? []).map((r) => r.id)
+
+    const credRows = spec.credentials.map((c) => ({
+      client_id: clientId,
+      holder_id: teamIds[c.holderIndex] ?? null,
+      holder_name: spec.team[c.holderIndex]?.full_name ?? "Unassigned",
+      credential_type: c.credential_type,
+      credential_number: c.credential_number ?? null,
+      issuing_authority: c.issuing_authority,
+      issued_date: c.issued_date ?? null,
+      expires_date: c.expires_date,
+      status: c.status === "expiring" ? "active" : c.status,
+    }))
+    await safeInsert("credentials", credRows)
+
+    const assetRows = spec.assets.map((a) => ({
+      client_id: clientId,
+      site_id: siteId,
+      asset_name: a.asset_name,
+      asset_type: a.asset_type,
+      manufacturer: a.manufacturer ?? null,
+      model: a.model ?? null,
+      serial_number: a.serial_number ?? null,
+      last_inspected_at: a.last_inspected_at ?? null,
+      next_inspection_due: a.next_inspection_due,
+      certification_status: a.certification_status,
+    }))
+    await safeInsert("assets", assetRows)
+
+    const permitRows = spec.permits.map((p) => ({
+      client_id: clientId,
+      site_id: siteId,
+      permit_name: p.permit_name,
+      permit_number: p.permit_number ?? null,
+      issuing_agency: p.issuing_agency,
+      issued_date: p.issued_date ?? null,
+      expires_date: p.expires_date,
+      status: p.status,
+      renewal_window_days: p.renewal_window_days ?? null,
+    }))
+    await safeInsert("permits", permitRows)
+
+    const materialRows = spec.materials.map((m) => ({
+      client_id: clientId,
+      site_id: siteId,
+      material_name: m.material_name,
+      material_type: m.material_type,
+      quantity_on_hand: m.quantity_on_hand ?? null,
+      storage_location: m.storage_location ?? null,
+      sds_url: m.sds_url ?? null,
+      last_inventory_at: m.last_inventory_at ?? null,
+      vertical_data: m.vertical_data ?? {},
+    }))
+    await safeInsert("materials", materialRows)
+
+    const regulatoryBody = REGULATORY_BODY_BY_VERTICAL[org.vertical] ?? "Internal Audit"
+    const inspectionRows = spec.inspections.map((i) => ({
+      client_id: clientId,
+      site_id: siteId,
+      inspection_type: i.inspection_type,
+      regulatory_body: regulatoryBody,
+      scheduled_date: i.scheduled_date,
+      status: i.status,
+      outcome: i.outcome ?? null,
+    }))
+    await safeInsert("inspections", inspectionRows)
+
+    const findingRows = spec.findings.map((f) => ({
+      client_id: clientId,
+      site_id: siteId,
+      source_type: f.source_type,
+      source_id: null,
+      classification: f.classification,
+      description: f.description,
+      citation_text: f.citation_text ?? null,
+      citation_standard: f.citation_standard ?? null,
+      penalty_amount: f.penalty_amount ?? null,
+      abatement_due_date: f.abatement_due_date ?? null,
+      abatement_status: f.abatement_status,
+    }))
+    await safeInsert("findings", findingRows)
+
+    const tpRows = spec.thirdParties.map((tp) => ({
+      client_id: clientId,
+      entity_name: tp.entity_name,
+      relationship_type: tp.relationship_type,
+      license_number: tp.license_number ?? null,
+      license_status: tp.license_status ?? null,
+      coi_status: tp.coi_status ?? null,
+      coi_expires_at: tp.coi_expires_at ?? null,
+      ein: tp.ein ?? null,
+    }))
+    await safeInsert("third_parties", tpRows)
+  }
+
+  console.log("   ✅ Vertical showcase complete")
+}
+
+async function seedConstructionExtras(ctx: AuthContext): Promise<void> {
+  console.log("🏗️  Seeding construction extras (subs, safety programs, payments, projects)...")
+
+  const constructionEmails = DEMO_ORGS
+    .filter((o) => o.vertical === "construction" && o.status === "active")
+    .map((o) => o.email)
+
+  for (const email of constructionEmails) {
+    const clientId = ctx.orgUserIds.get(email)
+    if (!clientId) continue
+
+    const subRows = [
+      { client_id: clientId, company_name: "ACME Framing & Drywall", license_number: "CSLB-942711", license_status: "active", license_expiry: daysFromNow(180), insurance_status: "current", insurance_expiry: daysFromNow(220), verified_at: tsFromNow(-30), cslb_license_no: "942711", cslb_sync_status: "synced", cslb_risk_score: 12, cslb_last_synced: tsFromNow(-2), cslb_primary_status: "active", cslb_wc_expires: daysFromNow(220), cslb_license_expires: daysFromNow(180), coi_gl_expires: daysFromNow(180), coi_wc_expires: daysFromNow(220), coi_last_uploaded: tsFromNow(-15), coi_status: "current" },
+      { client_id: clientId, company_name: "Inland Empire Concrete Co", license_number: "CSLB-880124", license_status: "active", license_expiry: daysFromNow(420), insurance_status: "expired", insurance_expiry: daysFromNow(-15), verified_at: tsFromNow(-60), cslb_license_no: "880124", cslb_sync_status: "synced", cslb_risk_score: 47, cslb_last_synced: tsFromNow(-3), cslb_primary_status: "active", cslb_wc_expires: daysFromNow(-15), cslb_license_expires: daysFromNow(420), coi_gl_expires: daysFromNow(-12), coi_wc_expires: daysFromNow(-15), coi_last_uploaded: tsFromNow(-90), coi_status: "expired" },
+      { client_id: clientId, company_name: "Riverside Electric Services", license_number: "CSLB-771285", license_status: "active", license_expiry: daysFromNow(260), insurance_status: "current", insurance_expiry: daysFromNow(310), verified_at: tsFromNow(-45), cslb_license_no: "771285", cslb_sync_status: "synced", cslb_risk_score: 8, cslb_last_synced: tsFromNow(-1), cslb_primary_status: "active", cslb_wc_expires: daysFromNow(310), cslb_license_expires: daysFromNow(260), coi_gl_expires: daysFromNow(310), coi_wc_expires: daysFromNow(310), coi_last_uploaded: tsFromNow(-7), coi_status: "current" },
+    ]
+    const subsData = await safeInsert("construction_subs", subRows)
+    const subIds = (subsData ?? []).map((r) => r.id)
+
+    if (subIds.length >= 2) {
+      const programRows = [
+        { client_id: clientId, sub_id: subIds[0], program_type: "iipp", document_url: "https://demo.protekon.com/safety/iipp-acme.pdf", effective_date: daysFromNow(-60), status: "approved", reviewed_at: tsFromNow(-30) },
+        { client_id: clientId, sub_id: subIds[0], program_type: "wvpp", document_url: "https://demo.protekon.com/safety/wvpp-acme.pdf", effective_date: daysFromNow(-90), status: "approved", reviewed_at: tsFromNow(-45) },
+        { client_id: clientId, sub_id: subIds[1], program_type: "iipp", status: "pending" },
+      ]
+      await safeInsert("sub_safety_programs", programRows)
+
+      const taxYear = new Date().getFullYear()
+      const payRows = [
+        { client_id: clientId, sub_id: subIds[0], payment_date: daysFromNow(-90), amount: 48500, category: "labor", tax_year: taxYear, source: "manual" },
+        { client_id: clientId, sub_id: subIds[0], payment_date: daysFromNow(-30), amount: 32200, category: "labor", tax_year: taxYear, source: "manual" },
+        { client_id: clientId, sub_id: subIds[1], payment_date: daysFromNow(-45), amount: 17800, category: "materials", tax_year: taxYear, source: "manual" },
+      ]
+      await safeInsert("vendor_payments", payRows)
+    }
+
+    await safeInsert("projects", [{
+      client_id: clientId,
+      name: "Riverside HQ Tenant Improvement",
+      start_date: daysFromNow(-90),
+      end_date: daysFromNow(120),
+      status: "active",
+      notes: "Multi-trade TI; demo project for showcase",
+    }])
+  }
+
+  console.log("   ✅ Construction extras complete")
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 // Main
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -1215,14 +1692,15 @@ async function main(): Promise<void> {
     await seedActionItems(ctx)
     await seedPartnerCommissions(partnerIdByEmail)
 
-    // siteIdByOrgSite is reserved for future per-site seeders (projects, poster
-    // compliance, etc.). Keep the reference so tsc doesn't complain.
-    void siteIdByOrgSite
+    // Phase C — vertical showcase (eliminates empty drill-downs across all 5 verticals)
+    await seedVerticalShowcase(ctx, siteIdByOrgSite)
+    await seedConstructionExtras(ctx)
+
     // Reference the stubbed ack seeder so tsc doesn't flag it as unused while
     // the table is missing from prod.
     void seedAcknowledgmentRequests
 
-    console.log("\n✅ Seed Phase A + B complete (auth + clients + RBAC + sites + partners + docs + incidents + training + BAAs + regs + intake + audit log + action items + commissions)")
+    console.log("\n✅ Seed Phase A + B + C complete (auth + clients + RBAC + sites + partners + docs + incidents + training + BAAs + regs + intake + audit log + action items + commissions + vertical showcase)")
     console.log("\n🔑 Logins:")
     for (const org of DEMO_ORGS) {
       console.log(`   ${org.email.padEnd(42)} / ${org.password}  [${org.vertical}/${org.plan}/${org.status}]`)

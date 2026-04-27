@@ -127,7 +127,7 @@ export const inspectionsConfig: ResourceConfig<ResourceRow> = {
       label: "Dates",
       render: (row) => {
         const scheduled = (row.scheduled_date as string | null) ?? null
-        const completed = (row.completed_at as string | null) ?? null
+        const completed = (row.completed_date as string | null) ?? null
         const status = row.status as string | null
         const days = daysUntil(scheduled)
 

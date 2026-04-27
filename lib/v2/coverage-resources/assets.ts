@@ -118,7 +118,7 @@ export const assetsConfig: ResourceConfig<ResourceRow> = {
         return [
           {
             label: "Last inspection",
-            value: (row.last_inspection_at as string | null) ?? null,
+            value: (row.last_inspected_at as string | null) ?? null,
           },
           {
             label: "Next inspection",
