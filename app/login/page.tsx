@@ -8,12 +8,16 @@ import { signIn } from "@/lib/actions/auth"
 import { createClient } from "@/lib/supabase/client"
 import { safeRedirect } from "@/lib/safe-redirect"
 
+type ResendStatus = "idle" | "sending" | "sent" | "error" | "missing-email"
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [nextPath, setNextPath] = useState("/dashboard")
   const [isWelcome, setIsWelcome] = useState(false)
+  const [email, setEmail] = useState("")
+  const [resendStatus, setResendStatus] = useState<ResendStatus>("idle")
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -45,6 +49,25 @@ export default function LoginPage() {
       setIsLoading(false)
     }
     // On success, signIn redirects to /dashboard (rewrites to v2 content).
+  }
+
+  const handleResendWelcome = async () => {
+    const trimmed = email.trim()
+    if (!trimmed) {
+      setResendStatus("missing-email")
+      return
+    }
+    setResendStatus("sending")
+    try {
+      const res = await fetch("/api/auth/resend-welcome", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed }),
+      })
+      setResendStatus(res.ok ? "sent" : "error")
+    } catch {
+      setResendStatus("error")
+    }
   }
 
   return (
@@ -155,9 +178,33 @@ export default function LoginPage() {
               <p className="font-display font-semibold text-[14px] text-[#10B981] mb-1">
                 Payment received — your account is being set up.
               </p>
-              <p className="font-sans text-[13px] text-midnight/70">
-                Check your email for a login link from Protekon. Click it to set your password and start your compliance intake.
+              <p className="font-sans text-[13px] text-parchment/80">
+                Check your inbox (and spam folder) for a login link from Protekon. Click it to set your password and start your compliance intake.
               </p>
+              <div className="mt-3 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleResendWelcome}
+                  disabled={resendStatus === "sending"}
+                  className="font-display text-[11px] tracking-[2px] uppercase text-gold hover:text-gold/80 transition-colors disabled:opacity-50"
+                >
+                  {resendStatus === "sending"
+                    ? "Sending…"
+                    : resendStatus === "sent"
+                    ? "Email sent — check your inbox"
+                    : "Didn't get the email? Resend it →"}
+                </button>
+              </div>
+              {resendStatus === "missing-email" && (
+                <p className="mt-2 font-sans text-[12px] text-crimson/90">
+                  Enter the email you used at checkout in the field below, then click resend.
+                </p>
+              )}
+              {resendStatus === "error" && (
+                <p className="mt-2 font-sans text-[12px] text-crimson/90">
+                  Couldn&apos;t send right now. Wait a minute and try again, or contact support@protekon.org.
+                </p>
+              )}
             </div>
           )}
 
@@ -180,6 +227,11 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  if (resendStatus === "missing-email") setResendStatus("idle")
+                }}
                 className="w-full bg-midnight/50 border border-brand-white/[0.1] px-4 py-3.5 font-sans text-[15px] text-parchment placeholder:text-steel/50 focus:outline-none focus:border-gold/50 transition-colors"
                 placeholder="you@company.com"
               />
