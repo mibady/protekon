@@ -123,7 +123,7 @@ describe("reports actions", () => {
     vi.mocked(getAuth).mockResolvedValueOnce({ supabase: { from: mockFrom } as any, clientId: null })
     const { acknowledgeRegulation } = await import("@/lib/actions/reports")
     const result = await acknowledgeRegulation("reg-1")
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("getAlerts returns [] when not authenticated", async () => {

@@ -50,7 +50,7 @@ describe("manufacturing actions", () => {
     const { addEquipment } = await import("@/lib/actions/manufacturing")
     const fd = new FormData()
     const result = await addEquipment(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addEquipment inserts into manufacturing_equipment with client_id", async () => {

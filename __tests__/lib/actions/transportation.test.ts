@@ -50,7 +50,7 @@ describe("transportation actions", () => {
     const { addVehicle } = await import("@/lib/actions/transportation")
     const fd = new FormData()
     const result = await addVehicle(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addVehicle inserts into transportation_fleet with client_id", async () => {

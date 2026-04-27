@@ -44,7 +44,7 @@ describe("retail actions", () => {
     const { addLocation } = await import("@/lib/actions/retail")
     const fd = new FormData()
     const result = await addLocation(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addLocation inserts into retail_locations with client_id", async () => {

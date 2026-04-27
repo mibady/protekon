@@ -50,7 +50,7 @@ describe("poster-compliance actions", () => {
     const { addPosterLocation } = await import("@/lib/actions/poster-compliance")
     const fd = new FormData()
     const result = await addPosterLocation(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addPosterLocation inserts with correct fields", async () => {

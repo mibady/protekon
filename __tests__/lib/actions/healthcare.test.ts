@@ -44,7 +44,7 @@ describe("healthcare actions", () => {
     const { addPhiAsset } = await import("@/lib/actions/healthcare")
     const fd = new FormData()
     const result = await addPhiAsset(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("getBaaAgreements queries baa_agreements table", async () => {
@@ -59,7 +59,7 @@ describe("healthcare actions", () => {
     const { addBaaAgreement } = await import("@/lib/actions/healthcare")
     const fd = new FormData()
     const result = await addBaaAgreement(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addBaaAgreement inserts into baa_agreements with client_id", async () => {

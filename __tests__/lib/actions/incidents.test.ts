@@ -76,7 +76,7 @@ describe("incident actions", () => {
     const fd = makeFormData({ description: "Fire", severity: "high" })
     const result = await createIncident(fd)
 
-    expect(result).toEqual({ error: "You must be logged in to log an incident." })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("createIncident validates description + severity required", async () => {
@@ -220,7 +220,7 @@ describe("incident actions", () => {
     const { updateIncident } = await import("@/lib/actions/incidents")
 
     const result = await updateIncident("inc-row-1", { severity: "low" })
-    expect(result).toEqual({ error: "You must be logged in to update an incident." })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("updateIncident verifies ownership by querying incidents with client_id match", async () => {

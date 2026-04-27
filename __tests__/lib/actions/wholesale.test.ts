@@ -44,7 +44,7 @@ describe("wholesale actions", () => {
     const { addZone } = await import("@/lib/actions/wholesale")
     const fd = new FormData()
     const result = await addZone(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addZone inserts into wholesale_zones with client_id", async () => {

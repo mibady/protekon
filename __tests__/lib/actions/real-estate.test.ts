@@ -53,7 +53,7 @@ describe("real-estate actions", () => {
     const { addProperty } = await import("@/lib/actions/real-estate")
     const fd = new FormData()
     const result = await addProperty(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addProperty inserts into property_portfolio with client_id", async () => {

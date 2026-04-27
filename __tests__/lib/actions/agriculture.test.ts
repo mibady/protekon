@@ -50,7 +50,7 @@ describe("agriculture actions", () => {
     const { addCrew } = await import("@/lib/actions/agriculture")
     const fd = new FormData()
     const result = await addCrew(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addCrew inserts into agriculture_crews with client_id", async () => {
@@ -72,6 +72,6 @@ describe("agriculture actions", () => {
     vi.mocked(getAuth).mockResolvedValueOnce({ supabase: { from: mockFrom } as any, clientId: null })
     const { updateCrew } = await import("@/lib/actions/agriculture")
     const result = await updateCrew("crew-1", { heat_plan_status: "expired" })
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 })

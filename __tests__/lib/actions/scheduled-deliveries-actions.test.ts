@@ -61,7 +61,7 @@ describe("scheduled-deliveries actions", () => {
     mockGetUser.mockResolvedValueOnce({ data: { user: null } })
     const { updateDeliveryPreference } = await import("@/lib/actions/scheduled-deliveries")
     const result = await updateDeliveryPreference("del-1", { frequency: "weekly" })
-    expect(result).toEqual({ error: "Not authenticated" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("updateDeliveryPreference verifies ownership before updating", async () => {

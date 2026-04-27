@@ -44,7 +44,7 @@ describe("hospitality actions", () => {
     const { addInspection } = await import("@/lib/actions/hospitality")
     const fd = new FormData()
     const result = await addInspection(fd)
-    expect(result).toEqual({ error: "Unauthorized" })
+    expect(result).toEqual({ error: "Please log in to continue." })
   })
 
   it("addInspection inserts into hospitality_inspections with client_id", async () => {
