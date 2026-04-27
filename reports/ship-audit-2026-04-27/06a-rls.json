@@ -1,0 +1,159 @@
+{
+  "authenticated": {
+    "construction": {
+      "email": "admin@sierraridgebuilders.com",
+      "user_id": "f660906f-1247-4edd-9451-4df709d614f9"
+    },
+    "property": {
+      "email": "admin@pacificcoastproperty.com",
+      "user_id": "a7e544b6-2ca4-47cf-b35e-061a9a50245b"
+    },
+    "hipaa": {
+      "email": "admin@coastalhealthgroup.com",
+      "user_id": "6c56a221-0ecb-4115-9204-89319a0b7958"
+    },
+    "municipal": {
+      "email": "admin@summitmunicipal.com",
+      "user_id": "97cc8ee8-6f35-49b9-b660-23dd8bf10178"
+    },
+    "hospitality": {
+      "email": "admin@goldenstatehospitality.com",
+      "user_id": "a95a57be-be45-4d04-8998-e84d91967efe"
+    }
+  },
+  "own_record_counts": {
+    "construction": {
+      "clients": 1,
+      "incidents": 1,
+      "documents": 3,
+      "action_items": 0
+    },
+    "property": {
+      "clients": 1,
+      "incidents": 0,
+      "documents": 0,
+      "action_items": 0
+    },
+    "hipaa": {
+      "clients": 1,
+      "incidents": 0,
+      "documents": 0,
+      "action_items": 0
+    },
+    "municipal": {
+      "clients": 1,
+      "incidents": 0,
+      "documents": 0,
+      "action_items": 0
+    },
+    "hospitality": {
+      "clients": 1,
+      "incidents": 1,
+      "documents": 0,
+      "action_items": 0
+    }
+  },
+  "probes": [
+    {
+      "attacker": "construction",
+      "target": "hospitality",
+      "table": "incidents",
+      "target_id": "2c1e3a33-123c-46b9-ace0-442a999bb7d2",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "property",
+      "target": "construction",
+      "table": "incidents",
+      "target_id": "b480e34b-a884-4f99-9d38-05330d5bb5d2",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "property",
+      "target": "construction",
+      "table": "documents",
+      "target_id": "bb4aef95-a902-47ea-9c38-0301dfbe47c9",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "property",
+      "target": "hospitality",
+      "table": "incidents",
+      "target_id": "2c1e3a33-123c-46b9-ace0-442a999bb7d2",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "hipaa",
+      "target": "construction",
+      "table": "incidents",
+      "target_id": "b480e34b-a884-4f99-9d38-05330d5bb5d2",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "hipaa",
+      "target": "construction",
+      "table": "documents",
+      "target_id": "bb4aef95-a902-47ea-9c38-0301dfbe47c9",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "hipaa",
+      "target": "hospitality",
+      "table": "incidents",
+      "target_id": "2c1e3a33-123c-46b9-ace0-442a999bb7d2",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "municipal",
+      "target": "construction",
+      "table": "incidents",
+      "target_id": "b480e34b-a884-4f99-9d38-05330d5bb5d2",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "municipal",
+      "target": "construction",
+      "table": "documents",
+      "target_id": "bb4aef95-a902-47ea-9c38-0301dfbe47c9",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "municipal",
+      "target": "hospitality",
+      "table": "incidents",
+      "target_id": "2c1e3a33-123c-46b9-ace0-442a999bb7d2",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "hospitality",
+      "target": "construction",
+      "table": "incidents",
+      "target_id": "b480e34b-a884-4f99-9d38-05330d5bb5d2",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    },
+    {
+      "attacker": "hospitality",
+      "target": "construction",
+      "table": "documents",
+      "target_id": "bb4aef95-a902-47ea-9c38-0301dfbe47c9",
+      "rows_returned": 0,
+      "verdict": "PASS (denied)"
+    }
+  ],
+  "summary": {
+    "total": 12,
+    "denied_pass": 12,
+    "leaked_fail": 0
+  }
+}

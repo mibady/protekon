@@ -1,0 +1,432 @@
+{
+  "construction": {
+    "/dashboard": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/coverage": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/incidents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fincidents",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/documents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fdocuments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/briefing": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fbriefing",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/action-items": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/alerts": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Falerts",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/calendar": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcalendar",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/settings": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsettings",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/regulations": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fregulations",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/reports": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Freports",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/training": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Ftraining",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/acknowledgments": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Facknowledgments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/activity": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Factivity",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    }
+  },
+  "property": {
+    "/dashboard": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/coverage": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/incidents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fincidents",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/documents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fdocuments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/briefing": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fbriefing",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/action-items": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/alerts": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Falerts",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/calendar": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcalendar",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/settings": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsettings",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/regulations": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fregulations",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/reports": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Freports",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/training": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Ftraining",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/acknowledgments": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Facknowledgments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/activity": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Factivity",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    }
+  },
+  "hipaa": {
+    "/dashboard": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/coverage": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/incidents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fincidents",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/documents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fdocuments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/briefing": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fbriefing",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/action-items": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/alerts": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Falerts",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/calendar": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcalendar",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/settings": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsettings",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/regulations": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fregulations",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/reports": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Freports",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/training": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Ftraining",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/acknowledgments": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Facknowledgments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/activity": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Factivity",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    }
+  },
+  "municipal": {
+    "/dashboard": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/coverage": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/incidents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fincidents",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/documents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fdocuments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/briefing": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fbriefing",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/action-items": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/alerts": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Falerts",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/calendar": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcalendar",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/settings": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsettings",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/regulations": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fregulations",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/reports": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Freports",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/training": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Ftraining",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/acknowledgments": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Facknowledgments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/activity": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Factivity",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    }
+  },
+  "hospitality": {
+    "/dashboard": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/coverage": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/incidents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fincidents",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/documents": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fdocuments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/briefing": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fbriefing",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/action-items": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/alerts": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Falerts",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/calendar": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcalendar",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/settings": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsettings",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/regulations": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Fregulations",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/reports": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Freports",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/training": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Ftraining",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/acknowledgments": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Facknowledgments",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    },
+    "/dashboard/activity": {
+      "status": 200,
+      "final_url": "https://www.protekon.org/login?next=%2Fdashboard%2Factivity",
+      "redirected_to_login": true,
+      "has_error_marker": false
+    }
+  }
+}

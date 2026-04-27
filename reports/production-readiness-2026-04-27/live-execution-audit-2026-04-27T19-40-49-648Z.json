@@ -1,0 +1,5811 @@
+{
+  "generatedAt": "2026-04-27T19:40:49.648Z",
+  "baseUrl": "https://www.protekon.org",
+  "routes": [
+    "/dashboard",
+    "/dashboard/action-items",
+    "/dashboard/coverage",
+    "/dashboard/third-party-risk",
+    "/dashboard/sub-onboarding",
+    "/dashboard/safety-programs",
+    "/dashboard/form-1099",
+    "/dashboard/settings"
+  ],
+  "summary": {
+    "networkRequests": 522,
+    "suspiciousCachedResponses": 473,
+    "highUnusedCoverageFiles": 0,
+    "mutationWarnings": 8,
+    "probeWarnings": 1
+  },
+  "network": [
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login",
+      "status": 200,
+      "durationMs": 220,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5445",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 163,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 167,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 185,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 191,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "171",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 215,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 242,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 477,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 229,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 191,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 195,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 247,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654457",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 219,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 220,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 228,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 227,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 247,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 249,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard&email=admin%40sierraridgebuilders.com&password=demo-password-2026",
+      "status": 200,
+      "durationMs": 73,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5446",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 66,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 72,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 78,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 79,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 85,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 117,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 127,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "172",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 65,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 70,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654458",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 65,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 69,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 74,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 82,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 83,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 98,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 101,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 99,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 96,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 96,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 96,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 97,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 97,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 97,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 208,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A34.187Z_OWr0V3MxWRY_d9O-OhUXl/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 193,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 218,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 314,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 315,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 331,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 344,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 284,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 338,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 378,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 438,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 278,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 257,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 310,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 286,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 254,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 268,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 246,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 142,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 341,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 291,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 295,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 267,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 223,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 151,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 309,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 288,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 689,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 178,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 197,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 219,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/dashboard",
+      "status": 307,
+      "durationMs": 895,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5450",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 57,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 58,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 60,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 65,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 73,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "176",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 49,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654462",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 48,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 47,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 51,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 58,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 57,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 59,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 71,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 72,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 125,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 112,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 51,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A38.414Z_LjbN99pf0AyJjmbte7Ozo/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 85,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 29,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 51,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 50,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 313,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/dashboard/action-items",
+      "status": 307,
+      "durationMs": 155,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "status": 200,
+      "durationMs": 52,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5452",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 47,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 62,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 63,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 63,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 73,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "177",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654464",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 51,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 57,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 58,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 65,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 66,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 74,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 76,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 75,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 77,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 76,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 127,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 116,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 48,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A39.792Z_Kvw8kWBltoq1pJ8ZfBWti/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 98,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 57,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 31,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "1",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 60,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 198,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 28,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 78,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 30,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "3",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 50,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/dashboard/coverage",
+      "status": 307,
+      "durationMs": 61,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5453",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 47,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 61,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 63,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 65,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "179",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 44,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654465",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 68,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 47,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 49,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 63,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 63,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 68,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 70,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 124,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 48,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 58,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A41.028Z_Z1izpsILqNfrr8nd3JrBF/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 105,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 49,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "2",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 61,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 90,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 81,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 84,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 88,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 91,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 60,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 60,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 68,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 159,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 158,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 155,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 226,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 228,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 133,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 140,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 143,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 67,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 67,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 69,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/dashboard/third-party-risk",
+      "status": 307,
+      "durationMs": 77,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fthird-party-risk",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5454",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 52,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 55,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 58,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 68,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 73,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "180",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654467",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 48,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 48,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 59,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 64,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 66,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 71,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 72,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 117,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 47,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 48,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A42.526Z_b90onFEzff9igFMfegBuh/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 84,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 362,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "0",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/dashboard/sub-onboarding",
+      "status": 307,
+      "durationMs": 53,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsub-onboarding",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5456",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 55,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 55,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 71,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "2",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 28,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654468",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 49,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 60,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 62,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 64,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 66,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 71,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 70,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 70,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 76,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 81,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 81,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 121,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 44,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A43.837Z_eLS8Jr1vrGO41GJn9D1dJ/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 88,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 29,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 31,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 49,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 141,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 30,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 31,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 30,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 31,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/dashboard/safety-programs",
+      "status": 307,
+      "durationMs": 49,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsafety-programs",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5457",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 50,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 50,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 52,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 60,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 70,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "3",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654469",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 44,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 48,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 58,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 59,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 66,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 66,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 70,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 111,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 29,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 30,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 44,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A45.029Z_xkalL4EFM0Y7LCsjudUql/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 95,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 80,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 126,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 97,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "9",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/dashboard/form-1099",
+      "status": 307,
+      "durationMs": 68,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fform-1099",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5458",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 44,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 55,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 57,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 72,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "4",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 29,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654470",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 51,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 55,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 59,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 69,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 72,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 68,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 75,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 58,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 77,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 90,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A46.303Z_gjCVR6DPHsulBuKlR0xQr/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 114,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "8",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "7",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 56,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 31,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 31,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 50,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 36,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "10",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/dashboard/settings",
+      "status": 307,
+      "durationMs": 53,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsettings",
+      "status": 200,
+      "durationMs": 44,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "5460",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13rbqjk1o2mv2.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "14",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/16vw6lxjpntsb.css?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "14",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "14",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/4f530f52d514af96-s.p.0aapj9pyt9oam.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "14",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/d9b5d46d9a89ffe6-s.p.0agk34fg-1.z0.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 54,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "14",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 55,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "14",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "status": 200,
+      "durationMs": 67,
+      "cacheControl": "max-age=180, stale-while-revalidate=900",
+      "xCache": "Hit from cloudfront",
+      "age": "5",
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "14",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "status": 200,
+      "durationMs": 31,
+      "cacheControl": "public, max-age=31536000",
+      "xCache": null,
+      "age": "654472",
+      "server": "Fastly"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 47,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 48,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 53,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 60,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 62,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 64,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 63,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 69,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 72,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 72,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 125,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 124,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "POST",
+      "url": "https://cognito-identity.us-west-2.amazonaws.com/",
+      "status": 200,
+      "durationMs": 106,
+      "cacheControl": null,
+      "xCache": null,
+      "age": null,
+      "server": null
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 42,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 41,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=2678400",
+      "xCache": null,
+      "age": "13",
+      "server": "Vercel"
+    },
+    {
+      "method": "PUT",
+      "url": "https://user-events-v3.s3-accelerate.amazonaws.com/2026-04-27T19%3A40%3A47.493Z_vERTPq9bUSrqMVPP-nvP9/metadata.json?x-id=PutObject",
+      "status": 200,
+      "durationMs": 113,
+      "cacheControl": null,
+      "xCache": "Miss from cloudfront",
+      "age": null,
+      "server": "AmazonS3"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=17yrj",
+      "status": 200,
+      "durationMs": 35,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=4c4j4",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "4",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 45,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 46,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=1sudl",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/privacy?_rsc=9zsm8",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=ffo9i",
+      "status": 200,
+      "durationMs": 39,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/terms?_rsc=o11fy",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 28,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=9tuxt",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/forgot-password?_rsc=o9sor",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 38,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=1yw1x",
+      "status": 200,
+      "durationMs": 40,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/pricing?_rsc=zi7q5",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "12",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=m8m8p",
+      "status": 200,
+      "durationMs": 34,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 37,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/?_rsc=9c17x",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 43,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 44,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 32,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "status": 200,
+      "durationMs": 33,
+      "cacheControl": "public,max-age=31536000,immutable",
+      "xCache": null,
+      "age": "11",
+      "server": "Vercel"
+    }
+  ],
+  "coverage": [
+    {
+      "url": "https://snippet.meticulous.ai/v1/meticulous.js",
+      "totalBytes": 1266667,
+      "usedBytes": 1266667,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login",
+      "totalBytes": 43,
+      "usedBytes": 43,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login",
+      "totalBytes": 2227,
+      "usedBytes": 2227,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login",
+      "totalBytes": 5031,
+      "usedBytes": 5031,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login",
+      "totalBytes": 123,
+      "usedBytes": 123,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login",
+      "totalBytes": 177,
+      "usedBytes": 177,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login",
+      "totalBytes": 141,
+      "usedBytes": 141,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login",
+      "totalBytes": 2455,
+      "usedBytes": 2455,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/10_8o1lfj9i3d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 11670,
+      "usedBytes": 11670,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/turbopack-0.7f38m8lnh.4.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 11415,
+      "usedBytes": 11415,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/08l8tqzif5df8.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 28130,
+      "usedBytes": 28130,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://browser.sentry-cdn.com/7.119.1/bundle.tracing.min.js",
+      "totalBytes": 112981,
+      "usedBytes": 112981,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0.6rnd~kecn1f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 3402,
+      "usedBytes": 3402,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/02lxrl3lxx8jo.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 8423,
+      "usedBytes": 8423,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0obbpzc3cjnnn.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 36541,
+      "usedBytes": 36541,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/08qxycwaqga.d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 44269,
+      "usedBytes": 44269,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/05nry626idm0c.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 55175,
+      "usedBytes": 55175,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0ju2ucszhbvot.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 34326,
+      "usedBytes": 34326,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard&email=admin%40sierraridgebuilders.com&password=demo-password-2026",
+      "totalBytes": 43,
+      "usedBytes": 43,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard&email=admin%40sierraridgebuilders.com&password=demo-password-2026",
+      "totalBytes": 2227,
+      "usedBytes": 2227,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard&email=admin%40sierraridgebuilders.com&password=demo-password-2026",
+      "totalBytes": 5031,
+      "usedBytes": 5031,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard&email=admin%40sierraridgebuilders.com&password=demo-password-2026",
+      "totalBytes": 123,
+      "usedBytes": 123,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard&email=admin%40sierraridgebuilders.com&password=demo-password-2026",
+      "totalBytes": 177,
+      "usedBytes": 177,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard&email=admin%40sierraridgebuilders.com&password=demo-password-2026",
+      "totalBytes": 141,
+      "usedBytes": 141,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard&email=admin%40sierraridgebuilders.com&password=demo-password-2026",
+      "totalBytes": 2455,
+      "usedBytes": 2455,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/11b.q4smagszm.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 111828,
+      "usedBytes": 111828,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0ssc12icrco2x.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 392933,
+      "usedBytes": 392933,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0c7x02gpbz7t_.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 203728,
+      "usedBytes": 203728,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/04gqki4k-.2k..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 52593,
+      "usedBytes": 52593,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/15m2vu8n45-5d.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 212395,
+      "usedBytes": 212395,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0zo9zxx69u.lg.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 125137,
+      "usedBytes": 125137,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_vercel/insights/script.js",
+      "totalBytes": 2495,
+      "usedBytes": 2495,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0yh_h9hs.gasa.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 11022,
+      "usedBytes": 11022,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/03l4h6heo18b1.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 10941,
+      "usedBytes": 10941,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0~vgw24s04cz7.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 17339,
+      "usedBytes": 17339,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0t7eja6p-z9t6.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 30334,
+      "usedBytes": 30334,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/13yishc4pf200.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 44905,
+      "usedBytes": 44905,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/17p84lpeo9be..js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 23800,
+      "usedBytes": 23800,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0u.s68~vhyc8f.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 52298,
+      "usedBytes": 52298,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/_next/static/chunks/0i~uajcnwh.am.js?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN",
+      "totalBytes": 27377,
+      "usedBytes": 27377,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "totalBytes": 43,
+      "usedBytes": 43,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "totalBytes": 2227,
+      "usedBytes": 2227,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "totalBytes": 5031,
+      "usedBytes": 5031,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "totalBytes": 123,
+      "usedBytes": 123,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "totalBytes": 177,
+      "usedBytes": 177,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "totalBytes": 141,
+      "usedBytes": 141,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard",
+      "totalBytes": 2455,
+      "usedBytes": 2455,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "totalBytes": 43,
+      "usedBytes": 43,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "totalBytes": 2227,
+      "usedBytes": 2227,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "totalBytes": 5031,
+      "usedBytes": 5031,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "totalBytes": 123,
+      "usedBytes": 123,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "totalBytes": 177,
+      "usedBytes": 177,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "totalBytes": 141,
+      "usedBytes": 141,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Faction-items",
+      "totalBytes": 2455,
+      "usedBytes": 2455,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "totalBytes": 43,
+      "usedBytes": 43,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "totalBytes": 2227,
+      "usedBytes": 2227,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "totalBytes": 5031,
+      "usedBytes": 5031,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "totalBytes": 123,
+      "usedBytes": 123,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "totalBytes": 177,
+      "usedBytes": 177,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "totalBytes": 141,
+      "usedBytes": 141,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fcoverage",
+      "totalBytes": 2455,
+      "usedBytes": 2455,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fthird-party-risk",
+      "totalBytes": 43,
+      "usedBytes": 43,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fthird-party-risk",
+      "totalBytes": 2227,
+      "usedBytes": 2227,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fthird-party-risk",
+      "totalBytes": 5031,
+      "usedBytes": 5031,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fthird-party-risk",
+      "totalBytes": 123,
+      "usedBytes": 123,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fthird-party-risk",
+      "totalBytes": 177,
+      "usedBytes": 177,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fthird-party-risk",
+      "totalBytes": 141,
+      "usedBytes": 141,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fthird-party-risk",
+      "totalBytes": 2455,
+      "usedBytes": 2455,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsub-onboarding",
+      "totalBytes": 43,
+      "usedBytes": 43,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsub-onboarding",
+      "totalBytes": 2227,
+      "usedBytes": 2227,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsub-onboarding",
+      "totalBytes": 5031,
+      "usedBytes": 5031,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsub-onboarding",
+      "totalBytes": 123,
+      "usedBytes": 123,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsub-onboarding",
+      "totalBytes": 177,
+      "usedBytes": 177,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsub-onboarding",
+      "totalBytes": 141,
+      "usedBytes": 141,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsub-onboarding",
+      "totalBytes": 2455,
+      "usedBytes": 2455,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsafety-programs",
+      "totalBytes": 43,
+      "usedBytes": 43,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsafety-programs",
+      "totalBytes": 2227,
+      "usedBytes": 2227,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsafety-programs",
+      "totalBytes": 5031,
+      "usedBytes": 5031,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsafety-programs",
+      "totalBytes": 123,
+      "usedBytes": 123,
+      "unusedPercent": 0
+    },
+    {
+      "url": "https://www.protekon.org/login?next=%2Fdashboard%2Fsafety-programs",
+      "totalBytes": 177,
+      "usedBytes": 177,
+      "unusedPercent": 0
+    }
+  ],
+  "mutations": [
+    {
+      "route": "/dashboard",
+      "action": "auth redirect",
+      "mutationCount": 0,
+      "networkCount": 0,
+      "warning": "Route redirected to login. Provide TEST_EMAIL and TEST_PASSWORD for authenticated execution tracing."
+    },
+    {
+      "route": "/dashboard/action-items",
+      "action": "auth redirect",
+      "mutationCount": 0,
+      "networkCount": 0,
+      "warning": "Route redirected to login. Provide TEST_EMAIL and TEST_PASSWORD for authenticated execution tracing."
+    },
+    {
+      "route": "/dashboard/coverage",
+      "action": "auth redirect",
+      "mutationCount": 0,
+      "networkCount": 0,
+      "warning": "Route redirected to login. Provide TEST_EMAIL and TEST_PASSWORD for authenticated execution tracing."
+    },
+    {
+      "route": "/dashboard/third-party-risk",
+      "action": "auth redirect",
+      "mutationCount": 0,
+      "networkCount": 0,
+      "warning": "Route redirected to login. Provide TEST_EMAIL and TEST_PASSWORD for authenticated execution tracing."
+    },
+    {
+      "route": "/dashboard/sub-onboarding",
+      "action": "auth redirect",
+      "mutationCount": 0,
+      "networkCount": 0,
+      "warning": "Route redirected to login. Provide TEST_EMAIL and TEST_PASSWORD for authenticated execution tracing."
+    },
+    {
+      "route": "/dashboard/safety-programs",
+      "action": "auth redirect",
+      "mutationCount": 0,
+      "networkCount": 0,
+      "warning": "Route redirected to login. Provide TEST_EMAIL and TEST_PASSWORD for authenticated execution tracing."
+    },
+    {
+      "route": "/dashboard/form-1099",
+      "action": "auth redirect",
+      "mutationCount": 0,
+      "networkCount": 0,
+      "warning": "Route redirected to login. Provide TEST_EMAIL and TEST_PASSWORD for authenticated execution tracing."
+    },
+    {
+      "route": "/dashboard/settings",
+      "action": "auth redirect",
+      "mutationCount": 0,
+      "networkCount": 0,
+      "warning": "Route redirected to login. Provide TEST_EMAIL and TEST_PASSWORD for authenticated execution tracing."
+    }
+  ],
+  "probes": [
+    {
+      "label": "cache-bust home",
+      "method": "GET",
+      "url": "https://www.protekon.org/?audit=1777318848747",
+      "status": 200,
+      "durationMs": 326,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": "6203",
+      "server": "Vercel",
+      "bodyPreview": "<!DOCTYPE html><html data-dpl-id=\"dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN\" lang=\"en\" class=\"barlow_condensed_5a56f8c3-module__r6y4AW__variable dm_sans_6a75c8bd-module__APpVJa__variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" href=\"/_next/static/media/303804218d80822e-s.p.11p_15xsjt-ie.woff2?dpl=dpl_qFsf5Fxj3PXCrqKWHubiu2xbMbeN\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"/><link rel=\"preload\" href=\"/_next/static/media/4f530f52",
+      "warning": "Response appears cached. Verify this endpoint is meant to bypass live server execution."
+    },
+    {
+      "label": "impossible score submit",
+      "method": "POST",
+      "url": "https://www.protekon.org/api/score/submit",
+      "status": 400,
+      "durationMs": 489,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "xCache": null,
+      "age": null,
+      "server": "Vercel",
+      "bodyPreview": "{\"error\":\"Validation failed\",\"details\":{\"email\":[\"Required\"],\"name\":[\"Required\"],\"answers\":[\"Required\"]}}",
+      "warning": null
+    }
+  ]
+}

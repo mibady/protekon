@@ -1,0 +1,74 @@
+=== STAGE 2: UNIT TESTS (vitest) ===
+Started: 2026-04-27T11:04:52-07:00
+
+Exit code: 1 (took 6s)
+
+## Test Summary
+⎯⎯⎯⎯⎯⎯ Failed Tests 54 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  21 failed | 36 passed (57)
+      Tests  54 failed | 308 passed (362)
+   Duration  5.93s (transform 6.41s, setup 1.71s, import 8.45s, tests 9.92s, environment 9ms)
+
+## Failures
+ ❯ __tests__/lib/actions/real-estate.test.ts (5 tests | 1 failed) 76ms
+ ❯ __tests__/lib/actions/transportation.test.ts (5 tests | 1 failed) 104ms
+ ❯ __tests__/lib/actions/poster-compliance.test.ts (5 tests | 1 failed) 108ms
+ ❯ __tests__/api/score-submit.test.ts (8 tests | 5 failed) 230ms
+stderr | __tests__/api/stripe-routes.test.ts > POST /api/stripe/webhook > handles invoice.payment_failed event
+ ❯ __tests__/api/stripe-routes.test.ts (8 tests | 6 failed) 277ms
+     × handles invoice.payment_failed event 8ms
+ ❯ __tests__/lib/actions/training.test.ts (8 tests | 5 failed) 296ms
+ ❯ __tests__/lib/actions/documents.test.ts (8 tests | 6 failed) 371ms
+ ❯ __tests__/lib/actions/incidents.test.ts (10 tests | 7 failed) 376ms
+ ❯ __tests__/api/chat.test.ts (4 tests | 4 failed) 485ms
+ ❯ __tests__/lib/actions/retail.test.ts (5 tests | 1 failed) 81ms
+[auth/user.signed-up] inngest dispatch failed: Error: Failed to send event Your event or events were not sent to Inngest. We couldn't find an event key to use to send events to Inngest. To fix: Set the `INNGEST_EVENT_KEY` environment variable; Pass a key to the `new Inngest()` constructor using the `eventKey` option
+[auth/user.signed-up] inngest dispatch failed: Error: Failed to send event Your event or events were not sent to Inngest. We couldn't find an event key to use to send events to Inngest. To fix: Set the `INNGEST_EVENT_KEY` environment variable; Pass a key to the `new Inngest()` constructor using the `eventKey` option
+[auth/user.signed-up] inngest dispatch failed: Error: Failed to send event Your event or events were not sent to Inngest. We couldn't find an event key to use to send events to Inngest. To fix: Set the `INNGEST_EVENT_KEY` environment variable; Pass a key to the `new Inngest()` constructor using the `eventKey` option
+ ❯ __tests__/lib/actions/wholesale.test.ts (5 tests | 1 failed) 102ms
+[auth/user.signed-up] inngest dispatch failed: Error: Failed to send event Your event or events were not sent to Inngest. We couldn't find an event key to use to send events to Inngest. To fix: Set the `INNGEST_EVENT_KEY` environment variable; Pass a key to the `new Inngest()` constructor using the `eventKey` option
+ ❯ __tests__/lib/actions/auth.test.ts (10 tests | 1 failed) 580ms
+ ❯ __tests__/lib/resend.test.ts (5 tests | 1 failed) 169ms
+ ❯ __tests__/lib/actions/healthcare.test.ts (6 tests | 2 failed) 107ms
+ ❯ __tests__/lib/actions/manufacturing.test.ts (5 tests | 1 failed) 98ms
+ ❯ __tests__/lib/actions/reports.test.ts (10 tests | 1 failed) 106ms
+ ❯ __tests__/lib/actions/construction.test.ts (5 tests | 4 failed) 824ms
+ ❯ __tests__/lib/actions/hospitality.test.ts (5 tests | 1 failed) 87ms
+[submitScore] Supabase insert error: { message: 'Insert failed' }
+ ❯ __tests__/lib/actions/agriculture.test.ts (5 tests | 2 failed) 111ms
+ ❯ __tests__/lib/actions/score.test.ts (8 tests | 2 failed) 92ms
+ ❯ __tests__/lib/actions/scheduled-deliveries-actions.test.ts (6 tests | 1 failed) 80ms
+[submitContact] Supabase insert error: { message: 'DB connection failed' }
+ FAIL  __tests__/api/chat.test.ts > POST /api/chat > returns 401 when not authenticated
+
+## Last 30 lines of test output
+     55|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/54]⎯
+
+ FAIL  __tests__/lib/actions/wholesale.test.ts > wholesale actions > addZone returns error when not authenticated
+AssertionError: expected { error: 'Please log in to continue.' } to deeply equal { error: 'Unauthorized' }
+
+- Expected
++ Received
+
+  {
+-   "error": "Unauthorized",
++   "error": "Please log in to continue.",
+  }
+
+ ❯ __tests__/lib/actions/wholesale.test.ts:47:20
+     45|     const fd = new FormData()
+     46|     const result = await addZone(fd)
+     47|     expect(result).toEqual({ error: "Unauthorized" })
+       |                    ^
+     48|   })
+     49|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[54/54]⎯
+
+
+ Test Files  21 failed | 36 passed (57)
+      Tests  54 failed | 308 passed (362)
+   Start at  11:04:52
+   Duration  5.93s (transform 6.41s, setup 1.71s, import 8.45s, tests 9.92s, environment 9ms)
