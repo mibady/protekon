@@ -1881,8 +1881,6 @@ No state changes this session — Linear not connected via `.linear_project.json
 ### Linear
 - Not connected. Tracking in this log + GitHub PRs.
 
----
-
 ## Session 35 — 2026-04-24
 
 ### Completed
@@ -1974,6 +1972,44 @@ No state changes this session — Linear not connected via `.linear_project.json
    - `admin@goldenstatehospitality.com` (hospitality)
 2. **End-to-end Stripe test on protekon.org/pricing** — fresh email → `4242 4242 4242 4242` → confirm in 4 places (Stripe dashboard, app DB `clients.status`, Inngest, Sentry).
 3. **Scraper key rotation** (`vizmtkfpxxjzlpzibate`) — 7 sessions carried.
+
+### Linear
+- Not connected. Tracking in this log + GitHub PRs.
+
+---
+
+## Session 38 — 2026-04-27 (RLS recursion fix captured + documentation refresh)
+
+### Completed
+- **Verified the production C1 RLS recursion fix.** Live policies for `user_roles_select`, `user_roles_owner_write`, and `action_items_*` now route through `public.user_has_client_access(uuid)` / `public.user_is_client_owner(uuid)`. Both helpers are `SECURITY DEFINER`, `STABLE`, owned by `postgres`, and use `search_path=public, pg_catalog`.
+- **Authenticated RLS probes passed.** All 5 demo accounts can query `user_roles` and `action_items` without `42P17`; a cross-tenant helper probe returned `false`.
+- **Added migration `055_fix_user_roles_recursion.sql`.** Captures the live production fix so future resets/deploys do not reintroduce recursive policies. Syntax/idempotency checked against Supabase inside a rolled-back transaction.
+- **Refreshed stale docs.** Updated `CLAUDE.md`, `README.md`, `docs/architecture.md`, `docs/db-architecture.md`, and ship-audit notes to reflect the current full-stack app, three-DB topology, Stripe test-mode soft launch, current route/action/workflow counts, and resolved C1 status.
+
+### Audit Snapshot
+- App pages: 83
+- API routes: 28
+- Inngest function files: 26
+- Server action files: 65
+- Supabase migration files: 49
+- Latest migration: 055
+
+### Decisions Made
+- **Do not edit old migrations for production fixes.** Preserve history and add forward reconciliation migrations.
+- **Three-DB topology is canonical.** App DB, scraper DB, and intel DB are separate operational contexts and must be documented together.
+- **Ship blocker C1 is resolved.** Remaining pre-ship validation is browser smoke + Stripe checkout journey, not database policy repair.
+
+### Known Issues / Carryovers
+- **Manual browser smoke still needed** for authenticated dashboard rendering, especially construction admin `/dashboard/action-items`, coverage, third-party-risk, sub-onboarding, safety-programs, and form-1099.
+- **Stripe checkout end-to-end still needs a customer-journey run** on protekon.org using test card `4242 4242 4242 4242`.
+- **Migration drift remains broader than C1.** Some live tables/views still need backfill migrations beyond the RLS recursion fix.
+- **Scraper service-role key (`vizmtkfpxxjzlpzibate`) remains unrotated.**
+
+### Next Session Should
+1. Run the manual browser smoke as `admin@sierraridgebuilders.com`.
+2. Run the Stripe checkout journey on protekon.org/pricing with a fresh email and test card.
+3. Backfill the remaining live-DB schema drift into migrations.
+4. Rotate the scraper service-role key.
 
 ### Linear
 - Not connected. Tracking in this log + GitHub PRs.

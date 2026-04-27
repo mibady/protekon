@@ -1,23 +1,21 @@
 # Protekon — Architecture & Page Map
 
-> Auto-generated 2026-04-06. Source of truth for all user-facing pages, API routes, and system architecture.
+> Updated 2026-04-27. This is a current map of the repo's major app surfaces. Historical specs in `specs/` may describe planned states and should not override this file.
 
 ---
 
 ## Route Summary
 
-| Section | Pages | Auth Required |
-|---------|-------|---------------|
-| Marketing (public) | 18 | No |
-| Auth | 3 | No |
-| Dashboard (client portal) | 24 | Yes |
-| Partner Portal | 3 | Yes |
-| Partner Marketing (public) | 4 | No |
-| **Total** | **52** | — |
-| API Routes | 16 | Mixed |
-| Inngest Functions | 10 files (11 exports) | N/A |
-| Server Actions | 5 modules | N/A |
-| Migrations | 9 | N/A |
+| Section | Current repo count / status |
+|---------|-----------------------------|
+| App pages | 83 `app/**/page.tsx` routes |
+| API routes | 28 `app/api/**/route.ts` routes |
+| Dashboard pages | 30 protected dashboard routes |
+| Onboarding pages | 8 wizard routes |
+| Partner portal pages | 6 protected partner routes |
+| Inngest functions | 26 files under `inngest/functions/` |
+| Server actions | 65 files under `lib/actions/` |
+| Migrations | 55 numbered migrations; 49 SQL files on disk |
 
 ---
 
@@ -179,7 +177,13 @@ Additional action files exist per vertical (agriculture, construction, healthcar
 
 ---
 
-## 8. Database Schema (9 Migrations)
+## 8. Database Schema
+
+The repo has 55 numbered migrations, with 49 SQL files currently on disk because some numbers were skipped historically. The app database is live and has known migration drift from earlier direct production changes; every discovered production fix should be captured as a forward migration.
+
+Current critical migration note:
+
+- `055_fix_user_roles_recursion.sql` captures the production fix for recursive `user_roles` / `action_items` RLS policies. Do not reintroduce inline self-joins against `user_roles` inside `user_roles` policies.
 
 | Migration | Description |
 |-----------|-------------|
@@ -192,8 +196,9 @@ Additional action files exist per vertical (agriculture, construction, healthcar
 | 007 `partner_portal` | contact_submissions, partner_profiles, partner_clients, partner_assessments |
 | 008 `indexes_and_defaults` | Plan default starter→core, client_id indexes on 6 tables, dropped audit_log RLS |
 | 009 `fk_fix_and_osha_cleanup` | Re-pointed 6 vertical FKs from auth.users→clients, dropped shield_osha_violations |
+| 010-055 | Auth, onboarding, score, partner, v2 dashboard, intelligence mirror, RBAC, projects/subcontractors, integrations, action items, partner commissions, and RLS recursion fix |
 
-All tables have RLS policies. Clients see only their own data via `auth.uid()`.
+Most client-scoped tables use RLS. Service-role-only tables should be explicit. Multi-user access is mediated through `user_roles` and the helper functions added in migration 055.
 
 ---
 
@@ -222,9 +227,9 @@ All tables have RLS policies. Clients see only their own data via `auth.uid()`.
 
 | Service | Purpose | Status |
 |---------|---------|--------|
-| Supabase | Database + Auth + RLS | Live (9 migrations deployed) |
-| Stripe | Payments (checkout, portal, webhooks) | Wired |
-| Inngest | Durable workflows (10 functions) | Wired |
+| Supabase | Database + Auth + RLS | Live app DB; migration drift being backfilled |
+| Stripe | Payments (checkout, portal, webhooks) | Wired; production currently uses test keys for soft launch |
+| Inngest | Durable workflows | Wired |
 | Resend | Transactional email | Wired |
 | Vercel Blob | Document storage | Wired |
 | Vercel Analytics | Usage tracking | Wired |

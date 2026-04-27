@@ -1,53 +1,104 @@
-# protekon-fy
+# Protekon
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+Protekon is a multi-vertical Compliance-as-a-Service platform. It combines a public marketing/lead-gen site, authenticated client dashboard, onboarding wizard, partner portal, Supabase-backed data layer, Inngest workflows, Stripe billing, Resend email, Vercel Blob document storage, and AI-assisted compliance workflows.
 
-## Built with v0
+The app was originally bootstrapped from v0 and is still linked to the v0 project, but the repo is now a full-stack Next.js product rather than a starter app.
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+## Current Stack
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_jhOXEp1epOGR3dU1yGhzenUis18y)
+- Next.js 16.2 App Router + React 19
+- Tailwind CSS 4, shadcn/ui, Radix primitives
+- Supabase Auth, Postgres, RLS, and service-role server actions
+- Inngest background workflows at `/api/inngest`
+- Stripe checkout, customer portal, and webhooks
+- Resend transactional email
+- Vercel Blob document/file storage
+- Sanity CMS
+- AI SDK with OpenAI/Anthropic providers
+- Vitest and Playwright test suites
+
+## Repo Shape
+
+As of 2026-04-27:
+
+| Surface | Count |
+|---------|-------|
+| App pages | 83 |
+| API routes | 28 |
+| Inngest function files | 26 |
+| Server action files | 65 |
+| Supabase migration files | 49 |
+
+Important paths:
+
+- `app/` — App Router pages and API routes
+- `components/` — shared UI and feature components
+- `lib/actions/` — server actions
+- `lib/supabase/` — Supabase clients and database factories
+- `inngest/functions/` — durable workflow handlers
+- `supabase/migrations/` — forward database migrations
+- `reports/` — audit and ship-readiness artifacts
+- `specs/` — feature plans and implementation specs
+
+## Database Topology
+
+Protekon uses three Supabase projects:
+
+| Database | Purpose |
+|----------|---------|
+| App DB `yfkledwhwsembikpjynu` | Product data: clients, documents, incidents, onboarding, partner channel, billing mirrors, dashboard data |
+| Scraper DB `vizmtkfpxxjzlpzibate` | OSHA/enforcement intelligence and nightly mirror source |
+| Intel DB | CSLB/intelligence notification pipeline |
+
+Always confirm the target database before running migrations or direct SQL. The latest production RLS recursion fix is captured in `supabase/migrations/055_fix_user_roles_recursion.sql`.
 
 ## Getting Started
 
-First, run the development server:
+Copy `.env.example` to `.env.local` and fill in real values.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Useful scripts:
 
-## Learn More
-
-To learn more, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
-
-<a href="https://v0.app/chat/api/kiro/clone/mibady/protekon-fy" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+```bash
+npm run build
+npm run lint
+npm run test
+npm run test:e2e
+npm run audit:live
+npm run audit:scenarios
+```
 
 ## Environment Variables
 
-Copy `.env.example` to `.env.local` and fill in real values for local development. On Vercel, set every variable for Production, Preview, and Development environments.
+`.env.example` is the source list. Major groups:
 
-### Scraper Project (NGE-481)
+- Supabase app DB keys and Postgres URLs
+- Stripe keys and webhook secret
+- Inngest event/signing keys
+- Resend API key
+- AI provider keys
+- Sanity project/dataset/tokens
+- Vercel Blob token
+- Upstash Vector keys
+- Scraper/OSHA Supabase keys
+- Intel DB keys for CSLB notification workflows
+
+### Scraper Project
 
 The nightly intelligence mirror (`inngest/functions/mirror-intelligence-nightly.ts`) pulls from the external scraper Supabase project (`vizmtkfpxxjzlpzibate`) into the app DB table `client_intelligence_items`.
 
 | Var | Purpose |
 |---|---|
-| `SCRAPER_SUPABASE_URL` | Scraper project URL (e.g. `https://vizmtkfpxxjzlpzibate.supabase.co`). |
-| `SCRAPER_SUPABASE_SERVICE_ROLE_KEY` | Service-role key for the scraper project. Never exposed to the browser. Only consumed by the nightly mirror function via `lib/supabase/scraper.ts#createScraperServiceClient`. |
+| `SCRAPER_SUPABASE_URL` | Scraper project URL, e.g. `https://vizmtkfpxxjzlpzibate.supabase.co`. |
+| `SCRAPER_SUPABASE_SERVICE_ROLE_KEY` | Service-role key for the scraper project. Never expose to the browser. |
 
-Rotate these keys at the Supabase dashboard for project `vizmtkfpxxjzlpzibate`, then update all Vercel environments.
+Rotate scraper keys in the Supabase dashboard for project `vizmtkfpxxjzlpzibate`, then update all Vercel environments.
 
 ## Inngest Cron Catalog
 
@@ -64,3 +115,9 @@ curl -X POST "$INNGEST_URL/e/$INNGEST_EVENT_KEY" \
 ```
 
 First-run catchup: the 14/30/14-day windows backfill automatically.
+
+## v0 Link
+
+This repository remains linked to v0 for design iteration:
+
+[Continue working on v0](https://v0.app/chat/projects/prj_jhOXEp1epOGR3dU1yGhzenUis18y)

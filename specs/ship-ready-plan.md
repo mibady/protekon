@@ -1,10 +1,12 @@
 # ship-ready Plan
 
+> **Superseded status note — 2026-04-27:** This was an earlier ship-readiness plan from a smaller app surface. It is not current source-of-truth for production status. Use `reports/ship-audit-2026-04-27/SHIP-DECISION.md`, `CLAUDE.md`, `README.md`, and `SESSION_LOG.md` Session 38 for current app state. The current repo has 83 app pages, 28 API routes, 65 server action files, and migration `055_fix_user_roles_recursion.sql` captures the resolved C1 RLS recursion fix.
+
 ## Objective
 Wire remaining decorative elements (contact form, OAuth buttons, sidebar tier gating) and complete all P0-P2 backlog items to make Protekon production-ready and shippable.
 
-## Audit Summary
-**55 pages audited. 52 fully functional. 3 gaps found:**
+## Historical Audit Summary
+**Earlier audit scope:** 55 pages were audited at the time this plan was written; 52 were marked functional and 3 gaps were found. This does not represent the current app surface.
 1. Contact form — fakes submit with setTimeout, never sends data
 2. Login OAuth — Google/Apple buttons have no onClick handlers
 3. Sidebar tier gating — shows all nav items regardless of user plan

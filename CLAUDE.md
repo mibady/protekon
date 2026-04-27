@@ -1,22 +1,22 @@
 # CLAUDE.md — Protekon
 
-Compliance-as-a-Service platform. Rebuild/redesign of Shield CaaS.
+Compliance-as-a-Service platform for multi-vertical workplace compliance. Rebuild/redesign of Shield CaaS with a live Next.js app, Supabase-backed client portal, Inngest workflows, Stripe billing, Resend email, Vercel Blob document storage, and AI-assisted compliance workflows.
 
 ---
 
 ## Project Overview
 
-**Name:** Protekon
-**Type:** Compliance SaaS (multi-vertical)
-**Workflow:** Backend-First
-**Status:** FACE layer complete, DNA layer not started
+**Name:** Protekon  
+**Type:** Compliance SaaS (multi-vertical)  
+**Workflow:** Backend-first, production-readiness focused  
+**Status:** Full-stack app in soft-launch state. Core FACE and DNA layers are implemented; remaining work is verification, migration backfill, launch smoke testing, and post-ship hardening.  
 **Reference:** Previous version at `/home/info/business/ngeniuspro/shield_caas`
 
 ---
 
 ## Tech Stack
 
-### FACE (Frontend) — Complete
+### FACE (Frontend)
 - **Framework:** Next.js 16.2 (App Router, Server Components)
 - **UI:** shadcn/ui + Radix primitives
 - **Styling:** Tailwind CSS 4
@@ -26,88 +26,111 @@ Compliance-as-a-Service platform. Rebuild/redesign of Shield CaaS.
 - **Forms:** React Hook Form + Zod
 - **Analytics:** Vercel Analytics
 
-### DNA (Backend) — To Build
+### DNA (Backend)
 - **Database:** Supabase (Postgres + RLS)
-- **Auth:** Supabase Auth (magic links + password, @supabase/ssr)
+- **Auth:** Supabase Auth (magic links + password, `@supabase/ssr`)
 - **Workflows:** Inngest (durable task orchestration)
-- **Payments:** Stripe (checkout, portal, webhooks)
-- **Email:** Resend
+- **Payments:** Stripe checkout, portal, and webhooks
+- **Email:** Resend transactional email
 - **Storage:** Vercel Blob
-- **PDF:** pdf-lib
+- **PDF:** `pdf-lib`
+- **AI:** AI SDK with OpenAI/Anthropic providers
+- **CMS:** Sanity
+
+---
+
+## Current Repo Shape
+
+As of 2026-04-27:
+
+| Surface | Count / Status |
+|---------|----------------|
+| App pages | 83 `app/**/page.tsx` routes |
+| API routes | 28 `app/api/**/route.ts` routes |
+| Inngest functions | 26 files under `inngest/functions/` |
+| Server actions | 65 files under `lib/actions/` |
+| Supabase migrations | 55 numbered migrations on disk; 49 SQL files present because some migration numbers were intentionally skipped |
+| Latest migration | `055_fix_user_roles_recursion.sql` captures the production RLS recursion fix |
 
 ---
 
 ## Architecture
 
 ### Route Groups
+
 ```
 app/
-├── (marketing)     → Public pages (landing, pricing, about, solutions)
-├── (auth)          → Login, signup, forgot-password
-├── dashboard/      → Protected portal (requires auth)
-│   ├── page.tsx          → Overview
-│   ├── documents/        → Document hub + request
-│   ├── incidents/        → Incident log + new
-│   ├── reports/          → 6 report types
-│   ├── regulations/      → Regulatory feed
-│   ├── alerts/           → Alert center
-│   └── settings/         → Account settings
-└── api/            → API routes (to build)
+├── marketing/public routes  → landing, pricing, about, solutions, score, resources, blog
+├── auth routes              → login, signup, forgot-password, callback
+├── onboarding/              → multi-step onboarding wizard
+├── dashboard/               → protected client portal
+├── partner/                 → protected partner portal
+└── api/                     → REST/webhook/integration routes
 ```
 
-### Database Schema Target (from Shield CaaS)
-**Core tables:** clients, incidents, documents, audits, training_records
-**Expansion:** intake_submissions, sample_report_leads, scheduled_deliveries, regulatory_updates
-**Vertical:** construction_subs, property_portfolio, municipal_ordinances, phi_assets, baa_agreements, poster_compliance
-**System:** audit_log
+### Database Topology
 
-All tables require RLS policies. Clients see only their own data via `auth.uid()`.
+Protekon uses three Supabase projects. Always confirm the target before any database mutation.
 
-### Inngest Workflows Target
-1. `compliance/intake.submitted` → intake-pipeline (score gaps, upsert client, generate docs, send welcome)
-2. `auth/user.signed-up` → post-signup-workflow (create client, send onboarding)
-3. Cron `0 9 1 * *` → monthly-audit (compliance checks, generate reports)
-4. `compliance/document.requested` → document-generation (gather data, generate PDF, upload, notify)
-5. `compliance/incident.reported` → incident-report (strip PII per SB 553, log, schedule follow-up)
-6. `billing/payment.failed` → payment-failed (3 escalating notices over 10 days, suspend if unpaid)
-7. Training reminders + regulatory scan (stubs)
+| Database | Role | Primary env vars / factory |
+|----------|------|----------------------------|
+| App DB `yfkledwhwsembikpjynu` | Product database: clients, auth-linked portal data, documents, incidents, onboarding, partner channel, billing mirrors | `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `lib/supabase/{client,server,admin,middleware}.ts` |
+| Scraper DB `vizmtkfpxxjzlpzibate` | OSHA/enforcement intelligence and nightly mirror source | `SCRAPER_SUPABASE_URL`, `SCRAPER_SUPABASE_SERVICE_ROLE_KEY`, `OSHA_SCRAPER_SUPABASE_*`, `lib/supabase/scraper.ts` |
+| Intel DB | CSLB/intelligence notification pipeline | `INTEL_SUPABASE_URL`, `INTEL_SUPABASE_SERVICE_KEY`, `getIntelDb()` in `inngest/functions/cslb-notification-pipeline.ts` |
 
-### API Routes Target
+### RLS Notes
+
+- **RLS-first:** Client-scoped tables should use RLS. Service-role-only tables must be explicit.
+- **RBAC:** `user_roles` is the membership source for multi-user clients.
+- **Important fix:** `user_roles` and `action_items` policies must use `public.user_has_client_access(uuid)` / `public.user_is_client_owner(uuid)` from migration `055_fix_user_roles_recursion.sql`. Do not reintroduce inline self-joins against `user_roles`; they triggered Postgres `42P17` recursion in production.
+
+### Inngest Workflows
+
+The app registers workflows for signup, intake, document generation, incident reporting, monthly audit, regulatory scan/sync, payment failure handling, scheduled delivery, score/sample nurture, onboarding steps, RAG indexing, CSLB notifications, employee log SLA, retention scanning, COI expiration scanning, and reminder processing.
+
+### API Route Groups
+
 ```
-/api/inngest              → Inngest handler
-/api/compliance/score     → Calculate compliance %
-/api/documents/download   → Stream generated documents
-/api/stripe/checkout      → Create checkout session
-/api/stripe/portal        → Customer portal redirect
-/api/stripe/webhook       → Payment event handler
-/api/upload               → File upload to Vercel Blob
-/api/samples/gate         → Email gate for sample downloads
+/api/inngest
+/api/chat
+/api/compliance/score
+/api/documents/download
+/api/export/*
+/api/onboarding/*
+/api/partner/*
+/api/partners/apply
+/api/samples/gate
+/api/score/*
+/api/stripe/*
+/api/training/*
+/api/upload
 ```
 
 ---
 
 ## Key Patterns
 
-- **RLS-first:** Every table has row-level security. No admin bypasses.
-- **Event-driven:** User actions → Inngest events → durable step chains
-- **Vertical multiplexing:** Single portal, routes/queries filtered by client vertical
-- **Server Components default:** Only use `'use client'` when interactivity required
-- **Middleware auth:** Protect `/dashboard/*` routes, redirect to `/login` if unauthenticated
+- **Server Components default:** only use `'use client'` when interactivity requires it.
+- **Supabase Auth only:** do not introduce Clerk.
+- **Event-driven workflows:** user actions send Inngest events when work should be durable/retriable.
+- **Vertical multiplexing:** one portal, routes and queries filtered by client vertical.
+- **Stripe lookup keys:** checkout resolves active prices via Stripe lookup keys, not env price IDs.
+- **Prod soft-launch billing:** production currently uses Stripe test keys intentionally; `4242 4242 4242 4242` is the expected test-card flow until launch keys are swapped.
+- **Schema drift discipline:** live DB contains tables/views not fully represented in migrations. Add forward migrations for every discovered production fix or schema backfill.
 
 ---
 
-## Build Order (Backend-First)
+## Current Ship State
 
-1. **Supabase schema** — Migrate/adapt tables + RLS from Shield CaaS
-2. **Auth wiring** — Supabase Auth + middleware + session management
-3. **Server actions** — Form submissions (documents, incidents, settings)
-4. **API routes** — Compliance score, document download, file upload
-5. **Inngest workflows** — Intake, monthly-audit, doc-gen, incident-report
-6. **Stripe integration** — Checkout, portal, webhooks
-7. **Email** — Resend transactional emails
-8. **Document generation** — PDF via pdf-lib + Vercel Blob
-9. **Dashboard wiring** — Replace static data with real Supabase queries
-10. **Vertical features** — Construction, HIPAA, poster compliance specifics
+Latest audit signal from `reports/ship-audit-2026-04-27/`:
+
+- TypeScript and ESLint were clean.
+- Mock-pattern audit found no production mock leakage.
+- Marketing and auth middleware HTTP probes passed.
+- Stripe API configuration passed in test mode.
+- Cross-tenant RLS probes passed.
+- Critical C1 RLS recursion blocker was fixed in production and captured in migration `055_fix_user_roles_recursion.sql`.
+- Remaining launch gap: browser smoke authenticated dashboard rendering and Stripe checkout end-to-end journey.
 
 ---
 
@@ -120,34 +143,25 @@ All tables require RLS policies. Clients see only their own data via `auth.uid()
 | Components | `components/` | PascalCase.tsx |
 | UI primitives | `components/ui/` | lowercase.tsx (shadcn) |
 | Server actions | `lib/actions/` | kebab-case.ts |
-| Supabase clients | `lib/supabase/` | client.ts, server.ts, admin.ts, middleware.ts |
+| Supabase clients | `lib/supabase/` | `client.ts`, `server.ts`, `admin.ts`, `middleware.ts`, factory-specific clients |
 | Inngest functions | `inngest/functions/` | kebab-case.ts |
 | API routes | `app/api/**/route.ts` | Next.js convention |
-| Migrations | `supabase/migrations/` | NNN_description.sql |
-| Specs | `specs/` | feature-name.md |
+| Migrations | `supabase/migrations/` | `NNN_description.sql` |
+| Specs | `specs/` | `feature-name.md` |
 
 ---
 
-## Environment Variables (Target)
+## Environment Variables
 
-```
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
+Use `.env.example` as the source list. Major groups:
 
-# Inngest
-INNGEST_EVENT_KEY=
-INNGEST_SIGNING_KEY=
-
-# Stripe
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
-
-# Resend
-RESEND_API_KEY=
-
-# Vercel Blob
-BLOB_READ_WRITE_TOKEN=
-```
+- Supabase app DB keys and Postgres URLs
+- Stripe keys and webhook secret
+- Inngest event/signing keys
+- Resend API key
+- AI provider keys
+- Sanity project/dataset/tokens
+- Vercel Blob token
+- Upstash Vector keys
+- Scraper/OSHA Supabase keys
+- Intel DB keys for CSLB notification workflows

@@ -1,15 +1,17 @@
 # Protekon Database Architecture Brief
-## For Claude Code Agent — April 2026
+## Current as of 2026-04-27
 
 ---
 
 ## Overview
 
-Protekon operates two Supabase databases. They serve different purposes and must never be confused.
+Protekon operates three Supabase databases. They serve different purposes and must never be confused.
 
 **Scraper DB** (`vizmtkfpxxjzlpzibate`) — Market intelligence and data science. Contains 431K OSHA violation records, 115K employer profiles, enforcement analytics, anomaly detection, and content marketing intelligence. This is the data engine. Internal use only — clients never see this database.
 
 **App DB** (`yfkledwhwsembikpjynu`) — The Protekon product. Contains client records, compliance documents, incident logs, training records, partner channel, and 4 client-facing intelligence tables that receive piped data from the scraper DB. This is what clients interact with.
+
+**Intel DB** — CSLB and contractor-intelligence notification data consumed by `inngest/functions/cslb-notification-pipeline.ts` via `getIntelDb()`. It uses `INTEL_SUPABASE_URL` and `INTEL_SUPABASE_SERVICE_KEY`.
 
 ---
 
@@ -19,7 +21,19 @@ Protekon operates two Supabase databases. They serve different purposes and must
 2. **Cal/OSHA vs OSHA**: California-specific enforcement data must always be called "Cal/OSHA." Federal data is "Federal OSHA." Exception: OSHA Form 300/300A/301 remains "OSHA" as a federal form.
 3. **Protekon is the actor**: In all content and copy, Protekon does the work — not "AI" or "automation."
 4. **No catch-all industries**: Every business has a real industry name. Never classify anything as "Other Services," "Admin/Waste Services," or "Other."
-5. **Two audiences**: Scraper DB serves internal sales/marketing. App DB serves clients and partners. Never expose scraper data directly to clients.
+5. **Three database contexts**: Scraper DB serves internal sales/marketing and mirrored intelligence, App DB serves clients and partners, Intel DB serves CSLB notification workflows. Never expose scraper or intel data directly to clients except through intentional app DB mirrors or workflow outputs.
+
+---
+
+## Database Routing
+
+| Database | Env vars | Used in |
+|----------|----------|---------|
+| App DB | `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, Postgres URLs | `lib/supabase/{client,server,admin,middleware}.ts` and most app code |
+| Scraper DB | `OSHA_SCRAPER_SUPABASE_URL`, `OSHA_SCRAPER_SUPABASE_KEY`, `SCRAPER_SUPABASE_URL`, `SCRAPER_SUPABASE_SERVICE_ROLE_KEY` | `lib/supabase/scraper.ts`, `lib/osha-api.ts`, `lib/actions/public-stats.ts`, nightly intelligence mirror |
+| Intel DB | `INTEL_SUPABASE_URL`, `INTEL_SUPABASE_SERVICE_KEY` | `inngest/functions/cslb-notification-pipeline.ts` |
+
+Direct SQL mutations should target the App DB only unless the task explicitly names the scraper or intel project.
 
 ---
 
@@ -146,7 +160,13 @@ WHERE claim_id LIKE 'ca_%' AND NOT is_statistically_valid;
 
 ## App DB (`yfkledwhwsembikpjynu`)
 
-### 33 Tables in 5 Groups
+### App DB Notes
+
+The App DB is ahead of parts of the migration history because some production schema was applied directly during delivery. Keep adding forward migrations for every verified production fix or backfill. The most recent critical backfill is `supabase/migrations/055_fix_user_roles_recursion.sql`, which captures the production RLS recursion fix for `user_roles` and `action_items`.
+
+### Historical Snapshot: 33 Tables in 5 Groups
+
+The table inventory below is a historical April 2026 snapshot and may lag the live App DB. Use live introspection for exact counts before schema work.
 
 #### Group 1: Core Platform (all verticals)
 
