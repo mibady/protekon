@@ -14,6 +14,23 @@ Compliance-as-a-Service platform for multi-vertical workplace compliance. Rebuil
 
 ---
 
+## Definition of Done — non-negotiable
+
+A feature is NOT "done" until ALL of the following are true. The agent must
+not declare done, summarize as complete, or push to main otherwise.
+
+1. `tsc` / `npm run lint` / `npm run test` / `npm run build` pass locally and in CI.
+2. `/api/health/integrations` returns `ok: true` on the deployed preview or production URL — proves Stripe key, Resend FROM domain, Supabase, Inngest, Vercel Blob, Sanity all reachable.
+3. **If the change touches Stripe, Resend, Inngest, Supabase Auth, or Vercel Blob:** the customer-journey nightly test (`e2e/customer-journey.spec.ts`) has run green at least once against the deployed URL since the change. A passing unit test that mocks these services is not sufficient.
+4. **If the change touches a UI flow a paying customer can reach:** a Playwright spec exercises that flow end-to-end without UI mocks. Cite the path:line in the status report.
+5. **If a third-party integration is added or changed** (new Stripe webhook event, new Resend template, new Inngest workflow, new Blob upload path, etc.): `/api/health/integrations` has a corresponding check, and the user-facing path of that integration is asserted in a test that hits the real service.
+
+When any of these is unmet, the agent's status report must explicitly name which gates are open and what remains. "Code is shipped" is not a status report — the customer flow either works or it doesn't.
+
+The historical reason for this rule: 2026-04-27, the Resend FROM was hardcoded to an unverified domain and every welcome email had been silently failing in production. Vitest mocked Resend (test passed). CI ran `continue-on-error: true` (tests didn't gate). The first observer of the failure was the customer who paid $597. This rule, plus the health probe and the journey test, are designed so that class of bug can never ship again.
+
+---
+
 ## Tech Stack
 
 ### FACE (Frontend)

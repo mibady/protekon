@@ -4,6 +4,12 @@ import { loadEnvConfig } from "@next/env"
 // Load .env.local so auth setup has Supabase keys
 loadEnvConfig(process.cwd())
 
+// When BASE_URL points at a remote deployment (e.g., https://www.protekon.org),
+// don't try to start a local dev server — the journey-cron job runs against
+// prod. webServer config only applies when running against localhost.
+const baseUrl = process.env.BASE_URL || "http://localhost:3000"
+const isRemote = /^https?:\/\//.test(baseUrl) && !baseUrl.includes("localhost")
+
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
@@ -12,7 +18,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [["html", { open: "never" }], ["list"]],
   use: {
-    baseURL: process.env.BASE_URL || "http://localhost:3000",
+    baseURL: baseUrl,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
@@ -50,11 +56,20 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
       testMatch: /onboarding-wizard\.spec\.ts/,
     },
+    // Customer journey: no mocks, hits live Stripe/Supabase/Resend/Inngest.
+    // Always runs against BASE_URL — designed for nightly cron vs prod.
+    {
+      name: "journey",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: /customer-journey\.spec\.ts/,
+    },
   ],
-  webServer: {
-    command: "npm run dev",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  webServer: isRemote
+    ? undefined
+    : {
+        command: "npm run dev",
+        url: "http://localhost:3000",
+        reuseExistingServer: !process.env.CI,
+        timeout: 120000,
+      },
 })

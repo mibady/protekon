@@ -1,0 +1,112 @@
+# Customer-journey nightly canary against production.
+#
+# Runs the e2e/customer-journey.spec.ts test which exercises the full
+# pricing → Stripe checkout → webhook → Supabase user creation → Resend
+# delivery → magic-link login flow with NO MOCKS. Hits real third-party
+# services in test mode. Cleans up after itself.
+#
+# Step 6 (Resend `last_event=delivered` poll) is the assertion that
+# would have caught the 2026-04-27 unverified-domain bug. If a future
+# change breaks that path again, the next 3am cron run goes red and a
+# GitHub issue is opened automatically.
+#
+# Required GitHub Actions secrets (separate from Vercel envs):
+#   BASE_URL                          (https://www.protekon.org)
+#   JOURNEY_SUPABASE_URL              (app DB URL)
+#   JOURNEY_SUPABASE_SERVICE_ROLE_KEY (read+delete the rows we create)
+#   JOURNEY_STRIPE_SECRET_KEY         (sk_test_... — same as Vercel env)
+#   JOURNEY_RESEND_API_KEY            (any key with read access to /emails)
+
+name: journey-cron
+
+on:
+  schedule:
+    # 08:00 UTC = 03:00 Pacific. Off-peak, low-noise window.
+    - cron: "0 8 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  journey:
+    name: Customer journey vs production
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run customer-journey test
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          JOURNEY_SUPABASE_URL: ${{ secrets.JOURNEY_SUPABASE_URL }}
+          JOURNEY_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.JOURNEY_SUPABASE_SERVICE_ROLE_KEY }}
+          JOURNEY_STRIPE_SECRET_KEY: ${{ secrets.JOURNEY_STRIPE_SECRET_KEY }}
+          JOURNEY_RESEND_API_KEY: ${{ secrets.JOURNEY_RESEND_API_KEY }}
+        run: npx playwright test --project=journey
+
+      - name: Upload Playwright trace on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-trace-${{ github.run_id }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+
+      - name: Open or update tracking issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "Customer-journey cron failed"
+            const body = [
+              "The nightly customer-journey canary failed.",
+              "",
+              `Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              "",
+              "Likely causes (in order of frequency):",
+              "1. Resend `protekon.org` domain de-verified or DNS changed",
+              "2. Stripe test mode key rotated, lookup keys removed, or Checkout UI changed",
+              "3. Supabase webhook secret rotated, app DB connection broken",
+              "4. Inngest function failure — check Inngest dashboard for `auth/user.signed-up`",
+              "",
+              "Trace artifact attached to the failed run.",
+            ].join("\n")
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              labels: "journey-cron-failure",
+            })
+            if (existing.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing[0].number,
+                body,
+              })
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ["journey-cron-failure"],
+              })
+            }
