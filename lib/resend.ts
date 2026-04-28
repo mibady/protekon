@@ -7,7 +7,23 @@ const resend = process.env.RESEND_API_KEY
 // FROM domain must be a verified sender at Resend. Override per-environment via
 // RESEND_FROM in Vercel env. Default uses .org because that matches the live alias
 // www.protekon.org; the previous .com default silently broke deliverability.
-const FROM_ADDRESS = process.env.RESEND_FROM ?? "Protekon <compliance@protekon.org>"
+export const DEFAULT_FROM_ADDRESS = "Protekon <compliance@protekon.org>"
+
+// Domains that are (or should be) verified at Resend for this account.
+// __tests__/lib/resend.test.ts asserts the resolved FROM domain belongs to
+// this list — preventing a regression like the .com bug from shipping.
+export const ALLOWED_FROM_DOMAINS = ["protekon.org", "auryxvoice.com"]
+
+export function getFromAddress(): string {
+  return process.env.RESEND_FROM || DEFAULT_FROM_ADDRESS
+}
+
+export function parseFromDomain(address: string): string | null {
+  const m = address.match(/@([^>\s]+?)>?$/)
+  return m ? m[1].toLowerCase().trim() : null
+}
+
+const FROM_ADDRESS = getFromAddress()
 
 export async function sendEmail({
   to,

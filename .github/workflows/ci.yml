@@ -34,13 +34,11 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
-      # 55 Vitest tests are broken on `main` (pre-existing mock drift in
-      # chat / stripe / action tests). Test step runs and reports status
-      # but does not block merge. Remove continue-on-error once the suite
-      # is back to green in a dedicated test-fix PR.
+      # Suite is now green (362/362). A red test blocks merge — that is the
+      # whole point. If you find yourself wanting to add continue-on-error
+      # back, fix the test instead.
       - name: Test
         run: npm run test
-        continue-on-error: true
 
       - name: Build
         run: npm run build

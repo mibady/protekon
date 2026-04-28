@@ -199,7 +199,10 @@ describe("settings actions", () => {
     const result = await changePassword(fd)
 
     expect(result).toEqual({ success: true })
-    expect(mockUpdateUser).toHaveBeenCalledWith({ password: "newpass123" })
+    expect(mockUpdateUser).toHaveBeenCalledWith({
+      password: "newpass123",
+      data: { business_name: "Test Co", requires_password_setup: false },
+    })
   })
 
   it("changePassword rejects mismatched passwords", async () => {
