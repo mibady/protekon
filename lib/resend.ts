@@ -4,7 +4,10 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null
 
-const FROM_ADDRESS = "Protekon <compliance@protekon.com>"
+// FROM domain must be a verified sender at Resend. Override per-environment via
+// RESEND_FROM in Vercel env. Default uses .org because that matches the live alias
+// www.protekon.org; the previous .com default silently broke deliverability.
+const FROM_ADDRESS = process.env.RESEND_FROM ?? "Protekon <compliance@protekon.org>"
 
 export async function sendEmail({
   to,
