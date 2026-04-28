@@ -79,7 +79,10 @@ export async function POST(request: NextRequest) {
           globalThis.crypto.getRandomValues(new Uint8Array(16))
         ).toString("base64url")
 
-        // Create Supabase auth user
+        // Create Supabase auth user. requires_password_setup signals that the
+        // tempPassword is unknown to the user — Settings → Security renders a
+        // simplified "set your password" form when this flag is true, then
+        // clears it after the first successful password update.
         const { data: authData, error: authError } = await supabase.auth.admin.createUser({
           email,
           password: tempPassword,
@@ -88,6 +91,7 @@ export async function POST(request: NextRequest) {
             business_name: businessName,
             vertical,
             plan: planId,
+            requires_password_setup: true,
           },
         })
 

@@ -63,6 +63,7 @@ export function welcomeEmail(email: string, loginUrl?: string | null) {
       <h2 style="color:#1a1a2e;margin:0 0 16px;">Your AI Compliance Officer Is Online</h2>
       <p style="color:#555;line-height:1.6;">Your AI compliance officer is online and monitoring California workplace regulations for your business. Click below to log in to your dashboard (${email}) and complete your compliance intake questionnaire.</p>
       <a href="${href}" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1a1a2e;color:#f5f3ef;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:1px;">LOG IN TO DASHBOARD</a>
+      <p style="color:#777;font-size:13px;line-height:1.6;margin-top:20px;">This link signs you in directly — no password needed today. To set a password for future sign-ins, head to <strong>Settings &rarr; Security</strong> once you're in.</p>
     `),
   }
 }

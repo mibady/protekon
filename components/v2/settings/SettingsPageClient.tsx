@@ -26,14 +26,16 @@ type SettingsPageClientProps = {
   profile: ClientProfile | null
   sites: Site[]
   notificationPrefs: Record<string, boolean>
+  requiresPasswordSetup?: boolean
 }
 
 export function SettingsPageClient({
   profile,
   sites,
   notificationPrefs,
+  requiresPasswordSetup = false,
 }: SettingsPageClientProps) {
-  const [tab, setTab] = useState<TabKey>("profile")
+  const [tab, setTab] = useState<TabKey>(requiresPasswordSetup ? "security" : "profile")
 
   return (
     <>
@@ -72,7 +74,7 @@ export function SettingsPageClient({
         {tab === "sites" && <SitesTab sites={sites} />}
         {tab === "billing" && <BillingTab />}
         {tab === "notifications" && <NotificationsTab prefs={notificationPrefs} />}
-        {tab === "security" && <SecurityTab />}
+        {tab === "security" && <SecurityTab requiresPasswordSetup={requiresPasswordSetup} />}
         {tab === "data" && <DataTab />}
       </Card>
     </>

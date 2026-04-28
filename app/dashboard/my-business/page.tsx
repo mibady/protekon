@@ -5,10 +5,18 @@ import {
 } from "@/lib/actions/settings"
 import { listSites } from "@/lib/actions/sites"
 import { SettingsPageClient } from "@/components/v2/settings/SettingsPageClient"
+import { createClient } from "@/lib/supabase/server"
 
 export const dynamic = "force-dynamic"
 
 export default async function MyBusinessPage() {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  const requiresPasswordSetup =
+    user?.user_metadata?.requires_password_setup === true
+
   const [profile, sites, notificationPrefs] = await Promise.all([
     getClientProfile(),
     listSites(),
@@ -27,6 +35,7 @@ export default async function MyBusinessPage() {
         profile={profile}
         sites={sites}
         notificationPrefs={notificationPrefs}
+        requiresPasswordSetup={requiresPasswordSetup}
       />
     </div>
   )

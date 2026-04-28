@@ -179,7 +179,7 @@ export default function LoginPage() {
                 Payment received — your account is being set up.
               </p>
               <p className="font-sans text-[13px] text-parchment/80">
-                Check your inbox (and spam folder) for a login link from Protekon. Click it to set your password and start your compliance intake.
+                Check your inbox (and spam folder) for a login link from Protekon. Click it to sign in. Once inside, head to Settings &rarr; Security to set a password for future sign-ins.
               </p>
               <div className="mt-3 flex items-center gap-3">
                 <button

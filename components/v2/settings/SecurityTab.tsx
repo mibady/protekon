@@ -4,10 +4,19 @@ import { useState, useTransition } from "react"
 import { changePassword } from "@/lib/actions/settings"
 import { CTAButton } from "@/components/v2/primitives/CTAButton"
 
-export function SecurityTab() {
+export function SecurityTab({
+  requiresPasswordSetup = false,
+}: {
+  requiresPasswordSetup?: boolean
+}) {
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
+  const [setupComplete, setSetupComplete] = useState(false)
+
+  // Once the user successfully sets their password, switch the UI to the
+  // standard change-password form so a second submit doesn't ask them again.
+  const isSetupMode = requiresPasswordSetup && !setupComplete
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -18,30 +27,52 @@ export function SecurityTab() {
       const result = await changePassword(formData)
       if (result.error) setError(result.error)
       else {
-        setMessage("Password updated.")
+        setMessage(isSetupMode ? "Password set. You can sign in with email + password next time." : "Password updated.")
         ;(e.target as HTMLFormElement).reset()
+        if (isSetupMode) setSetupComplete(true)
       }
     })
   }
 
   return (
     <div className="space-y-10">
+      {isSetupMode && (
+        <div
+          className="font-sans"
+          style={{
+            background: "rgba(196, 18, 48, 0.06)",
+            border: "1px solid rgba(196, 18, 48, 0.2)",
+            padding: "1rem 1.25rem",
+            color: "var(--ink)",
+            fontSize: "13px",
+            lineHeight: 1.6,
+          }}
+        >
+          <strong style={{ display: "block", marginBottom: "0.25rem" }}>
+            Set your password
+          </strong>
+          You signed in via the welcome-email link. Pick a password now so you
+          can log in directly next time without waiting for an email.
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
-        <SectionLabel>Password</SectionLabel>
+        <SectionLabel>{isSetupMode ? "Set password" : "Password"}</SectionLabel>
+        {!isSetupMode && (
+          <Field
+            label="Current password"
+            name="currentPassword"
+            type="password"
+            required
+          />
+        )}
         <Field
-          label="Current password"
-          name="currentPassword"
-          type="password"
-          required
-        />
-        <Field
-          label="New password"
+          label={isSetupMode ? "Choose a password" : "New password"}
           name="newPassword"
           type="password"
           required
         />
         <Field
-          label="Confirm new password"
+          label={isSetupMode ? "Confirm password" : "Confirm new password"}
           name="confirmPassword"
           type="password"
           required
@@ -66,7 +97,7 @@ export function SecurityTab() {
 
         <div className="flex justify-end">
           <CTAButton type="submit" icon={false} disabled={pending}>
-            {pending ? "Updating…" : "Update password"}
+            {pending ? "Saving…" : isSetupMode ? "Set password" : "Update password"}
           </CTAButton>
         </div>
       </form>

@@ -133,18 +133,28 @@ export async function changePassword(formData: FormData): Promise<ActionResult> 
     return { error: "Passwords do not match." }
   }
 
+  // Preserve all existing user_metadata fields and clear the
+  // requires_password_setup flag so the Security tab won't keep nudging
+  // first-time-via-magic-link users to set a password again.
+  const existingMetadata = (user.user_metadata ?? {}) as Record<string, unknown>
+  const nextMetadata = { ...existingMetadata, requires_password_setup: false }
+
   const { error } = await supabase.auth.updateUser({
     password: newPassword,
+    data: nextMetadata,
   })
 
   if (error) {
     return { error: error.message }
   }
 
+  const wasInitialSetup = existingMetadata.requires_password_setup === true
   await supabase.from("audit_log").insert({
     client_id: user.id,
     event_type: "settings.password_changed",
-    description: "Changed account password",
+    description: wasInitialSetup
+      ? "Set initial account password"
+      : "Changed account password",
   })
 
   return { success: true }
